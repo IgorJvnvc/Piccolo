@@ -29,6 +29,9 @@ export default defineConfig({
     reuseExistingServer: true,
     timeout: 240_000,
   },
+  // The frame-sampling specs are the slow ones, so each runs where it can fail differently: `motion` on desktop (full tier)
+  // and TV (lite tier), `islands` on desktop (quick view, tabs) and phone (mobile menu as well). The tablet and the phone share
+  // the mobile menu, and the TV runs the desktop's islands.
   projects: [
     { name: 'desktop', use: { viewport: { width: 1440, height: 900 } }, testMatch: /(desktop|shared|a11y|progressive|not-found|motion|islands)\.spec\.ts/ },
     {
@@ -39,17 +42,17 @@ export default defineConfig({
     {
       name: 'phone',
       use: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
-      testMatch: /(mobile|shared|not-found|motion|islands)\.spec\.ts/,
+      testMatch: /(mobile|shared|not-found|islands)\.spec\.ts/,
     },
     {
       name: 'tablet',
       use: { viewport: { width: 820, height: 1180 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
-      testMatch: /(mobile|shared|not-found|islands)\.spec\.ts/,
+      testMatch: /(mobile|shared|not-found)\.spec\.ts/,
     },
     {
       name: 'tv',
       use: { viewport: { width: 1920, height: 1080 }, userAgent: TV_USER_AGENT },
-      testMatch: /(tv|shared|not-found|motion|islands)\.spec\.ts/,
+      testMatch: /(tv|shared|not-found|motion)\.spec\.ts/,
     },
   ],
 });

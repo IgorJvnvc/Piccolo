@@ -316,7 +316,7 @@ numbers, run `node scripts/dev/sample-follow.mjs` (it fits the live animation to
 | `npm run build` | Production build (also validates all content against its schemas) |
 | `npm run html` | html-validate on the **built** HTML |
 | `npm run size` | Size budgets (gzip): HTML 24 kB, boot runtime 6.5 kB, GSAP + ScrollTrigger 48 kB, Lenis 6.5 kB, all JS 85 kB |
-| `npm run test:e2e` | Playwright on five profiles (desktop, reference 1253 x 712, phone, tablet, TV with a Tizen UA): boot, hydration, ARIA, focus trap, reveal, no horizontal scroll, TV D-pad, axe a11y, no-JS and reduced-motion, the 404 page, **motion frame by frame** (scenes and islands must pass through intermediate frames, survive a resize, and degrade when GSAP cannot be downloaded) and (on the reference profile) **layout geometry against the reel** |
+| `npm run test:e2e` | Playwright on five profiles (desktop, reference 1253 x 712, phone, tablet, TV with a Tizen UA): boot, hydration, ARIA, focus trap, reveal, no horizontal scroll, TV D-pad, axe a11y, no-JS and reduced-motion, the 404 page, **motion frame by frame** (scenes on desktop and TV, islands on desktop and phone: each must pass through intermediate frames, survive a resize and degrade when GSAP cannot be downloaded) and (on the reference profile) **layout geometry against the reel** |
 
 The unit tests were mutation-checked: deliberately breaking the bootstrap breakpoint, overnight hours, scheduler
 guards, bus replay, D-pad weighting, price labels and `tel:` links each makes a test fail.
