@@ -62,7 +62,9 @@ More recipes: [docs/architecture.md](docs/architecture.md#recipes).
 - Layout is compared with the reference at 1253 x 712: `tests/e2e/reference.spec.ts` checks element boxes against a
   baseline verified with the reel. If you change layout on purpose, re-verify with `scripts/dev` (`scan.mjs` +
   `match_frames.py`) and regenerate it: `UPDATE_GOLDEN=1 npx playwright test --project=reference`. The other tools in
-  `scripts/dev` (screenshots, overlays, Follow-card animation fit) are described in their file headers.
+  `scripts/dev` (screenshots, overlays, Follow-card animation fit, motion profiles) are described in their file headers.
+  Judge a stall or a layer change with `scripts/dev/stall-lab.mjs`: it starts a cold Chrome per run and A/Bs two builds or
+  injected CSS variants. Measure cold and by median; a warm browser shows almost no stalls ([ADR 0009](docs/adr/0009-first-frame-stalls.md)).
 
 ## GSAP skills
 

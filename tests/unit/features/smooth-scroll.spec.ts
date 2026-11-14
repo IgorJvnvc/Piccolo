@@ -4,7 +4,7 @@ import { scrollTo } from '@/features/smooth-scroll/controller';
 import smoothScroll from '@/features/smooth-scroll/smooth-scroll.behavior';
 import type { Capabilities } from '@/shared/device';
 import type { EnhancementContext } from '@/shared/enhance';
-import type { GsapKit } from '@/shared/motion';
+import { type GsapKit, LAG_SMOOTHING } from '@/shared/motion';
 import { createServices } from '@/shared/services';
 
 interface FakeLenis {
@@ -84,7 +84,7 @@ describe('smooth-scroll', () => {
     teardown();
 
     expect(ticker.remove).toHaveBeenCalledWith(tick);
-    expect(ticker.lagSmoothing).toHaveBeenLastCalledWith(500, 33);
+    expect(ticker.lagSmoothing).toHaveBeenLastCalledWith(...LAG_SMOOTHING);
     expect(lenis.destroy).toHaveBeenCalledTimes(1);
   });
 

@@ -1,8 +1,6 @@
 import { defineEnhancement } from '@/shared/enhance';
+import { LAG_SMOOTHING } from '@/shared/motion';
 import { setScrollDriver } from './controller';
-
-/** `gsap.ticker.lagSmoothing()` as GSAP ships it: a hitch longer than 500 ms is counted as 33 ms, so animations resume instead of jumping. */
-const GSAP_LAG_SMOOTHING = [500, 33] as const;
 
 /**
  * Lenis smooth scroll: the reel's decelerating glide after each wheel step.
@@ -39,7 +37,7 @@ export default defineEnhancement({
     return () => {
       release();
       gsap.ticker.remove(tick);
-      gsap.ticker.lagSmoothing(...GSAP_LAG_SMOOTHING);
+      gsap.ticker.lagSmoothing(...LAG_SMOOTHING);
       lenis.destroy();
     };
   },

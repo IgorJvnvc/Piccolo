@@ -217,6 +217,9 @@ export default defineScene({
   before the scene plays re-measures instead of reusing stale numbers.
 - `recover` is the fail-safe: if a scene cannot run (the GSAP download failed, expected markup is missing) the scheduler
   calls it and the section opens instead of staying invisible.
+- A frame later than 60 ms counts as 33 ms of animation time (`LAG_SMOOTHING`, set where GSAP loads), so a slow first frame
+  delays a scene or a dialog instead of skipping the part of it the hitch covered. Lenis turns this off while it runs (desktop
+  with a fine pointer), because it needs real time, and puts the same constant back on teardown ([ADR 0009](adr/0009-first-frame-stalls.md)).
 - Never put `clearProps` in a timeline's `defaults` (a `fromTo`'s hidden start-state tween inherits it and wipes the
   from-state), and give a scene's trigger an element the scene does not move (ScrollTrigger measures transforms).
 

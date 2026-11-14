@@ -37,6 +37,16 @@
   position: relative;
 }
 
+/*
+ * The cluster is the biggest layer the scroll scenes animate (an image with a drop shadow). Left to the scene's first frame, its
+ * promotion and raster land inside the animation as a 100 ms hitch on a phone; created up front, the hitch is gone. One layer
+ * only, and only where the scene runs: more would cost memory, and the same trick on the cards made them slower.
+ */
+:global([data-motion='full']) .cluster,
+:global([data-motion='lite']) .cluster {
+  will-change: transform, opacity;
+}
+
 .cluster img {
   width: 100%;
   height: auto;
