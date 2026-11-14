@@ -16,7 +16,9 @@ export default defineEnhancement({
     attachSpatialNavigation(
       document,
       {
-        onFocus: (element) => element.scrollIntoView({ block: 'center', behavior: 'smooth' }),
+        // Read at the moment of use: the visitor can switch reduced motion on while the page is open.
+        onFocus: (element) =>
+          element.scrollIntoView({ block: 'center', behavior: root.dataset['motion'] === 'static' ? 'auto' : 'smooth' }),
         onBack: () => {
           if (!root.hasAttribute('data-scroll-lock')) return false;
           // A modal is open: translate the remote's Back into Escape, which every dialog already handles.

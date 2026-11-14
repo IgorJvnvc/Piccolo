@@ -1,6 +1,9 @@
 import { defineEnhancement } from '@/shared/enhance';
 import { setScrollDriver } from './controller';
 
+/** `gsap.ticker.lagSmoothing()` as GSAP ships it: a hitch longer than 500 ms is counted as 33 ms, so animations resume instead of jumping. */
+const GSAP_LAG_SMOOTHING = [500, 33] as const;
+
 /**
  * Lenis smooth scroll: the reel's decelerating glide after each wheel step.
  * Desktop + fine pointer + full motion tier only. Touch keeps native momentum, TVs and
@@ -13,15 +16,18 @@ export default defineEnhancement({
   tiers: ['full'],
   enabled: (caps) => caps.pointer === 'fine' && (caps.device === 'laptop' || caps.device === 'desktop'),
 
-  async setup({ bus, signal, gsap: loadGsap }) {
+  async setup({ root, bus, signal, gsap: loadGsap }) {
     const [{ default: Lenis }, { gsap, ScrollTrigger }] = await Promise.all([import('lenis'), loadGsap()]);
     if (signal.aborted) return undefined;
 
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 1 });
+    // A dialog may have opened before Lenis finished loading: its `scroll:lock` event is long gone, the attribute it set is not.
+    if (root.hasAttribute('data-scroll-lock')) lenis.stop();
 
     lenis.on('scroll', ScrollTrigger.update);
     const tick = (time: number): void => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
+    // Lenis measures real time, so GSAP must not stretch it after a hitch. This is global to GSAP, so it is undone on teardown.
     gsap.ticker.lagSmoothing(0);
 
     const release = setScrollDriver((target, { offset }) => {
@@ -33,6 +39,7 @@ export default defineEnhancement({
     return () => {
       release();
       gsap.ticker.remove(tick);
+      gsap.ticker.lagSmoothing(...GSAP_LAG_SMOOTHING);
       lenis.destroy();
     };
   },

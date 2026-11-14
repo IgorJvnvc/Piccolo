@@ -200,8 +200,10 @@ them through the helpers in `shared/lib/hooks`. Neither side hard-codes the othe
 private.
 
 **Event bus** (`shared/events`). Features never import each other; they talk through `appBus`:
-`caps:changed`, `nav:menu`, `menu:category`, `menu:details`, `scroll:to`, `scroll:lock`. `menu:details` is *sticky*: a click
-on server-rendered markup before the menu island hydrates is kept and replayed to it, so it is never lost.
+`caps:changed`, `nav:menu`, `menu:category`, `menu:details`, `scroll:lock`. `menu:details` is *sticky*: a click
+on server-rendered markup before the menu island hydrates is kept and replayed to it, so it is never lost. `scroll:lock`
+is not: a dialog that opens before `smooth-scroll` has loaded is found through the `data-scroll-lock` attribute it sets
+on `<html>`, which `smooth-scroll` checks once when it starts.
 
 **Islands.** Only two exist: `MobileNav` (`client:media="(max-width: 1023px)"`) and `MenuBrowser` (`client:idle`), both
 animated with Motion through `shared/motion/motion-react`. The menu browser server-renders every category panel, so

@@ -25,7 +25,7 @@ const MESSAGES = {
   env: 'Read environment values through "@/shared/config". shared/config/env.ts is the only module that touches import.meta.env.',
   gsap: 'Load GSAP through the shared kit ("@/shared/motion"). shared/motion/gsap.ts is the only module that imports it (one lazy chunk).',
   motion: 'Use Motion through "@/shared/motion/motion-react" (one shared, tree-shaken entry for islands).',
-  lenis: 'Lenis belongs to features/smooth-scroll. Other code asks for scrolling through the bus ("scroll:to").',
+  lenis: 'Lenis belongs to features/smooth-scroll, which is the only code that drives the scroll position.',
   astroContent: 'Read content through the repository ports in "@/infrastructure/content", never through astro:content directly.',
   astroAssets: 'astro:assets is an infrastructure concern: use the image catalog ("@/infrastructure/images") or the layout Font component.',
   visibility:

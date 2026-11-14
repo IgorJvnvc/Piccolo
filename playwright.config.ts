@@ -27,7 +27,7 @@ export default defineConfig({
     timeout: 240_000,
   },
   projects: [
-    { name: 'desktop', use: { viewport: { width: 1440, height: 900 } }, testMatch: /(desktop|shared|a11y|progressive|not-found)\.spec\.ts/ },
+    { name: 'desktop', use: { viewport: { width: 1440, height: 900 } }, testMatch: /(desktop|shared|a11y|progressive|not-found|motion)\.spec\.ts/ },
     {
       name: 'reference',
       use: { viewport: { width: 1253, height: 712 } },
@@ -36,7 +36,7 @@ export default defineConfig({
     {
       name: 'phone',
       use: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
-      testMatch: /(mobile|shared|not-found)\.spec\.ts/,
+      testMatch: /(mobile|shared|not-found|motion)\.spec\.ts/,
     },
     {
       name: 'tablet',
@@ -46,7 +46,7 @@ export default defineConfig({
     {
       name: 'tv',
       use: { viewport: { width: 1920, height: 1080 }, userAgent: TV_USER_AGENT },
-      testMatch: /(tv|shared|not-found)\.spec\.ts/,
+      testMatch: /(tv|shared|not-found|motion)\.spec\.ts/,
     },
   ],
 });

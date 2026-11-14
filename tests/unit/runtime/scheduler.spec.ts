@@ -259,6 +259,51 @@ describe('createScheduler', () => {
     expect(error).toHaveBeenCalledWith('[enhance] "async-boom" failed', expect.any(Error));
   });
 
+  it('lets a failed enhancement recover its root (sync throw or rejection), but not one that succeeded', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const recovered: string[] = [];
+    const recoverAs = (id: string) => (root: HTMLElement) => recovered.push(`${id}:${root.dataset['enhance']}`);
+    const { scheduler } = harness([
+      make({
+        id: 'sync-boom',
+        selector: '[data-enhance="b"]',
+        setup: () => {
+          throw new Error('sync');
+        },
+        recover: recoverAs('sync-boom'),
+      }),
+      make({ id: 'async-boom', selector: '[data-enhance="b"]', setup: () => Promise.reject(new Error('async')), recover: recoverAs('async-boom') }),
+      make({ id: 'fine', selector: '[data-enhance="b"]', setup: () => undefined, recover: recoverAs('fine') }),
+    ]);
+
+    scheduler.reconcile(caps());
+    await flush();
+
+    expect(recovered.sort()).toEqual(['async-boom:b', 'sync-boom:b']);
+  });
+
+  it('contains a recover that itself throws: it is logged, and other enhancements still recover', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const goodRecover = vi.fn();
+    const { scheduler } = harness([
+      make({
+        id: 'bad',
+        selector: '[data-enhance="b"]',
+        setup: () => Promise.reject(new Error('setup')),
+        recover: () => {
+          throw new Error('recover');
+        },
+      }),
+      make({ id: 'good', selector: '[data-enhance="b"]', setup: () => Promise.reject(new Error('setup')), recover: goodRecover }),
+    ]);
+
+    scheduler.reconcile(caps());
+    await flush();
+
+    expect(goodRecover).toHaveBeenCalledTimes(1);
+    expect(error).toHaveBeenCalledWith('[enhance] "bad" recover failed', expect.any(Error));
+  });
+
   it('keeps stopping everything when one teardown throws', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const goodTeardown = vi.fn();

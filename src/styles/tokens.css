@@ -84,7 +84,7 @@
   --dur-4: 0.9s;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* quint-out, GSAP power4.out */
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out */
-  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1); /* cubic-out */
+  --ease-soft: cubic-bezier(0.25, 1, 0.5, 1); /* quart-out, GSAP power3.out */
 
   /* stacking */
   --z-hero-art: 1;

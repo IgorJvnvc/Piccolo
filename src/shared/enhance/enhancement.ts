@@ -38,6 +38,11 @@ export interface Enhancement {
   readonly tiers?: readonly MotionTier[];
   /** Extra capability gate, re-evaluated whenever capabilities change. */
   readonly enabled?: (caps: Capabilities) => boolean;
+  /**
+   * Called when `setup` fails, so a broken enhancement can leave the page usable (a scene reveals what it hid).
+   * It must be safe to call at any time and more than once.
+   */
+  readonly recover?: (root: HTMLElement) => void;
   // `void` is intentional: most setups return nothing, and `() => {}` is only assignable to a `void` return.
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   setup(context: EnhancementContext): void | Teardown | Promise<void | Teardown>;

@@ -78,7 +78,9 @@ async function settle(page: Page): Promise<void> {
       await new Promise((resolve) => setTimeout(resolve, 150));
     }
   });
-  await page.waitForTimeout(2500);
+  // Every scene has started once each of its targets has been handed over from the CSS pre-state. How long that takes
+  // depends on the machine (GSAP has to download first), so wait for it instead of for a fixed time.
+  await page.waitForFunction(() => document.querySelectorAll('[data-reveal]:not([data-revealed])').length === 0, undefined, { timeout: 20_000 });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(400);
 }
@@ -99,11 +101,26 @@ async function measure(page: Page): Promise<Boxes> {
   }, TARGETS);
 }
 
+const sameBoxes = (a: Boxes, b: Boxes): boolean =>
+  Object.entries(a).every(([key, box]) => (['left', 'top', 'width', 'height'] as const).every((property) => Math.abs(box[property] - (b[key]?.[property] ?? Number.NaN)) < 0.2));
+
+/** Measures once nothing is moving any more: two measurements a moment apart agree (the last scenes may still be playing out). */
+async function measureSettled(page: Page): Promise<Boxes> {
+  let previous = await measure(page);
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    await page.waitForTimeout(250);
+    const current = await measure(page);
+    if (sameBoxes(previous, current)) return current;
+    previous = current;
+  }
+  return previous;
+}
+
 test.describe('layout matches the reference reel (1253 x 712)', () => {
   test('key element boxes stay within tolerance of the verified baseline', async ({ page }) => {
     await ready(page);
     await settle(page);
-    const actual = await measure(page);
+    const actual = await measureSettled(page);
 
     if (process.env['UPDATE_GOLDEN']) {
       writeFileSync(GOLDEN, `${JSON.stringify(actual, null, 2)}\n`);

@@ -11,8 +11,6 @@ export interface AppEvents {
   'menu:category': { readonly categoryId: string };
   /** Somebody asked to see an item's details (opens the quick view in the menu browser). */
   'menu:details': { readonly itemId: string; readonly opener?: HTMLElement | null };
-  /** Smooth-scroll request ("#menu" or an absolute y). */
-  'scroll:to': { readonly target: string | number };
   /** A modal surface (mobile menu, quick view) wants the page not to scroll behind it. */
   'scroll:lock': { readonly locked: boolean };
 }

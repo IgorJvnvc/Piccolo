@@ -63,7 +63,14 @@ export function createScheduler(enhancements: readonly Enhancement[], deps: Sche
           if (controller.signal.aborted) teardown();
           else entry.teardown = teardown;
         })
-        .catch((error: unknown) => console.error(`[enhance] "${enhancement.id}" failed`, error));
+        .catch((error: unknown) => {
+          console.error(`[enhance] "${enhancement.id}" failed`, error);
+          try {
+            enhancement.recover?.(root);
+          } catch (recoverError) {
+            console.error(`[enhance] "${enhancement.id}" recover failed`, recoverError);
+          }
+        });
     };
 
     switch (enhancement.when) {

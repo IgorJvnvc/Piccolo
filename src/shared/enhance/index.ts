@@ -6,3 +6,4 @@ export {
   defineEnhancement,
   qualifies,
 } from './enhancement';
+export { type SceneDefinition, defineScene } from './scene';
