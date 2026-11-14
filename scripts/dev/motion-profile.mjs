@@ -151,6 +151,22 @@ await browser.close();
 close();
 
 const CHANNELS = [['opacity', 1, 0.4, 'opacity'], ['x', 2, 2, 'px'], ['y', 3, 2, 'px'], ['width', 4, 6, 'px'], ['radius', 5, 6, 'px']];
+
+// --dump follow.art:x   prints the raw frames of one series/channel around its movement (to inspect a poor fit).
+if (args.dump) {
+  const [name, channelName] = String(args.dump).split(':');
+  const series = raw.find((s) => s.name === name);
+  const channel = CHANNELS.find(([c]) => c === (channelName ?? 'opacity'));
+  if (!series || !channel) throw new Error(`--dump: no series "${name}" or channel "${channelName}" (series: ${raw.map((s) => s.name).join(', ')})`);
+  const values = series.rows.map((row) => row[channel[1]]);
+  const final = values[values.length - 1];
+  const moving = values.map((v, i) => [i, v]).filter(([i, v], k, all) => k > 0 && Math.abs(v - all[k - 1][1]) > 1e-6 && Math.abs(v - final) > 1e-6).map(([i]) => i);
+  const from = Math.max(0, (moving[0] ?? 0) - 3);
+  const to = Math.min(values.length - 1, (moving[moving.length - 1] ?? 0) + 3);
+  console.log(`raw frames of ${name}:${channel[0]}  (final value ${final})`);
+  const t0 = series.rows[from][0];
+  for (let i = from; i <= to; i++) console.log(`  +${(series.rows[i][0] - t0).toFixed(0).padStart(5)} ms  ${values[i].toFixed(3)}`);
+}
 const results = [];
 for (const series of raw) {
   for (const [channel, column, threshold, unit] of CHANNELS) {
