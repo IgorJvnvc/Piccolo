@@ -62,6 +62,24 @@ More recipes: [docs/architecture.md](docs/architecture.md#recipes).
   `match_frames.py`) and regenerate it: `UPDATE_GOLDEN=1 npx playwright test --project=reference`. The other tools in
   `scripts/dev` (screenshots, overlays, Follow-card animation fit) are described in their file headers.
 
+## GSAP skills
+
+The official GreenSock skills ([greensock/gsap-skills](https://github.com/greensock/gsap-skills), commit `aed9cfd`, MIT) were
+installed on request, byte-identical to upstream: project-level in `.agents/skills/` (written by `npx skills add`, tracked in
+`skills-lock.json`) and globally in `~/.config/opencode/skills/`. opencode lists them after a restart; in a session that
+started earlier, read `.agents/skills/<name>/SKILL.md` directly. Load only what the task needs: `gsap-core`, `gsap-timeline`,
+`gsap-scrolltrigger` and `gsap-performance` for scenes; `gsap-react` for island hooks; `gsap-plugins` before adding a plugin.
+When updating, keep LF line endings and re-check the blob hashes (Windows `autocrlf` turns the CLI's clone into CRLF).
+
+**Project rules win over skill defaults.** Where a skill disagrees with this file or an ADR, follow the project:
+
+| A skill says | This project | Why |
+| --- | --- | --- |
+| Prefer `autoAlpha` for fades | Animate `opacity` and `transform` only | `visibility: hidden` removes content from the tab order ([ADR 0003](docs/adr/0003-progressive-enhancement-and-reveal-protocol.md)); lint-enforced |
+| Don't animate `width` | The Follow card animates `width` and `border-radius` | It is the reel's signature; change it only with before/after numbers from `scripts/dev/sample-follow.mjs` |
+| Use `useGSAP` / `@gsap/react` | Hooks in `shared/motion` built on `gsap.context()` + `ctx.revert()` | `@gsap/react` imports GSAP statically, and GSAP must stay a lazy chunk |
+| `gsap.matchMedia()` for `prefers-reduced-motion` | The scheduler's motion tiers decide; GSAP never loads on the `static` tier | One owner for capability decisions ([ADR 0005](docs/adr/0005-device-capabilities-and-motion-tiers.md)) |
+
 ## Gotchas (each one cost time once)
 
 - **Cards render twice** (Popular row and Menu) so element ids must be unique per placement: `MenuCard` takes `idScope`.
