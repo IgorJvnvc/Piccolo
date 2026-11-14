@@ -51,7 +51,7 @@ flowchart LR
     Runtime --> Sched["scheduler"]
     Sched --> Scenes["scenes (GSAP, lazy)"]
     Sched --> Behaviors["behaviors (Lenis, TV nav, ...)"]
-    HTML -. hydrates .-> Islands["2 Preact islands<br/>(Motion)"]
+    HTML -. hydrates .-> Islands["2 Preact islands<br/>(GSAP)"]
     Scenes <--> Bus["typed event bus"]
     Behaviors <--> Bus
     Islands <--> Bus
@@ -101,7 +101,6 @@ Consequences worth knowing:
   | Tool | The only place that may use it |
   | --- | --- |
   | `gsap` | `shared/motion/gsap.ts` |
-  | `motion/react` | `shared/motion/motion-react.tsx`, `motion-features.ts` |
   | `lenis` | `features/smooth-scroll/**` |
   | `astro:content` | `infrastructure/content/**`, `content.config.ts` |
   | `astro:assets` | `infrastructure/images/**`, `layouts/**` |
@@ -187,13 +186,39 @@ export default defineEnhancement({
 
 | Enhancement | Runs on | Purpose |
 | --- | --- | --- |
-| `about`, `popular`, `menu`, `follow`, `visit` scenes | full + lite tiers, when visible | Scroll-triggered entrances (time-based, once) |
+| `about`, `popular`, `menu`, `follow`, `visit` scenes | full + lite tiers, when visible | Scroll-triggered entrances (time-based, once), written with `defineScene` |
 | `navbar` | all tiers | Top / hidden / shown states, scroll-spy |
 | `smooth-scroll` | full tier, fine pointer, laptop or desktop | Lenis glide, synced with GSAP's ticker |
 | `anchors` | all tiers | In-page links scroll and move focus to the target |
 | `tv-navigation` | TV only | D-pad moves focus spatially, remote Back closes modals |
 | `open-status` | all tiers | "Open now" chips, computed in the restaurant's time zone, refreshed each minute |
 | `menu-details` | all tiers | Turns clicks on any card's Details button into a bus event |
+
+**Scenes.** A scroll scene only describes its choreography; `defineScene` and `createScene` (`shared/enhance/scene.ts`,
+`shared/motion/scene.ts`) own everything every scene shares:
+
+```ts
+export default defineScene({
+  id: 'about',
+  selector: ABOUT.root,
+  start: enter.about,                          // 'top 72%': the viewport line the section's top must cross
+  build({ timeline, px, fadeUp }, root) {      // runs once GSAP has loaded
+    fadeUp(parts(root, ABOUT.parts.item), { stagger: stagger.copy });
+  },
+});
+```
+
+- One `gsap.context()` holds one ScrollTrigger-linked timeline that plays once in real time (never scrubbed, so it looks the
+  same however the visitor scrolls). `revert()` is the whole teardown, and it leaves the root revealed.
+- Eases, durations, staggers and travel distances live in `shared/motion/tokens.ts`. Travel is in **rem**, so motion scales
+  with the layout (the root font follows the viewport above 1024 px). The lite tier travels half as far and the timeline
+  runs a third faster (`scaleFor`); nothing else needs to know about tiers.
+- Values that depend on layout are functions (`y: () => px(2)`), and the trigger uses `invalidateOnRefresh`, so a resize
+  before the scene plays re-measures instead of reusing stale numbers.
+- `recover` is the fail-safe: if a scene cannot run (the GSAP download failed, expected markup is missing) the scheduler
+  calls it and the section opens instead of staying invisible.
+- Never put `clearProps` in a timeline's `defaults` (a `fromTo`'s hidden start-state tween inherits it and wipes the
+  from-state), and give a scene's trigger an element the scene does not move (ScrollTrigger measures transforms).
 
 **Markup contract.** Sections declare what they are with `data-enhance="name"` and `data-part="part"`; behaviours find
 them through the helpers in `shared/lib/hooks`. Neither side hard-codes the other's class names, so CSS Modules stay
@@ -205,10 +230,22 @@ on server-rendered markup before the menu island hydrates is kept and replayed t
 is not: a dialog that opens before `smooth-scroll` has loaded is found through the `data-scroll-lock` attribute it sets
 on `<html>`, which `smooth-scroll` checks once when it starts.
 
-**Islands.** Only two exist: `MobileNav` (`client:media="(max-width: 1023px)"`) and `MenuBrowser` (`client:idle`), both
-animated with Motion through `shared/motion/motion-react`. The menu browser server-renders every category panel, so
-search engines and no-JS visitors get the full menu; the island turns it into tabs with a quick-view dialog
-(`shared/focus/use-dialog`: focus trap, Escape, scroll lock, focus returns to the opener).
+**Islands.** Only two exist: `MobileNav` (`client:media="(max-width: 1023px)"`) and `MenuBrowser` (`client:idle`). The menu
+browser server-renders every category panel, so search engines and no-JS visitors get the full menu; the island turns it
+into tabs with a quick-view dialog (`shared/focus/use-dialog`: focus trap, Escape, scroll lock, focus returns to the
+opener).
+
+Islands are animated with the same GSAP as the scenes. Each feature describes its choreography in a `*.motion.ts`: plain
+functions of `(node, tools)` with no framework in them (`mobile-nav.motion.ts`: the circle that grows from the toggle,
+`quick-view.motion.ts`, `menu-browser.motion.ts`: the pill that slides between tabs and the cards that rise in). Two hooks
+in `shared/motion/island.ts` run them:
+
+- `useMotion()` starts the GSAP download with the island and hands out the tools at the moment an animation starts, or
+  `null` (reduced motion, still downloading, download failed). The tier is read then, so reduced motion switched on mid-visit
+  is honoured, and a failed download is retried on the next interaction.
+- `usePresence(open, motion)` mounts a node in the render that opens it, keeps it mounted until its exit has played, and
+  continues from where it is if it is reopened mid-exit. Without GSAP the node carries `data-presence="enter|exit"` and
+  `base.css` fades it in 0.18 s: the same fade reduced-motion visitors keep on purpose (they never download GSAP).
 
 ## Device and motion model
 
@@ -278,8 +315,8 @@ numbers, run `node scripts/dev/sample-follow.mjs` (it fits the live animation to
 | `npm test` | Vitest unit tests: classification and bootstrap parity, hours, event bus, scheduler, spatial navigation, selectors, content integrity, JSON-LD, breakpoint sync |
 | `npm run build` | Production build (also validates all content against its schemas) |
 | `npm run html` | html-validate on the **built** HTML |
-| `npm run size` | Size budgets (gzip): HTML 24 kB, boot runtime 7.5 kB, GSAP + ScrollTrigger 48 kB, Lenis 6.5 kB, Motion features 36 kB, all JS 135 kB |
-| `npm run test:e2e` | Playwright on five profiles (desktop, reference 1253 x 712, phone, tablet, TV with a Tizen UA): boot, hydration, ARIA, focus trap, reveal, no horizontal scroll, TV D-pad, axe a11y, no-JS and reduced-motion, the 404 page, and (on the reference profile) **layout geometry against the reel** |
+| `npm run size` | Size budgets (gzip): HTML 24 kB, boot runtime 6.5 kB, GSAP + ScrollTrigger 48 kB, Lenis 6.5 kB, all JS 85 kB |
+| `npm run test:e2e` | Playwright on five profiles (desktop, reference 1253 x 712, phone, tablet, TV with a Tizen UA): boot, hydration, ARIA, focus trap, reveal, no horizontal scroll, TV D-pad, axe a11y, no-JS and reduced-motion, the 404 page, **motion frame by frame** (scenes and islands must pass through intermediate frames, survive a resize, and degrade when GSAP cannot be downloaded) and (on the reference profile) **layout geometry against the reel** |
 
 The unit tests were mutation-checked: deliberately breaking the bootstrap breakpoint, overnight hours, scheduler
 guards, bus replay, D-pad weighting, price labels and `tel:` links each makes a test fail.
@@ -299,8 +336,16 @@ a file under `src/assets` (a unit test checks both). To feature it on the home p
 parts), `types.ts`, `index.ts`; build its props in `composition/home.ts`; add it to `pages/index.astro`. Add a
 `<name>.scene.ts` if it animates (it is discovered automatically).
 
-**Add a scene or behaviour.** Default-export `defineEnhancement({...})` from `*.scene.ts` / `*.behavior.ts`. Animate
-`opacity` and `transform` only, return a teardown, and load GSAP through the `gsap` function on the context.
+**Add a scene.** Create `<name>.scene.ts` next to the section (it is discovered automatically) and default-export
+`defineScene({ id, selector, start, build })`. `build` gets the scene's `timeline` and helpers (`fadeUp`, `px`); take eases,
+durations and distances from `shared/motion/tokens.ts`. Animate `opacity` and `transform` only.
+
+**Add a behaviour.** Default-export `defineEnhancement({...})` from `*.behavior.ts`: return a teardown, and load GSAP
+through the `gsap` function on the context if you need it.
+
+**Animate an island.** Put the choreography in a `*.motion.ts` in the feature, as functions of `(node, tools)`, and drive
+it with `usePresence` (a node that comes and goes) or `useMotion` (everything else) from `shared/motion/island`. Always
+leave the node in the state its stylesheet describes: end tweens with `clearProps`.
 
 **Add a bus event.** Add it to `AppEvents` in `shared/events/events.ts` (and to the `sticky` list only if a message must
 survive having no listener yet).
@@ -316,10 +361,9 @@ the baseline with `UPDATE_GOLDEN=1 npx playwright test --project=reference` and 
 
 ## Known trade-offs
 
-- **Motion is the heaviest dependency** (about 34 kB gzip for the features chunk, ~53 kB with its core). It is needed
-  for the tab pill's shared-layout animation (`layoutId`, which requires the `domMax` feature set) and for presence
-  animations on dialogs. Replacing the pill with a CSS/GSAP transform would let the island use the much smaller
-  `domAnimation` set.
+- **Scene starts hitch in software-rendered Chrome.** A Chrome trace shows every stall over 40 ms is a GPU-process task
+  (uploading the textures of the large layers that start animating, the About cluster first), while the main thread's
+  longest task is about 10 ms. Verify smoothness on a real GPU and a real low-end TV.
 - **Paint cost of the Follow card.** In software-rendered headless Chrome its first ~100 ms shows style/layout/paint
   stalls (no JavaScript involved), from re-rasterising the large soft shadow and the art's `drop-shadow` filters while the
   card morphs. Verify smoothness on a real GPU and a real low-end TV; if needed, simplify the shadow during the tween.

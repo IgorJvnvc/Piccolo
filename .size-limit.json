@@ -8,11 +8,11 @@
   {
     "name": "Boot runtime + scroll scenes",
     "path": "dist/_astro/BaseLayout*.js",
-    "limit": "7.5 kB",
+    "limit": "6.5 kB",
     "gzip": true
   },
   {
-    "name": "GSAP + ScrollTrigger (lazy, scroll scenes only)",
+    "name": "GSAP + ScrollTrigger (lazy, scenes and islands)",
     "path": ["dist/_astro/gsap.*.js", "dist/_astro/ScrollTrigger.*.js"],
     "limit": "48 kB",
     "gzip": true
@@ -24,15 +24,9 @@
     "gzip": true
   },
   {
-    "name": "Motion features (menu island)",
-    "path": "dist/_astro/motion-features.*.js",
-    "limit": "36 kB",
-    "gzip": true
-  },
-  {
     "name": "All JavaScript",
     "path": "dist/_astro/*.js",
-    "limit": "135 kB",
+    "limit": "85 kB",
     "gzip": true
   }
 ]

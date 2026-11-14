@@ -59,8 +59,8 @@ Content is validated at build time: a typo fails the build with a precise messag
 ## How it is built
 
 - **Astro 7** static site; **Preact 11** for exactly two islands (mobile navigation, menu browser).
-- **GSAP + ScrollTrigger** (lazy) for scroll scenes, **Motion** for island UI, **Lenis** for smooth scroll on fine-pointer
-  laptops and desktops.
+- **GSAP + ScrollTrigger** (one lazy chunk) animate both the scroll scenes and the two islands, **Lenis** gives fine-pointer
+  laptops and desktops smooth scroll.
 - Layered architecture with dependency rules enforced by lint; the reasoning is recorded in
   [docs/adr](docs/adr/README.md).
 - Works without JavaScript (every menu category is rendered), honours reduced motion, and targets a Chromium 94 browser

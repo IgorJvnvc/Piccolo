@@ -10,8 +10,8 @@ import tseslint from 'typescript-eslint';
 /*
  * Lint = correctness + the architecture rules in docs/architecture.md.
  *   1. Layering            -> boundaries/dependencies (who may import whom)
- *   2. Single owners       -> restricted imports (gsap, motion, lenis, astro:content, astro:assets, import.meta.env)
- *   3. Motion safety       -> no `visibility` toggling in reveal code (hidden content cannot take focus)
+ *   2. Single owners       -> restricted imports (gsap, lenis, astro:content, astro:assets, import.meta.env)
+ *   3. Motion safety       -> no `visibility` toggling in animation code (hidden content cannot take focus)
  *   4. Accessibility       -> jsx-a11y for Astro and Preact markup
  */
 
@@ -24,16 +24,15 @@ const SOURCE = ['src/**/*.{ts,tsx,astro}'];
 const MESSAGES = {
   env: 'Read environment values through "@/shared/config". shared/config/env.ts is the only module that touches import.meta.env.',
   gsap: 'Load GSAP through the shared kit ("@/shared/motion"). shared/motion/gsap.ts is the only module that imports it (one lazy chunk).',
-  motion: 'Use Motion through "@/shared/motion/motion-react" (one shared, tree-shaken entry for islands).',
   lenis: 'Lenis belongs to features/smooth-scroll, which is the only code that drives the scroll position.',
   astroContent: 'Read content through the repository ports in "@/infrastructure/content", never through astro:content directly.',
   astroAssets: 'astro:assets is an infrastructure concern: use the image catalog ("@/infrastructure/images") or the layout Font component.',
   visibility:
-    'Do not animate or set `visibility`/`autoAlpha` in reveal code: hidden content cannot take keyboard focus and is dropped from the accessibility tree. Animate `opacity` and `transform` only.',
+    'Do not animate or set `visibility`/`autoAlpha` in animation code: hidden content cannot take keyboard focus and is dropped from the accessibility tree. Animate `opacity` and `transform` only.',
 };
 
 /**
- * @param {{ env?: boolean, gsap?: boolean, motion?: boolean, lenis?: boolean, astroContent?: boolean, astroAssets?: boolean, visibility?: boolean }} allow
+ * @param {{ env?: boolean, gsap?: boolean, lenis?: boolean, astroContent?: boolean, astroAssets?: boolean, visibility?: boolean }} allow
  *        `true` = this group MAY use the thing. For `visibility`, `true` = the ban applies.
  */
 function restrictions(allow = {}) {
@@ -64,10 +63,6 @@ function restrictions(allow = {}) {
     paths.push({ name: 'gsap', message: MESSAGES.gsap });
     patterns.push({ regex: '^gsap/', message: MESSAGES.gsap });
   }
-  if (!allow.motion) {
-    paths.push({ name: 'motion', message: MESSAGES.motion }, { name: 'framer-motion', message: MESSAGES.motion });
-    patterns.push({ regex: '^(motion|framer-motion)/', message: MESSAGES.motion });
-  }
   if (!allow.lenis) {
     paths.push({ name: 'lenis', message: MESSAGES.lenis });
     patterns.push({ regex: '^lenis/', message: MESSAGES.lenis });
@@ -82,14 +77,14 @@ function restrictions(allow = {}) {
 }
 
 // Later entries win. Every entry states ALL its flags, so nothing is inherited by accident.
-const MOTION_FILES = ['src/**/*.{scene,behavior}.ts', 'src/shared/motion/**/*.{ts,tsx}'];
+// Everything that animates is held to the visibility ban: scenes, behaviors, island choreography (*.motion.ts) and the kit.
+const MOTION_FILES = ['src/**/*.{scene,behavior,motion}.ts', 'src/shared/motion/**/*.{ts,tsx}'];
 
 const restrictionGroups = [
   { files: SOURCE, allow: {} },
   { files: MOTION_FILES, allow: { visibility: true } },
   { files: ['src/shared/config/env.ts'], allow: { env: true } },
   { files: ['src/shared/motion/gsap.ts'], allow: { gsap: true, visibility: true } },
-  { files: ['src/shared/motion/motion-react.tsx', 'src/shared/motion/motion-features.ts'], allow: { motion: true, visibility: true } },
   { files: ['src/features/smooth-scroll/**/*.ts'], allow: { lenis: true, visibility: true } },
   { files: ['src/infrastructure/content/**/*.ts', 'src/content.config.ts'], allow: { astroContent: true } },
   { files: ['src/infrastructure/images/**/*.ts', 'src/layouts/**/*.astro'], allow: { astroAssets: true } },

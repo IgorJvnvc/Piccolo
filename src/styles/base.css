@@ -78,6 +78,47 @@ html.js:not(.no-enhance)[data-motion='full'] [data-reveal='up']:not([data-reveal
   transform: translate3d(0, 1.5rem, 0);
 }
 
+/*
+ * Presence fallback (shared/motion/island.ts). A dialog that enters or leaves without GSAP (reduced motion, or GSAP still
+ * downloading) carries data-presence="enter" or "exit" and fades. Reduced motion keeps this short, opacity-only fade on
+ * purpose, so it overrides the blanket "no animation" rule above: `!important` on a more specific selector.
+ * Enter and exit are separate animations: changing only the direction of a finished animation would not replay it.
+ */
+[data-presence] {
+  animation-duration: var(--dur-1) !important;
+  animation-timing-function: var(--ease-out);
+}
+
+[data-presence='enter'] {
+  animation-name: presence-in;
+  animation-fill-mode: backwards;
+}
+
+[data-presence='exit'] {
+  animation-name: presence-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes presence-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes presence-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 /* Lenis (desktop smooth scroll) */
 html.lenis,
 html.lenis body {

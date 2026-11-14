@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import type { Page } from '@playwright/test';
-import { expect, ready, test } from './fixtures';
+import { expect, ready, revealAll, test } from './fixtures';
 
 /**
  * Layout fidelity against the reference reel, at the reel's viewport (1253 x 712).
@@ -72,16 +72,7 @@ type Boxes = Record<string, Box>;
 
 /** Plays every once-only scene so each element is measured in its settled, final state. */
 async function settle(page: Page): Promise<void> {
-  await page.evaluate(async () => {
-    for (let y = 0; y <= document.documentElement.scrollHeight; y += 400) {
-      window.scrollTo(0, y);
-      await new Promise((resolve) => setTimeout(resolve, 150));
-    }
-  });
-  // Every scene has started once each of its targets has been handed over from the CSS pre-state. How long that takes
-  // depends on the machine (GSAP has to download first), so wait for it instead of for a fixed time.
-  await page.waitForFunction(() => document.querySelectorAll('[data-reveal]:not([data-revealed])').length === 0, undefined, { timeout: 20_000 });
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await revealAll(page);
   await page.waitForTimeout(400);
 }
 

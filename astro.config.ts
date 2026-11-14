@@ -54,10 +54,5 @@ export default defineConfig({
       target: ['chrome94', 'safari15', 'firefox100'],
       cssTarget: 'chrome94',
     },
-    // Motion is a React library; it must go through Vite so the preact/compat aliases apply during SSR
-    // (Vite 8 / Astro 7: `resolve.noExternal`, applied to every environment incl. the prerender one).
-    resolve: {
-      noExternal: ['motion', 'framer-motion', 'motion-dom', 'motion-utils'],
-    },
   },
 });

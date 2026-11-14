@@ -21,8 +21,8 @@ the mobile navigation and the menu browser (category tabs plus an item quick vie
 
 - Most of the page costs no hydration and works with JavaScript disabled or broken.
 - Search engines and no-JS visitors get the whole menu.
-- Preact 11 runs through `@astrojs/preact` with `compat`, which also lets Motion's React API work (see
-  [0002](0002-gsap-for-scenes-motion-for-islands.md)).
+- Preact 11 runs through `@astrojs/preact` with `compat`, which supplies `createPortal` for the dialogs. (It also let
+  Motion's React API work, until [0008](0008-one-engine-gsap-scenes-and-islands.md) removed that library.)
 - A third island needs a real reason; most new behaviour should be an enhancement on server-rendered markup.
 
 ## Alternatives considered

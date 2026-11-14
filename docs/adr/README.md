@@ -7,12 +7,13 @@ supersede it with a new one.
 | # | Decision | Status |
 | --- | --- | --- |
 | [0001](0001-static-astro-with-two-islands.md) | Static Astro site with exactly two Preact islands | Accepted |
-| [0002](0002-gsap-for-scenes-motion-for-islands.md) | GSAP for scroll scenes, Motion for island UI | Accepted |
+| [0002](0002-gsap-for-scenes-motion-for-islands.md) | GSAP for scroll scenes, Motion for island UI | Superseded by 0008 |
 | [0003](0003-progressive-enhancement-and-reveal-protocol.md) | Progressive enhancement and the reveal protocol (never toggle `visibility`) | Accepted |
 | [0004](0004-layered-architecture-enforced-by-lint.md) | Layered architecture, enforced by lint | Accepted |
 | [0005](0005-device-capabilities-and-motion-tiers.md) | Measured device capabilities and motion tiers | Accepted |
 | [0006](0006-css-modules-tokens-and-browser-floor.md) | CSS Modules, design tokens and a Chromium 94 floor | Accepted |
 | [0007](0007-content-collections-behind-ports.md) | Content as validated JSON behind repository ports | Accepted |
+| [0008](0008-one-engine-gsap-scenes-and-islands.md) | One animation engine: GSAP for scenes and islands, on a shared motion kit | Accepted |
 
 Format: **Context** (the forces), **Decision**, **Consequences** (good and bad), and **Alternatives** when they were
 seriously considered.

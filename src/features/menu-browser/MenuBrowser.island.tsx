@@ -1,40 +1,34 @@
 import { createPortal } from 'preact/compat';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { MenuCard } from '@/entities/menu/ui';
 import { appBus } from '@/shared/events';
-import { MotionRoot, m, useReducedMotion } from '@/shared/motion/motion-react';
+import { useMotion } from '@/shared/motion/island';
 import styles from './menu-browser.module.css';
+import { type PillBox, measurePill, revealCards, slidePill } from './menu-browser.motion';
 import { QuickView } from './QuickView';
 import type { MenuBrowserProps } from './types';
 
-const EASE = [0.22, 1, 0.36, 1] as const;
-
 /**
- * Island 2 of 2. Category tabs with a shared-layout pill (Motion `layoutId`), staggered card entrance
- * on every switch, and an item quick view.
+ * Island 2 of 2. Category tabs whose pill slides from one tab to the next, staggered card entrance on every switch (both in
+ * menu-browser.motion.ts), and an item quick view.
  *
  * Progressive enhancement: the server renders EVERY category (hidden panels are plain `hidden`), so
  * search engines and no-JS visitors get the whole menu; CSS shows all panels when JS is off.
  */
-export default function MenuBrowser(props: MenuBrowserProps) {
-  return (
-    <MotionRoot>
-      <MenuBrowserInner {...props} />
-    </MotionRoot>
-  );
-}
-
-function MenuBrowserInner({ categories, phone }: MenuBrowserProps) {
+export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
   const firstId = categories[0]?.id ?? '';
   const [activeId, setActiveId] = useState(firstId);
   /** Bumps on every switch so the newly shown panel replays its entrance. */
   const [pulse, setPulse] = useState(0);
-  const [interacted, setInteracted] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [opener, setOpener] = useState<HTMLElement | null>(null);
   const [mounted, setMounted] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const reduced = useReducedMotion();
+  /** The pill as it was when the selection changed, for the new pill to slide in from. */
+  const pillFrom = useRef<PillBox | null>(null);
+  const getTools = useMotion();
 
   const activeRef = useRef(firstId);
 
@@ -42,14 +36,33 @@ function MenuBrowserInner({ categories, phone }: MenuBrowserProps) {
 
   const select = useCallback((id: string, focus = false): void => {
     if (id !== activeRef.current) {
+      pillFrom.current = measurePill(tabsRef.current); // before the render moves the pill into the new tab
       activeRef.current = id;
       setActiveId(id);
       setPulse((value) => value + 1);
-      setInteracted(true);
       appBus.emit('menu:category', { categoryId: id });
     }
     if (focus) tabRefs.current[id]?.focus();
   }, []);
+
+  // Runs after the new selection is in the DOM and before it is painted, so nothing flashes at its resting place first.
+  useLayoutEffect(() => {
+    const from = pillFrom.current;
+    pillFrom.current = null;
+    if (pulse === 0) return undefined; // what the server rendered needs no entrance
+    const tools = getTools();
+    const root = rootRef.current;
+    const list = tabsRef.current;
+    if (!tools || !root) return undefined;
+
+    const playing = [
+      list && from ? slidePill(list, from, tools) : undefined,
+      revealCards(root.querySelectorAll('[role="tabpanel"]:not([hidden]) [data-part="cell"]'), tools),
+    ];
+    return () => {
+      for (const animation of playing) animation?.kill();
+    };
+  }, [pulse, getTools]);
 
   // Anyone can ask for an item's details (popular cards, other sections). `replay` delivers a click that
   // happened before this island finished hydrating.
@@ -88,9 +101,9 @@ function MenuBrowserInner({ categories, phone }: MenuBrowserProps) {
   const active = categories.find((category) => category.id === activeId);
 
   return (
-    <div class={styles.root}>
+    <div class={styles.root} ref={rootRef}>
       <div class={styles.tabsWrap}>
-        <div class={styles.tabs} role="tablist" aria-label="Menu categories">
+        <div class={styles.tabs} role="tablist" aria-label="Menu categories" ref={tabsRef}>
           {categories.map((category, index) => {
             const selected = category.id === activeId;
             return (
@@ -110,13 +123,7 @@ function MenuBrowserInner({ categories, phone }: MenuBrowserProps) {
                 onClick={() => select(category.id)}
                 onKeyDown={(event: KeyboardEvent) => onTabKeyDown(event, index)}
               >
-                {selected ? (
-                  <m.span
-                    layoutId="menu-tab-pill"
-                    class={styles.pill}
-                    transition={reduced ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 36 }}
-                  />
-                ) : null}
+                {selected ? <span class={styles.pill} data-part="pill" /> : null}
                 <span class={styles.label}>{category.title}</span>
               </button>
             );
@@ -140,18 +147,12 @@ function MenuBrowserInner({ categories, phone }: MenuBrowserProps) {
             hidden={!isActive}
           >
             <h3 class={styles.panelTitle}>{category.title}</h3>
-            {/* Remounts (new key) each time this panel becomes active, replaying the stagger. */}
+            {/* Remounts (new key) each time this panel becomes active, so every switch starts from fresh markup. */}
             <ul class={styles.grid} role="list" key={isActive ? `on-${pulse}` : 'off'}>
-              {category.cards.map((card, index) => (
-                <m.li
-                  key={card.id}
-                  class={styles.cell}
-                  initial={interacted && isActive && !reduced ? { opacity: 0, y: 28 } : false}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.06, ease: EASE }}
-                >
+              {category.cards.map((card) => (
+                <li key={card.id} class={styles.cell} data-part="cell">
                   <MenuCard model={card} idScope="menu" />
-                </m.li>
+                </li>
               ))}
             </ul>
           </div>

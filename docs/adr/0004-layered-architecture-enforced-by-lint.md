@@ -18,7 +18,7 @@ pages -> layouts -> sections -> features -> entities -> shared
 
 - `eslint-plugin-boundaries` holds the policy (what each layer may import; sections, features and entities are isolated
   from their siblings). Files outside any layer are an error.
-- Single-owner rules (`gsap`, `motion/react`, `lenis`, `astro:content`, `astro:assets`, `import.meta.env`) are
+- Single-owner rules (`gsap`, `lenis`, `astro:content`, `astro:assets`, `import.meta.env`) are
   `no-restricted-imports` / `no-restricted-syntax` rules with an explicit exception table in `eslint.config.js`.
 - `dependency-cruiser` covers what ESLint cannot: cycles, dev dependencies in shipped code, unresolvable imports.
 - `knip` keeps each layer's `index.ts` honest (export only what is consumed) and finds dead code.

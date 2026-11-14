@@ -124,7 +124,7 @@ Proposed, not yet confirmed: the reel's Search field and bag icon (drop, or repl
 
 Newsletter width samples (s: px): 5.87: 350, 5.93: 574, 6.00: 714, 6.07: 798, 6.13: 862, 6.20: 906, 6.27: 926, 6.33: 938, 6.40: 944, 6.53: 952, 6.60: 954.
 
-Engine mapping (proposal): load intro = one GSAP timeline; scroll reveals = GSAP ScrollTrigger (once); newsletter expansion = GSAP ScrollTrigger animating `width` or `clip-path: inset(...)` with border-radius; Motion is not used by anything in the reel and is reserved for state-driven UI in the extrapolated parts (menu tabs, quick view, hover micro-interactions).
+Engine mapping (proposal): load intro = one GSAP timeline; scroll reveals = GSAP ScrollTrigger (once); newsletter expansion = GSAP ScrollTrigger animating `width` or `clip-path: inset(...)` with border-radius; Motion is not used by anything in the reel; the state-driven UI in the extrapolated parts (mobile menu, menu tabs, quick view) is animated with GSAP as well, through the island hooks (see [ADR 0008](adr/0008-one-engine-gsap-scenes-and-islands.md)); the Motion library first proposed for it was dropped.
 
 ## 7. Piccolo adaptation map
 

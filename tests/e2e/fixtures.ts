@@ -26,6 +26,27 @@ export async function ready(page: import('@playwright/test').Page): Promise<void
 }
 
 /**
+ * Scrolls through the whole page so every once-only scene plays, then returns to the top once each reveal target has been
+ * handed over from the CSS pre-state (`data-revealed`). The scenes themselves may still be playing out.
+ *
+ * A scene starts when its section is seen, and a section is only seen in a rendered frame. Pacing the sweep by time lets a
+ * stalled machine outrun its own frames and skip a section entirely (it then never reveals, and the wait times out), so
+ * each position gets two frames. The jumps are instant: the page's smooth scrolling would glide on.
+ */
+export async function revealAll(page: import('@playwright/test').Page): Promise<void> {
+  await page.evaluate(async () => {
+    const frames = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    for (let y = 0; y <= document.documentElement.scrollHeight; y += 400) {
+      window.scrollTo({ top: y, behavior: 'instant' });
+      await frames();
+    }
+  });
+  // How long the last scene takes to start depends on the machine (GSAP has to download first), so wait for it.
+  await page.waitForFunction(() => document.querySelectorAll('[data-reveal]:not([data-revealed])').length === 0, undefined, { timeout: 20_000 });
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+}
+
+/**
  * Waits for an Astro island to finish hydrating (Astro removes the `ssr` attribute from `astro-island`; the component is named by `component-export`).
  * Islands hydrate on idle/media, so interacting before this is a race the app handles but tests should not rely on.
  */

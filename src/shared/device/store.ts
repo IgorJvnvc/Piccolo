@@ -1,6 +1,6 @@
 import { classify } from './classify';
 import { probe } from './probe';
-import type { Capabilities } from './types';
+import type { Capabilities, MotionTier } from './types';
 
 export type CapabilitiesListener = (caps: Capabilities) => void;
 
@@ -79,4 +79,14 @@ export function applyToDocument(doc: Document, caps: Capabilities): void {
   root.setAttribute('data-device', caps.device);
   root.setAttribute('data-motion', caps.motion);
   root.setAttribute('data-pointer', caps.pointer);
+}
+
+/**
+ * The motion tier the document is in right now. It reads what `applyToDocument` and the inline bootstrap wrote, so it
+ * follows a visitor who switches reduced motion on while the page is open. Without the attribute (no script ran, or an
+ * unknown value) nothing may animate: the conservative answer is `static`.
+ */
+export function motionTierOf(doc: Document): MotionTier {
+  const tier = doc.documentElement.getAttribute('data-motion');
+  return tier === 'full' || tier === 'lite' ? tier : 'static';
 }

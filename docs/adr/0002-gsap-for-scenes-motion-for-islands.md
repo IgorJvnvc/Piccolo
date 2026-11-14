@@ -1,6 +1,6 @@
 # 0002. GSAP for scroll scenes, Motion for island UI
 
-Status: Accepted
+Status: Superseded by [0008](0008-one-engine-gsap-scenes-and-islands.md)
 
 ## Context
 
