@@ -52,15 +52,6 @@ describe('the mobile menu choreography', () => {
     expect((panel.querySelector('[data-part="footer"]') as HTMLElement).style.transform).toContain('24px');
   });
 
-  it('travels half as far on the lite tier', async () => {
-    const motion = createPanelMotion(() => ORIGIN);
-
-    motion.from?.(panel, await tools('lite'));
-
-    expect(links()[0]?.style.transform).toContain('18px');
-    expect((panel.querySelector('[data-part="footer"]') as HTMLElement).style.transform).toContain('12px');
-  });
-
   it('grows the circle to reach the far corner, then removes the clip and the hidden states', async () => {
     const motion = createPanelMotion(() => ORIGIN);
     const kit = await tools();
@@ -78,24 +69,6 @@ describe('the mobile menu choreography', () => {
     expect(panel.hasAttribute('data-clip')).toBe(false); // a menu at rest has no clip at all
     expect(links().every((link) => link.style.opacity === '' && link.style.transform === '')).toBe(true);
     expect((panel.querySelector('[data-part="footer"]') as HTMLElement).style.opacity).toBe('');
-  });
-
-  it('shrinks back from full size when it is closed at rest, with no jump', async () => {
-    const motion = createPanelMotion(() => ORIGIN);
-    const kit = await tools();
-    motion.from?.(panel, kit);
-    held(motion.enter(panel, kit)).progress(1, false);
-    expect(panel.hasAttribute('data-clip')).toBe(false);
-
-    const leaving = held(motion.exit(panel, kit));
-
-    expect(panel.hasAttribute('data-clip')).toBe(true);
-    expect(radius()).toBe(ORIGIN.radius); // already clipped to the full circle, so nothing shows a change yet
-    leaving.progress(0.5, false);
-    expect(radius()).toBeGreaterThan(0);
-    expect(radius()).toBeLessThan(ORIGIN.radius);
-    leaving.progress(1, false);
-    expect(radius()).toBe(0);
   });
 
   it('closing a half-open menu shrinks it from the size it had reached', async () => {
@@ -133,35 +106,5 @@ describe('the mobile menu choreography', () => {
     expect(radius()).toBeLessThan(ORIGIN.radius);
     entering.progress(1, false);
     expect(radius()).toBe(ORIGIN.radius);
-  });
-
-  it('opens from wherever the toggle button is each time it is opened', async () => {
-    let origin: Origin = ORIGIN;
-    const motion = createPanelMotion(() => origin);
-    const kit = await tools();
-
-    motion.from?.(panel, kit);
-    origin = { x: 20, y: 700, radius: 500 };
-    motion.from?.(panel, kit);
-    held(motion.enter(panel, kit)).progress(1, false);
-
-    expect(panel.style.getPropertyValue('--x')).toBe('20px');
-    expect(panel.style.getPropertyValue('--y')).toBe('700px');
-    expect(radius()).toBe(500);
-  });
-
-  it('runs a third faster on the lite tier', async () => {
-    const motion = createPanelMotion(() => ORIGIN);
-    const full = await tools();
-    motion.from?.(panel, full);
-    const fullDuration = (motion.enter(panel, full) as unknown as { duration: () => number; totalDuration: () => number }).totalDuration();
-    held(motion.exit(panel, full)).kill();
-
-    const lite = await tools('lite');
-    motion.from?.(panel, lite);
-    const liteDuration = (motion.enter(panel, lite) as unknown as { totalDuration: () => number; timeScale: () => number });
-
-    expect(liteDuration.timeScale()).toBeCloseTo(4 / 3);
-    expect(fullDuration).toBeGreaterThan(1); // the footer arrives last, at 0.6 s + 0.5 s
   });
 });

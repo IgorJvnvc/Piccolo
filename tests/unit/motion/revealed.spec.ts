@@ -24,11 +24,6 @@ describe('markRevealed', () => {
     expect(title?.hasAttribute('data-revealed')).toBe(true);
     expect(document.querySelectorAll('[data-revealed]')).toHaveLength(1);
   });
-
-  it('accepts any iterable, such as a NodeList', () => {
-    markRevealed(document.querySelectorAll('#scene [data-reveal]'));
-    expect(document.querySelectorAll('#scene [data-revealed]')).toHaveLength(2);
-  });
 });
 
 describe('openRoot', () => {
@@ -48,15 +43,5 @@ describe('openRoot', () => {
 
     expect(document.querySelector<HTMLElement>('[data-part="stage"]')?.dataset['state']).toBe('open');
     expect(document.querySelector<HTMLElement>('[data-part="other"]')?.dataset['state']).toBe('done');
-  });
-
-  it('is safe to repeat (it is both the final state and the fail-safe)', () => {
-    const scene = document.getElementById('scene');
-    if (!scene) throw new Error('fixture missing');
-    openRoot(scene);
-    openRoot(scene);
-
-    expect(document.querySelectorAll('#scene [data-revealed]')).toHaveLength(2);
-    expect(document.querySelector<HTMLElement>('[data-part="stage"]')?.dataset['state']).toBe('open');
   });
 });

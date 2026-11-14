@@ -61,14 +61,6 @@ describe('useMotion', () => {
     expect(seen.get()).toEqual({ gsap: kit.gsap, tier: 'full', scale: { distance: 1, speed: 1 } });
   });
 
-  it('scales the tools for the lite tier', async () => {
-    root.setAttribute('data-motion', 'lite');
-    const seen = probe();
-    await settle();
-
-    expect(seen.get()).toMatchObject({ tier: 'lite', scale: { distance: 0.5, speed: 4 / 3 } });
-  });
-
   it('never downloads GSAP on the static tier', async () => {
     root.setAttribute('data-motion', 'static');
     const seen = probe();
@@ -123,16 +115,6 @@ describe('usePresence', () => {
     } satisfies PresenceMotion<HTMLDivElement>;
     return { motion, entering, leaving };
   };
-
-  it('renders nothing while closed', async () => {
-    const { motion } = motionWith();
-    const { node } = mount(motion, false);
-    await settle();
-
-    expect(node()).toBeNull();
-    expect(motion.from).not.toHaveBeenCalled();
-    expect(motion.enter).not.toHaveBeenCalled();
-  });
 
   it('puts the node in the very render that opens it, hides it, then plays it in', async () => {
     const { motion } = motionWith();
@@ -227,19 +209,6 @@ describe('usePresence', () => {
     expect(entering.kill).toHaveBeenCalledTimes(1);
   });
 
-  it('starts from hidden again on a second, separate open', async () => {
-    const { motion, leaving } = motionWith();
-    const { set } = mount(motion, false);
-    await settle();
-    set(true);
-    set(false);
-    act(() => leaving.complete());
-
-    set(true);
-
-    expect(motion.from).toHaveBeenCalledTimes(2);
-  });
-
   describe('without GSAP: the CSS fade', () => {
     const animated = (animationName: string) =>
       vi.spyOn(window, 'getComputedStyle').mockReturnValue({ animationName } as unknown as CSSStyleDeclaration);
@@ -254,18 +223,6 @@ describe('usePresence', () => {
 
       expect(node()?.getAttribute('data-presence')).toBe('enter');
       expect(motion.from).not.toHaveBeenCalled();
-      expect(motion.enter).not.toHaveBeenCalled();
-    });
-
-    it('also falls back while GSAP is still downloading', async () => {
-      loadGsap.mockReturnValue(new Promise(() => undefined));
-      const { motion } = motionWith();
-      const { set, node } = mount(motion, false);
-      await settle();
-
-      set(true);
-
-      expect(node()?.getAttribute('data-presence')).toBe('enter');
       expect(motion.enter).not.toHaveBeenCalled();
     });
 

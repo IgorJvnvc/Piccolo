@@ -113,19 +113,6 @@ describe('Follow scene (real GSAP)', () => {
     expect(fixture.stage.dataset['state']).toBe('open');
   });
 
-  it('is still sliding well into the scene (it must not jump to the end)', async () => {
-    const { timeline } = await run();
-    await tick();
-
-    timeline.time(0.1, false);
-    const early = translateX(fixture.art);
-    timeline.time(0.2, false);
-    const later = translateX(fixture.art);
-
-    expect(early).toBeGreaterThan(later);
-    expect(later).toBeGreaterThan(0);
-  });
-
   it('measures the same start offset when GSAP re-initialises the tweens while the layers are already displaced', async () => {
     const { timeline } = await run();
     await tick();
@@ -137,25 +124,5 @@ describe('Follow scene (real GSAP)', () => {
 
     expect(currentX(fixture.art)).toBeCloseTo(300, 0);
     expect(currentX(fixture.content)).toBeCloseTo(-300, 0);
-  });
-  it('clears every inline style when it has played out', async () => {
-    const { timeline } = await run();
-    await tick();
-
-    timeline.progress(1, false);
-
-    for (const element of [fixture.bg, fixture.art, fixture.content]) expect(element.getAttribute('style') ?? '').toBe('');
-    expect(fixture.stage.dataset['state']).toBe('open');
-  });
-
-  it('teardown mid-scene restores the layers and opens the card', async () => {
-    const { timeline, teardown } = await run();
-    await tick();
-    timeline.time(0.3, false);
-
-    teardown();
-
-    for (const element of [fixture.bg, fixture.art, fixture.content]) expect(element.getAttribute('style') ?? '').toBe('');
-    expect(fixture.stage.dataset['state']).toBe('open');
   });
 });

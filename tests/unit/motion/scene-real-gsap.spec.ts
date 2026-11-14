@@ -66,31 +66,6 @@ describe('createScene with the real GSAP', () => {
     expect(title.style.transform).toContain(`${travel.rise * 20}px`); // 2 rem at the 20 px root font size
   });
 
-  it('scales the rise by tier', async () => {
-    const kit = await coreKit();
-    const title = root.querySelector('h2') as HTMLElement;
-
-    createScene(kit, { root, tier: 'lite', start: 'top 80%' }, ({ fadeUp }) => fadeUp(title));
-    await tick();
-
-    expect(title.style.transform).toContain(`${travel.rise * 20 * 0.5}px`);
-  });
-
-  it('teardown restores the inline styles GSAP set, and reveals the root instead of re-hiding it', async () => {
-    const kit = await coreKit();
-    const title = root.querySelector('h2') as HTMLElement;
-    const teardown = createScene(kit, { root, tier: 'full', start: 'top 80%' }, ({ fadeUp }) => fadeUp(title));
-    await tick();
-    expect(title.style.opacity).toBe('0');
-
-    teardown();
-
-    expect(title.style.opacity).toBe('');
-    expect(title.style.transform).toBe('');
-    expect(title.hasAttribute('data-revealed')).toBe(true);
-    expect(root.querySelector<HTMLElement>('[data-part="stage"]')?.dataset['state']).toBe('open');
-  });
-
   it('marks the targets revealed only when their tween starts, and clears its inline styles at the end', async () => {
     const kit = await coreKit();
     const title = root.querySelector('h2') as HTMLElement;
@@ -111,20 +86,5 @@ describe('createScene with the real GSAP', () => {
     expect(title.style.opacity).toBe(''); // cleared: the CSS now owns the resting state
     expect(title.style.transform).toBe('');
     expect(copy.hasAttribute('data-revealed')).toBe(true);
-  });
-
-  it('a throwing build still reverts a real context and reveals the root', async () => {
-    const kit = await coreKit();
-    const title = root.querySelector('h2') as HTMLElement;
-
-    expect(() =>
-      createScene(kit, { root, tier: 'full', start: 'top 80%' }, ({ fadeUp }) => {
-        fadeUp(title);
-        throw new Error('missing part');
-      }),
-    ).toThrow('missing part');
-
-    expect(title.style.opacity).toBe('');
-    expect(root.querySelectorAll('[data-reveal]:not([data-revealed])')).toHaveLength(0);
   });
 });

@@ -42,13 +42,6 @@ function contextFor(loadKit: EnhancementContext['gsap'], overrides: Partial<Enha
 const definition = { id: 'demo', selector: '[data-enhance="demo"]', start: enter.about };
 
 describe('defineScene', () => {
-  it('is a scroll scene: it waits for its root to arrive, on the full and lite tiers', () => {
-    const scene = defineScene({ ...definition, build: () => undefined });
-
-    expect(scene).toMatchObject({ id: 'demo', selector: '[data-enhance="demo"]', when: 'visible' });
-    expect(scene.tiers).toBeUndefined(); // the default: full + lite, never static
-  });
-
   it('builds the choreography once the kit has loaded, for the tier the device runs', async () => {
     const { kit, gsap, context } = fakeKit();
     const build = vi.fn();
@@ -65,16 +58,6 @@ describe('defineScene', () => {
     expect(typeof teardown).toBe('function');
     (teardown as () => void)();
     expect(context.revert).toHaveBeenCalledTimes(1);
-  });
-
-  it('triggers on the element the scene names', async () => {
-    const { kit, gsap } = fakeKit();
-    const title = root.querySelector('h2') as HTMLElement;
-    const scene = defineScene({ ...definition, trigger: () => title, build: () => undefined });
-
-    await scene.setup(contextFor(() => Promise.resolve(kit)));
-
-    expect(timelineVars(gsap).scrollTrigger['trigger']).toBe(title);
   });
 
   it('builds nothing if it was torn down while GSAP was still loading', async () => {

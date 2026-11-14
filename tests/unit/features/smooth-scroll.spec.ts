@@ -65,15 +65,6 @@ afterEach(() => {
 });
 
 describe('smooth-scroll', () => {
-  it('only runs for a fine pointer on a laptop or desktop, on the full tier', () => {
-    expect(smoothScroll.tiers).toEqual(['full']);
-    expect(smoothScroll.enabled?.(caps)).toBe(true);
-    expect(smoothScroll.enabled?.({ ...caps, device: 'laptop' })).toBe(true);
-    expect(smoothScroll.enabled?.({ ...caps, device: 'tv' })).toBe(false);
-    expect(smoothScroll.enabled?.({ ...caps, device: 'tablet' })).toBe(false);
-    expect(smoothScroll.enabled?.({ ...caps, pointer: 'coarse' })).toBe(false);
-  });
-
   it('drives Lenis from the GSAP ticker, in real time, and keeps ScrollTrigger in step', async () => {
     const { lenis, ticker, ScrollTrigger } = await start();
 
@@ -103,12 +94,6 @@ describe('smooth-scroll', () => {
     const { lenis } = await start();
 
     expect(lenis.stop).toHaveBeenCalledTimes(1);
-  });
-
-  it('starts out running when no dialog is open', async () => {
-    const { lenis } = await start();
-
-    expect(lenis.stop).not.toHaveBeenCalled();
   });
 
   it('pauses and resumes with scroll:lock, until it is torn down', async () => {

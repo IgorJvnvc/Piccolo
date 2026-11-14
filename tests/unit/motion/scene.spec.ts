@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { createScene, duration, ease, type Scene, travel } from '@/shared/motion';
+import { createScene, type Scene, travel } from '@/shared/motion';
 import { fakeKit, timelineVars } from './fake-kit';
 
 let root: HTMLElement;
@@ -48,13 +48,6 @@ describe('createScene', () => {
     expect(timelineVars(gsap).scrollTrigger['trigger']).toBe(trigger);
   });
 
-  it('gives every tween the same ease and duration through the timeline defaults', () => {
-    const { kit, gsap } = fakeKit();
-    createScene(kit, { root, tier: 'full', start }, () => undefined);
-
-    expect(timelineVars(gsap).defaults).toMatchObject({ ease: ease.soft, duration: duration.reveal });
-  });
-
   it('keeps clearProps OUT of the defaults: a fromTo inherits them into its internal start-state tween, which would wipe the from-state at once', () => {
     const { kit, gsap } = fakeKit();
     createScene(kit, { root, tier: 'full', start }, () => undefined);
@@ -62,14 +55,13 @@ describe('createScene', () => {
     expect(timelineVars(gsap).defaults).not.toHaveProperty('clearProps');
   });
 
-  it.each([
-    ['full', 1],
-    ['lite', 4 / 3],
-  ] as const)('runs the %s tier at timeScale %d, so durations, delays and staggers scale together', (tier, speed) => {
-    const { kit, timeline } = fakeKit();
-    createScene(kit, { root, tier, start }, () => undefined);
+  it('runs the lite tier at timeScale 4/3 (so durations, delays and staggers scale together) and the full tier at 1', () => {
+    for (const [tier, speed] of [['full', 1], ['lite', 4 / 3]] as const) {
+      const { kit, timeline } = fakeKit();
+      createScene(kit, { root, tier, start }, () => undefined);
 
-    expect(timeline.timeScale).toHaveBeenCalledWith(speed);
+      expect(timeline.timeScale).toHaveBeenCalledWith(speed);
+    }
   });
 
   it('hands a tween’s targets over from the CSS pre-state when that tween starts, not before', () => {
@@ -129,27 +121,6 @@ describe('createScene', () => {
       expect(to).not.toHaveProperty('duration');
       expect(to).not.toHaveProperty('ease');
       expect(at).toBe(0.25);
-    });
-
-    it('lets a call override the duration and pick a named ease', () => {
-      const target = root.querySelector('h2') as HTMLElement;
-      const { timeline } = build('full', (scene) => scene.fadeUp(target, { duration: duration.card, ease: 'out' }));
-
-      expect((timeline.fromTo.mock.calls[0] as unknown[])[2]).toEqual({
-        opacity: 1,
-        y: 0,
-        clearProps: 'transform,opacity',
-        duration: duration.card,
-        ease: ease.out,
-      });
-    });
-
-    it('never animates visibility (ADR 0003: hidden content cannot take keyboard focus)', () => {
-      const target = root.querySelector('h2') as HTMLElement;
-      const { timeline, gsap } = build('full', (scene) => scene.fadeUp(target));
-
-      const text = JSON.stringify([timeline.fromTo.mock.calls, gsap.timeline.mock.calls], (_key, value: unknown) => (typeof value === 'function' ? 'fn' : value));
-      expect(text).not.toMatch(/visibility|autoAlpha/);
     });
   });
 

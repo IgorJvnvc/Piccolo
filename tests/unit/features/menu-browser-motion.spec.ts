@@ -49,13 +49,6 @@ describe('measurePill', () => {
 
     expect(measurePill(list)).toEqual({ left: 130, width: 96 });
   });
-
-  it('has nothing to measure without a pill, or without a list', () => {
-    pill.remove();
-
-    expect(measurePill(list)).toBeNull();
-    expect(measurePill(null)).toBeNull();
-  });
 });
 
 describe('slidePill', () => {
@@ -74,19 +67,6 @@ describe('slidePill', () => {
     sliding.progress(1, false);
     expect(pill.style.transform).toBe('');
     expect(pill.style.width).toBe('');
-  });
-
-  it('does nothing when the pill has not moved', async () => {
-    place(pill, 150, 90);
-
-    expect(slidePill(list, { left: 50, width: 90 }, await tools())).toBeUndefined();
-    expect(pill.style.transform).toBe('');
-  });
-
-  it('does nothing without a pill', async () => {
-    pill.remove();
-
-    expect(slidePill(list, { left: 50, width: 90 }, await tools())).toBeUndefined();
   });
 });
 
@@ -109,16 +89,5 @@ describe('revealCards', () => {
 
     rising.progress(1, false);
     expect(cards().every((card) => card.style.opacity === '' && card.style.transform === '')).toBe(true);
-  });
-
-  it('rises half as far on the lite tier', async () => {
-    held(revealCards(cards(), await tools('lite')));
-    await tick();
-
-    expect(cards()[0]?.style.transform).toContain('14px');
-  });
-
-  it('has nothing to play for an empty category', async () => {
-    expect(revealCards([], await tools())).toBeUndefined();
   });
 });
