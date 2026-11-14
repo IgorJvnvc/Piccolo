@@ -1,0 +1,25 @@
+---
+import styles from './section-heading.module.css';
+
+export interface Props {
+  title: string | readonly string[];
+  /** Brush-script label above the title ("About us"). */
+  eyebrow?: string;
+  align?: 'start' | 'center';
+  level?: 2 | 3;
+  /** Id of the heading element (for aria-labelledby). */
+  id?: string;
+  class?: string | undefined;
+}
+
+const { title, eyebrow, align = 'center', level = 2, id, class: className } = Astro.props;
+const lines = typeof title === 'string' ? [title] : [...title];
+const Tag = `h${level}` as 'h2' | 'h3';
+---
+
+<header class:list={[styles.root, align === 'start' && styles.start, className]}>
+  {eyebrow && <p class={styles.eyebrow}>{eyebrow}</p>}
+  <Tag class={styles.title} id={id}>
+    {lines.map((line, index) => (<Fragment>{index > 0 && <br />}{line}</Fragment>))}
+  </Tag>
+</header>

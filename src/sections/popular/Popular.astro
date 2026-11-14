@@ -1,0 +1,29 @@
+---
+import { MenuCard } from '@/entities/menu/ui';
+import { enhanceAttr, partAttr } from '@/shared/lib';
+import { Container, SectionHeading } from '@/shared/ui';
+import { POPULAR } from './popular.hooks';
+import styles from './popular.module.css';
+import type { PopularProps } from './types';
+
+type Props = PopularProps;
+
+const { title, cards } = Astro.props;
+---
+
+<section class={styles.root} aria-labelledby="popular-title" {...enhanceAttr(POPULAR.name)}>
+  <Container>
+    <div class={styles.heading} data-reveal="up" {...partAttr(POPULAR.parts.heading)}>
+      <SectionHeading id="popular-title" title={title} />
+    </div>
+    <ul class={styles.grid} role="list">
+      {
+        cards.map((card) => (
+          <li class={styles.cell} data-reveal="up" {...partAttr(POPULAR.parts.card)}>
+            <MenuCard model={card} idScope="popular" />
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>

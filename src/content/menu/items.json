@@ -1,0 +1,190 @@
+[
+  {
+    "id": "margherita",
+    "category": "pizza",
+    "name": "Pizza Margherita",
+    "description": "Stone-baked crust, San Marzano tomato sauce, fior di latte mozzarella and fresh basil.",
+    "price": 8.5,
+    "sizes": [
+      { "label": "Small · 25 cm", "price": 8.5 },
+      { "label": "Large · 32 cm", "price": 11.5 }
+    ],
+    "image": "food/pizza",
+    "allergens": ["gluten", "dairy"],
+    "tags": ["vegetarian"],
+    "popular": true,
+    "order": 1
+  },
+  {
+    "id": "pepperoni-fire",
+    "category": "pizza",
+    "name": "Pepperoni Fire",
+    "description": "Spicy pepperoni, mozzarella and a drizzle of chili honey on a crisp base.",
+    "price": 9.9,
+    "sizes": [
+      { "label": "Small · 25 cm", "price": 9.9 },
+      { "label": "Large · 32 cm", "price": 12.9 }
+    ],
+    "image": "food/pizza",
+    "allergens": ["gluten", "dairy"],
+    "tags": ["spicy"],
+    "order": 2
+  },
+  {
+    "id": "quattro-formaggi",
+    "category": "pizza",
+    "name": "Quattro Formaggi",
+    "description": "Mozzarella, gorgonzola, parmesan and provolone finished with cracked black pepper.",
+    "price": 10.5,
+    "sizes": [
+      { "label": "Small · 25 cm", "price": 10.5 },
+      { "label": "Large · 32 cm", "price": 13.5 }
+    ],
+    "image": "food/pizza",
+    "allergens": ["gluten", "dairy"],
+    "tags": ["vegetarian"],
+    "order": 3
+  },
+  {
+    "id": "bbq-chicken",
+    "category": "pizza",
+    "name": "BBQ Chicken",
+    "description": "Smoky BBQ sauce, grilled chicken, red onion, sweet corn and mozzarella.",
+    "price": 10.9,
+    "sizes": [
+      { "label": "Small · 25 cm", "price": 10.9 },
+      { "label": "Large · 32 cm", "price": 13.9 }
+    ],
+    "image": "food/pizza",
+    "allergens": ["gluten", "dairy"],
+    "order": 4
+  },
+  {
+    "id": "garden-veggie",
+    "category": "pizza",
+    "name": "Garden Veggie",
+    "description": "Roasted peppers, mushrooms, olives, sweet corn and rocket on a tomato base.",
+    "price": 9.5,
+    "sizes": [
+      { "label": "Small · 25 cm", "price": 9.5 },
+      { "label": "Large · 32 cm", "price": 12.5 }
+    ],
+    "image": "food/pizza",
+    "allergens": ["gluten", "dairy"],
+    "tags": ["vegetarian"],
+    "order": 5
+  },
+  {
+    "id": "prosciutto-rocket",
+    "category": "pizza",
+    "name": "Prosciutto & Rocket",
+    "description": "Mozzarella, thin-sliced prosciutto, peppery rocket and shaved parmesan.",
+    "price": 11.5,
+    "sizes": [
+      { "label": "Small · 25 cm", "price": 11.5 },
+      { "label": "Large · 32 cm", "price": 14.5 }
+    ],
+    "image": "food/pizza",
+    "allergens": ["gluten", "dairy"],
+    "tags": ["new"],
+    "order": 6
+  },
+  {
+    "id": "classic-dog",
+    "category": "hot-dogs",
+    "name": "Classic Dog",
+    "description": "Grilled beef frank in a toasted brioche bun with mustard, ketchup and crispy onions.",
+    "price": 5.5,
+    "image": "food/hotdog",
+    "allergens": ["gluten", "egg", "dairy", "mustard"],
+    "order": 1
+  },
+  {
+    "id": "chicago-dog",
+    "category": "hot-dogs",
+    "name": "Chicago Dog",
+    "description": "All-beef frank with pickles, tomato, sport peppers, relish and celery salt on a poppy-seed bun.",
+    "price": 6.9,
+    "image": "food/hotdog",
+    "allergens": ["gluten", "celery", "mustard", "sesame"],
+    "popular": true,
+    "order": 2
+  },
+  {
+    "id": "cheesy-jalapeno-dog",
+    "category": "hot-dogs",
+    "name": "Cheesy Jalapeño Dog",
+    "description": "Beef frank with melted cheddar, pickled jalapeños and smoky mayo.",
+    "price": 6.5,
+    "image": "food/hotdog",
+    "allergens": ["gluten", "dairy", "egg"],
+    "tags": ["spicy"],
+    "order": 3
+  },
+  {
+    "id": "club-sandwich",
+    "category": "sandwiches",
+    "name": "Club Sandwich",
+    "description": "Triple-decker toast with roast turkey, bacon, lettuce, tomato and mayo.",
+    "price": 7.9,
+    "image": "food/sandwich",
+    "allergens": ["gluten", "egg"],
+    "order": 1
+  },
+  {
+    "id": "crispy-chicken-melt",
+    "category": "sandwiches",
+    "name": "Crispy Chicken Melt",
+    "description": "Golden crispy chicken, melted cheddar, pickles and garlic mayo in toasted ciabatta.",
+    "price": 7.5,
+    "image": "food/sandwich",
+    "allergens": ["gluten", "dairy", "egg"],
+    "popular": true,
+    "order": 2
+  },
+  {
+    "id": "caprese-panini",
+    "category": "sandwiches",
+    "name": "Caprese Panini",
+    "description": "Mozzarella, tomato, basil pesto and rocket pressed in warm focaccia.",
+    "price": 6.9,
+    "image": "food/sandwich",
+    "allergens": ["gluten", "dairy", "nuts"],
+    "tags": ["vegetarian"],
+    "order": 3
+  },
+  {
+    "id": "fresh-lemonade",
+    "category": "drinks",
+    "name": "Fresh Lemonade",
+    "description": "Hand-squeezed lemons, fresh mint and a touch of cane sugar, served over ice.",
+    "price": 3.2,
+    "sizes": [
+      { "label": "Regular · 0.4 L", "price": 3.2 },
+      { "label": "Large · 0.5 L", "price": 3.9 }
+    ],
+    "image": "food/drink",
+    "tags": ["vegan"],
+    "order": 1
+  },
+  {
+    "id": "craft-cola",
+    "category": "drinks",
+    "name": "Craft Cola",
+    "description": "Small-batch cola with real vanilla and citrus peel. Served ice cold.",
+    "price": 2.8,
+    "image": "food/drink",
+    "tags": ["vegan"],
+    "order": 2
+  },
+  {
+    "id": "peach-iced-tea",
+    "category": "drinks",
+    "name": "Peach Iced Tea",
+    "description": "Brewed black tea, ripe peach and a squeeze of lemon, served over ice.",
+    "price": 3,
+    "image": "food/drink",
+    "tags": ["vegan"],
+    "order": 3
+  }
+]

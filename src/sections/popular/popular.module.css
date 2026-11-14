@@ -1,0 +1,65 @@
+.root {
+  padding-block: 3rem 3rem;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+}
+
+/* Phone: a horizontal snap scroller (peeking next card). */
+.grid {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem calc(var(--gutter) * -1) 0;
+  padding: 0.5rem var(--gutter) 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.grid::-webkit-scrollbar {
+  display: none;
+}
+
+.cell {
+  flex: 0 0 78%;
+  max-width: 20rem;
+  scroll-snap-align: start;
+}
+
+.cell > * {
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .root {
+    padding-block: 4rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    max-width: 60.25rem;
+    margin: 3.4rem auto 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .cell {
+    max-width: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .root {
+    padding-block: 8rem 5rem;
+  }
+
+  .grid {
+    gap: 2rem;
+  }
+}

@@ -1,0 +1,68 @@
+---
+import { Button, Container, Icon, Picture, SectionHeading } from '@/shared/ui';
+import { enhanceAttr, partAttr } from '@/shared/lib';
+import { VISIT } from './visit.hooks';
+import styles from './visit.module.css';
+import type { VisitProps } from './types';
+
+type Props = VisitProps;
+
+const { eyebrow, title, text, directionsLabel, hoursTitle, callLabel, address, mapUrl, phone, hours, hoursRows, openLabel, map } =
+  Astro.props;
+---
+
+<section id="visit" class={styles.root} aria-labelledby="visit-title" {...enhanceAttr(VISIT.name)}>
+  <Container>
+    <div class={styles.grid}>
+      <div class={styles.card} data-reveal="up" {...partAttr(VISIT.parts.item)}>
+        <SectionHeading id="visit-title" eyebrow={eyebrow} title={title} align="start" />
+        <p class={styles.text}>{text}</p>
+
+        <address class={styles.address}>
+          <Icon name="pin" class={styles.icon} />
+          <span>
+            {address.map((line, index) => (<Fragment>{index > 0 && <br />}{line}</Fragment>))}
+          </span>
+        </address>
+
+        <div class={styles.hours}>
+          <h3 class={styles.hoursTitle}>
+            <Icon name="clock" class={styles.icon} />
+            <span>{hoursTitle}</span>
+          </h3>
+          <dl class={styles.rows}>
+            {
+              hoursRows.map((row) => (
+                <div class={styles.row}>
+                  <dt>{row.days}</dt>
+                  <dd>{row.time}</dd>
+                </div>
+              ))
+            }
+          </dl>
+          <span class={styles.status} data-open="unknown" data-hours={JSON.stringify(hours)} {...partAttr('open-status')}>
+            <span class={styles.dot} aria-hidden="true"></span>
+            <span {...partAttr('open-label')}>{openLabel}</span>
+          </span>
+        </div>
+
+        <div class={styles.actions}>
+          <Button href={mapUrl} label={directionsLabel} icon="arrow-up-right" external />
+          <Button href={phone.href} label={callLabel} icon="phone" variant="ghost" />
+        </div>
+      </div>
+
+      <a
+        class={styles.map}
+        href={mapUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={directionsLabel}
+        data-reveal="up"
+        {...partAttr(VISIT.parts.item)}
+      >
+        <Picture image={map} alt="" sizes="(min-width: 1024px) 40rem, 92vw" />
+      </a>
+    </div>
+  </Container>
+</section>

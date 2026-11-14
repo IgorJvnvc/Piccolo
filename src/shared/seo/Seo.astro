@@ -1,0 +1,40 @@
+---
+import { serializeJsonLd } from './jsonld';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Absolute canonical URL. Omit on pages that must not have one (404). */
+  canonical?: string | undefined;
+  /** Keeps the page out of search results (404). */
+  noindex?: boolean | undefined;
+  /** Absolute URL of the social share image (omit until a real one exists). */
+  image?: string | undefined;
+  /** theme-color for browser chrome. */
+  themeColor?: string;
+  siteName: string;
+  /** JSON-LD objects (already built by the domain layer). */
+  jsonLd?: readonly unknown[];
+}
+
+const { title, description, canonical, noindex = false, image, themeColor = '#fb6917', siteName, jsonLd = [] } = Astro.props;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{canonical && <link rel="canonical" href={canonical} />}
+{noindex && <meta name="robots" content="noindex" />}
+<meta name="theme-color" content={themeColor} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+{image && <meta property="og:image" content={image} />}
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{image && <meta name="twitter:image" content={image} />}
+
+{jsonLd.map((entry) => <script type="application/ld+json" set:html={serializeJsonLd(entry)} />)}

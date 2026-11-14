@@ -1,0 +1,224 @@
+/*
+ * Follow card (the reel's expanding dark "newsletter" card).
+ * Final state = plain CSS. While data-state="idle" (JS running, motion allowed) the card is a thin
+ * 16px stadium and its layers are hidden; follow.scene.ts then expands it once, in time, when the
+ * card reaches 70% of the viewport.
+ */
+.root {
+  padding-block: 2rem 3rem;
+}
+
+.stage {
+  position: relative;
+  width: min(100%, 68.5rem);
+  margin-inline: auto;
+  padding: 7rem 1.5rem 2.25rem;
+  text-align: center;
+}
+
+/* The dark card itself: the only thing whose width/radius animates. */
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin-inline: auto;
+  background: var(--c-dark);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-dark);
+}
+
+/* idle pre-state: only when enhancement is active */
+:global(html.js:not(.no-enhance)[data-motion='full']) .stage[data-state='idle'] .bg,
+:global(html.js:not(.no-enhance)[data-motion='lite']) .stage[data-state='idle'] .bg {
+  width: 1.15rem;
+  border-radius: 0.5rem;
+}
+
+:global(html.js:not(.no-enhance)[data-motion='full']) .stage[data-state='idle'] .art,
+:global(html.js:not(.no-enhance)[data-motion='full']) .stage[data-state='idle'] .content,
+:global(html.js:not(.no-enhance)[data-motion='full']) .stage[data-state='idle'] .sparkle,
+:global(html.js:not(.no-enhance)[data-motion='lite']) .stage[data-state='idle'] .art,
+:global(html.js:not(.no-enhance)[data-motion='lite']) .stage[data-state='idle'] .content,
+:global(html.js:not(.no-enhance)[data-motion='lite']) .stage[data-state='idle'] .sparkle {
+  opacity: 0;
+}
+
+.art {
+  position: relative;
+  width: min(16rem, 68%);
+  margin: -11rem auto 0.5rem;
+}
+
+.art img {
+  width: 100%;
+  height: auto;
+  filter: var(--fx-on-dark);
+}
+
+.sparkle {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: var(--c-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.content {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  color: var(--c-on-dark);
+}
+
+.eyebrow {
+  font-family: var(--font-script);
+  font-size: 1.5625rem;
+  line-height: 1;
+  color: var(--c-accent);
+  transform: rotate(-2deg);
+}
+
+.title {
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 7vw, 2.3125rem);
+  font-weight: 600;
+  line-height: 1.19;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  width: min(100%, 24.4rem);
+  height: 3rem;
+  margin-top: 1.07rem;
+  padding-left: 1.5rem;
+  color: var(--c-dark);
+  background: var(--c-cream);
+  border-radius: var(--r-pill);
+}
+
+.number {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.call {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.4rem;
+  margin-right: 0.3rem;
+  padding: 0 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--c-on-accent);
+  background: linear-gradient(180deg, var(--c-accent-hi), var(--c-accent-lo));
+  border-radius: var(--r-pill);
+  box-shadow: 0 0 0 0.25rem var(--c-halo-cream);
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .call:hover {
+    transform: translateY(-0.125rem);
+  }
+}
+
+:global([data-device='tv']) .call:focus-visible,
+:global([data-device='tv']) .number:focus-visible {
+  outline-color: var(--c-on-dark);
+}
+
+.call:focus-visible,
+.number:focus-visible {
+  outline-color: var(--c-on-dark);
+}
+
+/* Secondary links under the card. */
+.more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.moreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c-body);
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.moreIcon {
+  font-size: 1.125rem;
+}
+
+@media (hover: hover) {
+  .moreLink:hover {
+    color: var(--c-accent-text);
+  }
+}
+
+/* ---------- desktop: the reel's composition (layers absolutely placed on a 1100 x 280 stage) ---------- */
+@media (min-width: 1024px) {
+  .root {
+    padding-block: 3rem 5rem;
+  }
+
+  .stage {
+    height: 17.5rem;
+    padding: 0;
+    text-align: left;
+  }
+
+  .art {
+    position: absolute;
+    bottom: 0.65rem;
+    left: 0;
+    width: 18.5rem;
+    margin: 0;
+  }
+
+  .content {
+    position: absolute;
+    top: 3.2rem;
+    left: 57.5%;
+    justify-items: start;
+    width: 24.5rem;
+  }
+
+  .eyebrow {
+    transform-origin: left bottom;
+  }
+
+  .title {
+    font-size: 2.3125rem;
+  }
+
+  .sparkle {
+    top: 1.1rem;
+    right: 1.3rem;
+  }
+}
+
+:global([data-device='tv']) .moreLink {
+  font-size: 1.0625rem;
+}

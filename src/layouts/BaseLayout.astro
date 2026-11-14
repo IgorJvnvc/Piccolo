@@ -1,0 +1,48 @@
+---
+import { Font } from 'astro:assets';
+import bootstrap from '@/shared/device/bootstrap.inline.js?raw';
+import Seo from '@/shared/seo/Seo.astro';
+import { SkipLink } from '@/shared/ui';
+import '@/styles/tokens.css';
+import '@/styles/reset.css';
+import '@/styles/base.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string | undefined;
+  noindex?: boolean | undefined;
+  siteName: string;
+  jsonLd?: readonly unknown[];
+  image?: string | undefined;
+}
+
+const { title, description, canonical, noindex, siteName, jsonLd = [], image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <!-- Pre-paint: sets html.js + data-device/data-motion before first paint (no layout flash). -->
+    <script is:inline set:html={bootstrap}></script>
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-script" />
+    <Seo title={title} description={description} canonical={canonical} noindex={noindex} siteName={siteName} jsonLd={jsonLd} image={image} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body id="top">
+    <SkipLink />
+    <slot name="header" />
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+    <script>
+      import '@/runtime/boot';
+    </script>
+  </body>
+</html>

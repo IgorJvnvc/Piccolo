@@ -1,0 +1,31 @@
+# build
+dist/
+.astro/
+
+# deps
+node_modules/
+
+# logs
+npm-debug.log*
+*.log
+
+# env
+.env
+.env.*
+!.env.example
+
+# local screenshots / overlays / recordings made by scripts/dev
+.shots/
+
+# test output
+playwright-report/
+test-results/
+coverage/
+.vitest-cache/
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

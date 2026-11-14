@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 272" width="150" height="272" role="img" aria-label="Takeaway drink">
+  <title>Takeaway drink</title>
+  <defs>
+    <linearGradient id="dr-cup" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.55" stop-color="#FBF7F6"/><stop offset="1" stop-color="#EAE3E1"/></linearGradient>
+    <linearGradient id="dr-band" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7B2E"/><stop offset="1" stop-color="#EE600F"/></linearGradient></defs>
+  
+    
+    <line x1="88" y1="64" x2="108" y2="8" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+    <line x1="88" y1="64" x2="108" y2="8" stroke="#E5342A" stroke-width="9" stroke-linecap="round" stroke-dasharray="7 7"/>
+    <path d="M16 78Q16 56 36 56H114Q134 56 134 78Z" fill="#2E2A30"/>
+    <rect x="10" y="72" width="130" height="13" rx="6.5" fill="#443E47"/>
+    <path d="M20 85H130L116 246Q114 262 98 262H52Q36 262 34 246Z" fill="url(#dr-cup)"/>
+    <path d="M23.2 120H126.8L120.8 190H29.2Z" fill="url(#dr-band)"/>
+    <circle cx="75" cy="155" r="21" fill="#fff"/>
+    <text x="75" y="166" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="30" fill="#EE600F">P</text>
+    <path d="M30 96 40 238" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.4"/>
+    <path d="M119 96 109 238" stroke="#000" stroke-width="10" stroke-linecap="round" opacity="0.06"/>
+    <g fill="#fff" opacity="0.7"><circle cx="50" cy="214" r="3"/><circle cx="98" cy="228" r="2.4"/><circle cx="62" cy="238" r="2"/></g>
+</svg>

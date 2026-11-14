@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 210" width="380" height="210" role="img" aria-label="Hot dog with mustard and ketchup">
+  <title>Hot dog with mustard and ketchup</title>
+  <defs>
+    <linearGradient id="hd-bunback" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBAA58"/><stop offset="1" stop-color="#BB7629"/></linearGradient>
+    <linearGradient id="hd-sausage" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CC5733"/><stop offset="1" stop-color="#86241A"/></linearGradient>
+    <linearGradient id="hd-bunfront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAD494"/><stop offset="1" stop-color="#DE9C46"/></linearGradient></defs>
+  
+    
+    <rect x="18" y="66" width="344" height="108" rx="54" fill="url(#hd-bunback)"/>
+    <rect x="2" y="56" width="376" height="56" rx="28" fill="url(#hd-sausage)"/>
+    <rect x="20" y="62" width="340" height="9" rx="4.5" fill="#fff" opacity="0.22"/>
+    <path d="M30 84q14 -16 28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0" fill="none" stroke="#F8CB1F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M44 94q14 -14 28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0" fill="none" stroke="#D4301E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="22" y="100" width="336" height="76" rx="38" fill="url(#hd-bunfront)"/>
+    <path d="M34 110Q190 98 346 110" fill="none" stroke="#FFE9BE" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+    <path d="M40 156Q190 172 340 156" fill="none" stroke="#B97626" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+</svg>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 220" width="340" height="220" role="img" aria-label="Pizza slice with basil and tomatoes">
+  <title>Pizza slice with basil and tomatoes</title>
+  <defs>
+    <linearGradient id="f-pz-cheese" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#FFE585"/><stop offset="1" stop-color="#F2A91B"/></linearGradient>
+    <linearGradient id="f-pz-crust" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3C46C"/><stop offset="1" stop-color="#BF7A28"/></linearGradient>
+    <radialGradient id="f-pz-pep" cx="0.38" cy="0.34" r="0.78"><stop offset="0" stop-color="#EE684D"/><stop offset="0.7" stop-color="#C93A2B"/><stop offset="1" stop-color="#A12619"/></radialGradient><linearGradient id="f-rd-w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C98A58"/><stop offset="0.5" stop-color="#8A5330"/><stop offset="1" stop-color="#4C2C18"/></linearGradient><linearGradient id="f-bs-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#63B94E"/><stop offset="1" stop-color="#2A8139"/></linearGradient><radialGradient id="f-tm-t" cx="0.4" cy="0.35" r="0.8"><stop offset="0" stop-color="#F5705A"/><stop offset="1" stop-color="#C8301F"/></radialGradient></defs>
+  <g transform="translate(300 118) rotate(20) scale(0.9)"><path d="M0-9C6-1 8 4 0 8-8 4-6-1 0-9Z" fill="#D6301F" opacity="0.9"/></g><g transform="translate(150 40) rotate(-20) scale(0.7)"><path d="M0-9C6-1 8 4 0 8-8 4-6-1 0-9Z" fill="#F29A1F" opacity="0.9"/></g><g transform="translate(292 52) rotate(36) scale(0.46 0.46) translate(-50 -65)">
+    <path d="M50 4C84 26 96 64 70 112c-8 12-14 16-20 16s-12-4-20-16C4 64 16 26 50 4Z" fill="url(#f-bs-leaf)"/>
+    <path d="M50 14V122M50 52 34 40M50 52 66 40M50 80 30 66M50 80 70 66" fill="none" stroke="#1F6A2D" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/></g><g transform="translate(150 196) rotate(-48) scale(0.4 0.4) translate(-50 -65)">
+    <path d="M50 4C84 26 96 64 70 112c-8 12-14 16-20 16s-12-4-20-16C4 64 16 26 50 4Z" fill="url(#f-bs-leaf)"/>
+    <path d="M50 14V122M50 52 34 40M50 52 66 40M50 80 30 66M50 80 70 66" fill="none" stroke="#1F6A2D" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/></g><g transform="translate(208 120) rotate(52) scale(0.74 0.74) translate(-120 -125)">
+    <ellipse cx="128" cy="240" rx="94" ry="8" fill="#2b1a10" opacity="0.14"/>
+    <path d="M34 206c-12 16-8 38 4 38 12 0 14-16 10-30Z" fill="url(#f-pz-cheese)"/>
+    <ellipse cx="33" cy="228" rx="3" ry="7.5" fill="#FFF6BD" opacity="0.75"/>
+    <path d="M38 214 84 50Q180 24 207 122Z" fill="url(#f-pz-cheese)"/>
+    <path d="M86 34Q190 6 222 118" fill="none" stroke="url(#f-pz-crust)" stroke-width="30" stroke-linecap="round"/>
+    <path d="M88 25Q188-1 215 106" fill="none" stroke="#FADB9A" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+    <g fill="#B66D1C" opacity="0.5">
+      <circle cx="106" cy="30" r="2.8"/><circle cx="133" cy="29" r="2.6"/><circle cx="153" cy="34" r="3.2"/>
+      <circle cx="172" cy="42" r="2.8"/><circle cx="190" cy="56" r="3.2"/><circle cx="201" cy="72" r="2.8"/><circle cx="212" cy="96" r="2.6"/>
+    </g>
+    
+    <circle cx="118" cy="90" r="19" fill="url(#f-pz-pep)" stroke="#97220F" stroke-width="1.6"/>
+    <circle cx="118" cy="90" r="11.4" fill="none" stroke="#F4907A" stroke-width="1.2" opacity="0.35"/>
+    <circle cx="111.9" cy="83.5" r="2.9" fill="#FFD6CA" opacity="0.75"/>
+    <circle cx="170" cy="114" r="16" fill="url(#f-pz-pep)" stroke="#97220F" stroke-width="1.6"/>
+    <circle cx="170" cy="114" r="9.6" fill="none" stroke="#F4907A" stroke-width="1.2" opacity="0.35"/>
+    <circle cx="164.9" cy="108.6" r="2.4" fill="#FFD6CA" opacity="0.75"/>
+    <circle cx="88" cy="136" r="17" fill="url(#f-pz-pep)" stroke="#97220F" stroke-width="1.6"/>
+    <circle cx="88" cy="136" r="10.2" fill="none" stroke="#F4907A" stroke-width="1.2" opacity="0.35"/>
+    <circle cx="82.6" cy="130.2" r="2.5" fill="#FFD6CA" opacity="0.75"/>
+    <circle cx="122" cy="152" r="12" fill="url(#f-pz-pep)" stroke="#97220F" stroke-width="1.6"/>
+    <circle cx="122" cy="152" r="7.2" fill="none" stroke="#F4907A" stroke-width="1.2" opacity="0.35"/>
+    <circle cx="118.2" cy="147.9" r="1.8" fill="#FFD6CA" opacity="0.75"/>
+    <circle cx="66" cy="186" r="10" fill="url(#f-pz-pep)" stroke="#97220F" stroke-width="1.6"/>
+    <circle cx="66" cy="186" r="6.0" fill="none" stroke="#F4907A" stroke-width="1.2" opacity="0.35"/>
+    <circle cx="62.8" cy="182.6" r="1.5" fill="#FFD6CA" opacity="0.75"/>
+    <g fill="none" stroke="#58AA3A" stroke-width="5" stroke-linecap="round">
+      <path d="M140 60q10 6 8 18"/><path d="M146 132q9 2 12 12"/><path d="M60 98q8-6 16-2"/>
+    </g>
+    <path d="M150 74c12-10 25-4 23 8-2 10-17 14-27 8Z" fill="#3F9B3E"/>
+    <path d="M150 76 168 82" stroke="#2D7A33" stroke-width="1.5" opacity="0.7"/></g><g transform="translate(74 58) rotate(24) scale(1 1) translate(-102 -12)">
+    <path d="M0 0H190L204 5 190 10H0Z" fill="url(#f-rd-w)"/>
+    <path d="M0 14H190L204 19 190 24H0Z" fill="url(#f-rd-w)"/>
+    <path d="M4 2H184" stroke="#F2C894" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+    <path d="M4 16H184" stroke="#F2C894" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/></g><g transform="translate(46 150) rotate(0) scale(0.7 0.7) translate(-30 -30)">
+    <circle cx="30" cy="30" r="28" fill="url(#f-tm-t)"/>
+    <circle cx="30" cy="30" r="20" fill="#F98A74" opacity="0.55"/>
+    <g fill="#FFE9A8"><ellipse cx="30" cy="16" rx="3" ry="5"/><ellipse cx="43" cy="30" rx="5" ry="3"/><ellipse cx="30" cy="44" rx="3" ry="5"/><ellipse cx="17" cy="30" rx="5" ry="3"/></g>
+    <circle cx="30" cy="30" r="4" fill="#E64A33"/></g><g transform="translate(90 196) rotate(40) scale(0.46 0.46) translate(-30 -30)">
+    <circle cx="30" cy="30" r="28" fill="url(#f-tm-t)"/>
+    <circle cx="30" cy="30" r="20" fill="#F98A74" opacity="0.55"/>
+    <g fill="#FFE9A8"><ellipse cx="30" cy="16" rx="3" ry="5"/><ellipse cx="43" cy="30" rx="5" ry="3"/><ellipse cx="30" cy="44" rx="3" ry="5"/><ellipse cx="17" cy="30" rx="5" ry="3"/></g>
+    <circle cx="30" cy="30" r="4" fill="#E64A33"/></g><g transform="translate(250 206) rotate(30) scale(0.8)"><path d="M0-9C6-1 8 4 0 8-8 4-6-1 0-9Z" fill="#D6301F" opacity="0.9"/></g>
+</svg>

@@ -1,0 +1,73 @@
+---
+import { Container, Icon, Logo } from '@/shared/ui';
+import styles from './footer.module.css';
+import type { FooterProps } from './types';
+
+type Props = FooterProps;
+
+const { brand, blurb, columns, address, socials, rights, backToTop } = Astro.props;
+---
+
+<footer id="contact" class={styles.root}>
+  <Container>
+    <div class={styles.grid}>
+      <div class={styles.brand}>
+        <Logo name={brand.name} tagline={brand.tagline} size="footer" />
+        <p class={styles.blurb}>{blurb}</p>
+      </div>
+
+      {
+        columns.map((column) => (
+          <nav class={styles.column} aria-label={column.title}>
+            <h2 class={styles.heading}>{column.title}</h2>
+            <ul class={styles.links}>
+              {column.links.map((link) => (
+                <li>
+                  <a class={styles.link} href={link.href} {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+
+      <div class={styles.column}>
+        <h2 class={styles.heading}>{address.title}</h2>
+        <address class={styles.address}>
+          {address.lines.map((line, index) => (<Fragment>{index > 0 && <br />}{line}</Fragment>))}
+        </address>
+        <p class={styles.hours}>{address.hours}</p>
+      </div>
+    </div>
+  </Container>
+
+  <div class={styles.bar}>
+    <Container class={styles.barInner}>
+      <ul class={styles.socials} role="list">
+        {
+          socials.map((social, index) => (
+            <li>
+              <a
+                class={styles.social}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                data-primary={index === 0 ? '' : undefined}
+              >
+                <Icon name={social.network} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class={styles.rights}>&copy; {rights}</p>
+      <a class={styles.top} href="#top">
+        <span>{backToTop}</span>
+        <Icon name="arrow-down" class={styles.topIcon} />
+      </a>
+    </Container>
+  </div>
+</footer>

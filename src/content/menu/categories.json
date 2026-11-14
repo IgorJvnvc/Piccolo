@@ -1,0 +1,6 @@
+[
+  { "id": "pizza", "title": "Pizza", "blurb": "Stone-baked and made to order", "order": 1 },
+  { "id": "hot-dogs", "title": "Hot Dogs", "blurb": "Grilled franks in toasted buns", "order": 2 },
+  { "id": "sandwiches", "title": "Sandwiches", "blurb": "Stacked, toasted and hearty", "order": 3 },
+  { "id": "drinks", "title": "Drinks", "blurb": "Ice cold and fresh", "order": 4 }
+]

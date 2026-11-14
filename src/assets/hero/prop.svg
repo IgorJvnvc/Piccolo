@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 372" width="640" height="372" role="img" aria-label="Golden pizza cutter">
+  <title>Golden pizza cutter</title>
+  <defs>
+    <linearGradient id="rod" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBD77E"/><stop offset="0.35" stop-color="#E8A93A"/><stop offset="1" stop-color="#A96A14"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3F1F0"/><stop offset="1" stop-color="#8E8A8C"/></linearGradient></defs>
+  
+    <g transform="translate(4 334) rotate(-25.5)">
+      <path d="M0 -10.5L720 -26V-8L0 -1.5Z" fill="url(#rod)"/>
+     <circle cx="0" cy="-6" r="4.5" fill="#F0B94C"/>
+      <path d="M0 1.5L720 8V26L0 10.5Z" fill="url(#rod)"/>
+     <circle cx="0" cy="6" r="4.5" fill="#F0B94C"/>
+      <line x1="92" y1="-14" x2="92" y2="14" stroke="#c9c5c7" stroke-width="3.4" stroke-linecap="round"/>
+      <ellipse cx="92" cy="0" rx="40" ry="12.5" fill="url(#wheel)" stroke="#5f5b5d" stroke-width="1.8"/>
+      <ellipse cx="92" cy="0" rx="31" ry="8" fill="none" stroke="#fff" stroke-opacity="0.6" stroke-width="1.2"/>
+      <ellipse cx="92" cy="0" rx="9" ry="3.6" fill="#5f5b5d"/>
+      <circle cx="92" cy="0" r="2.4" fill="#d9d5d7"/>
+    </g>
+</svg>

@@ -1,0 +1,158 @@
+.root {
+  padding-block: 3rem 4rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.75rem 1.5rem;
+  background: var(--c-surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-card);
+}
+
+.text {
+  max-width: 28rem;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--c-body);
+}
+
+.address,
+.hoursTitle {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--c-ink);
+}
+
+.icon {
+  flex: none;
+  margin-top: 0.125rem;
+  font-size: 1.25rem;
+  color: var(--c-accent-text);
+}
+
+.hours {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.rows {
+  display: grid;
+  gap: 0.375rem;
+  max-width: 24rem;
+  padding-left: 2rem;
+  font-size: 0.875rem;
+  color: var(--c-body);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.375rem;
+  border-bottom: 0.0625rem dashed var(--c-line);
+}
+
+.row dd {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 2rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--c-body);
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--c-faint);
+  border-radius: 50%;
+}
+
+.status[data-open='true'] {
+  color: var(--c-ink);
+}
+
+.status[data-open='true'] .dot {
+  background: var(--c-ok);
+  box-shadow: 0 0 0 0.25rem var(--c-ok-halo);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.map {
+  position: relative;
+  display: block;
+  min-height: 16rem;
+  overflow: hidden;
+  background: var(--c-cream);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-card);
+}
+
+.map img {
+  width: 100%;
+  height: 100%;
+  min-height: 16rem;
+  object-fit: cover;
+  transition: transform var(--dur-4) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .map:hover img {
+    transform: scale(1.04);
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .root {
+    padding-block: 4rem 5rem;
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .card {
+    padding: 3rem;
+  }
+
+  .map img {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+:global([data-device='tv']) .text,
+:global([data-device='tv']) .rows {
+  font-size: 1.0625rem;
+}

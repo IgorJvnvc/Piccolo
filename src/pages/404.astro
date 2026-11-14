@@ -1,0 +1,17 @@
+---
+import { container } from '@/composition/container';
+import { buildNotFoundPage } from '@/composition/not-found';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Footer } from '@/sections/footer';
+import { Navbar } from '@/sections/navbar';
+import { NotFound } from '@/sections/not-found';
+import { env } from '@/shared/config';
+
+const page = await buildNotFoundPage(container, env.siteUrl);
+---
+
+<BaseLayout {...page.seo}>
+  <Navbar slot="header" {...page.navbar} />
+  <NotFound {...page.notFound} />
+  <Footer slot="footer" {...page.footer} />
+</BaseLayout>

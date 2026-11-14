@@ -1,0 +1,82 @@
+import { classify } from './classify';
+import { probe } from './probe';
+import type { Capabilities } from './types';
+
+export type CapabilitiesListener = (caps: Capabilities) => void;
+
+export interface CapabilitiesStore {
+  get(): Capabilities;
+  subscribe(listener: CapabilitiesListener): () => void;
+  destroy(): void;
+}
+
+const MEDIA_QUERIES = [
+  '(prefers-reduced-motion: reduce)',
+  '(hover: hover)',
+  '(pointer: fine)',
+  '(pointer: coarse)',
+] as const;
+
+const same = (a: Capabilities, b: Capabilities): boolean =>
+  a.device === b.device &&
+  a.motion === b.motion &&
+  a.pointer === b.pointer &&
+  a.hover === b.hover &&
+  a.reducedMotion === b.reducedMotion &&
+  a.saveData === b.saveData &&
+  a.lowEnd === b.lowEnd;
+
+/**
+ * Live capabilities. Re-classifies on resize (debounced) and when the relevant media queries change
+ * (e.g. the user toggles "reduce motion" or docks a tablet).
+ */
+export function createCapabilitiesStore(win: Window): CapabilitiesStore {
+  let current = classify(probe(win));
+  const listeners = new Set<CapabilitiesListener>();
+  const lifetime = new AbortController();
+  let timer: number | undefined;
+
+  const refresh = (): void => {
+    const next = classify(probe(win));
+    if (same(current, next)) {
+      current = next; // width may have changed; keep the freshest snapshot without notifying
+      return;
+    }
+    current = next;
+    listeners.forEach((listener) => listener(next));
+  };
+
+  win.addEventListener(
+    'resize',
+    () => {
+      win.clearTimeout(timer);
+      timer = win.setTimeout(refresh, 150);
+    },
+    { signal: lifetime.signal, passive: true },
+  );
+
+  for (const query of MEDIA_QUERIES) {
+    win.matchMedia(query).addEventListener('change', refresh, { signal: lifetime.signal });
+  }
+
+  return {
+    get: () => current,
+    subscribe(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    destroy() {
+      win.clearTimeout(timer);
+      lifetime.abort();
+      listeners.clear();
+    },
+  };
+}
+
+/** Mirrors capabilities onto <html data-*> so CSS can react (no class churn). */
+export function applyToDocument(doc: Document, caps: Capabilities): void {
+  const root = doc.documentElement;
+  root.setAttribute('data-device', caps.device);
+  root.setAttribute('data-motion', caps.motion);
+  root.setAttribute('data-pointer', caps.pointer);
+}

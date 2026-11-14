@@ -1,0 +1,1 @@
+export { createImageResolver } from './catalog';

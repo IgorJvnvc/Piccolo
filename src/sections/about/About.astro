@@ -1,0 +1,42 @@
+---
+import { enhanceAttr, partAttr } from '@/shared/lib';
+import { Container, Icon, Picture } from '@/shared/ui';
+import { ABOUT } from './about.hooks';
+import styles from './about.module.css';
+import type { AboutProps } from './types';
+
+type Props = AboutProps;
+
+const { eyebrow, title, text, cta, art } = Astro.props;
+---
+
+<section id="about" class={styles.root} aria-labelledby="about-title" {...enhanceAttr(ABOUT.name)}>
+  <Container class={styles.container}>
+    <div class={styles.media}>
+      <div class={styles.glow} aria-hidden="true"></div>
+      <Picture class={styles.contour} image={art.contour} alt="" />
+      <div class={styles.cluster} data-reveal="fade" {...partAttr(ABOUT.parts.cluster)}>
+        <Picture image={art.cluster} alt="" sizes="(min-width: 1024px) 34rem, 90vw" />
+      </div>
+    </div>
+
+    <div class={styles.copy}>
+      <p class={styles.eyebrow} data-reveal="up" {...partAttr(ABOUT.parts.item)}>{eyebrow}</p>
+      <h2 class={styles.title} id="about-title" data-reveal="up" {...partAttr(ABOUT.parts.item)}>
+        <span>{title[0]}</span>
+        <svg class={styles.target} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle class={styles.targetHalo} cx="12" cy="12" r="11"></circle>
+          <circle class={styles.targetRing} cx="12" cy="12" r="7.6"></circle>
+          <circle class={styles.targetCore} cx="12" cy="12" r="2.6"></circle>
+        </svg>
+        <br />
+        <span>{title[1]}</span>
+      </h2>
+      <p class={styles.text} data-reveal="up" {...partAttr(ABOUT.parts.item)}>{text}</p>
+      <a class={styles.explore} href={cta.href} data-reveal="up" {...partAttr(ABOUT.parts.item)}>
+        <span class={styles.play}><Icon name="play" /></span>
+        <span class={styles.exploreLabel}>{cta.label}</span>
+      </a>
+    </div>
+  </Container>
+</section>

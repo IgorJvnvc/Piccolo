@@ -1,0 +1,62 @@
+---
+import { enhanceAttr } from '@/shared/lib';
+import { Button, Container, Icon, Picture, VisuallyHidden } from '@/shared/ui';
+import { HERO } from './hero.hooks';
+import styles from './hero.module.css';
+import type { HeroProps } from './types';
+
+type Props = HeroProps;
+
+const { title, text, cta, scrollLabel, scrollHref, art } = Astro.props;
+const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
+---
+
+<section class={styles.root} aria-labelledby="hero-title" {...enhanceAttr(HERO.name)}>
+  <div class={styles.glow} aria-hidden="true"></div>
+
+  <!-- Art stage: every child is positioned in % of this box, so it scales as one composition. -->
+  <div class={styles.art} aria-hidden="true">
+    <Picture class={`${styles.item} ${styles.prop}`} image={art.prop} alt="" loading="eager" />
+    <Picture class={`${styles.item} ${styles.slab}`} image={art.slab} alt="" loading="eager" />
+    <Picture class={`${styles.item} ${styles.drink}`} image={art.drink} alt="" loading="eager" />
+    <Picture class={`${styles.item} ${styles.sandwich}`} image={art.sandwich} alt="" loading="eager" />
+    <Picture class={`${styles.item} ${styles.hotdog}`} image={art.hotdog} alt="" loading="eager" />
+    <Picture class={`${styles.item} ${styles.pizza}`} image={art.pizza} alt="" loading="eager" />
+  </div>
+
+  <Container class={styles.container}>
+    <div class={styles.copy}>
+      <h1 class={styles.title} id="hero-title">
+        <span class={styles.line}>{title[0]}</span>
+        <span class={styles.line}>
+          <svg class={styles.badge} viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <circle class={styles.badgeDisc} cx="24" cy="24" r="24"></circle>
+            <circle class={styles.badgeRing} cx="24" cy="24" r="9.5"></circle>
+            <circle class={styles.badgeCore} cx="24" cy="24" r="3.4"></circle>
+            <path class={styles.badgeTick} d="M9 14.5l5.2 4.4M10.6 11l5.2 4.4M39 33.5l-5.2-4.4M37.4 37l-5.2-4.4"></path>
+          </svg>
+          {title[1]}
+        </span>
+      </h1>
+      <p class={styles.text}>{text}</p>
+      <div class={styles.cta}>
+        <Button class={styles.button} href={cta.href} label={cta.label} icon="arrow-right" />
+      </div>
+    </div>
+  </Container>
+
+  <a class={styles.scroll} href={scrollHref}>
+    <VisuallyHidden text={scrollLabel} />
+    <svg class={styles.ring} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <defs>
+        <path id="hero-ring" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"></path>
+      </defs>
+      <text class={styles.ringText}>
+        <textPath href="#hero-ring" textLength="236" lengthAdjust="spacing">{ringText}</textPath>
+      </text>
+    </svg>
+    <span class={styles.knob}>
+      <Icon name="arrow-down" />
+    </span>
+  </a>
+</section>

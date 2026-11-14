@@ -1,0 +1,184 @@
+/* Footer: four columns at the reel's measured positions, then a bar with socials / copyright / back to top. */
+.root {
+  background: var(--c-surface);
+  border-top: 0.0625rem solid var(--c-line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 1.5rem;
+  padding-block: 3.5rem 2.5rem;
+}
+
+.brand {
+  grid-column: 1 / -1;
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  max-width: 20rem;
+}
+
+.blurb {
+  max-width: 12.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: var(--c-body);
+}
+
+.heading {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.links {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.link {
+  display: inline-block;
+  padding-block: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--c-body);
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    color: var(--c-accent-text);
+  }
+}
+
+.address {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: 1.7;
+  color: var(--c-body);
+}
+
+.hours {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.bar {
+  border-top: 0.0625rem solid var(--c-line);
+}
+
+.barInner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-items: center;
+  padding-block: 1.5rem;
+}
+
+.socials {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1rem;
+  color: var(--c-body);
+  background: var(--c-line);
+  border-radius: 50%;
+  transition:
+    color var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+}
+
+.social[data-primary] {
+  color: var(--c-on-accent);
+  background: var(--c-accent);
+}
+
+@media (hover: hover) {
+  .social:hover {
+    color: var(--c-on-accent);
+    background: var(--c-accent);
+    transform: translateY(-0.125rem);
+  }
+}
+
+.rights {
+  font-size: 0.75rem;
+  color: var(--c-body);
+  text-align: center;
+}
+
+.top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.topIcon {
+  font-size: 1rem;
+  transform: rotate(180deg);
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .top:hover .topIcon {
+    transform: rotate(180deg) translateY(0.25rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .brand {
+    grid-column: auto;
+  }
+
+  .barInner {
+    grid-template-columns: 1fr auto 1fr;
+    justify-items: start;
+  }
+
+  .top {
+    justify-self: end;
+  }
+}
+
+/* Desktop: column starts follow the reel (171 / 497 / 744 / 1013 on the 1440 artboard). */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 20.375rem 15.4375rem 16.8125rem minmax(0, 1fr);
+    gap: 0;
+    padding: 4.8rem 0 2.9rem 2.125rem;
+  }
+
+  .link {
+    padding-block: 0.25rem;
+  }
+
+  .barInner {
+    padding-block: 1.25rem;
+    padding-inline: max(var(--gutter) - 1.3rem, 1.5rem);
+  }
+}
+
+:global([data-device='tv']) .link,
+:global([data-device='tv']) .address,
+:global([data-device='tv']) .blurb {
+  font-size: 1rem;
+}

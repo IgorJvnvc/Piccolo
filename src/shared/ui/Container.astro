@@ -1,0 +1,13 @@
+---
+import styles from './container.module.css';
+
+export interface Props {
+  class?: string | undefined;
+  /** Rendered element. */
+  as?: 'div' | 'section' | 'header' | 'footer' | 'nav';
+}
+
+const { class: className, as: Tag = 'div', ...rest } = Astro.props;
+---
+
+<Tag class:list={[styles.root, className]} {...rest}><slot /></Tag>

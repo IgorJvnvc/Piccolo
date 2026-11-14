@@ -1,0 +1,27 @@
+---
+import { buildHomePage } from '@/composition/home';
+import { container } from '@/composition/container';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { About } from '@/sections/about';
+import { Follow } from '@/sections/follow';
+import { Footer } from '@/sections/footer';
+import { Hero } from '@/sections/hero';
+import { Menu } from '@/sections/menu';
+import { Navbar } from '@/sections/navbar';
+import { Popular } from '@/sections/popular';
+import { Visit } from '@/sections/visit';
+import { env } from '@/shared/config';
+
+const page = await buildHomePage(container, env.siteUrl);
+---
+
+<BaseLayout {...page.seo}>
+  <Navbar slot="header" {...page.navbar} />
+  <Hero {...page.hero} />
+  <About {...page.about} />
+  <Popular {...page.popular} />
+  <Menu {...page.menu} />
+  <Follow {...page.follow} />
+  <Visit {...page.visit} />
+  <Footer slot="footer" {...page.footer} />
+</BaseLayout>

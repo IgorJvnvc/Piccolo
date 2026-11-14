@@ -1,0 +1,36 @@
+{
+  "main": {
+    "name": "Piccolo",
+    "tagline": "Pizza · Hot dogs · Drinks",
+    "description": "Piccolo serves fresh pizza, juicy hot dogs, stacked sandwiches and ice-cold drinks, made to order and served fast.",
+    "locale": "en-IE",
+    "currency": "EUR",
+    "contact": {
+      "phone": "+00 000 000 0000",
+      "email": "hello@piccolo.example",
+      "whatsapp": "https://wa.me/00000000000"
+    },
+    "address": {
+      "lines": ["123 Placeholder Street", "Your City, 00000"],
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Piccolo"
+    },
+    "hours": {
+      "timezone": "UTC",
+      "weekly": {
+        "mon": { "open": "09:00", "close": "23:00" },
+        "tue": { "open": "09:00", "close": "23:00" },
+        "wed": { "open": "09:00", "close": "23:00" },
+        "thu": { "open": "09:00", "close": "23:00" },
+        "fri": { "open": "09:00", "close": "23:00" },
+        "sat": { "open": "09:00", "close": "23:00" },
+        "sun": { "open": "09:00", "close": "23:00" }
+      }
+    },
+    "socials": [
+      { "network": "instagram", "label": "Instagram", "href": "https://www.instagram.com/piccolo" },
+      { "network": "facebook", "label": "Facebook", "href": "https://www.facebook.com/piccolo" },
+      { "network": "tiktok", "label": "TikTok", "href": "https://www.tiktok.com/@piccolo" },
+      { "network": "whatsapp", "label": "WhatsApp", "href": "https://wa.me/00000000000" }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "piccolo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Piccolo: marketing landing page (pizza, hot dogs, sandwiches, drinks).",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint .",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "arch": "depcruise src tests --config .dependency-cruiser.cjs",
+    "knip": "knip --no-progress",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "html": "html-validate \"dist/**/*.html\"",
+    "size": "size-limit",
+    "verify": "npm run check && npm run lint && npm run lint:css && npm run arch && npm run knip && npm run test && npm run build && npm run html && npm run size",
+    "verify:all": "npm run verify && npm run test:e2e",
+    "art": "node scripts/art/generate.mjs",
+    "shoot": "node scripts/dev/shoot.mjs"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^6.1.5",
+    "astro": "^7.4.11",
+    "gsap": "^3.15.1",
+    "lenis": "^1.3.27",
+    "motion": "^14.14.0",
+    "preact": "^11.2.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.0",
+    "@size-limit/file": "^14.3.0",
+    "@types/node": "^26.6.6",
+    "dependency-cruiser": "^18.7.2",
+    "eslint": "^10.14.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-astro": "^3.2.1",
+    "eslint-plugin-boundaries": "^7.4.3",
+    "eslint-plugin-jsx-a11y-x": "^0.2.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "happy-dom": "^21.0.4",
+    "html-validate": "^11.21.1",
+    "knip": "^6.45.1",
+    "size-limit": "^14.3.0",
+    "stylelint": "^18.0.0",
+    "stylelint-config-recommended": "^19.0.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  }
+}

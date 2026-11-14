@@ -1,0 +1,56 @@
+---
+import { enhanceAttr, partAttr } from '@/shared/lib';
+import { Container, Icon, Picture } from '@/shared/ui';
+import { FOLLOW } from './follow.hooks';
+import styles from './follow.module.css';
+import type { FollowProps } from './types';
+
+type Props = FollowProps;
+
+const { eyebrow, title, phone, callLabel, links, art } = Astro.props;
+---
+
+<section id="offers" class={styles.root} aria-labelledby="follow-title" {...enhanceAttr(FOLLOW.name)}>
+  <Container>
+    <!--
+      Layers are siblings (not children) of the dark card, so the art and text are NOT clipped while the
+      card expands: they spread outward from the center and settle into place (as in the reel).
+    -->
+    <div class={styles.stage} data-state="idle" {...partAttr(FOLLOW.parts.stage)}>
+      <div class={styles.bg} {...partAttr(FOLLOW.parts.bg)}></div>
+
+      <div class={styles.art} {...partAttr(FOLLOW.parts.art)}>
+        <Picture image={art} alt="" sizes="(min-width: 1024px) 18.5rem, 60vw" />
+      </div>
+
+      <svg class={styles.sparkle} viewBox="0 0 24 24" aria-hidden="true" focusable="false" {...partAttr(FOLLOW.parts.sparkle)}>
+        <path d="M5 4.5l9 5.5M8 1.5l7.5 4.5M3.5 9l5 3"></path>
+      </svg>
+
+      <div class={styles.content} {...partAttr(FOLLOW.parts.content)}>
+        <p class={styles.eyebrow}>{eyebrow}</p>
+        <h2 class={styles.title} id="follow-title">{title[0]}<br />{title[1]}</h2>
+        <div class={styles.pill}>
+          <a class={styles.number} href={phone.href}>{phone.display}</a>
+          <a class={styles.call} href={phone.href}>
+            <span>{callLabel}</span>
+            <Icon name="phone" />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <ul class={styles.more} role="list">
+      {
+        links.map((link) => (
+          <li>
+            <a class={styles.moreLink} href={link.href} target="_blank" rel="noopener noreferrer">
+              <Icon name={link.network} class={styles.moreIcon} />
+              <span>{link.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>

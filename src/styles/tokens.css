@@ -1,0 +1,114 @@
+/*
+ * Design tokens. The ONLY place raw colors, radii, shadows and easings are defined.
+ * Components consume them via var(--…); stylelint rejects raw hex/rgb outside this file.
+ *
+ * Sizing model: all lengths are rem. At >=1024px the root font-size follows the viewport
+ * (see base.css), so the layout scales like the 1440px artboard it was measured from.
+ */
+:root {
+  /* palette (measured from the reference reel) */
+  --c-accent: #fb6917;
+  --c-accent-hi: #ff7d31;
+  --c-accent-lo: #ed600f;
+  --c-accent-text: #b8420a; /* small accent text on light/peach surfaces: >= 4.5:1 */
+  --c-accent-soft: #feebe2; /* peach glow */
+  --c-gold: #e9b44c;
+  --c-ok: #1f9d55;
+  --c-red: #e5342a;
+  --c-bg: #fdfafb;
+  --c-surface: #fefefe;
+  --c-ink: #232124;
+  --c-body: #6a686f; /* >= 4.5:1 on the page and on the peach glow */
+  --c-faint: #b4b1b3;
+  --c-line: #efe9eb;
+  --c-dark: #271b25;
+  --c-on-dark: #ffffff;
+  --c-on-accent: #ffffff;
+  --c-cream: #f1e8e4;
+  --c-focus: var(--c-ink);
+  --c-scrim: rgb(35 33 36 / 0.45);
+  --c-glass: rgb(253 250 251 / 0.84);
+  --c-ring-on-dark: rgb(255 255 255 / 0.28); /* hairline ring around round buttons on dark surfaces */
+  --c-halo-cream: rgb(241 232 228 / 0.5); /* soft halo around light pills on dark cards */
+  --c-ok-halo: rgb(31 157 85 / 0.18); /* "open now" status dot halo */
+
+  /* peach glow steps (hero + about backgrounds) */
+  --c-glow-1: rgb(254 235 226 / 1);
+  --c-glow-2: rgb(254 235 226 / 0.55);
+  --c-glow-3: rgb(254 235 226 / 0);
+
+  /* radii */
+  --r-sm: 0.5rem;
+  --r-md: 1rem;
+  --r-card: 1.125rem;
+  --r-xl: 2rem;
+  --r-pill: 62.5rem;
+
+  /* shadows */
+  --sh-cta: 0 0.625rem 1.5rem -0.375rem rgb(251 105 23 / 0.55);
+  --sh-cta-hover: 0 0.875rem 1.75rem -0.375rem rgb(251 105 23 / 0.6);
+  --sh-card: 0 1.25rem 2.5rem -1.75rem rgb(39 27 37 / 0.22);
+  --sh-card-hover: 0 1.75rem 3rem -1.5rem rgb(39 27 37 / 0.3);
+  --sh-dark: 0 2.5rem 4.5rem -1.25rem rgb(39 27 37 / 0.5);
+  --sh-bar: 0 0.75rem 2rem -1rem rgb(35 33 36 / 0.25);
+
+  /* drop-shadow filters for cut-out art (tokens so components never hold raw colors) */
+  --fx-item: drop-shadow(0 0.875rem 0.875rem rgb(39 27 37 / 0.16));
+  --fx-cluster: drop-shadow(0 1.25rem 1.25rem rgb(39 27 37 / 0.12));
+  --fx-slab-item: drop-shadow(0 0.75rem 0.6rem rgb(0 0 0 / 0.4));
+  --fx-prop: drop-shadow(0 1rem 0.9rem rgb(112 60 14 / 0.3));
+  --fx-on-dark: drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.35));
+  --fx-knob: drop-shadow(0 0.5rem 0.75rem rgb(35 33 36 / 0.45));
+
+  /* spacing */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8rem;
+
+  /* layout */
+  --content-max: 90rem;
+  --gutter: 1.25rem;
+  --nav-h: 4.5rem;
+
+  /* motion */
+  --dur-1: 0.18s;
+  --dur-2: 0.35s;
+  --dur-3: 0.6s;
+  --dur-4: 0.9s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* quint-out, GSAP power4.out */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out */
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1); /* cubic-out */
+
+  /* stacking */
+  --z-hero-art: 1;
+  --z-hero-copy: 2;
+  --z-nav: 50;
+  --z-overlay: 80;
+  --z-modal: 90;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2.5rem;
+    --nav-h: 5.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 9.5vw;
+    --nav-h: 7.875rem;
+  }
+}
+
+/* TV: 10-foot UI. Larger focus ring, safe-area margins. */
+[data-device='tv'] {
+  --gutter: max(5vw, 3rem);
+}

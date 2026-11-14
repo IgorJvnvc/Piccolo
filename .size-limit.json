@@ -1,0 +1,38 @@
+[
+  {
+    "name": "HTML (index, with inlined CSS)",
+    "path": "dist/index.html",
+    "limit": "24 kB",
+    "gzip": true
+  },
+  {
+    "name": "Boot runtime + scroll scenes",
+    "path": "dist/_astro/BaseLayout*.js",
+    "limit": "7.5 kB",
+    "gzip": true
+  },
+  {
+    "name": "GSAP + ScrollTrigger (lazy, scroll scenes only)",
+    "path": ["dist/_astro/gsap.*.js", "dist/_astro/ScrollTrigger.*.js"],
+    "limit": "48 kB",
+    "gzip": true
+  },
+  {
+    "name": "Lenis (smooth scroll, desktop only)",
+    "path": "dist/_astro/lenis.*.js",
+    "limit": "6.5 kB",
+    "gzip": true
+  },
+  {
+    "name": "Motion features (menu island)",
+    "path": "dist/_astro/motion-features.*.js",
+    "limit": "36 kB",
+    "gzip": true
+  },
+  {
+    "name": "All JavaScript",
+    "path": "dist/_astro/*.js",
+    "limit": "135 kB",
+    "gzip": true
+  }
+]

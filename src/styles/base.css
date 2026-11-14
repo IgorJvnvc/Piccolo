@@ -1,0 +1,98 @@
+/*
+ * Global base: root sizing, body, focus, reveal protocol, Lenis support.
+ * Component styling lives in CSS Modules next to each component.
+ */
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) * 0.7);
+  background: var(--c-bg);
+}
+
+/* Desktop+: the root size follows the viewport, scaled from the 1440px artboard (1440px = 16px). */
+@media (min-width: 1024px) {
+  html {
+    font-size: clamp(87%, 1.1111vw, 280%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* No motion: jump every animation/transition to its end state (keeps final styles). */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--c-ink);
+  background: var(--c-bg);
+  overflow-x: clip;
+}
+
+::selection {
+  color: var(--c-on-accent);
+  background: var(--c-accent);
+}
+
+/*
+ * Decorative layers (glows, art mid-animation) may extend past the viewport; clipping the page body
+ * keeps every device from gaining a horizontal scrollbar or a widened mobile layout viewport.
+ */
+main {
+  overflow-x: clip;
+}
+
+:focus-visible {
+  outline: 0.1875rem solid var(--c-focus);
+  outline-offset: 0.25rem;
+}
+
+[data-device='tv'] :focus-visible {
+  outline-width: 0.3125rem;
+  outline-offset: 0.375rem;
+}
+
+/*
+ * Reveal protocol. Elements marked data-reveal start hidden ONLY while enhancement is active.
+ * Scenes animate them, then set data-revealed. If boot fails, html.no-enhance shows everything.
+ */
+html.js:not(.no-enhance)[data-motion='full'] [data-reveal]:not([data-revealed]),
+html.js:not(.no-enhance)[data-motion='lite'] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+}
+
+html.js:not(.no-enhance)[data-motion='full'] [data-reveal='up']:not([data-revealed]) {
+  transform: translate3d(0, 1.5rem, 0);
+}
+
+/* Lenis (desktop smooth scroll) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Modal surfaces (mobile menu, quick view) freeze the page behind them. */
+html[data-scroll-lock] {
+  overflow: hidden;
+}

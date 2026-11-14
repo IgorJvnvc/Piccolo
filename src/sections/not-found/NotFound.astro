@@ -1,0 +1,26 @@
+---
+import { Button, Container, Picture } from '@/shared/ui';
+import styles from './not-found.module.css';
+import type { NotFoundProps } from './types';
+
+type Props = NotFoundProps;
+
+const { title, text, homeLabel, homeHref, callLabel, phone, art } = Astro.props;
+---
+
+<section class={styles.root} aria-labelledby="not-found-title">
+  <Container class={styles.inner}>
+    <div class={styles.copy}>
+      <p class={styles.code}>404</p>
+      <h1 class={styles.title} id="not-found-title">{title}</h1>
+      <p class={styles.text}>{text}</p>
+      <div class={styles.actions}>
+        <Button href={homeHref} label={homeLabel} icon="arrow-right" />
+        <Button href={phone.href} label={callLabel} variant="ghost" icon="phone" />
+      </div>
+    </div>
+    <div class={styles.art} aria-hidden="true">
+      <Picture class={styles.picture} imgClass={styles.image} image={art} alt="" sizes="(min-width: 1024px) 24rem, 60vw" loading="eager" />
+    </div>
+  </Container>
+</section>

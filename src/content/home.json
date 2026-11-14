@@ -1,0 +1,70 @@
+{
+  "main": {
+    "seo": {
+      "title": "Piccolo | Fresh pizza, hot dogs, sandwiches & drinks",
+      "description": "Piccolo serves fresh pizza, juicy hot dogs, stacked sandwiches and ice-cold drinks, made to order and served fast. See the menu and find us."
+    },
+    "nav": {
+      "links": [
+        { "label": "Menu", "href": "#menu" },
+        { "label": "Offers", "href": "#offers" },
+        { "label": "Find Us", "href": "#visit" },
+        { "label": "Contact", "href": "#contact" }
+      ],
+      "callLabel": "Call us"
+    },
+    "hero": {
+      "title": ["Enjoy Delicious", "Fast Food"],
+      "text": "Fresh pizza, juicy hot dogs, stacked sandwiches and ice-cold drinks, made to order and served fast.",
+      "cta": { "label": "View Menu", "href": "#menu" },
+      "scrollLabel": "Scroll down"
+    },
+    "about": {
+      "eyebrow": "About us",
+      "title": ["We Serve", "Fresh Food"],
+      "text": "Everything at Piccolo starts with simple, honest ingredients: dough made daily, sauces cooked in small batches and toppings picked for flavour. A small place with a big taste, always served fast.",
+      "cta": { "label": "Explore More", "href": "#menu" }
+    },
+    "popular": { "title": "Popular Picks" },
+    "menu": {
+      "eyebrow": "Fresh every day",
+      "title": "Our Menu",
+      "intro": "Pick a category and take a look. Tap the arrow on any dish for sizes and allergens."
+    },
+    "follow": {
+      "eyebrow": "Stay in touch",
+      "title": ["Follow us for", "Fresh Offers"],
+      "callLabel": "Call now",
+      "whatsappLabel": "Message us on WhatsApp",
+      "instagramLabel": "Follow us on Instagram"
+    },
+    "visit": {
+      "eyebrow": "Come hungry",
+      "title": "Find Us",
+      "text": "Walk in, order at the counter and grab a seat, or take it to go. We are open every day.",
+      "directionsLabel": "Get directions",
+      "hoursTitle": "Opening hours"
+    },
+    "notFound": {
+      "title": "This page is off the menu",
+      "text": "The page you are looking for does not exist or has moved. Head back to the menu, or give us a call and we will sort you out.",
+      "homeLabel": "Back to the menu"
+    },
+    "footer": {
+      "blurb": "Fresh pizza, hot dogs, sandwiches and cold drinks. A small place with a big taste.",
+      "columns": [
+        {
+          "title": "Main Menu",
+          "links": [
+            { "label": "About", "href": "#about" },
+            { "label": "Menu", "href": "#menu" },
+            { "label": "Offers", "href": "#offers" },
+            { "label": "Find Us", "href": "#visit" }
+          ]
+        }
+      ],
+      "addressTitle": "Address",
+      "rights": "All rights reserved."
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "hero.section": {
+    "left": 0,
+    "top": 0,
+    "width": 1253,
+    "height": 712
+  },
+  "hero.title": {
+    "left": 119,
+    "top": 194.2,
+    "width": 473.3,
+    "height": 125.3
+  },
+  "hero.cta": {
+    "left": 119,
+    "top": 408,
+    "width": 149,
+    "height": 37.4
+  },
+  "about.section": {
+    "left": 0,
+    "top": 0,
+    "width": 1253,
+    "height": 465.4
+  },
+  "about.title": {
+    "left": 771.6,
+    "top": 114,
+    "width": 389.8,
+    "height": 115
+  },
+  "about.cta": {
+    "left": 771.6,
+    "top": 352.3,
+    "width": 133.1,
+    "height": 43.5
+  },
+  "popular.section": {
+    "left": 0,
+    "top": 0,
+    "width": 1253,
+    "height": 589.2
+  },
+  "popular.title": {
+    "left": 499.7,
+    "top": 111.4,
+    "width": 253.6,
+    "height": 45.9
+  },
+  "popular.card.0": {
+    "left": 207.1,
+    "top": 204.6,
+    "width": 261,
+    "height": 315
+  },
+  "popular.card.1": {
+    "left": 496,
+    "top": 204.6,
+    "width": 261,
+    "height": 315
+  },
+  "popular.card.2": {
+    "left": 784.8,
+    "top": 204.6,
+    "width": 261,
+    "height": 315
+  },
+  "follow.section": {
+    "left": 0,
+    "top": 0,
+    "width": 1253,
+    "height": 414.2
+  },
+  "follow.card": {
+    "left": 149.7,
+    "top": 41.8,
+    "width": 953.7,
+    "height": 243.6
+  },
+  "follow.title": {
+    "left": 698,
+    "top": 115,
+    "width": 189.6,
+    "height": 76.6
+  },
+  "footer.section": {
+    "left": 0,
+    "top": 0,
+    "width": 1253,
+    "height": 327
+  },
+  "footer.heading.0": {
+    "left": 432.3,
+    "top": 67.8,
+    "width": 214.9,
+    "height": 19.6
+  },
+  "footer.heading.1": {
+    "left": 647.2,
+    "top": 67.8,
+    "width": 234.1,
+    "height": 19.6
+  },
+  "footer.heading.2": {
+    "left": 881.3,
+    "top": 67.8,
+    "width": 252.7,
+    "height": 19.6
+  }
+}

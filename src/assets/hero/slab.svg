@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 430" width="640" height="430" role="img" aria-label="Dark serving slab">
+  <title>Dark serving slab</title>
+  <defs>
+    <linearGradient id="slab-top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#232022"/><stop offset="0.55" stop-color="#2c2729"/><stop offset="1" stop-color="#171415"/>
+    </linearGradient>
+    <linearGradient id="slab-edge-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4d4649"/><stop offset="1" stop-color="#1f1b1d"/></linearGradient>
+    <linearGradient id="slab-edge-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#312c2e"/><stop offset="1" stop-color="#121011"/></linearGradient>
+    <linearGradient id="slab-gloss" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.13"/><stop offset="0.5" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="slab-blur" x="-20%" y="-30%" width="140%" height="190%"><feGaussianBlur stdDeviation="14"/></filter></defs>
+  <g transform="translate(30 24)">
+    <polygon points="22,235 443,38 577,152 156,363" fill="#5a2a14" opacity="0.26" filter="url(#slab-blur)"/>
+    <polygon points="4,201 138,315 138,324 4,210" fill="url(#slab-edge-l)" stroke="url(#slab-edge-l)" stroke-width="6" stroke-linejoin="round"/>
+    <polygon points="138,315 559,118 559,127 138,324" fill="url(#slab-edge-r)" stroke="url(#slab-edge-r)" stroke-width="6" stroke-linejoin="round"/>
+    <polygon points="4,201 425,4 559,118 138,315" fill="url(#slab-top)" stroke="url(#slab-top)" stroke-width="10" stroke-linejoin="round"/>
+    <polygon points="4,201 425,4 559,118 138,315" fill="url(#slab-gloss)"/>
+    <polyline points="4,201 138,315 559,118" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.6" stroke-linejoin="round"/></g>
+</svg>

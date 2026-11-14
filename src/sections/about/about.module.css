@@ -1,0 +1,156 @@
+.root {
+  position: relative;
+  padding-block: 4rem 3rem;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.media {
+  position: relative;
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+.glow {
+  position: absolute;
+  inset: -5rem -4rem;
+  z-index: -1;
+  background: radial-gradient(34rem 24rem at 42% 52%, var(--c-glow-2) 0%, var(--c-glow-3) 70%);
+  pointer-events: none;
+}
+
+.contour {
+  position: absolute;
+  top: -3%;
+  left: 6%;
+  width: 28%;
+  max-width: 10.75rem;
+  opacity: 0.95;
+}
+
+.cluster {
+  position: relative;
+}
+
+.cluster img {
+  width: 100%;
+  height: auto;
+  filter: var(--fx-cluster);
+}
+
+.copy {
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+.eyebrow {
+  font-family: var(--font-script);
+  font-size: 1.5625rem;
+  line-height: 1;
+  color: var(--c-accent-text);
+  transform-origin: left bottom;
+}
+
+.title {
+  margin-top: 0.625rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 9vw, 3.125rem);
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: var(--c-ink);
+}
+
+.target {
+  display: inline-block;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-left: 0.6rem;
+  vertical-align: 0.55em;
+}
+
+.targetHalo {
+  fill: var(--c-accent-soft);
+}
+
+.targetRing {
+  fill: none;
+  stroke: var(--c-red);
+  stroke-width: 2.4;
+}
+
+.targetCore {
+  fill: var(--c-red);
+}
+
+.text {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.85;
+  color: var(--c-body);
+}
+
+.explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-top: 2.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c-accent-text);
+}
+
+.play {
+  display: grid;
+  place-items: center;
+  width: 3.125rem;
+  height: 3.125rem;
+  padding-left: 0.1875rem;
+  font-size: 1.125rem;
+  color: var(--c-on-accent);
+  background: linear-gradient(180deg, var(--c-accent-hi), var(--c-accent-lo));
+  border-radius: 50%;
+  box-shadow: var(--sh-cta);
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .explore:hover .play {
+    transform: scale(1.1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .root {
+    padding-block: 6rem 5rem;
+  }
+
+  .container {
+    grid-template-columns: 64.3% minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .media {
+    max-width: none;
+    margin-inline: -0.75rem 0;
+  }
+
+  .cluster img {
+    width: 31.7rem;
+    max-width: 100%;
+  }
+
+  .copy {
+    margin-inline: 0 -2rem;
+  }
+}
+
+:global([data-device='tv']) .text,
+:global([data-device='tv']) .explore {
+  font-size: 1rem;
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["scripts/**/*.mjs", ".htmlvalidate.cjs"],
+  "project": ["src/**/*.{ts,tsx,astro}", "tests/**/*.ts", "scripts/**/*.mjs", "*.{ts,js,cjs}"],
+  "exclude": ["types", "nsTypes"]
+}

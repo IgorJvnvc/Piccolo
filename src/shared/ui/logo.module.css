@@ -1,0 +1,42 @@
+.root {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4375rem;
+  line-height: 1;
+}
+
+.name {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--c-ink);
+}
+
+.tagline {
+  font-size: 0.4375rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--c-accent-text);
+  white-space: nowrap;
+}
+
+.footer {
+  align-items: flex-start;
+}
+
+.footer .name {
+  font-size: 1.4375rem;
+}
+
+@media (max-width: 1023px) {
+  .tagline {
+    font-size: 0.5rem;
+  }
+}
+
+:global([data-device='tv']) .tagline {
+  font-size: 0.625rem;
+}
