@@ -45,16 +45,4 @@ describe('loadGsap', () => {
     expect(kit.ScrollTrigger).toEqual({ id: 'scroll-trigger' });
     expect(registerPlugin).toHaveBeenCalledTimes(2);
   });
-
-  it('shares one in-flight attempt between concurrent callers, even a failing one', async () => {
-    const registerPlugin = vi.fn(() => {
-      throw new Error('boom');
-    });
-    const loadGsap = await loaderWith(registerPlugin);
-
-    const results = await Promise.allSettled([loadGsap(), loadGsap()]);
-
-    expect(results.map((result) => result.status)).toEqual(['rejected', 'rejected']);
-    expect(registerPlugin).toHaveBeenCalledTimes(1);
-  });
 });

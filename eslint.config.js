@@ -130,11 +130,7 @@ export default defineConfig(
   globalIgnores([
     'dist/**',
     '.astro/**',
-    'node_modules/**',
-    'reference/**',
     '.shots/**',
-    'test-results/**',
-    'playwright-report/**',
     // Throwaway developer tooling (screenshots, overlays); not shipped, not architecture.
     'scripts/dev/**',
   ]),

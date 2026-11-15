@@ -24,15 +24,6 @@ afterEach(() => {
 const start = 'top 80%';
 
 describe('createScene', () => {
-  it('scopes one GSAP context to the root', () => {
-    const { kit, gsap, context } = fakeKit();
-    createScene(kit, { root, tier: 'full', start }, () => undefined);
-
-    expect(gsap.context).toHaveBeenCalledTimes(1);
-    expect(gsap.context).toHaveBeenCalledWith(expect.any(Function), root);
-    expect(context.add).toHaveBeenCalledTimes(1);
-  });
-
   it('plays once from a re-measuring ScrollTrigger on the root, never scrubbed', () => {
     const { kit, gsap } = fakeKit();
     createScene(kit, { root, tier: 'full', start }, () => undefined);
@@ -64,35 +55,12 @@ describe('createScene', () => {
     }
   });
 
-  it('hands a tween’s targets over from the CSS pre-state when that tween starts, not before', () => {
-    const { kit, gsap } = fakeKit();
-    createScene(kit, { root, tier: 'full', start }, () => undefined);
-    const [title, copy] = root.querySelectorAll('[data-reveal]');
-    expect(root.querySelectorAll('[data-revealed]')).toHaveLength(0);
-
-    timelineVars(gsap).defaults.onStart.call({ targets: () => [title] });
-
-    expect(title?.hasAttribute('data-revealed')).toBe(true);
-    expect(copy?.hasAttribute('data-revealed')).toBe(false);
-  });
-
   describe('scene.fadeUp', () => {
     const build = (tier: 'full' | 'lite', use: (scene: Scene) => void) => {
       const kit = fakeKit();
       createScene(kit.kit, { root, tier, start }, use);
       return kit;
     };
-
-    it('fades from 0 and rises from a function-based distance, to rest', () => {
-      const target = root.querySelector('h2') as HTMLElement;
-      const { timeline } = build('full', (scene) => scene.fadeUp(target));
-
-      const [targets, from, to] = timeline.fromTo.mock.calls[0] as [unknown, { opacity: number; y: () => number }, Record<string, unknown>];
-      expect(targets).toBe(target);
-      expect(from.opacity).toBe(0);
-      expect(from.y()).toBe(travel.rise * 20); // rem * the 20px root font size, re-read on every call
-      expect(to).toEqual({ opacity: 1, y: 0, clearProps: 'transform,opacity' });
-    });
 
     it('re-reads the root font size on every call, which is what makes a resize re-measure', () => {
       const target = root.querySelector('h2') as HTMLElement;

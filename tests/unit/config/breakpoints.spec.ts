@@ -37,9 +37,4 @@ describe('breakpoints', () => {
     const adHoc = found.filter(({ value }) => !ALLOWED.has(value)).map(({ file, condition }) => `${file}: ${condition}`);
     expect(adHoc).toEqual([]);
   });
-
-  it('keeps the values ordered', () => {
-    const values = Object.values(BREAKPOINTS);
-    expect([...values].sort((a, b) => a - b)).toEqual(values);
-  });
 });

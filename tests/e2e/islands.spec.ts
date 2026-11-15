@@ -201,38 +201,21 @@ test.describe('the mobile menu', () => {
     expect(radii.at(-1) ?? 0, 'and ends at nothing').toBeLessThan(radii[0] ?? 0);
   });
 
-  test('closing a half-open menu shrinks it from the size it had reached, never from full size', async ({ page }) => {
+  test('opening and closing 120 ms apart leaves the menu gone, not stuck half open', async ({ page }) => {
     await ready(page);
     await hydrated(page, 'MobileNav');
     await gsapReady(page);
-    const fullSize = await page.evaluate(() => Math.hypot(window.innerWidth, window.innerHeight));
 
-    const rows = await record(
-      page,
-      RADIUS,
-      async () => {
-        // Open and close 120 ms apart, timed inside the page so that test latency cannot change how far it got.
-        await page.evaluate(async () => {
-          const toggle = document.querySelector<HTMLButtonElement>('button[aria-controls="mobile-menu"]');
-          toggle?.click();
-          await new Promise((resolve) => setTimeout(resolve, 120));
-          toggle?.click();
-        });
-        await expect(page.locator(MENU)).toHaveCount(0);
-      },
-      () => Promise.resolve(),
-      (frames) => {
-        const radii = present(frames);
-        return radii.length >= 1 && Math.max(...radii) < fullSize * 0.7;
-      },
-    );
-    const radii = present(rows);
-
-    expect(radii.length, 'the menu was seen opening').toBeGreaterThanOrEqual(1);
-    // 120 ms of opening is a small circle. A close that restarted from full size would show one close to the screen's diagonal.
-    expect(Math.max(...radii), 'it never jumped back to full size').toBeLessThan(fullSize * 0.7);
+    // Timed inside the page so that test latency cannot change how far the menu got. (That it closes from the size it had
+    // reached is pinned with the real GSAP in tests/unit/features/mobile-nav-motion.spec.ts.)
+    await page.evaluate(async () => {
+      const toggle = document.querySelector<HTMLButtonElement>('button[aria-controls="mobile-menu"]');
+      toggle?.click();
+      await new Promise((resolve) => setTimeout(resolve, 120));
+      toggle?.click();
+    });
+    await expect(page.locator(MENU)).toHaveCount(0);
   });
-
   test('reduced motion: GSAP is never downloaded, and the menu fades instead of growing', async ({ page }) => {
     const downloads: string[] = [];
     page.on('request', (request) => GSAP_CHUNK.test(request.url()) && downloads.push(request.url()));

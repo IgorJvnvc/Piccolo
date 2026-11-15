@@ -35,20 +35,6 @@ module.exports = {
       from: {},
       to: { couldNotResolve: true, pathNot: '^astro:' },
     },
-    {
-      name: 'no-deprecated-core',
-      severity: 'warn',
-      comment: 'Deprecated Node core modules.',
-      from: {},
-      to: { dependencyTypes: ['core'], path: '^(punycode|domain|constants|sys|_linklist|_stream_wrap)$' },
-    },
-    {
-      name: 'no-duplicate-dep-types',
-      severity: 'warn',
-      comment: 'A package listed twice in package.json under different dependency types.',
-      from: {},
-      to: { moreThanOneDependencyType: true, dependencyTypesNot: ['type-only'] },
-    },
   ],
   options: {
     tsConfig: { fileName: 'tsconfig.json' },

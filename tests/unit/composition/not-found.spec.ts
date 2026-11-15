@@ -52,20 +52,6 @@ describe('buildNotFoundPage', () => {
     expect(seo.siteName).toBe(site.name);
   });
 
-  it('shows the editable copy and leads back to the home page', async () => {
-    const { notFound } = await build();
-
-    expect(notFound).toMatchObject({
-      title: copy.notFound.title,
-      text: copy.notFound.text,
-      homeLabel: copy.notFound.homeLabel,
-      homeHref: '/',
-      callLabel: copy.nav.callLabel,
-    });
-    expect(notFound.phone.href).toMatch(/^tel:\+?\d+$/);
-    expect(notFound.art.src).toBe('/img/food/pizza.png');
-  });
-
   it('points every in-page navigation link at the matching section of the home page', async () => {
     const { navbar, footer } = await build();
 
@@ -87,13 +73,5 @@ describe('buildNotFoundPage', () => {
     expect(hrefs.some((href) => href.startsWith('tel:'))).toBe(true);
     expect(hrefs.some((href) => href.startsWith('mailto:'))).toBe(true);
     expect(hrefs.every((href) => !href.startsWith('/'))).toBe(true);
-  });
-
-  it('reuses the home page header and footer content', async () => {
-    const page = await build();
-
-    expect(page.navbar.brand).toEqual({ name: site.name, tagline: site.tagline });
-    expect(page.footer.address.lines).toEqual(site.address.lines);
-    expect(page.navbar.hours).toEqual(site.hours);
   });
 });

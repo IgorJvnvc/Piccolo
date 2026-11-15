@@ -2,7 +2,7 @@
 
 usage: python match_frames.py          (after: node scripts/dev/scan.mjs)
 Prints the 3 best scroll positions per frame with their mean abs luminance diff (0-255; lower = closer), and
-writes blend overlays for the best one to .shots/match/<name>.png (green = reel, magenta = ours, see compare.py).
+writes blend overlays for the best one to .shots/match/<name>.png (green = reel, magenta = ours) and a side-by-side sheet.
 """
 import glob
 import os

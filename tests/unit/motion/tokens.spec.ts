@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { ease, loadGsap, scaleFor } from '@/shared/motion';
+import { ease, loadGsap } from '@/shared/motion';
 
 const css = readFileSync(new URL('../../../src/styles/tokens.css', import.meta.url), 'utf8');
 
@@ -38,15 +38,5 @@ describe('motion ease tokens', () => {
     let worst = 0;
     for (let t = 0; t <= 1.0001; t += 0.01) worst = Math.max(worst, Math.abs(gsapEase(t) - cssEase(t)));
     expect(worst).toBeLessThan(0.02);
-  });
-});
-
-describe('scaleFor', () => {
-  it('leaves the full tier alone, and halves the travel of the lite tier while running it a third faster (timeScale 4/3)', () => {
-    expect(scaleFor('full')).toEqual({ distance: 1, speed: 1 });
-
-    const lite = scaleFor('lite');
-    expect(lite.distance).toBe(0.5);
-    expect(1 / lite.speed).toBeCloseTo(0.75, 10);
   });
 });

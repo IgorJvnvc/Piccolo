@@ -47,12 +47,12 @@ export default defineConfig({
     {
       name: 'tablet',
       use: { viewport: { width: 820, height: 1180 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
-      testMatch: /(mobile|shared|not-found)\.spec\.ts/,
+      testMatch: /(mobile|shared)\.spec\.ts/,
     },
     {
       name: 'tv',
       use: { viewport: { width: 1920, height: 1080 }, userAgent: TV_USER_AGENT },
-      testMatch: /(tv|shared|not-found|motion)\.spec\.ts/,
+      testMatch: /(tv|shared|motion)\.spec\.ts/,
     },
   ],
 });

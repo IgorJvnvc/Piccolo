@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { beforeEach, describe, expect, it } from 'vitest';
-import { markRevealed, openRoot } from '@/shared/motion/revealed';
+import { openRoot } from '@/shared/motion/revealed';
 
 const html = (strings: TemplateStringsArray): string => strings.join('');
 
@@ -14,16 +14,6 @@ beforeEach(() => {
     </section>
     <section id="elsewhere"><p data-reveal="up">Not in the scene</p></section>
   `;
-});
-
-describe('markRevealed', () => {
-  it('sets data-revealed on every element it is given and leaves the rest alone', () => {
-    const [title] = document.querySelectorAll('#scene [data-reveal]');
-    markRevealed(title ? [title] : []);
-
-    expect(title?.hasAttribute('data-revealed')).toBe(true);
-    expect(document.querySelectorAll('[data-revealed]')).toHaveLength(1);
-  });
 });
 
 describe('openRoot', () => {

@@ -281,6 +281,9 @@ Layout never depends on device class: it is CSS (media queries and the rem model
   rest, marks them `data-revealed` the moment it starts, then clears its inline styles.
 - **Reduced motion (`static`):** the CSS pre-state never applies; content is simply there.
 - **Boot failure:** after 4 s without `__PICCOLO_READY__`, the bootstrap adds `html.no-enhance` and everything shows.
+- **A dead island:** when an island's code cannot be loaded, Astro fires `astro:hydration-error` and the bootstrap adds the same
+  class: the menu is shown stacked and the buttons that would do nothing (card details, hamburger) are hidden, like without
+  JavaScript.
 - **Never animate or set `visibility` (or GSAP `autoAlpha`) in reveal code.** Hidden content cannot take keyboard
   focus: tabbing would skip it, or blur an element that was already focused when its tween was set up. Reveals animate
   `opacity` and `transform` only, so content stays focusable and in the accessibility tree. A lint rule enforces this.
@@ -335,7 +338,7 @@ guards, bus replay, D-pad weighting, price labels and `tel:` links each makes a 
 placeholder SVG; the raster wins. `npm run art` regenerates the placeholders.
 
 **Add a menu item.** Append to `src/content/menu/items.json` with an existing `category` and an `image` key that has
-a file under `src/assets` (a unit test checks both). To feature it on the home page set `"popular": true`.
+a file under `src/assets` (the build fails otherwise). To feature it on the home page set `"popular": true`.
 
 **Add a section.** Create `src/sections/<name>/` with `<Name>.astro`, `<name>.module.css`, `<name>.hooks.ts` (root +
 parts), `types.ts`, `index.ts`; build its props in `composition/home.ts`; add it to `pages/index.astro`. Add a

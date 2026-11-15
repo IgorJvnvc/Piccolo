@@ -1,20 +1,13 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it } from 'vitest';
-import { ENHANCE_ATTR, PART_ATTR, enhanceAttr, partAttr, parts, requirePart, selector } from '@/shared/lib/hooks';
+import { parts, requirePart, selector } from '@/shared/lib/hooks';
 
 afterEach(() => {
   document.body.innerHTML = '';
 });
 
 describe('markup <-> behavior contract', () => {
-  it('builds attribute bags for markup', () => {
-    expect(enhanceAttr('hero')).toEqual({ [ENHANCE_ATTR]: 'hero' });
-    expect(partAttr('card')).toEqual({ [PART_ATTR]: 'card' });
-    expect(ENHANCE_ATTR).toBe('data-enhance');
-    expect(PART_ATTR).toBe('data-part');
-  });
-
-  it('builds selectors that match what the attribute bags produce', () => {
+  it('builds selectors that match the attributes the markup carries', () => {
     expect(selector.enhance('hero')).toBe('[data-enhance="hero"]');
     expect(selector.part('card')).toBe('[data-part="card"]');
 

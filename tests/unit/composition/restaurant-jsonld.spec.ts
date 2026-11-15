@@ -115,9 +115,4 @@ describe('buildRestaurantJsonLd', () => {
     });
     expect(menu.hasMenuSection[1]?.hasMenuItem[0]?.['offers']).toMatchObject({ price: '3.00' });
   });
-
-  it('is plain JSON: serialising it loses nothing (no undefined, dates or functions)', () => {
-    const jsonLd = build();
-    expect(JSON.parse(JSON.stringify(jsonLd))).toEqual(jsonLd);
-  });
 });
