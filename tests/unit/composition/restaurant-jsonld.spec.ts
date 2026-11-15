@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildRestaurantJsonLd } from '@/composition/restaurant-jsonld';
-import { type MenuCategory, type MenuItem, categoryId, menuItemId } from '@/entities/menu/model';
+import { type MenuCategory, type MenuItem } from '@/entities/menu/model';
 import type { SiteInfo } from '@/entities/site/model';
 
 const site: SiteInfo = {
@@ -9,7 +9,7 @@ const site: SiteInfo = {
   description: 'Stone-baked pizza, hot dogs and drinks.',
   locale: 'en-IE',
   currency: 'EUR',
-  contact: { phone: '+00 000 000 0000', email: 'hello@example.com', whatsapp: 'https://wa.me/000' },
+  contact: { phone: '+00 000 000 0000', email: 'hello@example.com' },
   address: { lines: ['1 Example Street', 'Dublin'], mapUrl: 'https://maps.example.com/piccolo' },
   hours: {
     timezone: 'Europe/Dublin',
@@ -31,13 +31,13 @@ const site: SiteInfo = {
 };
 
 const categories: MenuCategory[] = [
-  { id: categoryId('pizza'), title: 'Pizza', blurb: 'Stone-baked.', order: 1 },
-  { id: categoryId('drinks'), title: 'Drinks', blurb: 'Cold.', order: 2 },
+  { id: 'pizza', title: 'Pizza', blurb: 'Stone-baked.', order: 1 },
+  { id: 'drinks', title: 'Drinks', blurb: 'Cold.', order: 2 },
 ];
 
 const item = (id: string, category: string, minor: number): MenuItem => ({
-  id: menuItemId(id),
-  categoryId: categoryId(category),
+  id,
+  categoryId: category,
   name: id,
   description: `About ${id}`,
   price: { minor, currency: 'EUR' },
@@ -83,6 +83,18 @@ describe('buildRestaurantJsonLd', () => {
       dayOfWeek: 'Friday',
       opens: '12:00',
       closes: '23:30',
+    });
+  });
+
+  it('ends a 24-hour day at 23:59, because schema.org reads opens == closes as closed', () => {
+    const allDay = { ...site, hours: { ...site.hours, weekly: { ...site.hours.weekly, mon: { open: '00:00', close: '00:00' } } } };
+    const specification = buildRestaurantJsonLd(allDay, 'https://piccolo.example/', categories, items)['openingHoursSpecification'];
+
+    expect(specification).toContainEqual({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Monday',
+      opens: '00:00',
+      closes: '23:59',
     });
   });
 

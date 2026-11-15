@@ -9,12 +9,7 @@ export interface ImageSource {
   readonly sources?: ReadonlyArray<{ readonly type: string; readonly srcset: string }>;
 }
 
-export interface ResolveImageOptions {
-  /** Target widths for responsive variants (only ones <= the source width are generated). */
-  readonly widths?: readonly number[];
-}
-
 /** Port implemented by infrastructure/images, consumed by the composition root. */
 export interface ImageResolver {
-  resolve(key: string, options?: ResolveImageOptions): Promise<ImageSource>;
+  resolve(key: string): Promise<ImageSource>;
 }

@@ -25,9 +25,10 @@ export function buildRestaurantJsonLd(
 ): Record<string, unknown> {
   const openingHoursSpecification = DAY_KEYS.flatMap((day) => {
     const hours = site.hours.weekly[day];
-    return hours
-      ? [{ '@type': 'OpeningHoursSpecification', dayOfWeek: SCHEMA_DAY[day], opens: hours.open, closes: hours.close }]
-      : [];
+    if (!hours) return [];
+    // schema.org reads opens == closes as "closed all day", so the 24 h encoding (open == close) ends at 23:59.
+    const closes = hours.open === hours.close ? '23:59' : hours.close;
+    return [{ '@type': 'OpeningHoursSpecification', dayOfWeek: SCHEMA_DAY[day], opens: hours.open, closes }];
   });
 
   return {

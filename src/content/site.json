@@ -7,8 +7,7 @@
     "currency": "EUR",
     "contact": {
       "phone": "+00 000 000 0000",
-      "email": "hello@piccolo.example",
-      "whatsapp": "https://wa.me/00000000000"
+      "email": "hello@piccolo.example"
     },
     "address": {
       "lines": ["123 Placeholder Street", "Your City, 00000"],

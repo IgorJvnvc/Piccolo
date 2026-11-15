@@ -7,7 +7,6 @@ export type CapabilitiesListener = (caps: Capabilities) => void;
 export interface CapabilitiesStore {
   get(): Capabilities;
   subscribe(listener: CapabilitiesListener): () => void;
-  destroy(): void;
 }
 
 const MEDIA_QUERIES = [
@@ -33,7 +32,6 @@ const same = (a: Capabilities, b: Capabilities): boolean =>
 export function createCapabilitiesStore(win: Window): CapabilitiesStore {
   let current = classify(probe(win));
   const listeners = new Set<CapabilitiesListener>();
-  const lifetime = new AbortController();
   let timer: number | undefined;
 
   const refresh = (): void => {
@@ -52,11 +50,11 @@ export function createCapabilitiesStore(win: Window): CapabilitiesStore {
       win.clearTimeout(timer);
       timer = win.setTimeout(refresh, 150);
     },
-    { signal: lifetime.signal, passive: true },
+    { passive: true },
   );
 
   for (const query of MEDIA_QUERIES) {
-    win.matchMedia(query).addEventListener('change', refresh, { signal: lifetime.signal });
+    win.matchMedia(query).addEventListener('change', refresh);
   }
 
   return {
@@ -64,11 +62,6 @@ export function createCapabilitiesStore(win: Window): CapabilitiesStore {
     subscribe(listener) {
       listeners.add(listener);
       return () => listeners.delete(listener);
-    },
-    destroy() {
-      win.clearTimeout(timer);
-      lifetime.abort();
-      listeners.clear();
     },
   };
 }

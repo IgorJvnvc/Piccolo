@@ -1,14 +1,9 @@
-import type { Capabilities } from '@/shared/device';
 import { type Bus, createBus } from './bus';
 
 /** Every cross-feature message in the app. Features talk through these, never by importing each other. */
 export interface AppEvents {
-  /** Device capabilities changed (resize, reduced-motion toggled, ...). */
-  'caps:changed': { readonly caps: Capabilities };
   /** Mobile navigation opened/closed. */
   'nav:menu': { readonly open: boolean };
-  /** Menu browser switched category. */
-  'menu:category': { readonly categoryId: string };
   /** Somebody asked to see an item's details (opens the quick view in the menu browser). */
   'menu:details': { readonly itemId: string; readonly opener?: HTMLElement | null };
   /** A modal surface (mobile menu, quick view) wants the page not to scroll behind it. */

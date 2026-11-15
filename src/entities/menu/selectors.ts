@@ -65,7 +65,6 @@ export const allergenLabel = (allergen: Allergen): string => ALLERGEN_LABELS[all
 export function toCardModel(item: MenuItem, image: ImageSource, format: MoneyFormatter): MenuCardModel {
   return {
     id: item.id,
-    categoryId: item.categoryId,
     name: item.name,
     description: item.description,
     priceLabel: priceLabel(item, format),

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { buildNotFoundPage } from '@/composition/not-found';
 import type { Container } from '@/composition/container';
-import { type MenuCategory, type MenuItem, categoryId, menuItemId } from '@/entities/menu/model';
+import type { MenuCategory, MenuItem } from '@/entities/menu/model';
 import { homeSchema, siteSchema } from '@/infrastructure/content/schemas';
 import type { ImageSource } from '@/shared/ui';
 
@@ -14,11 +14,11 @@ const mainOf = (file: string): unknown => (JSON.parse(readFileSync(`${ROOT}src/c
 const site = siteSchema.parse(mainOf('site.json'));
 const copy = homeSchema.parse(mainOf('home.json'));
 
-const categories: MenuCategory[] = [{ id: categoryId('pizza'), title: 'Pizza', blurb: 'Stone-baked.', order: 1 }];
+const categories: MenuCategory[] = [{ id: 'pizza', title: 'Pizza', blurb: 'Stone-baked.', order: 1 }];
 const items: MenuItem[] = [
   {
-    id: menuItemId('margherita'),
-    categoryId: categoryId('pizza'),
+    id: 'margherita',
+    categoryId: 'pizza',
     name: 'Margherita',
     description: 'Tomato, mozzarella, basil.',
     price: { minor: 850, currency: 'EUR' },

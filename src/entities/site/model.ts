@@ -34,8 +34,6 @@ export interface SiteInfo {
     /** Human readable, e.g. "+00 000 000 0000". */
     readonly phone: string;
     readonly email: string;
-    /** wa.me link. */
-    readonly whatsapp: string;
   };
   readonly address: {
     readonly lines: readonly string[];

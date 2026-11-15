@@ -1,13 +1,32 @@
 import { z } from 'astro/zod';
 import { ALLERGENS, DIETARY_TAGS } from '@/entities/menu';
-import { SOCIAL_NETWORKS } from '@/entities/site';
+import { SOCIAL_NETWORKS, TIME_PATTERN } from '@/entities/site';
 
 /**
  * Zod schemas for the content collections. They validate the JSON files at build time, so a typo in
  * src/content fails the build with a precise message instead of shipping a broken page.
  */
 
-const time = z.string().regex(/^([01]?\d|2[0-3]):[0-5]\d$/, 'Use 24h HH:MM');
+const time = z.string().regex(TIME_PATTERN, 'Use 24h HH:MM');
+
+/** The browser throws on an unknown zone, which would leave the "Open now" chip stuck: fail the build instead. */
+const timeZone = z.string().refine((zone) => {
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: zone });
+    return true;
+  } catch {
+    return false;
+  }
+}, 'Use an IANA time zone, e.g. Europe/Dublin');
+
+/** Item and category ids become DOM ids (card-menu-<id>, tab-<id>), so no spaces or capitals. */
+const slug = z.string().regex(/^[a-z0-9-]+$/, 'Use lowercase letters, digits and dashes');
+
+/** Major units with at most two decimals (8.499 would silently print as 8.50). */
+const price = z
+  .number()
+  .positive()
+  .refine((value) => Math.abs(value * 100 - Math.round(value * 100)) < 1e-9, 'At most two decimals');
 
 const dayHours = z.object({ open: time, close: time }).nullable();
 
@@ -22,14 +41,13 @@ export const siteSchema = z.object({
   contact: z.object({
     phone: z.string().min(5),
     email: z.email(),
-    whatsapp: z.url(),
   }),
   address: z.object({
     lines: z.array(z.string().min(1)).min(1),
     mapUrl: z.url(),
   }),
   hours: z.object({
-    timezone: z.string().min(1),
+    timezone: timeZone,
     weekly: z.object({
       mon: dayHours,
       tue: dayHours,
@@ -90,18 +108,20 @@ export const homeSchema = z.object({
 });
 
 export const categorySchema = z.object({
+  id: slug,
   title: z.string().min(1),
   blurb: z.string().min(1),
   order: z.number().int(),
 });
 
 export const itemSchema = z.object({
+  id: slug,
   category: z.string().min(1),
   name: z.string().min(1),
   description: z.string().min(10),
   /** Major units (8.5 = 8.50); converted to integer minor units when mapped to the entity. */
-  price: z.number().positive(),
-  sizes: z.array(z.object({ label: z.string().min(1), price: z.number().positive() })).default([]),
+  price,
+  sizes: z.array(z.object({ label: z.string().min(1), price })).default([]),
   /** Key into src/assets, e.g. "food/pizza". */
   image: z.string().min(1),
   allergens: z.array(z.enum(ALLERGENS)).default([]),

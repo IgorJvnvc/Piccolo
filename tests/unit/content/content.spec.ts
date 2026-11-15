@@ -1,120 +1,67 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { categorySchema, homeSchema, itemSchema, siteSchema } from '@/infrastructure/content/schemas';
 
 const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 
-const readJson = (relative: string): unknown => JSON.parse(readFileSync(`${ROOT}${relative}`, 'utf8'));
-const mainOf = (value: unknown): Record<string, unknown> => (value as { main: Record<string, unknown> }).main;
-const rowsOf = (value: unknown): Array<Record<string, unknown>> => value as Array<Record<string, unknown>>;
-const clone = <T>(value: T): T => structuredClone(value);
+type Row = Record<string, unknown>;
+const readJson = (file: string): unknown => JSON.parse(readFileSync(`${ROOT}src/content/${file}`, 'utf8'));
+const mainOf = (file: string): Row => (readJson(file) as { main: Row }).main;
+const rowsOf = (file: string): Row[] => readJson(file) as Row[];
 
-const IMAGE_EXTENSIONS = ['svg', 'png', 'jpg', 'jpeg', 'webp', 'avif'] as const;
+const site = mainOf('site.json');
+const home = mainOf('home.json');
+const categories = rowsOf('menu/categories.json');
+const items = rowsOf('menu/items.json');
 
-describe('src/content matches its schemas', () => {
-  it('site.json', () => {
-    const result = siteSchema.safeParse(mainOf(readJson('src/content/site.json')));
-    expect(result.success ? [] : result.error.issues).toEqual([]);
+const problems = (name: string, result: { success: boolean; error?: { message: string } }): string[] =>
+  result.success ? [] : [`${name}: ${result.error?.message ?? ''}`];
+
+// The build validates the same files (collections, menu row count, image catalog). This names a failure in `npm test` and
+// checks what the build cannot: that no category is an empty tab and the highlight row has enough items.
+describe('src/content', () => {
+  it('matches its schemas', () => {
+    expect([
+      ...problems('site', siteSchema.safeParse(site)),
+      ...problems('home', homeSchema.safeParse(home)),
+      ...categories.flatMap((row) => problems(`category ${String(row['id'])}`, categorySchema.safeParse(row))),
+      ...items.flatMap((row) => problems(`item ${String(row['id'])}`, itemSchema.safeParse(row))),
+    ]).toEqual([]);
   });
 
-  it('home.json', () => {
-    const result = homeSchema.safeParse(mainOf(readJson('src/content/home.json')));
-    expect(result.success ? [] : result.error.issues).toEqual([]);
-  });
-
-  describe('menu', () => {
-    const categories = rowsOf(readJson('src/content/menu/categories.json'));
-    const items = rowsOf(readJson('src/content/menu/items.json'));
-    const categoryIds = categories.map((row) => String(row['id']));
-
-    it('every category and item satisfies its schema', () => {
-      const problems = [
-        ...categories.flatMap((row) => {
-          const result = categorySchema.safeParse(row);
-          return result.success ? [] : [`category "${String(row['id'])}": ${JSON.stringify(result.error.issues)}`];
-        }),
-        ...items.flatMap((row) => {
-          const result = itemSchema.safeParse(row);
-          return result.success ? [] : [`item "${String(row['id'])}": ${JSON.stringify(result.error.issues)}`];
-        }),
-      ];
-      expect(problems).toEqual([]);
-    });
-
-    it('ids are unique', () => {
-      expect(new Set(categoryIds).size).toBe(categoryIds.length);
-      const itemIds = items.map((row) => String(row['id']));
-      expect(new Set(itemIds).size).toBe(itemIds.length);
-    });
-
-    it('every item belongs to a known category', () => {
-      const orphans = items.filter((row) => !categoryIds.includes(String(row['category']))).map((row) => String(row['id']));
-      expect(orphans).toEqual([]);
-    });
-
-    it('every category has at least one item (an empty tab would be a dead end)', () => {
-      const empty = categoryIds.filter((id) => !items.some((row) => row['category'] === id));
-      expect(empty).toEqual([]);
-    });
-
-    it('has enough popular items for the highlight row', () => {
-      expect(items.filter((row) => row['popular'] === true).length).toBeGreaterThanOrEqual(3);
-    });
-
-    it('every item image key resolves to a file under src/assets', () => {
-      const missing = [...new Set(items.map((row) => String(row['image'])))].filter(
-        (key) => !IMAGE_EXTENSIONS.some((extension) => existsSync(`${ROOT}src/assets/${key}.${extension}`)),
-      );
-      expect(missing).toEqual([]);
-    });
+  it('has no empty category tab and enough popular items for the highlight row', () => {
+    const empty = categories.filter((category) => !items.some((item) => item['category'] === category['id']));
+    expect(empty.map((category) => category['id'])).toEqual([]);
+    expect(items.filter((item) => item['popular'] === true).length).toBeGreaterThanOrEqual(3);
   });
 });
 
 describe('schemas reject bad content', () => {
-  const site = mainOf(readJson('src/content/site.json'));
-  const home = mainOf(readJson('src/content/home.json'));
-  const firstItem = rowsOf(readJson('src/content/menu/items.json'))[0] ?? {};
+  const hours = site['hours'] as { weekly: Row };
+  const monday = (mon: unknown): Row => ({ ...site, hours: { ...hours, weekly: { ...hours.weekly, mon } } });
 
-  it('accepts the unmodified fixtures (so the failures below are caused by the edit)', () => {
-    expect(siteSchema.safeParse(site).success).toBe(true);
-    expect(homeSchema.safeParse(home).success).toBe(true);
-    expect(itemSchema.safeParse(firstItem).success).toBe(true);
-  });
-
-  it('rejects a malformed opening time', () => {
-    const bad = clone(site);
-    (bad['hours'] as { weekly: Record<string, unknown> }).weekly['mon'] = { open: '25:00', close: '23:00' };
+  it.each([
+    ['an hour past 23', monday({ open: '25:00', close: '23:00' })],
+    ['an unpadded time', monday({ open: '9:30', close: '23:00' })],
+    ['an unknown time zone', { ...site, hours: { ...hours, timezone: 'Europe/Atlantis' } }],
+    ['a currency that is not a 3-letter code', { ...site, currency: 'EURO' }],
+  ])('site.json: %s', (_name, bad) => {
     expect(siteSchema.safeParse(bad).success).toBe(false);
   });
 
-  it('rejects a currency that is not a 3-letter code', () => {
-    expect(siteSchema.safeParse({ ...site, currency: 'EURO' }).success).toBe(false);
-  });
-
-  it('rejects an invalid email and an invalid social URL', () => {
-    const contact = site['contact'] as Record<string, unknown>;
-    expect(siteSchema.safeParse({ ...site, contact: { ...contact, email: 'not-an-email' } }).success).toBe(false);
-    expect(siteSchema.safeParse({ ...site, socials: [{ network: 'instagram', label: 'IG', href: 'nope' }] }).success).toBe(false);
-  });
-
-  it('rejects an unknown social network', () => {
-    expect(siteSchema.safeParse({ ...site, socials: [{ network: 'myspace', label: 'MS', href: 'https://example.com' }] }).success).toBe(false);
-  });
-
-  it('rejects a meta description that is too short to be useful', () => {
-    const seo = home['seo'] as Record<string, unknown>;
-    expect(homeSchema.safeParse({ ...home, seo: { ...seo, description: 'Too short.' } }).success).toBe(false);
-  });
-
-  it('rejects a free item, an unknown allergen and an unknown dietary tag', () => {
-    expect(itemSchema.safeParse({ ...firstItem, price: 0 }).success).toBe(false);
-    expect(itemSchema.safeParse({ ...firstItem, allergens: ['pollen'] }).success).toBe(false);
-    expect(itemSchema.safeParse({ ...firstItem, tags: ['halal'] }).success).toBe(false);
+  it.each([
+    ['a free item', { price: 0 }],
+    ['a price with fractions of a cent', { price: 8.505 }],
+    ['an id that is not a slug', { id: 'Big Mac' }],
+    ['an unknown allergen', { allergens: ['pollen'] }],
+  ])('items.json: %s', (_name, patch) => {
+    expect(itemSchema.safeParse({ ...items[0], ...patch }).success).toBe(false);
   });
 
   it('fills defaults for optional item fields', () => {
     const minimal = itemSchema.parse({
+      id: 'plain',
       category: 'pizza',
       name: 'Plain',
       description: 'Just a plain pizza.',

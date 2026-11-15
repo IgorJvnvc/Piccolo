@@ -27,7 +27,6 @@ const at = (iso: string): Date => new Date(iso);
 describe('parseTime', () => {
   it.each([
     ['00:00', 0],
-    ['9:30', 570],
     ['09:30', 570],
     ['12:00', 720],
     ['23:59', 1439],
@@ -35,7 +34,7 @@ describe('parseTime', () => {
     expect(parseTime(value)).toBe(minutes);
   });
 
-  it.each(['24:00', '9:60', '9', 'abc', '', '12:5'])('rejects "%s"', (value) => {
+  it.each(['24:00', '9:30', '09:60', '9', 'abc', '', '12:5'])('rejects "%s"', (value) => {
     expect(() => parseTime(value)).toThrow(/Invalid time/);
   });
 });
@@ -130,6 +129,10 @@ describe('formatRange', () => {
   it('joins both times with an en dash', () => {
     expect(formatRange({ open: '09:00', close: '23:00' })).toBe('9:00 AM – 11:00 PM');
   });
+
+  it('says so when open == close (the 24 h encoding)', () => {
+    expect(formatRange({ open: '00:00', close: '00:00' })).toBe('Open 24 hours');
+  });
 });
 
 describe('groupHours / summarizeHours', () => {
@@ -155,6 +158,11 @@ describe('groupHours / summarizeHours', () => {
 
   it('summarises identical days as "Daily"', () => {
     expect(summarizeHours({ timezone: 'UTC', weekly: week(weekdays) })).toBe('Daily 9:00 AM – 11:00 PM');
+  });
+
+  it('lets "Closed" and "Open 24 hours" stand alone when every day is the same', () => {
+    expect(summarizeHours({ timezone: 'UTC', weekly: week(null) })).toBe('Closed');
+    expect(summarizeHours({ timezone: 'UTC', weekly: week({ open: '00:00', close: '00:00' }) })).toBe('Open 24 hours');
   });
 
   it('lists every group when the days differ', () => {

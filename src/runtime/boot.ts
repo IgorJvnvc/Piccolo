@@ -21,7 +21,6 @@ function boot(): void {
 
   store.subscribe((caps) => {
     applyToDocument(document, caps);
-    appBus.emit('caps:changed', { caps });
     scheduler.reconcile(caps);
   });
 

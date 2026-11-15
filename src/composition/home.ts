@@ -71,7 +71,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
 
   const phone = { display: nbsp(site.contact.phone), href: telHref(site.contact.phone) };
   const hoursRows = groupHours(site.hours);
-  const openLabel = hoursRows.length === 1 ? 'Open daily' : 'See opening hours';
+  const openLabel = hoursRows.length === 1 && hoursRows[0]?.time !== 'Closed' ? 'Open daily' : 'See opening hours';
   const brand = { name: site.name, tagline: site.tagline };
 
   const followLinks: FollowLink[] = site.socials.flatMap((social): FollowLink[] => {
@@ -80,6 +80,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
     return [];
   });
 
+  const whatsapp = site.socials.find((social) => social.network === 'whatsapp');
   const canonical = `${siteUrl}/`;
 
   return {
@@ -167,7 +168,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
           title: 'Contact',
           links: [
             { label: phone.display, href: phone.href },
-            { label: 'WhatsApp', href: site.contact.whatsapp, external: true },
+            ...(whatsapp ? [{ label: 'WhatsApp', href: whatsapp.href, external: true }] : []),
             { label: site.contact.email, href: `mailto:${site.contact.email}` },
           ],
         },

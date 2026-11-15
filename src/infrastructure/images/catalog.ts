@@ -1,6 +1,6 @@
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import type { ImageResolver, ImageSource, ResolveImageOptions } from '@/shared/ui';
+import type { ImageResolver, ImageSource } from '@/shared/ui';
 
 /** Raster beats vector so dropping a real photo next to a generated SVG placeholder just works. */
 const FORMAT_PRIORITY = ['avif', 'webp', 'png', 'jpg', 'jpeg', 'svg'] as const;
@@ -33,7 +33,7 @@ const catalog = buildCatalog();
  */
 export function createImageResolver(): ImageResolver {
   return {
-    async resolve(key: string, options: ResolveImageOptions = {}): Promise<ImageSource> {
+    async resolve(key: string): Promise<ImageSource> {
       const meta = catalog.get(key);
       if (!meta) {
         const known = Array.from(catalog.keys()).sort().join(', ');
@@ -43,8 +43,7 @@ export function createImageResolver(): ImageResolver {
       const base: ImageSource = { src: meta.src, width: meta.width, height: meta.height };
       if (meta.format === 'svg') return base;
 
-      const requested = options.widths ?? DEFAULT_WIDTHS;
-      const widths = Array.from(new Set(requested.filter((width) => width < meta.width).concat(meta.width))).sort(
+      const widths = Array.from(new Set([...DEFAULT_WIDTHS.filter((width) => width < meta.width), meta.width])).sort(
         (a, b) => a - b,
       );
       const aspect = meta.height / meta.width;

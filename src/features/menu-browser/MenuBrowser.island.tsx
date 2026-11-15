@@ -40,7 +40,6 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
       activeRef.current = id;
       setActiveId(id);
       setPulse((value) => value + 1);
-      appBus.emit('menu:category', { categoryId: id });
     }
     if (focus) tabRefs.current[id]?.focus();
   }, []);

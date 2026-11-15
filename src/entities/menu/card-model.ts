@@ -7,7 +7,6 @@ import type { DietaryTag } from './model';
  */
 export interface MenuCardModel {
   readonly id: string;
-  readonly categoryId: string;
   readonly name: string;
   readonly description: string;
   /** "€8.50" or "from €8.50". */

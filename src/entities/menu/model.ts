@@ -1,12 +1,3 @@
-import type { Brand } from '@/shared/kernel';
-
-export type MenuItemId = Brand<string, 'MenuItemId'>;
-export type CategoryId = Brand<string, 'CategoryId'>;
-
-/** Smart constructors: the only places a raw string becomes an id (call at the infrastructure boundary). */
-export const menuItemId = (value: string): MenuItemId => value as MenuItemId;
-export const categoryId = (value: string): CategoryId => value as CategoryId;
-
 export const ALLERGENS = [
   'gluten',
   'dairy',
@@ -36,15 +27,15 @@ export interface MenuSize {
 }
 
 export interface MenuCategory {
-  readonly id: CategoryId;
+  readonly id: string;
   readonly title: string;
   readonly blurb: string;
   readonly order: number;
 }
 
 export interface MenuItem {
-  readonly id: MenuItemId;
-  readonly categoryId: CategoryId;
+  readonly id: string;
+  readonly categoryId: string;
   readonly name: string;
   readonly description: string;
   /** Base ("from") price. */

@@ -118,9 +118,9 @@ src/
   features/<name>/  *.island.tsx | *.behavior.ts | controller.ts | types.ts
   entities/<name>/  model.ts  selectors.ts  ports.ts  index.ts   (+ ui/ for shared presentational pieces)
   infrastructure/   content/ (adapters + Zod schemas)   images/ (catalog)
-  composition/      container.ts  home.ts  restaurant-jsonld.ts
+  composition/      container.ts  home.ts  not-found.ts  restaurant-jsonld.ts
   runtime/          boot.ts  registry.ts  scheduler.ts  timing.ts
-  shared/           config device enhance events focus kernel lib motion seo services ui
+  shared/           config device enhance events focus lib motion seo services ui
   styles/           tokens.css  reset.css  base.css
   content/          site.json  home.json  menu/categories.json  menu/items.json
   assets/           placeholder art (replace with real photos, same base names)
@@ -228,7 +228,7 @@ them through the helpers in `shared/lib/hooks`. Neither side hard-codes the othe
 private.
 
 **Event bus** (`shared/events`). Features never import each other; they talk through `appBus`:
-`caps:changed`, `nav:menu`, `menu:category`, `menu:details`, `scroll:lock`. `menu:details` is *sticky*: a click
+`nav:menu`, `menu:details`, `scroll:lock`. `menu:details` is *sticky*: a click
 on server-rendered markup before the menu island hydrates is kept and replayed to it, so it is never lost. `scroll:lock`
 is not: a dialog that opens before `smooth-scroll` has loaded is found through the `data-scroll-lock` attribute it sets
 on `<html>`, which `smooth-scroll` checks once when it starts.

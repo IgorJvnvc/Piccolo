@@ -9,11 +9,11 @@ export function whenIdle(callback: () => void): () => void {
 }
 
 /**
- * Runs `callback` once when `element` is within `margin` of the viewport.
+ * Runs `callback` once when `element` is within 25% of the viewport height.
  * Elements already above the viewport (page reloaded mid-scroll) count as visible so their scene can
  * settle into its end state instead of staying pre-hidden forever.
  */
-export function whenVisible(element: Element, callback: () => void, margin = '25% 0px'): () => void {
+export function whenVisible(element: Element, callback: () => void): () => void {
   if (typeof IntersectionObserver !== 'function') {
     callback();
     return () => undefined;
@@ -25,7 +25,7 @@ export function whenVisible(element: Element, callback: () => void, margin = '25
       observer.disconnect();
       callback();
     },
-    { rootMargin: margin },
+    { rootMargin: '25% 0px' },
   );
   observer.observe(element);
   return () => observer.disconnect();

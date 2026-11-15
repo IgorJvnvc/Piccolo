@@ -1,8 +1,11 @@
 import { DAY_KEYS, type DayHours, type DayKey, type OpeningHours } from './model';
 
+/** 24h "HH:MM", zero-padded: the one pattern for the parser and for the content schema. */
+export const TIME_PATTERN = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
 /** "09:30" -> 570. Throws on malformed input (content is validated by its schema first). */
 export function parseTime(value: string): number {
-  const match = /^([01]?\d|2[0-3]):([0-5]\d)$/.exec(value);
+  const match = TIME_PATTERN.exec(value);
   if (!match) throw new Error(`Invalid time "${value}", expected HH:MM`);
   return Number(match[1]) * 60 + Number(match[2]);
 }
@@ -64,7 +67,9 @@ export function formatTime12(value: string): string {
   return `${h12}:${String(minutes).padStart(2, '0')} ${suffix}`;
 }
 
-export const formatRange = (hours: DayHours): string => `${formatTime12(hours.open)} – ${formatTime12(hours.close)}`;
+/** "9:00 AM – 11:00 PM"; open == close is the 24 h encoding. */
+export const formatRange = (hours: DayHours): string =>
+  hours.open === hours.close ? 'Open 24 hours' : `${formatTime12(hours.open)} – ${formatTime12(hours.close)}`;
 
 const DAY_LABEL: Readonly<Record<DayKey, string>> = {
   mon: 'Mon',
@@ -104,9 +109,10 @@ export function groupHours(hours: OpeningHours): HoursRow[] {
   }));
 }
 
-/** One-line summary for the footer: "Daily 9:00 AM – 11:00 PM" when every day is identical. */
+/** One-line summary for the footer: "Daily 9:00 AM – 11:00 PM" when every day is identical ("Closed" and "Open 24 hours" stand alone). */
 export function summarizeHours(hours: OpeningHours): string {
   const rows = groupHours(hours);
-  if (rows.length === 1 && rows[0]) return `Daily ${rows[0].time}`;
+  const only = rows[0];
+  if (rows.length === 1 && only) return /^\d/.test(only.time) ? `Daily ${only.time}` : only.time;
   return rows.map((row) => `${row.days} ${row.time}`).join(' · ');
 }

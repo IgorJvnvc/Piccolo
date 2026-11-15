@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ALLERGENS, type MenuCategory, type MenuItem, type Money, categoryId, menuItemId } from '@/entities/menu/model';
+import { ALLERGENS, type MenuCategory, type MenuItem, type Money } from '@/entities/menu/model';
 import {
   allergenLabel,
   byOrder,
@@ -25,8 +25,8 @@ interface ItemSpec {
 }
 
 const item = ({ id, category, order = 0, popular = false, price = 1000, sizes = [] }: ItemSpec): MenuItem => ({
-  id: menuItemId(id),
-  categoryId: categoryId(category),
+  id,
+  categoryId: category,
   name: id.toUpperCase(),
   description: `Description of ${id}`,
   price: money(price),
@@ -39,7 +39,7 @@ const item = ({ id, category, order = 0, popular = false, price = 1000, sizes = 
 });
 
 const category = (id: string, order: number): MenuCategory => ({
-  id: categoryId(id),
+  id,
   title: id,
   blurb: `About ${id}`,
   order,
@@ -152,7 +152,6 @@ describe('toCardModel', () => {
 
     expect(card).toEqual({
       id: 'margherita',
-      categoryId: 'pizza',
       name: 'MARGHERITA',
       description: 'Description of margherita',
       priceLabel: 'from €8.50',
