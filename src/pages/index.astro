@@ -7,6 +7,7 @@ import { Dock } from '@/sections/dock';
 import { Follow } from '@/sections/follow';
 import { Footer } from '@/sections/footer';
 import { Hero } from '@/sections/hero';
+import { Intro } from '@/sections/intro';
 import { Menu } from '@/sections/menu';
 import { Navbar } from '@/sections/navbar';
 import { Popular } from '@/sections/popular';
@@ -17,6 +18,7 @@ const page = await buildHomePage(container, env.siteUrl);
 ---
 
 <BaseLayout {...page.seo}>
+  <Intro slot="header" {...page.intro} />
   <Navbar slot="header" {...page.navbar} />
   <Hero {...page.hero} />
   <About {...page.about} />

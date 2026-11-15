@@ -16,7 +16,7 @@
     padding: 0.5rem var(--gutter) calc(0.5rem + env(safe-area-inset-bottom));
     background: var(--c-surface);
     box-shadow: var(--sh-dock);
-    animation: dock-in 0.5s var(--ease-expo) 0.8s both;
+    animation: dock-in 0.5s var(--ease-expo) calc(var(--intro-wait) + 0.8s) both;
   }
 
   .status {

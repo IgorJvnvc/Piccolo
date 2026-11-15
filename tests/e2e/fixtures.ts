@@ -1,7 +1,25 @@
 import { expect, test as base } from '@playwright/test';
 
-/** Collects console errors / page errors / failed requests so every test can assert a clean run. */
-export const test = base.extend<{ problems: string[] }>({
+/**
+ * Collects console errors / page errors / failed requests so every test can assert a clean run.
+ *
+ * `introSeen` (default true) marks the entry intro as already seen, the way the page itself would be skipped for a visitor who has
+ * seen it, so the 5 seconds of orange do not sit in front of every test. `intro.spec.ts` turns it off.
+ */
+export const test = base.extend<{ problems: string[]; introSeen: boolean }>({
+  introSeen: [true, { option: true }],
+  context: async ({ context, introSeen }, use) => {
+    if (introSeen) {
+      await context.addInitScript(() => {
+        try {
+          window.sessionStorage.setItem('piccolo:intro', 'seen');
+        } catch {
+          // an opaque origin (about:blank) has no storage
+        }
+      });
+    }
+    await use(context);
+  },
   problems: async ({ page }, use) => {
     const problems: string[] = [];
     page.on('console', (message) => {

@@ -139,6 +139,20 @@ html.js:not(.no-enhance)[data-motion='full'] [data-reveal='up']:not([data-reveal
   }
 }
 
+/*
+ * Entry intro (sections/intro). The inline gate sets html[data-intro]; the page's own load animations (navbar, hero, dock) add
+ * --intro-wait to their delays, so they start as the last slice leaves. It must NOT change once the page is running: a changed
+ * delay re-times an animation that is already under way. The one exception is the failsafe below, which is meant to.
+ */
+html[data-intro] {
+  --intro-wait: calc(var(--intro-spin) + var(--intro-pop) + var(--intro-exit) + 5 * var(--intro-stagger));
+}
+
+/* The runtime never booted, or an island died: no overlay, and every load animation runs at once (ADR 0003, rule 5). */
+html.no-enhance {
+  --intro-wait: 0s;
+}
+
 /* Lenis (desktop smooth scroll) */
 html.lenis,
 html.lenis body {

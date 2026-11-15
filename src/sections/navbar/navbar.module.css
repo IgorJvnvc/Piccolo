@@ -53,7 +53,7 @@
   align-items: center;
   height: var(--nav-h);
   /* Load intro (reel: 0.27 to 0.65 s, slide down 22 px + fade). */
-  animation: nav-in 0.38s var(--ease-out) 0.07s both;
+  animation: nav-in 0.38s var(--ease-out) calc(var(--intro-wait) + 0.07s) both;
 }
 
 .root[data-state='shown'] .inner {

@@ -17,6 +17,7 @@ supersede it with a new one.
 | [0009](0009-first-frame-stalls.md) | First-frame stalls: what was measured, and the two things adopted | Accepted |
 | [0010](0010-phone-first-design-pass.md) | A phone-first pass on the visual system, not a new one | Accepted |
 | [0011](0011-anchor-landing-and-the-hero-mark.md) | Anchor jumps land where the stylesheet says, and nothing is current on the hero | Accepted |
+| [0012](0012-entry-intro-as-a-css-timeline.md) | The entry intro is a CSS timeline that the page waits for | Accepted |
 
 Format: **Context** (the forces), **Decision**, **Consequences** (good and bad), and **Alternatives** when they were
 seriously considered.

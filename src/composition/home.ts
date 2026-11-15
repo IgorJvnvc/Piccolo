@@ -5,6 +5,7 @@ import type { DockProps } from '@/sections/dock';
 import type { FollowLink, FollowProps } from '@/sections/follow';
 import type { FooterProps } from '@/sections/footer';
 import type { HeroProps } from '@/sections/hero';
+import type { IntroProps } from '@/sections/intro';
 import type { MenuSectionProps } from '@/sections/menu';
 import type { NavbarProps } from '@/sections/navbar';
 import type { PopularProps } from '@/sections/popular';
@@ -22,6 +23,7 @@ export interface HomePageModel {
     readonly siteName: string;
     readonly jsonLd: readonly unknown[];
   };
+  readonly intro: IntroProps;
   readonly navbar: NavbarProps;
   readonly hero: HeroProps;
   readonly about: AboutProps;
@@ -94,6 +96,8 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
       siteName: site.name,
       jsonLd: [buildRestaurantJsonLd(site, canonical, categories, items)],
     },
+
+    intro: { pizza: pizzaWhole },
 
     navbar: {
       brand,

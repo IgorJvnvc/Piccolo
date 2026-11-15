@@ -33,7 +33,7 @@ export default defineConfig({
   // and TV (lite tier), `islands` on desktop (quick view, tabs) and phone (mobile menu as well). The tablet and the phone share
   // the mobile menu, and the TV runs the desktop's islands.
   projects: [
-    { name: 'desktop', use: { viewport: { width: 1440, height: 900 } }, testMatch: /(desktop|shared|a11y|progressive|not-found|motion|islands)\.spec\.ts/ },
+    { name: 'desktop', use: { viewport: { width: 1440, height: 900 } }, testMatch: /(desktop|shared|a11y|progressive|not-found|motion|islands|intro)\.spec\.ts/ },
     {
       name: 'reference',
       use: { viewport: { width: 1253, height: 712 } },
@@ -42,7 +42,7 @@ export default defineConfig({
     {
       name: 'phone',
       use: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
-      testMatch: /(mobile|shared|not-found|islands)\.spec\.ts/,
+      testMatch: /(mobile|shared|not-found|islands|intro)\.spec\.ts/,
     },
     {
       name: 'tablet',

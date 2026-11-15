@@ -1,0 +1,228 @@
+/*
+ * Entry intro. A flat orange screen with a pizza spinning in the middle. After --intro-spin the pizza stops, splits into six
+ * slices, and each slice leaves along its own direction, pulling its triangle of orange with it, so the landing page is uncovered
+ * from the middle outwards. The page waits underneath: its load animations add --intro-wait to their delays (tokens.css, base.css).
+ *
+ * Pure CSS on purpose. It has to paint in the very first frame, before any script has loaded, and transform and opacity
+ * animations run on the compositor, so they stay smooth while the page hydrates. It exists only when the inline gate
+ * (intro-gate.inline.js) has set html[data-intro].
+ */
+.root {
+  display: none;
+}
+
+:global(html[data-intro]) .root {
+  --pizza: 30vmin; /* the pizza's diameter: 30% of the shorter side of the screen */
+  --reach: 150vmax; /* how far each orange triangle runs: well past any corner */
+  --far: calc(50vw + 50vh); /* how far a slice travels: more than half the diagonal, so none of it is left on screen */
+  --phase: 30deg; /* landscape: slices point left and right ... */
+  --end: 0deg; /* ... and the pizza stops the way it was drawn */
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  animation: end 0.01s linear var(--intro-wait) forwards;
+}
+
+@media (orientation: portrait) {
+  :global(html[data-intro]) .root {
+    --phase: 0deg; /* portrait: slices point up and down, so each has about as far to go */
+    --end: 30deg;
+  }
+}
+
+/* The runtime never booted: no overlay (base.css has already made the page open at once). */
+:global(html.no-enhance) .root {
+  display: none;
+}
+
+/* ---------- the six wedges: one orange triangle and one slice each, apex at the middle of the screen ---------- */
+.wedge {
+  --turn: calc(var(--a) + var(--phase));
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: auto; /* a wedge blocks the page behind it until it has left */
+  touch-action: none;
+  will-change: transform;
+  transform: rotate(var(--turn));
+  /* The split (a small push apart), then away. Two animations, because a timing function written inside keyframes cannot take var(). */
+  animation:
+    pop var(--intro-pop) var(--ease-out) calc(var(--intro-spin) + var(--i) * var(--intro-stagger)) both,
+    away var(--intro-exit) var(--intro-ease-away) calc(var(--intro-spin) + var(--intro-pop) + var(--i) * var(--intro-stagger)) forwards;
+}
+
+.wedge:nth-child(1) {
+  --a: 0deg;
+  --i: 0;
+}
+
+.wedge:nth-child(2) {
+  --a: 60deg;
+  --i: 1;
+}
+
+.wedge:nth-child(3) {
+  --a: 120deg;
+  --i: 2;
+}
+
+.wedge:nth-child(4) {
+  --a: 180deg;
+  --i: 3;
+}
+
+.wedge:nth-child(5) {
+  --a: 240deg;
+  --i: 4;
+}
+
+.wedge:nth-child(6) {
+  --a: 300deg;
+  --i: 5;
+}
+
+/* 64 degrees wide, 4 more than its share, so neighbours overlap and no hairline shows between them while it is still. */
+.wedge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-color: transparent transparent var(--c-accent);
+  border-style: solid;
+  border-width: 0 calc(var(--reach) * 0.63) var(--reach);
+  transform: translateX(-50%);
+}
+
+/* This wedge's 60 degree sector of the pizza, apex at the pizza's centre; the picture stays upright inside the turned wedge. */
+.shade {
+  position: absolute;
+  top: calc(var(--pizza) / -2);
+  left: calc(var(--pizza) / -2);
+  width: var(--pizza);
+  height: var(--pizza);
+  filter: var(--fx-slice);
+  opacity: 0;
+  animation: show 0.001s linear var(--intro-spin) forwards;
+}
+
+.slice {
+  display: block;
+  width: 100%;
+  max-width: none; /* the reset caps a picture at its container, and the wedge has no width */
+  height: 100%;
+  clip-path: polygon(50% 50%, -7.7% 150%, 107.7% 150%);
+}
+
+.slice img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(calc(var(--end) - var(--turn)));
+}
+/* ---------- the whole pizza: pops in, spins down to a stop, and is swapped for the six slices in the same frame ---------- */
+.pizza {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--pizza);
+  height: var(--pizza);
+  margin: calc(var(--pizza) / -2) 0 0 calc(var(--pizza) / -2);
+  border-radius: 50%;
+  box-shadow: var(--sh-pizza);
+  will-change: transform, opacity;
+  animation:
+    rise 0.5s var(--ease-out) both,
+    swap 0.001s linear var(--intro-spin) forwards;
+}
+
+.spinner {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.spin {
+  display: block;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  animation: spin var(--intro-spin) var(--intro-ease-spin) both;
+}
+
+/* ---------- keyframes ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(calc(1080deg + var(--end)));
+  }
+}
+
+@keyframes swap {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes show {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Along the slice's own direction: a small push apart, then all the way out. */
+@keyframes pop {
+  from {
+    transform: rotate(var(--turn)) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: rotate(var(--turn)) translate3d(0, calc(var(--pizza) * 0.05), 0);
+  }
+}
+
+@keyframes away {
+  from {
+    transform: rotate(var(--turn)) translate3d(0, calc(var(--pizza) * 0.05), 0);
+  }
+
+  to {
+    transform: rotate(var(--turn)) translate3d(0, var(--far), 0);
+  }
+}
+/*
+ * Nothing is left to see or to block once the last slice has gone: stop painting it. Stepped, not `to { hidden }`: the delay is a sum of
+ * fractions of a second, so the animation can stop a rounding error short of its end, and visibility is only hidden AT progress 1.
+ */
+@keyframes end {
+  0%,
+  50% {
+    visibility: visible;
+  }
+
+  51%,
+  100% {
+    visibility: hidden;
+  }
+}

@@ -111,6 +111,12 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
 - **Lenis already honours `scroll-padding-top` (html) and the target's `scroll-margin-top`.** Never pass them as an offset
   as well: the jump then lands twice the navbar's room too low on a mouse-and-laptop screen ([ADR 0011](docs/adr/0011-anchor-landing-and-the-hero-mark.md)).
   Move a section's landing with its own `scroll-margin-top`.
+- **Every load animation adds `var(--intro-wait)` to its delay** (navbar, hero, dock: `calc(var(--intro-wait) + 0.3s)`). It is `0s` unless the entry
+  intro plays (`html[data-intro]`, [ADR 0012](docs/adr/0012-entry-intro-as-a-css-timeline.md)), when it is the whole intro, so the page
+  starts as the last slice leaves. Never change `data-intro` or the timeline tokens after load: a changed delay re-times an animation that is
+  already running (only the `no-enhance` failsafe does it, on purpose). A timing function inside `@keyframes` cannot take `var()` (it silently
+  becomes `linear`), and a delay built from fractions of a second can leave an animation a rounding error short of its end, so a discrete
+  `visibility` flip needs a stepped keyframe. Specs run with the intro marked seen (`introSeen` in `tests/e2e/fixtures.ts`); `intro.spec.ts` turns it off.
 - **The 4 s `no-enhance` failsafe fires on a loaded CI machine.** Tests that assert the hidden pre-state neutralise it
   (`tests/e2e/motion.spec.ts`); `bootstrap-parity.spec.ts` covers the failsafe itself and `progressive.spec.ts` the dead-island
   fallback (Astro retries a failed island import once with `?astro-retry=`, so a test that blocks a chunk must match that too).

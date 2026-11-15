@@ -52,6 +52,8 @@
   --sh-dark: 0 2.5rem 4.5rem -1.25rem rgb(39 27 37 / 0.5);
   --sh-bar: 0 0.75rem 2rem -1rem rgb(35 33 36 / 0.25);
   --sh-dock: 0 -0.75rem 2rem -1rem rgb(35 33 36 / 0.25);
+  --sh-pizza: 0 0.75rem 1.75rem rgb(120 45 5 / 0.4); /* the pizza on the entry intro's orange */
+  --fx-slice: drop-shadow(0 0.75rem 1.75rem rgb(120 45 5 / 0.4)); /* the same shadow on one slice (a filter runs before clip-path, so it needs its own wrapper) */
 
   /* drop-shadow filters for cut-out art (tokens so components never hold raw colors) */
   --fx-item: drop-shadow(0 0.875rem 0.875rem rgb(39 27 37 / 0.16));
@@ -88,6 +90,19 @@
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out */
   --ease-soft: cubic-bezier(0.25, 1, 0.5, 1); /* quart-out, GSAP power3.out */
 
+  /*
+   * Entry intro (sections/intro): the pizza spins for --intro-spin, splits (--intro-pop), and each slice then leaves in --intro-exit,
+   * one after another, --intro-stagger apart. html[data-intro] turns --intro-wait into the whole thing; the navbar, hero and dock
+   * add it to their load-animation delays, so the landing page starts as the last slice is gone. Without the intro it stays 0s.
+   */
+  --intro-spin: 3s;
+  --intro-pop: 0.4s;
+  --intro-exit: 1.1s;
+  --intro-stagger: 0.06s;
+  --intro-ease-away: cubic-bezier(0.55, 0, 0.9, 0.45); /* a slice leaving: slow to start, then away (CSS only: no GSAP twin, so not --ease-*) */
+  --intro-ease-spin: cubic-bezier(0.22, 0.6, 0.36, 1); /* the pizza: fast, then a long slowing to a stop */
+  --intro-wait: 0s;
+
   /* stacking */
   --z-hero-art: 1;
   --z-hero-copy: 2;
@@ -95,6 +110,7 @@
   --z-dock: 60;
   --z-overlay: 80;
   --z-modal: 90;
+  --z-intro: 100;
 }
 
 @media (min-width: 768px) {

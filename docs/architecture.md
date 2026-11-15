@@ -284,6 +284,10 @@ Layout never depends on device class: it is CSS (media queries and the rem model
 - **A dead island:** when an island's code cannot be loaded, Astro fires `astro:hydration-error` and the bootstrap adds the same
   class: the menu is shown stacked and the buttons that would do nothing (card details, hamburger) are hidden, like without
   JavaScript.
+- **Entry intro** (`sections/intro`, [ADR 0012](adr/0012-entry-intro-as-a-css-timeline.md)): an inline gate, first in `<body>`, sets
+  `html[data-intro]` unless motion is `static`, colours are forced, the URL has a `#hash`, or the visit is marked seen. A pure CSS
+  timeline then plays over the page, and the navbar, hero and dock add `var(--intro-wait)` to their load-animation delays, so they
+  start as the last slice leaves. `html.no-enhance` hides the overlay and zeroes `--intro-wait`.
 - **Never animate or set `visibility` (or GSAP `autoAlpha`) in reveal code.** Hidden content cannot take keyboard
   focus: tabbing would skip it, or blur an element that was already focused when its tween was set up. Reveals animate
   `opacity` and `transform` only, so content stays focusable and in the accessibility tree. A lint rule enforces this.

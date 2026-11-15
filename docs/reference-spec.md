@@ -18,6 +18,7 @@ Evidence: `reference/frames/` keeps the five key frames the layout baseline was 
 | Scope | Marketing only: one landing page. No orders, login, admin or backend. |
 | Ordering elements in the reel | Replace with marketing equivalents: nav Menu / Offers / Find Us / Contact; hero CTA "View Menu" (or "Call Now"); card bag button becomes "Details"; the newsletter card becomes a Follow us / Call / WhatsApp card that keeps the same expand animation; payment logos become social links. |
 | Hero art | Same composition: Piccolo items (pizza slice, hot dog, sandwich, drink) on a dark slab, plus a diagonal steel fork and knife in place of the chopsticks, and a small whole pizza in place of the inline badge before "Fast Food". The Follow card holds its pizza slice on a fork instead of chopsticks. |
+| Entry intro | Not in the reel; added by the owner. A pizza (30% of the shorter screen side) spins on the brand orange for 3 s, splits into six slices, and each slice leaves with its triangle of orange; the landing page's own animations start after the last slice (ADR 0012). Every full page load, except reduced motion, forced colours and `#hash` deep links. |
 | Navbar | Same look at the top, but it reappears on scroll-up (the reel's navbar scrolls away and never returns). |
 | Languages / TV | English only. TV means "looks great in a TV browser" (large type, safe margins, arrow-key/remote navigation, lighter animation tier). |
 
