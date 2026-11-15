@@ -22,6 +22,11 @@
   transition: transform var(--dur-3) var(--ease-out);
 }
 
+/* Tabbing into the hidden bar brings it back, instead of focusing links nobody can see. */
+.root[data-state='hidden']:focus-within {
+  transform: none;
+}
+
 .root[data-state='shown'] {
   background: var(--c-bg);
   box-shadow: var(--sh-bar);

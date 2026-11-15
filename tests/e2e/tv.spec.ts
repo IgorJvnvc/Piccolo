@@ -1,4 +1,4 @@
-import { expect, ready, test } from './fixtures';
+import { expect, hydrated, ready, test } from './fixtures';
 
 test.describe('TV', () => {
   test('is classified as a TV on the lite tier with no smooth scroll', async ({ page }) => {
@@ -18,6 +18,20 @@ test.describe('TV', () => {
     await expect(page.getByRole('banner').getByRole('link', { name: 'Find Us' })).toBeFocused();
     await page.keyboard.press('ArrowLeft');
     await expect(page.getByRole('banner').getByRole('link', { name: 'Offers' })).toBeFocused();
+  });
+
+  test('the D-pad stays inside an open dialog', async ({ page }) => {
+    await ready(page);
+    await hydrated(page, 'MenuBrowser');
+    await page.locator('#menu').getByRole('button', { name: 'Details: Pizza Margherita' }).focus();
+    await page.keyboard.press('Enter');
+    const dialog = page.getByRole('dialog', { name: 'Pizza Margherita' });
+    await expect(dialog.getByRole('button', { name: 'Close details' })).toBeFocused();
+
+    for (const key of ['ArrowDown', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowUp']) {
+      await page.keyboard.press(key);
+      await expect(dialog.locator(':focus')).toHaveCount(1);
+    }
   });
 
   test('focus ring is large enough for a 10-foot UI', async ({ page }) => {

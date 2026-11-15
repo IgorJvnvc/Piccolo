@@ -25,6 +25,12 @@ The **reveal protocol**:
 4. **Reveal code animates `opacity` and `transform` only. It never sets `visibility` or uses `autoAlpha`.**
 5. Reduced motion (`static` tier): the pre-state never applies. No JavaScript: nothing is hidden. If the runtime has not
    reported ready after 4 seconds, the inline bootstrap adds `html.no-enhance` and everything shows.
+6. `html.no-enhance` is also the fallback for a dead island. When an island's code cannot be loaded, Astro fires
+   `astro:hydration-error` (after its one retry) and the bootstrap sets the class at once: the menu shows every category
+   stacked, and the controls that would do nothing (the card details buttons, the hamburger) are hidden, exactly as for a
+   visitor without JavaScript.
+7. A scene never hides what is already visible: one that starts after `no-enhance` is set does nothing, and one whose GSAP
+   download has not arrived after 6 seconds gives up and opens its section (`recover`).
 
 ## Consequences
 

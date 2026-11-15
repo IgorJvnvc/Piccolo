@@ -14,8 +14,6 @@ export interface QuickViewProps {
   readonly opener: HTMLElement | null;
 }
 
-const TAG_LABEL = { vegetarian: 'Vegetarian', vegan: 'Vegan', spicy: 'Spicy', new: 'New' } as const;
-
 /** Item details: sizes, allergens, and how to order (this is a marketing site: call or visit). */
 export function QuickView({ card, phone, onClose, opener }: QuickViewProps) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -52,7 +50,7 @@ export function QuickView({ card, phone, onClose, opener }: QuickViewProps) {
             <ul class={styles.tags} role="list">
               {shown.tags.map((tag) => (
                 <li class={styles.tag} key={tag}>
-                  {TAG_LABEL[tag]}
+                  {tag}
                 </li>
               ))}
             </ul>

@@ -1,12 +1,11 @@
 import type { Capabilities, MotionTier } from '@/shared/device';
 import type { AppBus } from '@/shared/events';
 import type { GsapKit } from '@/shared/motion';
-import type { Services } from '@/shared/services';
 
 /**
  * When an enhancement starts:
  * - load:    right after boot
- * - idle:    when the main thread is idle (smooth scroll, analytics, ...)
+ * - idle:    when the main thread is idle (smooth scroll, ...)
  * - visible: when its root element approaches the viewport (scroll scenes)
  */
 export type When = 'load' | 'idle' | 'visible';
@@ -15,7 +14,6 @@ export interface EnhancementContext {
   /** The element that matched `selector`. */
   readonly root: HTMLElement;
   readonly caps: Capabilities;
-  readonly services: Services;
   readonly bus: AppBus;
   /** Aborted when this enhancement is torn down (capabilities changed, page hidden for good, ...). */
   readonly signal: AbortSignal;

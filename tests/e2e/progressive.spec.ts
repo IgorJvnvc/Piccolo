@@ -37,3 +37,27 @@ test.describe('without JavaScript', () => {
     expect(bgWidth).toBeGreaterThan(stageWidth - 2);
   });
 });
+
+// An island whose code cannot be loaded would leave a dead tab row and a dead hamburger, which are worse than none: the bootstrap
+// reacts to Astro's `astro:hydration-error` (fired after its own single retry) by falling back to the no-JS layout.
+test.describe('an island that never arrives', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test('leaves the no-JS layout instead of controls that do nothing', async ({ page }) => {
+    // Block the island chunks the way an ad blocker or a flaky connection would. Astro retries a failed import once with
+    // `?astro-retry=...`, so the match has to cover that too. The runtime itself loads.
+    const chunks = new Set(Array.from((await (await page.request.get('/')).text()).matchAll(/component-url="([^"]+)"/g), (match) => match[1]));
+    await page.route(/\/_astro\/[^?]+\.js/, (route) => (chunks.has(new URL(route.request().url()).pathname) ? route.abort() : route.continue()));
+
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveClass(/no-enhance/, { timeout: 10_000 });
+    expect(await page.evaluate(() => window.__PICCOLO_READY__)).toBe(true); // it is the islands that failed, not the runtime
+
+    await expect(page.getByRole('tab', { includeHidden: true }).first()).toBeHidden();
+    for (const name of ['Pizza', 'Hot Dogs', 'Sandwiches', 'Drinks']) {
+      await expect(page.getByRole('heading', { name, level: 3 }).first()).toBeVisible();
+    }
+    await expect(page.locator('[data-details]:visible')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Open menu' })).toBeHidden();
+  });
+});

@@ -3,8 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createScheduler } from '@/runtime/scheduler';
 import type { Capabilities } from '@/shared/device';
 import { type EnhancementContext, defineScene } from '@/shared/enhance';
+import { createAppBus } from '@/shared/events';
 import { enter } from '@/shared/motion';
-import { createServices } from '@/shared/services';
 import { fakeKit, timelineVars } from '../motion/fake-kit';
 
 const caps = (motion: Capabilities['motion'] = 'full'): Capabilities => ({
@@ -35,8 +35,7 @@ afterEach(() => {
 });
 
 function contextFor(loadKit: EnhancementContext['gsap'], overrides: Partial<EnhancementContext> = {}): EnhancementContext {
-  const services = createServices();
-  return { root, caps: caps(), services, bus: services.bus, signal: new AbortController().signal, gsap: loadKit, ...overrides };
+  return { root, caps: caps(), bus: createAppBus(), signal: new AbortController().signal, gsap: loadKit, ...overrides };
 }
 
 const definition = { id: 'demo', selector: '[data-enhance="demo"]', start: enter.about };
@@ -88,6 +87,31 @@ describe('defineScene', () => {
     await expect(scene.setup(contextFor(() => Promise.reject(new Error('chunk failed'))))).rejects.toThrow('chunk failed');
   });
 
+  it('gives up on a GSAP download that never finishes, so the scheduler can recover', async () => {
+    vi.useFakeTimers();
+    try {
+      const scene = defineScene({ ...definition, build: () => undefined });
+      const settled = expect(scene.setup(contextFor(() => new Promise(() => undefined)))).rejects.toThrow(/did not load/);
+
+      await vi.advanceTimersByTimeAsync(60_000);
+      await settled;
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('does nothing once the bootstrap failsafe has already shown the page', async () => {
+    const loadKit = vi.fn(() => Promise.reject(new Error('must not be asked for')));
+    const scene = defineScene({ ...definition, build: () => undefined });
+    document.documentElement.classList.add('no-enhance');
+    try {
+      expect(await scene.setup(contextFor(loadKit))).toBeUndefined();
+      expect(loadKit).not.toHaveBeenCalled();
+    } finally {
+      document.documentElement.classList.remove('no-enhance');
+    }
+  });
+
   it('recover reveals everything the scene hid and opens idle stages', () => {
     const scene = defineScene({ ...definition, build: () => undefined });
 
@@ -104,7 +128,7 @@ describe('a scene whose GSAP download fails (through the real scheduler)', () =>
     const scene = defineScene({ ...definition, build: () => undefined });
     const scheduler = createScheduler([scene], {
       doc: document,
-      services: createServices(),
+      bus: createAppBus(),
       gsap: () => Promise.reject(new Error('Failed to fetch dynamically imported module')),
       timing: { whenIdle: () => () => undefined, whenVisible: (_element, run) => (run(), () => undefined) },
     });

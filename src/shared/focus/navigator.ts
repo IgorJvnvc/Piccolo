@@ -1,7 +1,5 @@
+import { FOCUSABLE } from './focusable';
 import { type Box, type Candidate, type Direction, directionOf, isBackKey, pickNext } from './spatial';
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export interface SpatialNavigatorOptions {
   /** Called for the remote's Back key. Return true if handled. */
@@ -48,7 +46,9 @@ export function attachSpatialNavigation(
     // Let text inputs keep their own arrow-key behavior.
     if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT')) return;
 
-    const focusables = Array.from(doc.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+    // An open modal keeps the D-pad to itself, like it does Tab: the page behind it is not reachable.
+    const scope = doc.querySelector('[aria-modal="true"]') ?? doc;
+    const focusables = Array.from(scope.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
       (el) => el !== active && isVisible(el),
     );
     if (focusables.length === 0) return;

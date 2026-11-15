@@ -32,7 +32,7 @@ export default function MobileNav({ brand, links, phone, socials }: MobileNavPro
     setOpen(true);
   };
 
-  useDialog(panel.ref, open, { onClose: close });
+  useDialog(panel.ref, open, { onClose: close, returnFocus: toggleRef.current });
 
   // Tell the navbar (keep it visible) and whoever else cares.
   useEffect(() => {

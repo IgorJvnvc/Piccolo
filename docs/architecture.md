@@ -120,7 +120,7 @@ src/
   infrastructure/   content/ (adapters + Zod schemas)   images/ (catalog)
   composition/      container.ts  home.ts  not-found.ts  restaurant-jsonld.ts
   runtime/          boot.ts  registry.ts  scheduler.ts  timing.ts
-  shared/           config device enhance events focus lib motion seo services ui
+  shared/           config device enhance events focus lib motion seo ui
   styles/           tokens.css  reset.css  base.css
   content/          site.json  home.json  menu/categories.json  menu/items.json
   assets/           placeholder art (replace with real photos, same base names)
@@ -158,7 +158,8 @@ content JSON ──Zod──▶ collections ──▶ repositories ──▶ com
 The page is complete HTML before any script runs. JavaScript then *enhances* it in this order:
 
 1. **Inline bootstrap** (`shared/device/bootstrap.inline.js`, plain ES5, runs in `<head>` before first paint): measures
-   the device and sets `html.js`, `data-device`, `data-motion`, `data-pointer`, and arms a 4 s failsafe (`no-enhance`).
+   the device and sets `html.js`, `data-device`, `data-motion`, `data-pointer`, arms a 4 s failsafe and listens for
+   Astro's `astro:hydration-error`; either one sets `html.no-enhance` (everything shows, the no-JS layout applies).
 2. **`runtime/boot.ts`** (the only script every visitor downloads): creates the capabilities store, discovers every
    `*.scene.ts` / `*.behavior.ts` via `import.meta.glob` (eager, they are tiny), and starts the scheduler. It sets
    `window.__PICCOLO_READY__` when done.
@@ -215,8 +216,9 @@ export default defineScene({
   runs a third faster (`scaleFor`); nothing else needs to know about tiers.
 - Values that depend on layout are functions (`y: () => px(2)`), and the trigger uses `invalidateOnRefresh`, so a resize
   before the scene plays re-measures instead of reusing stale numbers.
-- `recover` is the fail-safe: if a scene cannot run (the GSAP download failed, expected markup is missing) the scheduler
-  calls it and the section opens instead of staying invisible.
+- `recover` is the fail-safe: if a scene cannot run (the GSAP download failed or has not arrived after 6 s, expected markup
+  is missing) the scheduler calls it and the section opens instead of staying invisible. A scene that starts after the
+  bootstrap's failsafe (`html.no-enhance`) has already shown the page does nothing.
 - A frame later than 60 ms counts as 33 ms of animation time (`LAG_SMOOTHING`, set where GSAP loads), so a slow first frame
   delays a scene or a dialog instead of skipping the part of it the hitch covered. Lenis turns this off while it runs (desktop
   with a fine pointer), because it needs real time, and puts the same constant back on teardown ([ADR 0009](adr/0009-first-frame-stalls.md)).
@@ -236,7 +238,7 @@ on `<html>`, which `smooth-scroll` checks once when it starts.
 **Islands.** Only two exist: `MobileNav` (`client:media="(max-width: 1023px)"`) and `MenuBrowser` (`client:idle`). The menu
 browser server-renders every category panel, so search engines and no-JS visitors get the full menu; the island turns it
 into tabs with a quick-view dialog (`shared/focus/use-dialog`: focus trap, Escape, scroll lock, focus returns to the
-opener).
+opener). If an island's code cannot be loaded, the page falls back to the no-JS layout ([ADR 0003](adr/0003-progressive-enhancement-and-reveal-protocol.md)).
 
 Islands are animated with the same GSAP as the scenes. Each feature describes its choreography in a `*.motion.ts`: plain
 functions of `(node, tools)` with no framework in them (`mobile-nav.motion.ts`: the circle that grows from the toggle,

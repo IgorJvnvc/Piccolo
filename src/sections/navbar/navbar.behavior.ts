@@ -27,6 +27,40 @@ export default defineEnhancement({
     let menuOpen = false;
     let frame = 0;
 
+    const links = parts<HTMLAnchorElement>(root, 'link');
+    const targets = links.flatMap((link) => {
+      const id = link.getAttribute('href')?.replace(/^#/, '');
+      const section = id ? document.getElementById(id) : null;
+      return section ? [{ link, section }] : [];
+    });
+
+    // Scroll-spy: the link whose section has its top nearest above the middle of the viewport is current. At the very end of the
+    // page it is the last one, because a short last section (Contact) never gets its top that high.
+    let spied: HTMLAnchorElement | null | undefined;
+    const spy = (y: number): void => {
+      let current: HTMLAnchorElement | null = null;
+      if (window.innerHeight + y >= document.documentElement.scrollHeight - 2) {
+        current = targets[targets.length - 1]?.link ?? null;
+      } else {
+        let nearest = Number.NEGATIVE_INFINITY;
+        for (const { link, section } of targets) {
+          const top = section.getBoundingClientRect().top;
+          if (top <= window.innerHeight / 2 && top > nearest) {
+            nearest = top;
+            current = link;
+          }
+        }
+      }
+      if (current === spied) return;
+      spied = current;
+      for (const link of links) {
+        if (link === current) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+        // Nothing current (the hero): the first link carries the mark, like the reel.
+        link.toggleAttribute('data-active', current === null && link === links[0]);
+      }
+    };
+
     const apply = (next: NavState): void => {
       if (next === state && root.dataset['state']) return;
       state = next;
@@ -41,6 +75,7 @@ export default defineEnhancement({
       lastY = y;
 
       root.style.setProperty('--nav-y', String(Math.min(y, height)));
+      spy(y);
 
       if (menuOpen) {
         apply('shown');
@@ -78,39 +113,8 @@ export default defineEnhancement({
       { signal },
     );
 
-    // Scroll-spy: the link whose section crosses the middle of the viewport is current.
-    const links = parts<HTMLAnchorElement>(root, 'link');
-    const targets = links.flatMap((link) => {
-      const id = link.getAttribute('href')?.replace(/^#/, '');
-      const section = id ? document.getElementById(id) : null;
-      return section ? [{ link, section }] : [];
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const hit = targets.find((target) => target.section === entry.target);
-          if (!hit) continue;
-          if (entry.isIntersecting) {
-            for (const { link } of targets) link.removeAttribute('aria-current');
-            hit.link.setAttribute('aria-current', 'true');
-            for (const link of links) link.removeAttribute('data-active');
-          } else if (hit.link.getAttribute('aria-current') === 'true') {
-            hit.link.removeAttribute('aria-current');
-          }
-        }
-        // Nothing current (hero area): fall back to the first link, like the reel.
-        if (!targets.some(({ link }) => link.hasAttribute('aria-current'))) {
-          links[0]?.setAttribute('data-active', '');
-        }
-      },
-      { rootMargin: '-45% 0px -50% 0px' },
-    );
-    for (const { section } of targets) observer.observe(section);
-
     return () => {
       cancelAnimationFrame(frame);
-      observer.disconnect();
       delete root.dataset['state'];
       root.style.removeProperty('--nav-y');
     };

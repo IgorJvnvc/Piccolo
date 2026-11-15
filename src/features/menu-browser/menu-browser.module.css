@@ -98,17 +98,21 @@
   }
 }
 
-/* No JS: every category is shown, stacked, with its own title; the tab UI is hidden. */
+/* No JS, or the island never arrived (html.no-enhance): every category is shown, stacked, with its own title; the tab UI is hidden. */
 :global(html:not(.js)) .tabsWrap,
-:global(html:not(.js)) .blurb {
+:global(html.no-enhance) .tabsWrap,
+:global(html:not(.js)) .blurb,
+:global(html.no-enhance) .blurb {
   display: none;
 }
 
-:global(html:not(.js)) .panel[hidden] {
+:global(html:not(.js)) .panel[hidden],
+:global(html.no-enhance) .panel[hidden] {
   display: block !important;
 }
 
-:global(html:not(.js)) .panelTitle {
+:global(html:not(.js)) .panelTitle,
+:global(html.no-enhance) .panelTitle {
   display: block;
   margin-block: 2rem 1rem;
   font-family: var(--font-display);

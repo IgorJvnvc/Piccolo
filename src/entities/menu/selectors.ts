@@ -1,6 +1,6 @@
 import type { ImageSource } from '@/shared/ui';
 import type { MenuCardModel } from './card-model';
-import type { Allergen, MenuCategory, MenuItem, Money } from './model';
+import type { Allergen, DietaryTag, MenuCategory, MenuItem, Money } from './model';
 
 export const byOrder = <T extends { readonly order: number }>(list: readonly T[]): T[] =>
   [...list].sort((a, b) => a.order - b.order);
@@ -62,6 +62,13 @@ const ALLERGEN_LABELS: Readonly<Record<Allergen, string>> = {
 
 export const allergenLabel = (allergen: Allergen): string => ALLERGEN_LABELS[allergen];
 
+const TAG_LABELS: Readonly<Record<DietaryTag, string>> = {
+  vegetarian: 'Vegetarian',
+  vegan: 'Vegan',
+  spicy: 'Spicy',
+  new: 'New',
+};
+
 export function toCardModel(item: MenuItem, image: ImageSource, format: MoneyFormatter): MenuCardModel {
   return {
     id: item.id,
@@ -70,7 +77,7 @@ export function toCardModel(item: MenuItem, image: ImageSource, format: MoneyFor
     priceLabel: priceLabel(item, format),
     sizes: item.sizes.map((size) => ({ label: size.label, priceLabel: format(size.price) })),
     allergens: item.allergens.map(allergenLabel),
-    tags: item.tags,
+    tags: item.tags.map((tag) => TAG_LABELS[tag]),
     image,
   };
 }

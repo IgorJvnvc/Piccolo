@@ -4,5 +4,4 @@ import { selector } from '@/shared/lib';
 export const NAVBAR = {
   name: 'navbar',
   root: selector.enhance('navbar'),
-  link: selector.part('link'),
 } as const;

@@ -35,6 +35,37 @@ test.describe('desktop', () => {
     await expect.poll(async () => (await page.locator('#visit').boundingBox())?.y ?? 9999, { timeout: 8000 }).toBeLessThan(260);
   });
 
+  test('the logo goes back to the top and takes keyboard focus with it', async ({ page }) => {
+    await ready(page);
+    await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }));
+    await page.getByRole('banner').getByRole('link', { name: /PICCOLO/ }).focus(); // brings the hidden bar back
+    await page.keyboard.press('Enter');
+
+    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 8000 }).toBeLessThan(5);
+    await expect(page.locator('body')).toBeFocused();
+    await expect(page).not.toHaveURL(/#/);
+  });
+
+  test('the navbar marks the section in view as current, Contact once the page ends', async ({ page }) => {
+    await ready(page);
+    const current = page.getByRole('banner').locator('[aria-current="true"]');
+    await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+    await expect(current).toHaveText('Contact');
+    await page.evaluate(() => document.getElementById('visit')?.scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await expect(current).toHaveText('Find Us');
+  });
+
+  test('a hidden navbar comes back when keyboard focus enters it', async ({ page }) => {
+    await ready(page);
+    const nav = page.locator('[data-enhance="navbar"]');
+    await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }));
+    await expect(nav).toHaveAttribute('data-state', 'hidden');
+    await expect(nav).not.toBeInViewport();
+
+    await nav.getByRole('link', { name: 'Menu' }).focus();
+    await expect(nav).toBeInViewport();
+  });
+
   test('hero art intro plays from CSS (no JS needed)', async ({ page }) => {
     await page.goto('/');
     const title = page.getByRole('heading', { level: 1 });

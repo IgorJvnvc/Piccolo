@@ -15,13 +15,6 @@ export interface MenuCardProps {
   readonly eager?: boolean;
 }
 
-const TAG_LABEL = {
-  vegetarian: 'Vegetarian',
-  vegan: 'Vegan',
-  spicy: 'Spicy',
-  new: 'New',
-} as const;
-
 /**
  * Presentational menu card. Pure Preact (no hooks), so it renders statically in Astro AND inside the
  * MenuBrowser island with identical markup. The Details button carries `data-details`; a delegated
@@ -33,7 +26,7 @@ export function MenuCard({ model, idScope, class: className, eager = false }: Me
 
   return (
     <article class={cn(styles.card, className)} aria-labelledby={titleId} data-card={model.id}>
-      {badge ? <span class={styles.badge}>{TAG_LABEL[badge]}</span> : null}
+      {badge ? <span class={styles.badge}>{badge}</span> : null}
       <div class={styles.media}>
         <Picture
           image={model.image}

@@ -4,8 +4,8 @@ import { scrollTo } from '@/features/smooth-scroll/controller';
 import smoothScroll from '@/features/smooth-scroll/smooth-scroll.behavior';
 import type { Capabilities } from '@/shared/device';
 import type { EnhancementContext } from '@/shared/enhance';
+import { createAppBus } from '@/shared/events';
 import { type GsapKit, LAG_SMOOTHING } from '@/shared/motion';
-import { createServices } from '@/shared/services';
 
 interface FakeLenis {
   readonly options: unknown;
@@ -43,8 +43,7 @@ function fakeKit() {
 }
 
 function contextFor(loadKit: EnhancementContext['gsap'], controller = new AbortController()): EnhancementContext {
-  const services = createServices();
-  return { root: document.documentElement, caps, services, bus: services.bus, signal: controller.signal, gsap: loadKit };
+  return { root: document.documentElement, caps, bus: createAppBus(), signal: controller.signal, gsap: loadKit };
 }
 
 /** Sets the behavior up against fakes and returns what it did. */
@@ -120,7 +119,7 @@ describe('smooth-scroll', () => {
     teardown();
     scrollTo(480, -60);
     expect(lenis.scrollTo).toHaveBeenCalledTimes(1);
-    expect(top).toHaveBeenCalledWith({ top: 420, behavior: 'smooth' });
+    expect(top).toHaveBeenCalledWith({ top: 420 });
   });
 
   it('builds nothing if it was torn down while Lenis and GSAP were still loading', async () => {

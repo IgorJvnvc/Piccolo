@@ -3,8 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import follow from '@/sections/follow/follow.scene';
 import type { Capabilities } from '@/shared/device';
 import type { EnhancementContext } from '@/shared/enhance';
+import { createAppBus } from '@/shared/events';
 import { loadGsap } from '@/shared/motion';
-import { createServices } from '@/shared/services';
 
 /**
  * The Follow card's choreography against the REAL GSAP: the actual scene file, a stubbed layout (happy-dom has none),
@@ -76,8 +76,7 @@ async function run() {
     return created;
   };
   const kit = { gsap: Object.create(gsap, { timeline: { value: timeline } }) as typeof gsap, ScrollTrigger: undefined as never };
-  const services = createServices();
-  const context: EnhancementContext = { root: fixture.root, caps, services, bus: services.bus, signal: new AbortController().signal, gsap: () => Promise.resolve(kit) };
+  const context: EnhancementContext = { root: fixture.root, caps, bus: createAppBus(), signal: new AbortController().signal, gsap: () => Promise.resolve(kit) };
   const teardown = await follow.setup(context);
   const first = timelines[0];
   if (!first) throw new Error('the scene created no timeline');

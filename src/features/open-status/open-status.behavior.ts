@@ -24,14 +24,14 @@ export default defineEnhancement({
   when: 'load',
   tiers: ['full', 'lite', 'static'],
 
-  setup({ root, services }) {
+  setup({ root }) {
     const hours = readHours(root.dataset['hours']);
     if (!hours) return undefined;
 
     const label = root.querySelector(selector.part('open-label'));
 
     const update = (): void => {
-      const open = isOpenNow(hours, services.clock.now());
+      const open = isOpenNow(hours, new Date());
       root.dataset['open'] = String(open);
       if (label) label.textContent = open ? 'Open now' : 'Closed now';
     };

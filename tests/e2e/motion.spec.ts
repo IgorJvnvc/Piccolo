@@ -118,7 +118,7 @@ const isDesktopLayout = (page: Page): boolean => (page.viewportSize()?.width ?? 
 test.beforeEach(async ({ page }) => {
   // The inline bootstrap reveals everything (`html.no-enhance`) if the runtime has not booted within 4 s. A loaded CI machine
   // can be that slow, and these tests assert the hidden state that precedes a scene, so keep that timer from firing here.
-  // (The failsafe itself is covered by progressive.spec.ts.)
+  // (The failsafe itself is covered by bootstrap-parity.spec.ts.)
   await page.addInitScript(() => {
     const original = window.setTimeout.bind(window) as (handler: TimerHandler, timeout?: number, ...args: unknown[]) => number;
     window.setTimeout = ((handler: TimerHandler, timeout?: number, ...args: unknown[]) =>

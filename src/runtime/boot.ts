@@ -1,7 +1,6 @@
 import { applyToDocument, createCapabilitiesStore } from '@/shared/device';
 import { appBus } from '@/shared/events';
 import { loadGsap } from '@/shared/motion';
-import { createServices } from '@/shared/services';
 import { enhancements } from './registry';
 import { createScheduler } from './scheduler';
 
@@ -15,8 +14,7 @@ function boot(): void {
   const store = createCapabilitiesStore(window);
   applyToDocument(document, store.get());
 
-  const services = createServices({ bus: appBus });
-  const scheduler = createScheduler(enhancements, { doc: document, services, gsap: loadGsap });
+  const scheduler = createScheduler(enhancements, { doc: document, bus: appBus, gsap: loadGsap });
   scheduler.reconcile(store.get());
 
   store.subscribe((caps) => {

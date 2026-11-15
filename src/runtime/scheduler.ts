@@ -1,12 +1,12 @@
 import type { Capabilities } from '@/shared/device';
 import { type Enhancement, type EnhancementContext, type Teardown, qualifies } from '@/shared/enhance';
+import type { AppBus } from '@/shared/events';
 import type { GsapKit } from '@/shared/motion';
-import type { Services } from '@/shared/services';
 import { whenIdle, whenVisible } from './timing';
 
 export interface SchedulerDeps {
   readonly doc: Document;
-  readonly services: Services;
+  readonly bus: AppBus;
   readonly gsap: () => Promise<GsapKit>;
   /** Overridable for tests. */
   readonly timing?: {
@@ -48,8 +48,7 @@ export function createScheduler(enhancements: readonly Enhancement[], deps: Sche
     const context: EnhancementContext = {
       root,
       caps,
-      services: deps.services,
-      bus: deps.services.bus,
+      bus: deps.bus,
       signal: controller.signal,
       gsap: deps.gsap,
     };

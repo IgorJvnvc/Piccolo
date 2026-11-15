@@ -160,7 +160,7 @@ describe('toCardModel', () => {
         { label: 'Large', priceLabel: '€12.50' },
       ],
       allergens: ['Gluten', 'Dairy', 'Tree nuts'],
-      tags: ['vegetarian'],
+      tags: ['Vegetarian'],
       image,
     });
   });

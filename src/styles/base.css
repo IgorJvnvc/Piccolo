@@ -60,6 +60,11 @@ main {
   outline-offset: 0.25rem;
 }
 
+/* Programmatic focus targets (an anchored section, the page top, a dialog) are not controls: no ring. */
+[tabindex='-1']:focus {
+  outline: none;
+}
+
 [data-device='tv'] :focus-visible {
   outline-width: 0.3125rem;
   outline-offset: 0.375rem;

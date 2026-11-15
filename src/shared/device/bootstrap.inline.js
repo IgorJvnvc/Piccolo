@@ -4,7 +4,8 @@
  *
  * - Plain ES5 on purpose: it must run on ancient TV browsers.
  * - Mirrors src/shared/device/classify.ts (a parity test runs both on the same inputs).
- * - Failsafe: if the enhancement runtime never reports ready, content is revealed anyway.
+ * - Failsafe: if the enhancement runtime never reports ready, content is revealed anyway; if an island's code cannot be
+ *   loaded, the page falls back to its no-JS layout. Both are html.no-enhance.
  */
 (function (win, doc) {
   var root = doc.documentElement;
@@ -60,4 +61,9 @@
   win.setTimeout(function () {
     if (!win.__PICCOLO_READY__) root.className += ' no-enhance';
   }, 4000);
+
+  // Astro fires this on an island whose code could not be loaded (after one retry): its tabs and buttons would do nothing.
+  doc.addEventListener('astro:hydration-error', function () {
+    if (root.className.indexOf('no-enhance') < 0) root.className += ' no-enhance';
+  });
 })(window, document);

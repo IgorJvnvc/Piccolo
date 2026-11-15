@@ -19,6 +19,12 @@
   }
 }
 
+/* No JS, or this island never arrived (html.no-enhance): a button that does nothing is worse than none. */
+:global(html:not(.js)) .toggle,
+:global(html.no-enhance) .toggle {
+  display: none;
+}
+
 .panel {
   position: fixed;
   inset: 0;

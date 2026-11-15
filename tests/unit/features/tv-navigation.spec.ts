@@ -19,12 +19,10 @@ function start(): Options {
 const root = document.documentElement;
 
 beforeEach(() => {
-  root.removeAttribute('data-motion');
   root.removeAttribute('data-scroll-lock');
 });
 
 afterEach(() => {
-  root.removeAttribute('data-motion');
   root.removeAttribute('data-scroll-lock');
 });
 
@@ -35,26 +33,12 @@ describe('tv-navigation', () => {
     expect(tvNavigation.enabled?.({ device: 'desktop' } as never)).toBe(false);
   });
 
-  it('glides focus to the middle of the screen', () => {
-    root.dataset['motion'] = 'lite';
+  it('brings focus to the middle of the screen (smooth or instant is up to the CSS scroll-behavior)', () => {
     const element = { scrollIntoView: vi.fn() };
 
     start().onFocus(element as unknown as HTMLElement);
 
-    expect(element.scrollIntoView).toHaveBeenCalledWith({ block: 'center', behavior: 'smooth' });
-  });
-
-  it('jumps instead of gliding for a visitor who asked for reduced motion, even if they ask while the page is open', () => {
-    root.dataset['motion'] = 'full';
-    const element = { scrollIntoView: vi.fn() };
-    const { onFocus } = start();
-
-    onFocus(element as unknown as HTMLElement);
-    expect(element.scrollIntoView).toHaveBeenLastCalledWith({ block: 'center', behavior: 'smooth' });
-
-    root.dataset['motion'] = 'static';
-    onFocus(element as unknown as HTMLElement);
-    expect(element.scrollIntoView).toHaveBeenLastCalledWith({ block: 'center', behavior: 'auto' });
+    expect(element.scrollIntoView).toHaveBeenCalledWith({ block: 'center' });
   });
 
   it('turns the remote Back key into Escape while a dialog is open, and leaves it alone otherwise', () => {

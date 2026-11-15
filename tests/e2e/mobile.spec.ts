@@ -22,6 +22,19 @@ test.describe('phone and tablet', () => {
     await expect(dialog).toBeHidden();
     await expect(page.locator('html')).not.toHaveAttribute('data-scroll-lock', '');
     await expect(page).toHaveURL(/#visit$/);
+    await expect(page.locator('#visit')).toBeFocused(); // the menu does not take focus back from the section it just sent you to
+  });
+
+  test('mobile menu keeps Shift+Tab inside it, even after a tap on an empty spot', async ({ page }) => {
+    await ready(page);
+    await hydrated(page, 'MobileNav');
+    await page.getByRole('button', { name: 'Open menu' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Menu' });
+    await expect(dialog).toBeVisible();
+
+    await dialog.click({ position: { x: 2, y: 400 } }); // the panel's own padding: focus lands on the dialog itself
+    await page.keyboard.press('Shift+Tab');
+    await expect(dialog.locator(':focus')).toHaveCount(1);
   });
 
   test('mobile menu closes with Escape and returns focus to its button', async ({ page }) => {

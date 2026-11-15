@@ -25,18 +25,17 @@ export default defineEnhancement({
 
         const hash = link.getAttribute('href') ?? '';
         const id = decodeURIComponent(hash.slice(1));
-        const toTop = id === '' || id === 'top';
-        const target = toTop ? 0 : document.getElementById(id);
-        if (target === null) return;
+        // # alone and #top (<body id="top">) both mean the top of the page.
+        const target = id === '' ? document.body : document.getElementById(id);
+        if (!target) return;
 
+        const toTop = target === document.body;
         event.preventDefault();
-        scrollTo(target, toTop ? 0 : anchorOffset());
+        scrollTo(toTop ? 0 : target, toTop ? 0 : anchorOffset());
         history.replaceState(null, '', toTop ? location.pathname + location.search : hash);
 
-        if (target instanceof HTMLElement) {
-          if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
-          target.focus({ preventScroll: true });
-        }
+        if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
       },
       { signal },
     );

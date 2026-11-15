@@ -1,9 +1,7 @@
 import type { RefObject } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { appBus } from '@/shared/events';
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+import { FOCUSABLE } from './focusable';
 
 export interface DialogOptions {
   readonly onClose: () => void;
@@ -47,10 +45,15 @@ export function useDialog(ref: RefObject<HTMLElement | null>, open: boolean, { o
         event.preventDefault();
         return;
       }
-      if (event.shiftKey && document.activeElement === first) {
+      // Focus on the dialog itself, or strayed outside it, comes back in at the end the key is heading for.
+      const active = document.activeElement;
+      if (!active || active === container || !container.contains(active)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      } else if (event.shiftKey && active === first) {
         event.preventDefault();
         last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
+      } else if (!event.shiftKey && active === last) {
         event.preventDefault();
         first.focus();
       }
@@ -62,7 +65,9 @@ export function useDialog(ref: RefObject<HTMLElement | null>, open: boolean, { o
       document.removeEventListener('keydown', onKeyDown, true);
       root.removeAttribute('data-scroll-lock');
       appBus.emit('scroll:lock', { locked: false });
-      previous?.focus({ preventScroll: true });
+      // A link that was followed has already moved focus to its target: take focus back only if it is still in the dialog or lost.
+      const active = document.activeElement;
+      if (!active || active === document.body || container.contains(active)) previous?.focus({ preventScroll: true });
     };
     // `onClose` is intentionally not a dependency: islands pass inline closures.
     // eslint-disable-next-line react-hooks/exhaustive-deps

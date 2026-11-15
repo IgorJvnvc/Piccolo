@@ -93,6 +93,12 @@
     box-shadow var(--dur-2) var(--ease-out);
 }
 
+/* Details open in a script-driven dialog: without scripts (or without the island that shows it) the button would do nothing. */
+:global(html:not(.js)) .details,
+:global(html.no-enhance) .details {
+  display: none;
+}
+
 @media (hover: hover) {
   .card:hover {
     transform: translateY(-0.375rem);

@@ -106,7 +106,8 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
 - **`html { scroll-behavior: smooth }` makes programmatic scrolls slow** (seconds, in a test). Jump with
   `scrollTo({ top, behavior: 'instant' })`; a scene plays in real time from the moment its trigger is crossed.
 - **The 4 s `no-enhance` failsafe fires on a loaded CI machine.** Tests that assert the hidden pre-state neutralise it
-  (`tests/e2e/motion.spec.ts`); `progressive.spec.ts` covers the failsafe itself.
+  (`tests/e2e/motion.spec.ts`); `bootstrap-parity.spec.ts` covers the failsafe itself and `progressive.spec.ts` the dead-island
+  fallback (Astro retries a failed island import once with `?astro-retry=`, so a test that blocks a chunk must match that too).
 - **Motion specs sample every frame and assert intermediate frames.** A failed scene opens its content at once and looks
   "visible" to every other test. Wait for GSAP (`gsapReady`) before an interaction that must animate: before it arrives
   the island fades with CSS instead, by design.

@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createScheduler } from '@/runtime/scheduler';
 import type { Capabilities } from '@/shared/device';
 import { type Enhancement, type EnhancementContext, defineEnhancement, qualifies } from '@/shared/enhance';
-import { createServices } from '@/shared/services';
+import { createAppBus } from '@/shared/events';
 
 const caps = (overrides: Partial<Capabilities> = {}): Capabilities => ({
   device: 'desktop',
@@ -34,11 +34,11 @@ function harness(enhancements: readonly Enhancement[]) {
   const visible: Array<{ readonly element: Element; readonly run: () => void }> = [];
   const cancelIdle = vi.fn();
   const cancelVisible = vi.fn();
-  const services = createServices();
+  const bus = createAppBus();
 
   const scheduler = createScheduler(enhancements, {
     doc: document,
-    services,
+    bus,
     gsap: () => Promise.reject(new Error('GSAP is not used in these tests')),
     timing: {
       whenIdle: (run) => {
@@ -52,7 +52,7 @@ function harness(enhancements: readonly Enhancement[]) {
     },
   });
 
-  return { scheduler, services, idle, visible, cancelIdle, cancelVisible };
+  return { scheduler, bus, idle, visible, cancelIdle, cancelVisible };
 }
 
 describe('qualifies', () => {
@@ -97,7 +97,7 @@ describe('createScheduler', () => {
 
   it('starts a "load" enhancement once per matching root with a complete context', async () => {
     const setup = vi.fn();
-    const { scheduler, services } = harness([make({ setup })]);
+    const { scheduler, bus } = harness([make({ setup })]);
 
     scheduler.reconcile(caps());
     await flush();
@@ -106,8 +106,7 @@ describe('createScheduler', () => {
     const context = setup.mock.calls[0]?.[0] as EnhancementContext;
     expect(context.root.dataset['enhance']).toBe('a');
     expect(context.caps).toEqual(caps());
-    expect(context.services).toBe(services);
-    expect(context.bus).toBe(services.bus);
+    expect(context.bus).toBe(bus);
     expect(context.signal.aborted).toBe(false);
   });
 

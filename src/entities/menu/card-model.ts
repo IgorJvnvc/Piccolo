@@ -1,5 +1,4 @@
 import type { ImageSource } from '@/shared/ui';
-import type { DietaryTag } from './model';
 
 /**
  * Everything a menu card (and the quick view) needs, already formatted. Serializable, so the same
@@ -13,6 +12,7 @@ export interface MenuCardModel {
   readonly priceLabel: string;
   readonly sizes: ReadonlyArray<{ readonly label: string; readonly priceLabel: string }>;
   readonly allergens: readonly string[];
-  readonly tags: readonly DietaryTag[];
+  /** Display labels, like the allergens: "Vegetarian", "Spicy". */
+  readonly tags: readonly string[];
   readonly image: ImageSource;
 }

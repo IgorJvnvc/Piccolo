@@ -17,15 +17,14 @@ export function setScrollDriver(next: ScrollDriver): () => void {
   };
 }
 
-/** Scrolls via the registered driver (Lenis) or the browser, honoring reduced motion. */
+/** Scrolls via the registered driver (Lenis) or the browser, whose scroll-behavior (base.css) is smooth unless reduced motion is on. */
 export function scrollTo(target: ScrollTarget, offset = 0): void {
   if (driver) {
     driver(target, { offset });
     return;
   }
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const top = typeof target === 'number' ? target + offset : target.getBoundingClientRect().top + window.scrollY + offset;
-  window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+  window.scrollTo({ top });
 }
 
 /** Offset that leaves room for the navbar (mirrors the CSS `scroll-padding-top`). */

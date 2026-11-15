@@ -29,6 +29,7 @@ interface Result {
   readonly pointer: string | undefined;
   readonly className: string;
   readonly failsafe: () => void;
+  readonly hydrationError: () => void;
 }
 
 const script = new Script(bootstrapSource);
@@ -51,6 +52,7 @@ function runBootstrap(env: Environment, ready = false): Result {
   };
 
   let failsafe: () => void = () => undefined;
+  let hydrationError: () => void = () => undefined;
   const win: Record<string, unknown> = {
     navigator: {
       userAgent: env.userAgent,
@@ -70,7 +72,12 @@ function runBootstrap(env: Environment, ready = false): Result {
 
   // The script is an IIFE over the globals `window` and `document`; reuse one context for speed.
   sandbox['window'] = win;
-  sandbox['document'] = { documentElement: root };
+  sandbox['document'] = {
+    documentElement: root,
+    addEventListener: (type: string, listener: () => void): void => {
+      if (type === 'astro:hydration-error') hydrationError = listener;
+    },
+  };
   script.runInContext(context);
 
   return {
@@ -81,6 +88,7 @@ function runBootstrap(env: Environment, ready = false): Result {
       return root.className;
     },
     failsafe: () => failsafe(),
+    hydrationError: () => hydrationError(),
   };
 }
 
@@ -205,12 +213,20 @@ describe('bootstrap.inline.js behaviour', () => {
     expect(result.className).toBe('js');
   });
 
+  it('falls back to the no-JS layout when an island fails to hydrate, once however many fail', () => {
+    const result = runBootstrap(env, true);
+    result.hydrationError();
+    result.hydrationError();
+    expect(result.className).toBe('js no-enhance');
+  });
+
   it('survives a browser without matchMedia or navigator hints', () => {
     const bare = new Script(bootstrapSource);
     const attributes: Record<string, string> = {};
     const sandboxed = createContext({
       window: { innerWidth: 1280, innerHeight: 800, setTimeout: () => 0 },
       document: {
+        addEventListener: () => undefined,
         documentElement: {
           className: '',
           setAttribute: (name: string, value: string) => {
