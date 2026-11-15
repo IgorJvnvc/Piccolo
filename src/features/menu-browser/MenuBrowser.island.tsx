@@ -150,7 +150,7 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
             <ul class={styles.grid} role="list" key={isActive ? `on-${pulse}` : 'off'}>
               {category.cards.map((card) => (
                 <li key={card.id} class={styles.cell} data-part="cell">
-                  <MenuCard model={card} idScope="menu" />
+                  <MenuCard model={card} idScope="menu" variant="row" />
                 </li>
               ))}
             </ul>

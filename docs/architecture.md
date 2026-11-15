@@ -192,7 +192,7 @@ export default defineEnhancement({
 | `smooth-scroll` | full tier, fine pointer, laptop or desktop | Lenis glide, synced with GSAP's ticker |
 | `anchors` | all tiers | In-page links scroll and move focus to the target |
 | `tv-navigation` | TV only | D-pad moves focus spatially, remote Back closes modals |
-| `open-status` | all tiers | "Open now" chips, computed in the restaurant's time zone, refreshed each minute |
+| `open-status` | all tiers | "Open now" chips (navbar, visit, the phone dock) with what happens next ("until 11:00 PM"), computed in the restaurant's time zone, refreshed each minute |
 | `menu-details` | all tiers | Turns clicks on any card's Details button into a bus event |
 
 **Scenes.** A scroll scene only describes its choreography; `defineScene` and `createScene` (`shared/enhance/scene.ts`,

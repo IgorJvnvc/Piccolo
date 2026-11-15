@@ -60,11 +60,10 @@ export default function MobileNav({ brand, links, phone, socials }: MobileNavPro
 
       <nav class={styles.nav} aria-label="Mobile">
         <ul class={styles.list} role="list">
-          {links.map((link, index) => (
+          {links.map((link) => (
             <li key={link.href} data-part="link">
               <a class={styles.link} href={link.href} onClick={close}>
-                <span class={styles.index}>{String(index + 1).padStart(2, '0')}</span>
-                <span>{link.label}</span>
+                {link.label}
               </a>
             </li>
           ))}

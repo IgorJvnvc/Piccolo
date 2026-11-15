@@ -135,30 +135,9 @@
   gap: 1rem;
 }
 
-.status {
+/* The "open now" chip (shared/ui) is for desktop width; the phone has it in the dock. */
+.actions .status {
   display: none;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--c-body);
-  white-space: nowrap;
-}
-
-.dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: var(--c-faint);
-  border-radius: 50%;
-}
-
-.status[data-open='true'] .dot {
-  background: var(--c-ok);
-  box-shadow: 0 0 0 0.25rem var(--c-ok-halo);
-}
-
-.status[data-open='true'] {
-  color: var(--c-ink);
 }
 
 .call {
@@ -195,7 +174,7 @@
     justify-self: center;
   }
 
-  .status {
+  .actions .status {
     display: inline-flex;
   }
 

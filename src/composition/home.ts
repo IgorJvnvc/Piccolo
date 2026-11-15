@@ -1,6 +1,7 @@
 import { type MenuCardModel, groupByCategory, popularItems, toCardModel } from '@/entities/menu';
 import { groupHours, summarizeHours } from '@/entities/site';
 import type { AboutProps } from '@/sections/about';
+import type { DockProps } from '@/sections/dock';
 import type { FollowLink, FollowProps } from '@/sections/follow';
 import type { FooterProps } from '@/sections/footer';
 import type { HeroProps } from '@/sections/hero';
@@ -29,6 +30,7 @@ export interface HomePageModel {
   readonly follow: FollowProps;
   readonly visit: VisitProps;
   readonly footer: FooterProps;
+  readonly dock: DockProps;
 }
 
 /**
@@ -122,7 +124,6 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
     popular: { title: copy.popular.title, cards: popularItems(items, 3).map(cardOf) },
 
     menu: {
-      eyebrow: copy.menu.eyebrow,
       title: copy.menu.title,
       intro: copy.menu.intro,
       categories: groupByCategory(categories, items).map((group) => ({
@@ -144,7 +145,6 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
     },
 
     visit: {
-      eyebrow: copy.visit.eyebrow,
       title: copy.visit.title,
       text: copy.visit.text,
       directionsLabel: copy.visit.directionsLabel,
@@ -177,6 +177,15 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
       socials: site.socials,
       rights: `${new Date().getFullYear()} ${site.name}. ${copy.footer.rights}`,
       backToTop: 'Back to top',
+    },
+
+    dock: {
+      labels: { group: copy.dock.label, call: copy.dock.call, whatsapp: copy.dock.whatsapp, directions: copy.dock.directions },
+      phone,
+      ...(whatsapp ? { whatsappHref: whatsapp.href } : {}),
+      mapUrl: site.address.mapUrl,
+      hours: site.hours,
+      openLabel,
     },
   };
 }

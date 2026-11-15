@@ -1,0 +1,32 @@
+/* The "open now" chip. The open-status behavior (features/open-status) fills in the label and sets data-open. */
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--c-body);
+  white-space: nowrap;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--c-faint);
+  border-radius: 50%;
+}
+
+.root[data-open='true'] {
+  color: var(--c-ink);
+}
+
+.root[data-open='true'] .dot {
+  background: var(--c-ok);
+  box-shadow: 0 0 0 0.25rem var(--c-ok-halo);
+}
+
+/* "Open now · until 11:00 PM" */
+.detail:not(:empty)::before {
+  margin-right: 0.5rem;
+  content: '\00b7';
+}

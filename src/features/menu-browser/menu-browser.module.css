@@ -120,6 +120,18 @@
   color: var(--c-ink);
 }
 
+/* Phones: the four tabs fit a 390 px screen without scrolling, and the dishes are a tight list. */
+@media (max-width: 767px) {
+  .tab {
+    padding-inline: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .grid {
+    gap: 0.75rem;
+  }
+}
+
 :global([data-device='tv']) .tab {
   min-height: 3.5rem;
   padding-inline: 1.75rem;

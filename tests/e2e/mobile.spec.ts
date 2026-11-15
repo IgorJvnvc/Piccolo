@@ -49,6 +49,22 @@ test.describe('phone and tablet', () => {
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused();
   });
 
+  test('the action dock keeps call, WhatsApp, directions and the open status in reach', async ({ page }) => {
+    await ready(page);
+    const dock = page.getByRole('group', { name: 'Quick actions' });
+    await expect(dock).toBeVisible();
+    await expect(dock.getByRole('link', { name: 'Call' })).toHaveAttribute('href', /^tel:/);
+    await expect(dock.getByRole('link', { name: 'WhatsApp' })).toBeVisible();
+    await expect(dock.getByRole('link', { name: 'Directions' })).toBeVisible();
+    await expect(dock).toContainText(/(Open|Closed) now/); // the open-status behaviour has run
+
+    // It stays at the bottom of the screen, and the page leaves room for it: the last link is not hidden behind it.
+    await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+    const last = await page.getByRole('link', { name: /Back to top/ }).boundingBox();
+    const bar = await dock.boundingBox();
+    expect((last?.y ?? 9999) + (last?.height ?? 0)).toBeLessThanOrEqual(bar?.y ?? 0);
+  });
+
   test('popular dishes become a horizontal snap scroller below 768px', async ({ page, viewport }) => {
     test.skip((viewport?.width ?? 0) >= 768, 'phone layout only');
     await ready(page);

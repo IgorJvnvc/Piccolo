@@ -35,6 +35,11 @@ test.describe('desktop', () => {
     await expect.poll(async () => (await page.locator('#visit').boundingBox())?.y ?? 9999, { timeout: 8000 }).toBeLessThan(260);
   });
 
+  test('the phone action dock is not shown on a desktop', async ({ page }) => {
+    await ready(page);
+    await expect(page.getByRole('group', { name: 'Quick actions' })).toBeHidden();
+  });
+
   test('the logo goes back to the top and takes keyboard focus with it', async ({ page }) => {
     await ready(page);
     await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }));

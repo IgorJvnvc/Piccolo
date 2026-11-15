@@ -4,6 +4,7 @@ import {
   formatTime12,
   groupHours,
   isOpenNow,
+  openStatus,
   parseTime,
   summarizeHours,
   zonedParts,
@@ -112,6 +113,25 @@ describe('isOpenNow', () => {
   });
 });
 
+describe('openStatus', () => {
+  const daily: OpeningHours = { timezone: 'UTC', weekly: week({ open: '09:00', close: '23:00' }) };
+  const lateFriday: OpeningHours = { timezone: 'UTC', weekly: { ...week(null), fri: { open: '18:00', close: '02:00' } } };
+
+  it.each([
+    ['open: says when it closes', daily, '2026-11-13T12:00:00Z', { open: true, detail: 'until 11:00 PM' }],
+    ['before opening: opens today', daily, '2026-11-13T07:00:00Z', { open: false, detail: 'opens 9:00 AM' }],
+    ['after closing: opens tomorrow', daily, '2026-11-13T23:30:00Z', { open: false, detail: 'opens tomorrow 9:00 AM' }],
+    ['past midnight: closes after the spill', lateFriday, '2026-11-14T01:00:00Z', { open: true, detail: 'until 2:00 AM' }],
+    ['days away: names the day', lateFriday, '2026-11-14T12:00:00Z', { open: false, detail: 'opens Fri 6:00 PM' }],
+  ] as const)('%s', (_name, hours, iso, expected) => {
+    expect(openStatus(hours, at(iso))).toEqual(expected);
+  });
+
+  it('has nothing to add when it is always open or never open', () => {
+    expect(openStatus({ timezone: 'UTC', weekly: week({ open: '00:00', close: '00:00' }) }, at('2026-11-13T12:00:00Z'))).toEqual({ open: true, detail: '' });
+    expect(openStatus({ timezone: 'UTC', weekly: week(null) }, at('2026-11-13T12:00:00Z'))).toEqual({ open: false, detail: '' });
+  });
+});
 describe('formatTime12', () => {
   it.each([
     ['00:00', '12:00 AM'],

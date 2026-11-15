@@ -4,6 +4,7 @@ export { Icon, type IconName, type IconProps } from './Icon';
 export type { ImageResolver, ImageSource } from './image-source';
 export { Logo, type LogoProps } from './Logo';
 export { Picture, type PictureProps } from './Picture';
+export { default as OpenStatus } from './OpenStatus.astro';
 export { default as SectionHeading } from './SectionHeading.astro';
 export { default as SkipLink } from './SkipLink.astro';
 export { VisuallyHidden, type VisuallyHiddenProps } from './VisuallyHidden';

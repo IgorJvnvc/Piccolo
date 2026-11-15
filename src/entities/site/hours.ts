@@ -57,6 +57,33 @@ export function isOpenNow(hours: OpeningHours, now: Date): boolean {
   return false;
 }
 
+export interface OpenStatus {
+  readonly open: boolean;
+  /** What happens next: "until 11:00 PM", "opens tomorrow 9:00 AM", "opens Mon 9:00 AM". Empty when nothing changes (open around the clock) or it never opens. */
+  readonly detail: string;
+}
+
+/** Whether the restaurant is open at `now` and when that changes next. */
+export function openStatus(hours: OpeningHours, now: Date): OpenStatus {
+  const { day, minutes } = zonedParts(now, hours.timezone);
+
+  if (isOpenNow(hours, now)) {
+    const yesterday = hours.weekly[previousDay(day)];
+    const spilled = yesterday && isOvernight(yesterday) && minutes < parseTime(yesterday.close);
+    const range = spilled ? yesterday : hours.weekly[day];
+    return { open: true, detail: range && range.open !== range.close ? `until ${formatTime12(range.close)}` : '' };
+  }
+
+  for (let ahead = 0; ahead < 7; ahead += 1) {
+    const key = DAY_KEYS[(DAY_KEYS.indexOf(day) + ahead) % 7];
+    const range = key ? hours.weekly[key] : null;
+    if (!key || !range || (ahead === 0 && parseTime(range.open) <= minutes)) continue;
+    const when = ahead === 0 ? '' : ahead === 1 ? 'tomorrow ' : `${DAY_LABEL[key]} `;
+    return { open: false, detail: `opens ${when}${formatTime12(range.open)}` };
+  }
+  return { open: false, detail: '' };
+}
+
 /** "09:00" -> "9:00 AM" */
 export function formatTime12(value: string): string {
   const total = parseTime(value);

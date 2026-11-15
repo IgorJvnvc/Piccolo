@@ -63,6 +63,18 @@ main {
   outline-offset: 0.25rem;
 }
 
+/* Touch has no hover: every tappable sinks a little while it is held, and the browser's own tap flash and double-tap delay go. */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+a:active,
+button:active {
+  transform: scale(0.97);
+}
+
 /* Programmatic focus targets (an anchored section, the page top, a dialog) are not controls: no ring. */
 [tabindex='-1']:focus {
   outline: none;

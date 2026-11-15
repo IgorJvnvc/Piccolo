@@ -58,6 +58,7 @@ export interface FooterColumn {
 export interface HomeCopy {
   readonly seo: { readonly title: string; readonly description: string };
   readonly nav: { readonly links: readonly NavLink[]; readonly callLabel: string };
+  readonly dock: { readonly label: string; readonly call: string; readonly whatsapp: string; readonly directions: string };
   readonly hero: {
     readonly title: readonly [string, string];
     readonly text: string;
@@ -71,7 +72,7 @@ export interface HomeCopy {
     readonly cta: NavLink;
   };
   readonly popular: { readonly title: string };
-  readonly menu: { readonly eyebrow: string; readonly title: string; readonly intro: string };
+  readonly menu: { readonly title: string; readonly intro: string };
   readonly follow: {
     readonly eyebrow: string;
     readonly title: readonly [string, string];
@@ -80,7 +81,6 @@ export interface HomeCopy {
     readonly instagramLabel: string;
   };
   readonly visit: {
-    readonly eyebrow: string;
     readonly title: string;
     readonly text: string;
     readonly directionsLabel: string;

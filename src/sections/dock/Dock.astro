@@ -1,0 +1,31 @@
+---
+import { Icon, OpenStatus } from '@/shared/ui';
+import styles from './dock.module.css';
+import type { DockProps } from './types';
+
+type Props = DockProps;
+
+const { labels, phone, whatsappHref, mapUrl, hours, openLabel } = Astro.props;
+---
+
+<div class={styles.root} role="group" aria-label={labels.group}>
+  <OpenStatus class={styles.status} hours={hours} label={openLabel} detail />
+  <div class={styles.actions}>
+    <a class={`${styles.action} ${styles.primary}`} href={phone.href}>
+      <Icon name="phone" />
+      <span>{labels.call}</span>
+    </a>
+    {
+      whatsappHref && (
+        <a class={styles.action} href={whatsappHref} target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" />
+          <span>{labels.whatsapp}</span>
+        </a>
+      )
+    }
+    <a class={styles.action} href={mapUrl} target="_blank" rel="noopener noreferrer">
+      <Icon name="pin" />
+      <span>{labels.directions}</span>
+    </a>
+  </div>
+</div>

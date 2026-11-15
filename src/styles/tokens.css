@@ -23,12 +23,13 @@
   --c-line: #efe9eb;
   --c-dark: #271b25;
   --c-on-dark: #ffffff;
-  --c-on-accent: #ffffff;
+  --c-on-accent: var(--c-dark); /* label on the orange: 6.5:1 on the light stop, 4.95:1 on the dark one (white was 2.6:1) */
   --c-cream: #f1e8e4;
   --c-focus: var(--c-ink);
   --c-scrim: rgb(35 33 36 / 0.45);
   --c-glass: rgb(253 250 251 / 0.84);
   --c-ring-on-dark: rgb(255 255 255 / 0.28); /* hairline ring around round buttons on dark surfaces */
+  --c-press: rgb(39 27 37 / 0.06); /* tint over a whole row or card while it is pressed */
   --c-halo-cream: rgb(241 232 228 / 0.5); /* soft halo around light pills on dark cards */
   --c-ok-halo: rgb(31 157 85 / 0.18); /* "open now" status dot halo */
 
@@ -51,6 +52,7 @@
   --sh-card-hover: 0 1.75rem 3rem -1.5rem rgb(39 27 37 / 0.3);
   --sh-dark: 0 2.5rem 4.5rem -1.25rem rgb(39 27 37 / 0.5);
   --sh-bar: 0 0.75rem 2rem -1rem rgb(35 33 36 / 0.25);
+  --sh-dock: 0 -0.75rem 2rem -1rem rgb(35 33 36 / 0.25);
 
   /* drop-shadow filters for cut-out art (tokens so components never hold raw colors) */
   --fx-item: drop-shadow(0 0.875rem 0.875rem rgb(39 27 37 / 0.16));
@@ -76,6 +78,7 @@
   --content-max: 90rem;
   --gutter: 1.25rem;
   --nav-h: 4.5rem;
+  --dock-h: 5.5rem; /* the phone action dock: pages leave this much room at the bottom */
 
   /* motion */
   --dur-1: 0.18s;
@@ -90,6 +93,7 @@
   --z-hero-art: 1;
   --z-hero-copy: 2;
   --z-nav: 50;
+  --z-dock: 60;
   --z-overlay: 80;
   --z-modal: 90;
 }
@@ -105,6 +109,7 @@
   :root {
     --gutter: 9.5vw;
     --nav-h: 7.875rem;
+    --dock-h: 0rem;
   }
 }
 

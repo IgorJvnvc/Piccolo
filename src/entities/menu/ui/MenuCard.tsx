@@ -11,6 +11,8 @@ export interface MenuCardProps {
    */
   readonly idScope: string;
   readonly class?: string | undefined;
+  /** "row": below 768 px the card is laid out as a compact row (the menu list); wider screens show the card either way. */
+  readonly variant?: 'card' | 'row';
   /** First cards above the fold may be eager. */
   readonly eager?: boolean;
 }
@@ -20,12 +22,12 @@ export interface MenuCardProps {
  * MenuBrowser island with identical markup. The Details button carries `data-details`; a delegated
  * behavior turns clicks into a `menu:details` bus event (cards never know who listens).
  */
-export function MenuCard({ model, idScope, class: className, eager = false }: MenuCardProps) {
+export function MenuCard({ model, idScope, class: className, variant = 'card', eager = false }: MenuCardProps) {
   const titleId = `card-${idScope}-${model.id}`;
   const badge = model.tags[0];
 
   return (
-    <article class={cn(styles.card, className)} aria-labelledby={titleId} data-card={model.id}>
+    <article class={cn(styles.card, variant === 'row' && styles.row, className)} aria-labelledby={titleId} data-card={model.id}>
       {badge ? <span class={styles.badge}>{badge}</span> : null}
       <div class={styles.media}>
         <Picture

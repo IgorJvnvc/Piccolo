@@ -2,7 +2,6 @@ import type { HoursRow, OpeningHours } from '@/entities/site';
 import type { ImageSource } from '@/shared/ui';
 
 export interface VisitProps {
-  readonly eyebrow: string;
   readonly title: string;
   readonly text: string;
   readonly directionsLabel: string;

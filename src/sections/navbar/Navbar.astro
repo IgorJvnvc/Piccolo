@@ -1,7 +1,7 @@
 ---
 import { MobileNav } from '@/features/mobile-nav';
 import { enhanceAttr, partAttr } from '@/shared/lib';
-import { Container, Icon, Logo } from '@/shared/ui';
+import { Container, Icon, Logo, OpenStatus } from '@/shared/ui';
 import { NAVBAR } from './navbar.hooks';
 import styles from './navbar.module.css';
 import type { NavbarProps } from './types';
@@ -32,10 +32,7 @@ const intoThisPage = links.every((link) => link.href.startsWith('#'));
     <Logo class={styles.logo} name={brand.name} tagline={brand.tagline} href={homeHref} />
 
     <div class={styles.actions}>
-      <span class={styles.status} data-open="unknown" data-hours={JSON.stringify(hours)} {...partAttr('open-status')}>
-        <span class={styles.dot} aria-hidden="true"></span>
-        <span {...partAttr('open-label')}>{openLabel}</span>
-      </span>
+      <OpenStatus class={styles.status} hours={hours} label={openLabel} />
       <a class={styles.call} href={phone.href} aria-label={`${callLabel}: ${phone.display}`}>
         <Icon name="phone" class={styles.callIcon} />
         <span class={styles.callText}>{phone.display}</span>

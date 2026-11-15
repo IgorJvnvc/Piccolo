@@ -120,6 +120,7 @@
 .size strong,
 .single {
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   color: var(--c-accent-text);
 }
 

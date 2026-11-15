@@ -13,6 +13,7 @@
       ],
       "callLabel": "Call us"
     },
+    "dock": { "label": "Quick actions", "call": "Call", "whatsapp": "WhatsApp", "directions": "Directions" },
     "hero": {
       "title": ["Enjoy Delicious", "Fast Food"],
       "text": "Fresh pizza, juicy hot dogs, stacked sandwiches and ice-cold drinks, made to order and served fast.",
@@ -27,9 +28,8 @@
     },
     "popular": { "title": "Popular Picks" },
     "menu": {
-      "eyebrow": "Fresh every day",
       "title": "Our Menu",
-      "intro": "Pick a category and take a look. Tap the arrow on any dish for sizes and allergens."
+      "intro": "Pick a category and take a look. Tap a dish for sizes and allergens."
     },
     "follow": {
       "eyebrow": "Stay in touch",
@@ -39,7 +39,6 @@
       "instagramLabel": "Follow us on Instagram"
     },
     "visit": {
-      "eyebrow": "Come hungry",
       "title": "Find Us",
       "text": "Walk in, order at the counter and grab a seat, or take it to go. We are open every day.",
       "directionsLabel": "Get directions",

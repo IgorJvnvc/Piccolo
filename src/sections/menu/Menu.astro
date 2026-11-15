@@ -8,13 +8,13 @@ import type { MenuSectionProps } from './types';
 
 type Props = MenuSectionProps;
 
-const { eyebrow, title, intro, categories, phone } = Astro.props;
+const { title, intro, categories, phone } = Astro.props;
 ---
 
 <section id="menu" class={styles.root} aria-labelledby="menu-title" {...enhanceAttr(MENU.name)}>
   <Container>
     <div class={styles.head} data-reveal="up" {...partAttr(MENU.parts.head)}>
-      <SectionHeading id="menu-title" eyebrow={eyebrow} title={title} />
+      <SectionHeading id="menu-title" title={title} />
       <p class={styles.intro}>{intro}</p>
     </div>
     <div class={styles.browser} data-reveal="up" {...partAttr(MENU.parts.browser)}>

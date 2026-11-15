@@ -3,6 +3,7 @@ import { buildHomePage } from '@/composition/home';
 import { container } from '@/composition/container';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { About } from '@/sections/about';
+import { Dock } from '@/sections/dock';
 import { Follow } from '@/sections/follow';
 import { Footer } from '@/sections/footer';
 import { Hero } from '@/sections/hero';
@@ -24,4 +25,5 @@ const page = await buildHomePage(container, env.siteUrl);
   <Follow {...page.follow} />
   <Visit {...page.visit} />
   <Footer slot="footer" {...page.footer} />
+  <Dock slot="footer" {...page.dock} />
 </BaseLayout>

@@ -1,5 +1,6 @@
 /* Footer: four columns at the reel's measured positions, then a bar with socials / copyright / back to top. */
 .root {
+  padding-bottom: calc(var(--dock-h) + env(safe-area-inset-bottom));
   background: var(--c-surface);
   border-top: 0.0625rem solid var(--c-line);
 }
@@ -44,6 +45,19 @@
   font-size: 0.875rem;
   color: var(--c-body);
   transition: color var(--dur-2) var(--ease-out);
+}
+
+@media (max-width: 1023px) {
+  .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  .social {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
 }
 
 @media (hover: hover) {

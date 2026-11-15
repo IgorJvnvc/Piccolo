@@ -1,5 +1,5 @@
 /** Browser-safe public API of the site entity (pure TS). */
-export { type HoursRow, TIME_PATTERN, groupHours, isOpenNow, summarizeHours } from './hours';
+export { type HoursRow, TIME_PATTERN, groupHours, openStatus, summarizeHours } from './hours';
 export {
   DAY_KEYS,
   SOCIAL_NETWORKS,

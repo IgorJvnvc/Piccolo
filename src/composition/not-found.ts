@@ -1,3 +1,4 @@
+import type { DockProps } from '@/sections/dock';
 import type { FooterProps } from '@/sections/footer';
 import type { NavbarProps } from '@/sections/navbar';
 import type { NotFoundProps } from '@/sections/not-found';
@@ -16,6 +17,7 @@ export interface NotFoundPageModel {
   readonly navbar: NavbarProps;
   readonly notFound: NotFoundProps;
   readonly footer: FooterProps;
+  readonly dock: DockProps;
 }
 
 /** "#menu" would point at nothing here, so in-page links lead to the matching section of the home page. */
@@ -58,5 +60,6 @@ export async function buildNotFoundPage(container: Container, siteUrl: string): 
         links: column.links.map((link) => ({ ...link, href: toHome(link.href) })),
       })),
     },
+    dock: home.dock,
   };
 }

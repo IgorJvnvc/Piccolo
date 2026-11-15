@@ -66,33 +66,12 @@
 
 .row dd {
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
   color: var(--c-ink);
 }
 
 .status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
   padding-left: 2rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--c-body);
-}
-
-.dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: var(--c-faint);
-  border-radius: 50%;
-}
-
-.status[data-open='true'] {
-  color: var(--c-ink);
-}
-
-.status[data-open='true'] .dot {
-  background: var(--c-ok);
-  box-shadow: 0 0 0 0.25rem var(--c-ok-halo);
 }
 
 .actions {

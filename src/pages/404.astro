@@ -2,6 +2,7 @@
 import { container } from '@/composition/container';
 import { buildNotFoundPage } from '@/composition/not-found';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Dock } from '@/sections/dock';
 import { Footer } from '@/sections/footer';
 import { Navbar } from '@/sections/navbar';
 import { NotFound } from '@/sections/not-found';
@@ -14,4 +15,5 @@ const page = await buildNotFoundPage(container, env.siteUrl);
   <Navbar slot="header" {...page.navbar} />
   <NotFound {...page.notFound} />
   <Footer slot="footer" {...page.footer} />
+  <Dock slot="footer" {...page.dock} />
 </BaseLayout>

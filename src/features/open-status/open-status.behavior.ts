@@ -1,4 +1,4 @@
-import { type OpeningHours, isOpenNow } from '@/entities/site';
+import { type OpeningHours, openStatus } from '@/entities/site';
 import { defineEnhancement } from '@/shared/enhance';
 import { selector } from '@/shared/lib';
 
@@ -29,11 +29,13 @@ export default defineEnhancement({
     if (!hours) return undefined;
 
     const label = root.querySelector(selector.part('open-label'));
+    const detail = root.querySelector(selector.part('open-detail'));
 
     const update = (): void => {
-      const open = isOpenNow(hours, new Date());
-      root.dataset['open'] = String(open);
-      if (label) label.textContent = open ? 'Open now' : 'Closed now';
+      const status = openStatus(hours, new Date());
+      root.dataset['open'] = String(status.open);
+      if (label) label.textContent = status.open ? 'Open now' : 'Closed now';
+      if (detail) detail.textContent = status.detail;
     };
 
     update();

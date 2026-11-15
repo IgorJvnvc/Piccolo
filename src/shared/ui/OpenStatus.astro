@@ -1,0 +1,22 @@
+---
+import { partAttr } from '@/shared/lib';
+import styles from './open-status.module.css';
+
+export interface Props {
+  /** The opening hours, serializable: the open-status behavior works the chip out from them in the restaurant's time zone. */
+  hours: object;
+  /** Server-rendered text until the behavior replaces it. */
+  label: string;
+  /** Also say what happens next ("until 11:00 PM", "opens tomorrow 9:00 AM"). */
+  detail?: boolean;
+  class?: string | undefined;
+}
+
+const { hours, label, detail = false, class: className } = Astro.props;
+---
+
+<span class:list={[styles.root, className]} data-open="unknown" data-hours={JSON.stringify(hours)} {...partAttr('open-status')}>
+  <span class={styles.dot} aria-hidden="true"></span>
+  <span {...partAttr('open-label')}>{label}</span>
+  {detail && <span class={styles.detail} {...partAttr('open-detail')}></span>}
+</span>

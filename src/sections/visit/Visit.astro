@@ -1,5 +1,5 @@
 ---
-import { Button, Container, Icon, Picture, SectionHeading } from '@/shared/ui';
+import { Button, Container, Icon, OpenStatus, Picture, SectionHeading } from '@/shared/ui';
 import { enhanceAttr, partAttr } from '@/shared/lib';
 import { VISIT } from './visit.hooks';
 import styles from './visit.module.css';
@@ -7,7 +7,7 @@ import type { VisitProps } from './types';
 
 type Props = VisitProps;
 
-const { eyebrow, title, text, directionsLabel, hoursTitle, callLabel, address, mapUrl, phone, hours, hoursRows, openLabel, map } =
+const { title, text, directionsLabel, hoursTitle, callLabel, address, mapUrl, phone, hours, hoursRows, openLabel, map } =
   Astro.props;
 ---
 
@@ -15,7 +15,7 @@ const { eyebrow, title, text, directionsLabel, hoursTitle, callLabel, address, m
   <Container>
     <div class={styles.grid}>
       <div class={styles.card} data-reveal="up" {...partAttr(VISIT.parts.item)}>
-        <SectionHeading id="visit-title" eyebrow={eyebrow} title={title} align="start" />
+        <SectionHeading id="visit-title" title={title} align="start" />
         <p class={styles.text}>{text}</p>
 
         <address class={styles.address}>
@@ -40,10 +40,7 @@ const { eyebrow, title, text, directionsLabel, hoursTitle, callLabel, address, m
               ))
             }
           </dl>
-          <span class={styles.status} data-open="unknown" data-hours={JSON.stringify(hours)} {...partAttr('open-status')}>
-            <span class={styles.dot} aria-hidden="true"></span>
-            <span {...partAttr('open-label')}>{openLabel}</span>
-          </span>
+          <OpenStatus class={styles.status} hours={hours} label={openLabel} detail />
         </div>
 
         <div class={styles.actions}>
