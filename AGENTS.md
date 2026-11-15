@@ -66,14 +66,14 @@ More recipes: [docs/architecture.md](docs/architecture.md#recipes).
   Judge a stall or a layer change with `scripts/dev/stall-lab.mjs`: it starts a cold Chrome per run and A/Bs two builds or
   injected CSS variants. Measure cold and by median; a warm browser shows almost no stalls ([ADR 0009](docs/adr/0009-first-frame-stalls.md)).
 
-## GSAP skills
+## Agent skills (user-level)
 
-The official GreenSock skills ([greensock/gsap-skills](https://github.com/greensock/gsap-skills), commit `aed9cfd`, MIT) were
-installed on request, byte-identical to upstream: project-level in `.agents/skills/` (written by `npx skills add`, tracked in
-`skills-lock.json`) and globally in `~/.config/opencode/skills/`. opencode lists them after a restart; in a session that
-started earlier, read `.agents/skills/<name>/SKILL.md` directly. Load only what the task needs: `gsap-core`, `gsap-timeline`,
-`gsap-scrolltrigger` and `gsap-performance` for scenes; `gsap-react` for island hooks; `gsap-plugins` before adding a plugin.
-When updating, keep LF line endings and re-check the blob hashes (Windows `autocrlf` turns the CLI's clone into CRLF).
+Skills live in the developer's own opencode setup (`~/.config/opencode/skills`, `~/.agents/skills`, plugins in
+`~/.config/opencode/opencode.jsonc`), never in this repo, so nothing here vendors, pins or locks them. Used for this
+project: the official GreenSock skills (`gsap-*`), `impeccable` and `design-taste-frontend` (design), `playwright-cli`
+(browser checks), `ponytail` (less code) and `img2threejs` (dormant: 3D needs an ADR first). Load only what the task
+needs: `gsap-core`, `gsap-timeline`, `gsap-scrolltrigger` and `gsap-performance` for scenes; `gsap-react` for island
+hooks; `gsap-plugins` before adding a plugin. In a session that started before an install, read the `SKILL.md` directly.
 
 **Project rules win over skill defaults.** Where a skill disagrees with this file or an ADR, follow the project:
 
