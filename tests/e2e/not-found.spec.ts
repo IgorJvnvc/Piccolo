@@ -29,6 +29,10 @@ test.describe('404 page', () => {
     const footerMenuLink = page.getByRole('contentinfo').getByRole('link', { name: 'Menu', exact: true });
     await expect(footerMenuLink).toHaveAttribute('href', '/#menu');
 
+    // The wordmark leads home, and no link claims to be the current page.
+    await expect(page.getByRole('banner').getByRole('link', { name: /PICCOLO/ })).toHaveAttribute('href', '/');
+    await expect(page.getByRole('banner').locator('[data-active], [aria-current="true"]')).toHaveCount(0);
+
     const home = page.getByRole('link', { name: 'Back to the menu' });
     await expect(home).toHaveAttribute('href', '/');
     await home.click();

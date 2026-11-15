@@ -40,7 +40,7 @@ export async function buildNotFoundPage(container: Container, siteUrl: string): 
       noindex: true,
       jsonLd: [],
     },
-    navbar: { ...home.navbar, links: home.navbar.links.map((link) => ({ ...link, href: toHome(link.href) })) },
+    navbar: { ...home.navbar, homeHref: '/', links: home.navbar.links.map((link) => ({ ...link, href: toHome(link.href) })) },
     notFound: {
       title: copy.notFound.title,
       text: copy.notFound.text,
@@ -52,6 +52,7 @@ export async function buildNotFoundPage(container: Container, siteUrl: string): 
     },
     footer: {
       ...home.footer,
+      homeHref: '/',
       columns: home.footer.columns.map((column) => ({
         ...column,
         links: column.links.map((link) => ({ ...link, href: toHome(link.href) })),

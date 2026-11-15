@@ -7,6 +7,8 @@ export interface FooterColumnModel {
 
 export interface FooterProps {
   readonly brand: { readonly name: string; readonly tagline: string };
+  /** Where the wordmark leads. Default: the top of this page (the 404 page sends it to the home page). */
+  readonly homeHref?: string;
   readonly blurb: string;
   readonly columns: readonly FooterColumnModel[];
   readonly address: {

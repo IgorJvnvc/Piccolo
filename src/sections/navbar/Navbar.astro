@@ -8,7 +8,9 @@ import type { NavbarProps } from './types';
 
 type Props = NavbarProps;
 
-const { brand, links, phone, callLabel, hours, openLabel, socials } = Astro.props;
+const { brand, homeHref = '#top', links, phone, callLabel, hours, openLabel, socials } = Astro.props;
+// Only links into this page can be the current one: on the 404 page they all lead to the home page.
+const intoThisPage = links.every((link) => link.href.startsWith('#'));
 ---
 
 <header class={styles.root} {...enhanceAttr(NAVBAR.name)}>
@@ -18,7 +20,7 @@ const { brand, links, phone, callLabel, hours, openLabel, socials } = Astro.prop
         {
           links.map((link, index) => (
             <li>
-              <a class={styles.link} href={link.href} data-active={index === 0 ? '' : undefined} {...partAttr('link')}>
+              <a class={styles.link} href={link.href} data-active={intoThisPage && index === 0 ? '' : undefined} {...partAttr('link')}>
                 {link.label}
               </a>
             </li>
@@ -27,7 +29,7 @@ const { brand, links, phone, callLabel, hours, openLabel, socials } = Astro.prop
       </ul>
     </nav>
 
-    <Logo class={styles.logo} name={brand.name} tagline={brand.tagline} />
+    <Logo class={styles.logo} name={brand.name} tagline={brand.tagline} href={homeHref} />
 
     <div class={styles.actions}>
       <span class={styles.status} data-open="unknown" data-hours={JSON.stringify(hours)} {...partAttr('open-status')}>

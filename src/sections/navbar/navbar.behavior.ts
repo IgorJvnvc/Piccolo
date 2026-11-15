@@ -75,7 +75,7 @@ export default defineEnhancement({
       lastY = y;
 
       root.style.setProperty('--nav-y', String(Math.min(y, height)));
-      spy(y);
+      if (targets.length > 0) spy(y);
 
       if (menuOpen) {
         apply('shown');

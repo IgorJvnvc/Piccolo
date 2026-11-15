@@ -5,14 +5,14 @@ import type { FooterProps } from './types';
 
 type Props = FooterProps;
 
-const { brand, blurb, columns, address, socials, rights, backToTop } = Astro.props;
+const { brand, homeHref = '#top', blurb, columns, address, socials, rights, backToTop } = Astro.props;
 ---
 
 <footer id="contact" class={styles.root}>
   <Container>
     <div class={styles.grid}>
       <div class={styles.brand}>
-        <Logo name={brand.name} tagline={brand.tagline} size="footer" />
+        <Logo name={brand.name} tagline={brand.tagline} size="footer" href={homeHref} />
         <p class={styles.blurb}>{blurb}</p>
       </div>
 

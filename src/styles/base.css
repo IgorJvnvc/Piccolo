@@ -39,6 +39,8 @@ body {
   font-size: 1rem;
   color: var(--c-ink);
   background: var(--c-bg);
+  /* clip where it exists (Safari 16+), hidden before that: either way the page cannot scroll sideways. */
+  overflow-x: hidden;
   overflow-x: clip;
 }
 
@@ -52,6 +54,7 @@ body {
  * keeps every device from gaining a horizontal scrollbar or a widened mobile layout viewport.
  */
 main {
+  overflow-x: hidden;
   overflow-x: clip;
 }
 
@@ -134,11 +137,8 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-.lenis.lenis-stopped {
-  overflow: clip;
-}
-
-/* Modal surfaces (mobile menu, quick view) freeze the page behind them. */
+/* Modal surfaces (mobile menu, quick view) freeze the page behind them. The scrollbar goes, its gutter stays: no sideways jump. */
 html[data-scroll-lock] {
   overflow: hidden;
+  scrollbar-gutter: stable;
 }
