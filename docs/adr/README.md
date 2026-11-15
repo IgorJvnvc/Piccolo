@@ -15,6 +15,7 @@ supersede it with a new one.
 | [0007](0007-content-collections-behind-ports.md) | Content as validated JSON behind repository ports | Accepted |
 | [0008](0008-one-engine-gsap-scenes-and-islands.md) | One animation engine: GSAP for scenes and islands, on a shared motion kit | Accepted |
 | [0009](0009-first-frame-stalls.md) | First-frame stalls: what was measured, and the two things adopted | Accepted |
+| [0010](0010-phone-first-design-pass.md) | A phone-first pass on the visual system, not a new one | Accepted |
 
 Format: **Context** (the forces), **Decision**, **Consequences** (good and bad), and **Alternatives** when they were
 seriously considered.

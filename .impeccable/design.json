@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-15T11:01:47.045Z",
+  "generatedAt": "2026-11-15T11:53:00.073Z",
   "title": "Design System: Piccolo",
   "extensions": {
     "colorMeta": {
@@ -81,17 +81,17 @@
       },
       "on-primary": {
         "role": "primary",
-        "displayName": "White on Orange",
-        "canonical": "#ffffff",
+        "displayName": "Aubergine Ink on Orange",
+        "canonical": "#271b25",
         "tonalRamp": [
-          "#0b0b0b",
-          "#252525",
-          "#424242",
-          "#616161",
-          "#828282",
-          "#a5a5a5",
-          "#c9c9c9",
-          "#eeeeee"
+          "#0e090d",
+          "#2b2229",
+          "#4a3e48",
+          "#6a5c68",
+          "#8c7d89",
+          "#aea0ab",
+          "#d0c5ce",
+          "#f3ecf1"
         ]
       },
       "gold": {
@@ -303,6 +303,21 @@
           "#cac8c9",
           "#efeeee"
         ]
+      },
+      "press": {
+        "role": "neutral",
+        "displayName": "Press Tint",
+        "canonical": "rgb(39 27 37 / 0.06)",
+        "tonalRamp": [
+          "#0e090d",
+          "#2b2229",
+          "#4a3e48",
+          "#6a5c68",
+          "#8c7d89",
+          "#aea0ab",
+          "#d0c5ce",
+          "#f3ecf1"
+        ]
       }
     },
     "typographyMeta": {
@@ -320,11 +335,11 @@
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Dish names on menu cards, Playfair Display 600."
+        "purpose": "Dish names on menu cards in Playfair Display 600 (1.0625rem on the phone rows)."
       },
       "script": {
         "displayName": "Script",
-        "purpose": "Caveat Brush handwritten aside. Used sparingly; the above-heading placement is an observation in DESIGN.md, not a pattern to extend."
+        "purpose": "Caveat Brush handwritten aside: the About and Follow lines (the reel's own), the category blurb and the 404 code. Not a pattern for new section eyebrows."
       },
       "body-md": {
         "displayName": "Body Medium",
@@ -336,15 +351,15 @@
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "Allergen line, open or closed status and the footer blurb."
+        "purpose": "Dish descriptions on cards and rows, the allergen line, open or closed status and the footer blurb."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Buttons and menu tabs: Plus Jakarta Sans 600 at 0.9375rem."
+        "purpose": "Buttons and menu tabs: Plus Jakarta Sans 600 at 0.9375rem (tabs 0.875rem on phones)."
       },
       "label-caps": {
         "displayName": "Label Caps",
-        "purpose": "Tag chips: uppercase 700 with 0.08em tracking."
+        "purpose": "Tag chips: uppercase 700 with 0.08em tracking; the dish badge is floored at 11px."
       },
       "wordmark": {
         "displayName": "Wordmark",
@@ -355,7 +370,7 @@
       {
         "name": "sh-cta",
         "value": "0 0.625rem 1.5rem -0.375rem rgb(251 105 23 / 0.55)",
-        "purpose": "Orange floor glow under orange-filled pills (primary button, selected tab, quick-view and phone-menu call pills, About play button)."
+        "purpose": "Orange floor glow under orange-filled pills (primary button, selected tab, quick-view and phone-menu call pills, About play button). The Follow call pill takes a cream halo and the dock Call none."
       },
       {
         "name": "sh-cta-hover",
@@ -365,7 +380,7 @@
       {
         "name": "sh-card",
         "value": "0 1.25rem 2.5rem -1.75rem rgb(39 27 37 / 0.22)",
-        "purpose": "Resting plate shadow: menu cards, tab track, Visit card, map tile."
+        "purpose": "Resting plate shadow: menu cards and rows, tab track, Visit card, map tile."
       },
       {
         "name": "sh-card-hover",
@@ -383,9 +398,14 @@
         "purpose": "The frosted navbar when it returns on scroll up, and the hero scroll knob."
       },
       {
+        "name": "sh-dock",
+        "value": "0 -0.75rem 2rem -1rem rgb(35 33 36 / 0.25)",
+        "purpose": "The Action Dock, cast upward from its top edge: the one shadow in the system that falls up."
+      },
+      {
         "name": "fx-item",
         "value": "drop-shadow(0 0.875rem 0.875rem rgb(39 27 37 / 0.16))",
-        "purpose": "drop-shadow filter for cut-out dish art on cards, the quick view and the 404 page."
+        "purpose": "drop-shadow filter for cut-out dish art on cards, rows, the quick view and the 404 page."
       },
       {
         "name": "fx-cluster",
@@ -415,7 +435,7 @@
       {
         "name": "ring-line",
         "value": "inset 0 0 0 0.0625rem var(--c-line)",
-        "purpose": "1px hairline ring on ghost buttons, the card details button and the quick-view close button."
+        "purpose": "1px hairline ring on ghost buttons, dock actions, the card details button and the quick-view close button."
       },
       {
         "name": "ring-on-dark",
@@ -430,7 +450,7 @@
       {
         "name": "halo-ok",
         "value": "0 0 0 0.25rem rgb(31 157 85 / 0.18)",
-        "purpose": "Ring around the open-now status dot."
+        "purpose": "Ring around the open-now status dot (navbar, Visit card, dock)."
       }
     ],
     "motion": [
@@ -442,7 +462,7 @@
       {
         "name": "ease-expo",
         "value": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "Expo-out (GSAP expo.out). The Follow card morph and the hero slab."
+        "purpose": "Expo-out (GSAP expo.out). The Follow card morph, the hero slab and title lines, the dock arrival, the call ping and the quick-view dish."
       },
       {
         "name": "ease-soft",
@@ -470,6 +490,11 @@
         "purpose": "Map tile zoom."
       },
       {
+        "name": "press",
+        "value": "scale(0.97) while held, every a and button",
+        "purpose": "Global press feedback (base.css). A whole dish card or row does not scale: it takes the --c-press tint instead."
+      },
+      {
         "name": "reveal",
         "value": "0.7s power3.out, rise 2rem",
         "purpose": "Headings, panels and copy fading up once when their section reaches the trigger line (copy rises 1.75rem, staggered 0.2s)."
@@ -490,6 +515,21 @@
         "purpose": "ScrollTrigger start lines; every scene plays once, in time, never scrubbed."
       },
       {
+        "name": "hero-lines",
+        "value": "0.5s expo-out, rise 1rem; line one at 0.3s, line two at 0.42s",
+        "purpose": "The two hero title lines rising one after the other (CSS keyframes)."
+      },
+      {
+        "name": "nav-underline",
+        "value": "0.6s ease-out; transform-origin right at rest, left when active or hovered",
+        "purpose": "The orange underline grows from the left and runs out to the right, so it is handed from link to link."
+      },
+      {
+        "name": "dock-in",
+        "value": "0.5s expo-out after 0.8s, from translate 100% and opacity 0",
+        "purpose": "The Action Dock sliding up from the screen edge (CSS keyframes, opacity and transform only)."
+      },
+      {
         "name": "follow-width",
         "value": "1.15rem to full width, 0.96s expo.out",
         "purpose": "The Follow card widening from a thin stadium (signature motion)."
@@ -505,6 +545,11 @@
         "purpose": "Art and text spreading out un-clipped while the card grows (phones: rise 1.5rem instead)."
       },
       {
+        "name": "follow-ping",
+        "value": "0.9s expo-out after 1.05s, ring scale 1 to 1.3, opacity 0.7 to 0",
+        "purpose": "One ring leaving the Call-now pill once the card is open (CSS keyframes)."
+      },
+      {
         "name": "tab-pill",
         "value": "0.45s power4.out",
         "purpose": "The orange pill sliding between menu tabs; new cards rise 28px over 0.5s with a 0.06s stagger."
@@ -518,6 +563,11 @@
         "name": "quick-view",
         "value": "scrim 0.25s; panel 0.45s, rise 32px, scale 0.97 to 1",
         "purpose": "Quick-view dialog enter; exit rises 24px to scale 0.98."
+      },
+      {
+        "name": "quick-view-dish",
+        "value": "dish steps from the tapped card picture to its place: 0.55s expo.out in, 0.4s back out",
+        "purpose": "The dish leaves the card it was tapped on (x, y and scale only) and returns to it on close."
       },
       {
         "name": "lite-tier",
@@ -554,9 +604,9 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one orange-filled action on a surface: vertical orange gradient pill with a floor glow that lifts on hover.",
+      "description": "The one orange-filled action on a surface: vertical orange gradient pill with an aubergine label (6.5:1 to 4.95:1) and a floor glow that lifts on hover.",
       "html": "<a class=\"ds-btn-primary\" href=\"#\"><span>View Menu</span><svg class=\"ds-btn-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 2.6875rem; padding: 0 1.75rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; line-height: 1; white-space: nowrap; text-decoration: none; color: var(--c-on-accent, #ffffff); background: linear-gradient(180deg, var(--c-accent-hi, #ff7d31) 0%, var(--c-accent-lo, #ed600f) 100%); border-radius: var(--r-pill, 62.5rem); box-shadow: var(--sh-cta, 0 0.625rem 1.5rem -0.375rem rgb(251 105 23 / 0.55)); transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-btn-primary .ds-btn-icon { flex: none; font-size: 1.0625rem; transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:hover { transform: translateY(-0.125rem); box-shadow: var(--sh-cta-hover, 0 0.875rem 1.75rem -0.375rem rgb(251 105 23 / 0.6)); } .ds-btn-primary:hover .ds-btn-icon { transform: translateX(0.1875rem); } .ds-btn-primary:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 2.75rem; padding: 0 1.75rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; line-height: 1; white-space: nowrap; text-decoration: none; color: var(--c-on-accent, #271b25); background: linear-gradient(180deg, var(--c-accent-hi, #ff7d31) 0%, var(--c-accent-lo, #ed600f) 100%); border-radius: var(--r-pill, 62.5rem); box-shadow: var(--sh-cta, 0 0.625rem 1.5rem -0.375rem rgb(251 105 23 / 0.55)); transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-btn-primary .ds-btn-icon { flex: none; font-size: 1.0625rem; transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:hover { transform: translateY(-0.125rem); box-shadow: var(--sh-cta-hover, 0 0.875rem 1.75rem -0.375rem rgb(251 105 23 / 0.6)); } .ds-btn-primary:hover .ds-btn-icon { transform: translateX(0.1875rem); } .ds-btn-primary:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
     },
     {
       "name": "Ghost Button",
@@ -564,62 +614,71 @@
       "refersTo": "button-ghost",
       "description": "Secondary action: Plate White pill with a 1px hairline ring that turns ink on hover.",
       "html": "<a class=\"ds-btn-ghost\" href=\"#\"><span>Call us</span><svg class=\"ds-btn-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z\"/></svg></a>",
-      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 2.6875rem; padding: 0 1.75rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; line-height: 1; white-space: nowrap; text-decoration: none; color: var(--c-ink, #232124); background: var(--c-surface, #fefefe); border-radius: var(--r-pill, 62.5rem); box-shadow: inset 0 0 0 0.0625rem var(--c-line, #efe9eb); transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-btn-ghost .ds-btn-icon { flex: none; font-size: 1.0625rem; } .ds-btn-ghost:active { transform: scale(0.97); } .ds-btn-ghost:hover { box-shadow: inset 0 0 0 0.0625rem var(--c-ink, #232124); } .ds-btn-ghost:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
-    },
-    {
-      "name": "Section Heading",
-      "kind": "custom",
-      "description": "Centred Playfair Display 500 section title. The optional script line above it exists in the build but is an observation in DESIGN.md, so it is not shown.",
-      "html": "<header class=\"ds-heading\"><h2 class=\"ds-heading-title\">Popular Picks</h2></header>",
-      "css": ".ds-heading { display: grid; justify-items: center; gap: 0.5rem; text-align: center; } .ds-heading-title { margin: 0; font-family: var(--font-display, \"Playfair Display\", Georgia, serif); font-size: 3rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.01em; color: var(--c-ink, #232124); text-wrap: balance; }"
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 2.75rem; padding: 0 1.75rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; line-height: 1; white-space: nowrap; text-decoration: none; color: var(--c-ink, #232124); background: var(--c-surface, #fefefe); border-radius: var(--r-pill, 62.5rem); box-shadow: inset 0 0 0 0.0625rem var(--c-line, #efe9eb); transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-btn-ghost .ds-btn-icon { flex: none; font-size: 1.0625rem; } .ds-btn-ghost:active { transform: scale(0.97); } .ds-btn-ghost:hover { box-shadow: inset 0 0 0 0.0625rem var(--c-ink, #232124); } .ds-btn-ghost:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
     },
     {
       "name": "Menu Tabs",
       "kind": "nav",
       "refersTo": "tab-selected",
-      "description": "Category tabs in a white stadium track; the selected tab sits on an orange gradient pill that slides between tabs.",
+      "description": "Category tabs in a white stadium track; the selected tab has an aubergine label on an orange gradient pill that slides between tabs. On phones the labels are 0.875rem with 0.75rem side padding so all four fit 390px.",
       "html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Menu categories\"><button class=\"ds-tab ds-tab-selected\" type=\"button\" role=\"tab\" aria-selected=\"true\"><span class=\"ds-tab-pill\"></span><span class=\"ds-tab-label\">Pizza</span></button><button class=\"ds-tab\" type=\"button\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\"><span class=\"ds-tab-label\">Hot Dogs</span></button><button class=\"ds-tab\" type=\"button\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\"><span class=\"ds-tab-label\">Sandwiches</span></button><button class=\"ds-tab\" type=\"button\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\"><span class=\"ds-tab-label\">Drinks</span></button></div>",
-      "css": ".ds-tabs { display: inline-flex; gap: 0.25rem; padding: 0.375rem; background: var(--c-surface, #fefefe); border-radius: var(--r-pill, 62.5rem); box-shadow: var(--sh-card, 0 1.25rem 2.5rem -1.75rem rgb(39 27 37 / 0.22)); } .ds-tab { position: relative; min-height: 2.75rem; padding: 0 1.25rem; border: 0; background: none; cursor: pointer; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; color: var(--c-body, #6a686f); white-space: nowrap; border-radius: var(--r-pill, 62.5rem); transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-tab:hover:not(.ds-tab-selected) { color: var(--c-ink, #232124); } .ds-tab-selected { color: var(--c-on-accent, #ffffff); } .ds-tab-pill { position: absolute; inset: 0; background: linear-gradient(180deg, var(--c-accent-hi, #ff7d31), var(--c-accent-lo, #ed600f)); border-radius: var(--r-pill, 62.5rem); box-shadow: var(--sh-cta, 0 0.625rem 1.5rem -0.375rem rgb(251 105 23 / 0.55)); } .ds-tab-label { position: relative; } .ds-tab:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
+      "css": ".ds-tabs { display: inline-flex; gap: 0.25rem; padding: 0.375rem; background: var(--c-surface, #fefefe); border-radius: var(--r-pill, 62.5rem); box-shadow: var(--sh-card, 0 1.25rem 2.5rem -1.75rem rgb(39 27 37 / 0.22)); } .ds-tab { position: relative; min-height: 2.75rem; padding: 0 1.25rem; border: 0; background: none; cursor: pointer; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; color: var(--c-body, #6a686f); white-space: nowrap; border-radius: var(--r-pill, 62.5rem); transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-tab:hover:not(.ds-tab-selected) { color: var(--c-ink, #232124); } .ds-tab-selected { color: var(--c-on-accent, #271b25); } .ds-tab-pill { position: absolute; inset: 0; background: linear-gradient(180deg, var(--c-accent-hi, #ff7d31), var(--c-accent-lo, #ed600f)); border-radius: var(--r-pill, 62.5rem); box-shadow: var(--sh-cta, 0 0.625rem 1.5rem -0.375rem rgb(251 105 23 / 0.55)); } .ds-tab-label { position: relative; } .ds-tab:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; } @media (max-width: 767px) { .ds-tab { padding-inline: 0.75rem; font-size: 0.875rem; } }"
     },
     {
       "name": "Menu Card",
       "kind": "card",
       "refersTo": "menu-card",
-      "description": "Plate White dish card: centred cut-out, Playfair 600 name, two-line description, price and details button; lifts on hover. The optional tag badge is the Tag Chip component and is omitted here.",
-      "html": "<article class=\"ds-card\"><div class=\"ds-card-media\"><svg class=\"ds-card-art\" viewBox=\"0 0 96 96\" width=\"96\" height=\"96\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M48 90 12 24Q48 4 84 24Z\" fill=\"#fadb9a\"/><path d=\"M12 24Q48 4 84 24l-3 9Q48 17 15 33Z\" fill=\"#b66d1c\"/><circle cx=\"38\" cy=\"42\" r=\"6\" fill=\"#d6301f\"/><circle cx=\"58\" cy=\"48\" r=\"5\" fill=\"#d6301f\"/><circle cx=\"47\" cy=\"66\" r=\"4\" fill=\"#d6301f\"/></svg></div><h3 class=\"ds-card-title\">Pizza Margherita</h3><p class=\"ds-card-desc\">Stone-baked crust, San Marzano tomato sauce, fior di latte mozzarella and fresh basil.</p><div class=\"ds-card-foot\"><span class=\"ds-card-price\">from &euro;8.50</span><button class=\"ds-card-details\" type=\"button\" aria-label=\"Details: Pizza Margherita\"><svg class=\"ds-card-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 17 17 7M8 7h9v9\"/></svg></button></div></article>",
-      "css": ".ds-card { position: relative; display: flex; flex-direction: column; box-sizing: border-box; width: 18.75rem; min-height: 22.625rem; padding: 1.375rem 1.3125rem 1.5rem; background: var(--c-surface, #fefefe); border-radius: var(--r-card, 1.125rem); box-shadow: var(--sh-card, 0 1.25rem 2.5rem -1.75rem rgb(39 27 37 / 0.22)); transition: transform var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-card:hover { transform: translateY(-0.375rem); box-shadow: var(--sh-card-hover, 0 1.75rem 3rem -1.5rem rgb(39 27 37 / 0.3)); } .ds-card:focus-within { box-shadow: var(--sh-card-hover, 0 1.75rem 3rem -1.5rem rgb(39 27 37 / 0.3)); } .ds-card-media { display: grid; place-items: center; height: 10rem; margin-bottom: 1.25rem; } .ds-card-art { width: auto; height: auto; max-width: 100%; max-height: 9rem; filter: var(--fx-item, drop-shadow(0 0.875rem 0.875rem rgb(39 27 37 / 0.16))); transition: transform var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-card:hover .ds-card-art { transform: scale(1.05) rotate(-2deg); } .ds-card-title { margin: 0; font-family: var(--font-display, \"Playfair Display\", Georgia, serif); font-size: 1.1875rem; font-weight: 600; line-height: 1.25; color: var(--c-ink, #232124); } .ds-card-desc { display: -webkit-box; margin: 0.5rem 0 0; overflow: hidden; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.75rem; line-height: 1.6; color: var(--c-body, #6a686f); -webkit-line-clamp: 2; -webkit-box-orient: vertical; } .ds-card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 1.25rem; } .ds-card-price { font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 700; letter-spacing: 0.02em; color: var(--c-accent-text, #b8420a); } .ds-card-details { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; padding: 0; border: 0; cursor: pointer; font-size: 0.875rem; color: var(--c-body, #6a686f); background: none; border-radius: 0.5rem; box-shadow: inset 0 0 0 0.0625rem var(--c-line, #efe9eb); transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), background-color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-card-details:hover { color: var(--c-on-accent, #ffffff); background: var(--c-accent, #fb6917); box-shadow: none; } .ds-card-details:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
+      "description": "Plate White dish card (Popular, and the Menu from 768px): badge, centred cut-out, Playfair 600 name, two-line description, tabular price and details arrow. The arrow button's overlay makes the whole card the hit area; a press tints the card instead of scaling it.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-card-badge\">Vegetarian</span><div class=\"ds-card-media\"><svg class=\"ds-card-art\" viewBox=\"0 0 96 96\" width=\"96\" height=\"96\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M48 90 12 24Q48 4 84 24Z\" fill=\"#fadb9a\"/><path d=\"M12 24Q48 4 84 24l-3 9Q48 17 15 33Z\" fill=\"#b66d1c\"/><circle cx=\"38\" cy=\"42\" r=\"6\" fill=\"#d6301f\"/><circle cx=\"58\" cy=\"48\" r=\"5\" fill=\"#d6301f\"/><circle cx=\"47\" cy=\"66\" r=\"4\" fill=\"#d6301f\"/></svg></div><h3 class=\"ds-card-title\">Pizza Margherita</h3><p class=\"ds-card-desc\">Stone-baked crust, San Marzano tomato sauce, fior di latte mozzarella and fresh basil.</p><div class=\"ds-card-foot\"><span class=\"ds-card-price\">from &euro;8.50</span><button class=\"ds-card-details\" type=\"button\" aria-label=\"Details: Pizza Margherita\"><svg class=\"ds-card-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 17 17 7M8 7h9v9\"/></svg></button></div></article>",
+      "css": ".ds-card { position: relative; display: flex; flex-direction: column; box-sizing: border-box; width: 18.75rem; min-height: 22.625rem; padding: 1.375rem 1.3125rem 1.5rem; line-height: 1.5; background: var(--c-surface, #fefefe); border-radius: var(--r-card, 1.125rem); box-shadow: var(--sh-card, 0 1.25rem 2.5rem -1.75rem rgb(39 27 37 / 0.22)); transition: transform var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-card:hover { transform: translateY(-0.375rem); box-shadow: var(--sh-card-hover, 0 1.75rem 3rem -1.5rem rgb(39 27 37 / 0.3)); } .ds-card:focus-within { box-shadow: var(--sh-card-hover, 0 1.75rem 3rem -1.5rem rgb(39 27 37 / 0.3)); } .ds-card-badge { position: absolute; top: 1rem; left: 1.1875rem; padding: 0.25rem 0.625rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: max(0.6875rem, 11px); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-text, #b8420a); background: var(--c-accent-soft, #feebe2); border-radius: var(--r-pill, 62.5rem); } .ds-card-media { display: grid; place-items: center; height: 10rem; margin-bottom: 1.25rem; } .ds-card-art { width: auto; height: auto; max-width: 100%; max-height: 9rem; filter: var(--fx-item, drop-shadow(0 0.875rem 0.875rem rgb(39 27 37 / 0.16))); transition: transform var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-card:hover .ds-card-art { transform: scale(1.05) rotate(-2deg); } .ds-card-title { margin: 0; font-family: var(--font-display, \"Playfair Display\", Georgia, serif); font-size: 1.1875rem; font-weight: 600; line-height: 1.25; color: var(--c-ink, #232124); } .ds-card-desc { display: -webkit-box; margin: 0.5rem 0 0; overflow: hidden; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.8125rem; line-height: 1.6; color: var(--c-body, #6a686f); -webkit-line-clamp: 2; -webkit-box-orient: vertical; } .ds-card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 1.25rem; } .ds-card-price { font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--c-accent-text, #b8420a); } .ds-card-details { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; padding: 0; border: 0; cursor: pointer; font-size: 0.875rem; color: var(--c-body, #6a686f); background: none; border-radius: 0.5rem; box-shadow: inset 0 0 0 0.0625rem var(--c-line, #efe9eb); transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), background-color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-card-details::after { content: ''; position: absolute; inset: 0; border-radius: var(--r-card, 1.125rem); } .ds-card-details:active { transform: none; } .ds-card-details:active::after { background: var(--c-press, rgb(39 27 37 / 0.06)); } .ds-card-details:hover { color: var(--c-on-accent, #271b25); background: var(--c-accent, #fb6917); box-shadow: none; } .ds-card-details:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
+    },
+    {
+      "name": "Menu Row",
+      "kind": "card",
+      "refersTo": "menu-row",
+      "description": "The same dish as a compact row (the Menu below 768px): 5rem thumbnail left; badge, name, description and price with the details arrow right. 140px to 160px tall where the card is 362px; the whole row is the hit area and takes the press tint.",
+      "html": "<article class=\"ds-row\"><div class=\"ds-row-media\"><svg class=\"ds-row-art\" viewBox=\"0 0 96 96\" width=\"96\" height=\"96\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M48 90 12 24Q48 4 84 24Z\" fill=\"#fadb9a\"/><path d=\"M12 24Q48 4 84 24l-3 9Q48 17 15 33Z\" fill=\"#b66d1c\"/><circle cx=\"38\" cy=\"42\" r=\"6\" fill=\"#d6301f\"/><circle cx=\"58\" cy=\"48\" r=\"5\" fill=\"#d6301f\"/><circle cx=\"47\" cy=\"66\" r=\"4\" fill=\"#d6301f\"/></svg></div><span class=\"ds-row-badge\">Vegetarian</span><h3 class=\"ds-row-title\">Pizza Margherita</h3><p class=\"ds-row-desc\">Stone-baked crust, San Marzano tomato sauce, fior di latte mozzarella and fresh basil.</p><div class=\"ds-row-foot\"><span class=\"ds-row-price\">from &euro;8.50</span><button class=\"ds-row-details\" type=\"button\" aria-label=\"Details: Pizza Margherita\"><svg class=\"ds-row-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 17 17 7M8 7h9v9\"/></svg></button></div></article>",
+      "css": ".ds-row { position: relative; display: grid; grid-template-columns: 5rem minmax(0, 1fr); grid-template-areas: 'media badge' 'media title' 'media description' 'media foot'; align-content: center; column-gap: 1rem; box-sizing: border-box; width: 21.875rem; max-width: 100%; padding: 0.875rem 1rem 0.875rem 0.875rem; line-height: 1.5; background: var(--c-surface, #fefefe); border-radius: var(--r-card, 1.125rem); box-shadow: var(--sh-card, 0 1.25rem 2.5rem -1.75rem rgb(39 27 37 / 0.22)); } .ds-row-media { grid-area: media; display: grid; place-items: center; align-self: center; height: 5rem; } .ds-row-art { width: auto; height: auto; max-width: 100%; max-height: 4.5rem; filter: var(--fx-item, drop-shadow(0 0.875rem 0.875rem rgb(39 27 37 / 0.16))); } .ds-row-badge { grid-area: badge; justify-self: start; margin-bottom: 0.25rem; padding: 0.25rem 0.625rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: max(0.6875rem, 11px); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-text, #b8420a); background: var(--c-accent-soft, #feebe2); border-radius: var(--r-pill, 62.5rem); } .ds-row-title { grid-area: title; margin: 0; font-family: var(--font-display, \"Playfair Display\", Georgia, serif); font-size: 1.0625rem; font-weight: 600; line-height: 1.25; color: var(--c-ink, #232124); } .ds-row-desc { grid-area: description; display: -webkit-box; margin: 0.25rem 0 0; overflow: hidden; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.8125rem; line-height: 1.6; color: var(--c-body, #6a686f); -webkit-line-clamp: 2; -webkit-box-orient: vertical; } .ds-row-foot { grid-area: foot; display: flex; align-items: center; justify-content: space-between; padding-top: 0.5rem; } .ds-row-price { font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.9375rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--c-accent-text, #b8420a); } .ds-row-details { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; padding: 0; border: 0; cursor: pointer; font-size: 0.875rem; color: var(--c-body, #6a686f); background: none; border-radius: 0.5rem; box-shadow: inset 0 0 0 0.0625rem var(--c-line, #efe9eb); transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), background-color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-row-details::after { content: ''; position: absolute; inset: 0; border-radius: var(--r-card, 1.125rem); } .ds-row-details:active { transform: none; } .ds-row-details:active::after { background: var(--c-press, rgb(39 27 37 / 0.06)); } .ds-row-details:hover { color: var(--c-on-accent, #271b25); background: var(--c-accent, #fb6917); box-shadow: none; } .ds-row-details:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
     },
     {
       "name": "Tag Chip",
       "kind": "chip",
       "refersTo": "tag-chip",
-      "description": "Peach stadium label in burnt crust for dish tags (Vegetarian, Spicy, New, Vegan), shown here at the quick-view size.",
+      "description": "Peach stadium label in burnt crust for dish tags (Vegetarian, Spicy, New, Vegan). On a dish card or row it is floored at 11px.",
       "html": "<span class=\"ds-chip\">Vegetarian</span>",
-      "css": ".ds-chip { display: inline-block; padding: 0.25rem 0.75rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.6875rem; font-weight: 700; line-height: 1.5; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-text, #b8420a); background: var(--c-accent-soft, #feebe2); border-radius: var(--r-pill, 62.5rem); }"
+      "css": ".ds-chip { display: inline-block; padding: 0.25rem 0.75rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: max(0.6875rem, 11px); font-weight: 700; line-height: 1.5; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-text, #b8420a); background: var(--c-accent-soft, #feebe2); border-radius: var(--r-pill, 62.5rem); }"
     },
     {
       "name": "Open-Now Status",
       "kind": "chip",
       "refersTo": "status-dot-open",
-      "description": "Status dot and label: green dot with a soft halo when open, ash dot when closed or unknown.",
-      "html": "<div class=\"ds-status-row\"><span class=\"ds-status ds-status-open\"><span class=\"ds-status-dot\" aria-hidden=\"true\"></span><span>Open now</span></span><span class=\"ds-status\"><span class=\"ds-status-dot\" aria-hidden=\"true\"></span><span>Closed now</span></span></div>",
-      "css": ".ds-status-row { display: flex; flex-wrap: wrap; gap: 1.5rem; } .ds-status { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.8125rem; font-weight: 600; color: var(--c-body, #6a686f); white-space: nowrap; } .ds-status-dot { width: 0.5rem; height: 0.5rem; background: var(--c-faint, #b4b1b3); border-radius: 50%; } .ds-status-open { color: var(--c-ink, #232124); } .ds-status-open .ds-status-dot { background: var(--c-ok, #1f9d55); box-shadow: 0 0 0 0.25rem var(--c-ok-halo, rgb(31 157 85 / 0.18)); }"
+      "description": "The shared open-status chip: dot, label and an optional detail after a middle dot (\"until 11:00 PM\", \"opens tomorrow 9:00 AM\"). Green dot with a soft halo when open, ash dot when closed or unknown. Used by the desktop navbar (label only), the Visit card and the Action Dock.",
+      "html": "<div class=\"ds-status-row\"><span class=\"ds-status ds-status-open\"><span class=\"ds-status-dot\" aria-hidden=\"true\"></span><span>Open now</span><span class=\"ds-status-detail\">until 11:00 PM</span></span><span class=\"ds-status\"><span class=\"ds-status-dot\" aria-hidden=\"true\"></span><span>Closed now</span><span class=\"ds-status-detail\">opens tomorrow 9:00 AM</span></span></div>",
+      "css": ".ds-status-row { display: flex; flex-wrap: wrap; gap: 1.5rem; } .ds-status { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.8125rem; font-weight: 600; line-height: 1.5; color: var(--c-body, #6a686f); white-space: nowrap; } .ds-status-dot { width: 0.5rem; height: 0.5rem; background: var(--c-faint, #b4b1b3); border-radius: 50%; } .ds-status-open { color: var(--c-ink, #232124); } .ds-status-open .ds-status-dot { background: var(--c-ok, #1f9d55); box-shadow: 0 0 0 0.25rem var(--c-ok-halo, rgb(31 157 85 / 0.18)); } .ds-status-detail:not(:empty)::before { margin-right: 0.5rem; content: '\\00b7'; }"
+    },
+    {
+      "name": "Action Dock",
+      "kind": "nav",
+      "refersTo": "action-dock",
+      "description": "Phone and tablet bar (below 1024px): open status with its detail, then Call (orange, aubergine label, no glow), WhatsApp and Directions. In the build it is fixed to the bottom edge (z 60), pads the safe-area inset, slides up 0.8s after load and the pages reserve --dock-h for it; shown here in flow.",
+      "html": "<div class=\"ds-dock\" role=\"group\" aria-label=\"Quick actions\"><span class=\"ds-dock-status\"><span class=\"ds-dock-dot\" aria-hidden=\"true\"></span><span>Open now</span><span class=\"ds-dock-detail\">until 11:00 PM</span></span><div class=\"ds-dock-actions\"><a class=\"ds-dock-action ds-dock-primary\" href=\"#\"><svg class=\"ds-dock-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z\"/></svg><span>Call</span></a><a class=\"ds-dock-action\" href=\"#\"><svg class=\"ds-dock-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3.2 20.8 4.6 16A8.6 8.6 0 1 1 8 19.4l-4.8 1.4Z\"/><path d=\"M9.2 8.8c.4 2.4 2.6 4.6 5 5.2l1.4-1.4-1.9-1-.9.8a3.7 3.7 0 0 1-1.8-1.8l.8-.9-1-1.9-1.6 1Z\"/></svg><span>WhatsApp</span></a><a class=\"ds-dock-action\" href=\"#\"><svg class=\"ds-dock-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg><span>Directions</span></a></div></div>",
+      "css": ".ds-dock { display: grid; gap: 0.375rem; box-sizing: border-box; width: 24.375rem; max-width: 100%; padding: 0.5rem 1.25rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); line-height: 1.5; background: var(--c-surface, #fefefe); box-shadow: var(--sh-dock, 0 -0.75rem 2rem -1rem rgb(35 33 36 / 0.25)); } .ds-dock-status { display: inline-flex; align-items: center; justify-self: center; gap: 0.5rem; font-size: 0.8125rem; font-weight: 600; color: var(--c-ink, #232124); white-space: nowrap; } .ds-dock-dot { width: 0.5rem; height: 0.5rem; background: var(--c-ok, #1f9d55); border-radius: 50%; box-shadow: 0 0 0 0.25rem var(--c-ok-halo, rgb(31 157 85 / 0.18)); } .ds-dock-detail::before { margin-right: 0.5rem; content: '\\00b7'; } .ds-dock-actions { display: grid; grid-auto-columns: 1fr; grid-auto-flow: column; gap: 0.5rem; } .ds-dock-action { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.75rem; font-size: 0.875rem; font-weight: 700; text-decoration: none; color: var(--c-ink, #232124); background: var(--c-surface, #fefefe); border-radius: var(--r-pill, 62.5rem); box-shadow: inset 0 0 0 0.0625rem var(--c-line, #efe9eb); transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-dock-action:active { transform: scale(0.97); } .ds-dock-primary { color: var(--c-on-accent, #271b25); background: linear-gradient(180deg, var(--c-accent-hi, #ff7d31) 0%, var(--c-accent-lo, #ed600f) 100%); box-shadow: none; } .ds-dock-action:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
     },
     {
       "name": "Navbar",
       "kind": "nav",
       "refersTo": "navbar-shown",
-      "description": "Desktop navbar in its returned (frosted) state: links left with an orange underline for the current section, wordmark centred, status and underlined phone link right. The wordmark tagline is omitted because it is below the 11px floor in the build.",
+      "description": "Desktop navbar in its returned (frosted) state: links left with an underline that grows from the left and runs out to the right, wordmark centred, open status (label only) and underlined phone link right. The wordmark tagline is omitted because it is below the 11px floor in the build.",
       "html": "<header class=\"ds-nav\"><nav class=\"ds-nav-links\" aria-label=\"Primary\"><a class=\"ds-nav-link ds-nav-link-active\" href=\"#\" aria-current=\"true\">Menu</a><a class=\"ds-nav-link\" href=\"#\">Offers</a><a class=\"ds-nav-link\" href=\"#\">Find Us</a><a class=\"ds-nav-link\" href=\"#\">Contact</a></nav><a class=\"ds-nav-logo\" href=\"#\">PICCOLO</a><div class=\"ds-nav-actions\"><span class=\"ds-nav-status\"><span class=\"ds-nav-dot\" aria-hidden=\"true\"></span><span>Closed now</span></span><a class=\"ds-nav-call\" href=\"#\"><svg class=\"ds-nav-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z\"/></svg><span>+00 000 000 0000</span></a></div></header>",
-      "css": ".ds-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; box-sizing: border-box; width: 100%; min-width: 64rem; height: 4.5rem; padding: 0 2.5rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); background: var(--c-glass, rgb(253 250 251 / 0.84)); box-shadow: var(--sh-bar, 0 0.75rem 2rem -1rem rgb(35 33 36 / 0.25)); backdrop-filter: blur(0.875rem) saturate(1.4); } .ds-nav-links { display: flex; gap: 3.25rem; } .ds-nav-link { position: relative; display: inline-block; padding-block: 0.375rem; font-size: 0.9375rem; font-weight: 500; color: var(--c-ink, #232124); text-decoration: none; transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-nav-link::after { content: ''; position: absolute; inset: auto 0 -0.0625rem 0; height: 0.125rem; background: var(--c-accent, #fb6917); border-radius: var(--r-pill, 62.5rem); transform: scaleX(0); transform-origin: left center; transition: transform var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-nav-link-active, .ds-nav-link:hover { color: var(--c-accent-text, #b8420a); } .ds-nav-link-active::after, .ds-nav-link:hover::after { transform: scaleX(1); } .ds-nav-logo { justify-self: center; font-size: 1.5rem; font-weight: 800; line-height: 1; letter-spacing: 0.01em; color: var(--c-ink, #232124); text-decoration: none; } .ds-nav-actions { display: flex; align-items: center; justify-self: end; gap: 1rem; } .ds-nav-status { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; font-weight: 600; color: var(--c-body, #6a686f); white-space: nowrap; } .ds-nav-dot { width: 0.5rem; height: 0.5rem; background: var(--c-faint, #b4b1b3); border-radius: 50%; } .ds-nav-call { display: inline-flex; align-items: center; gap: 0.625rem; padding-block: 0.375rem; font-size: 0.9375rem; font-weight: 500; color: var(--c-ink, #232124); text-decoration: none; border-bottom: 0.0625rem solid var(--c-ink, #232124); transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), border-color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-nav-call:hover { color: var(--c-accent-text, #b8420a); border-color: var(--c-accent, #fb6917); } .ds-nav-icon { font-size: 1.25rem; } .ds-nav a:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
+      "css": ".ds-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; box-sizing: border-box; width: 100%; min-width: 64rem; height: 4.5rem; padding: 0 2.5rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); line-height: 1.5; background: var(--c-glass, rgb(253 250 251 / 0.84)); box-shadow: var(--sh-bar, 0 0.75rem 2rem -1rem rgb(35 33 36 / 0.25)); backdrop-filter: blur(0.875rem) saturate(1.4); } .ds-nav-links { display: flex; gap: 3.25rem; } .ds-nav-link { position: relative; display: inline-block; padding-block: 0.375rem; font-size: 0.9375rem; font-weight: 500; color: var(--c-ink, #232124); text-decoration: none; transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-nav-link::after { content: ''; position: absolute; inset: auto 0 -0.0625rem 0; height: 0.125rem; background: var(--c-accent, #fb6917); border-radius: var(--r-pill, 62.5rem); transform: scaleX(0); transform-origin: right center; transition: transform var(--dur-3, 0.6s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-nav-link-active, .ds-nav-link:hover { color: var(--c-accent-text, #b8420a); } .ds-nav-link-active::after, .ds-nav-link:hover::after { transform: scaleX(1); transform-origin: left center; } .ds-nav-logo { justify-self: center; font-size: 1.5rem; font-weight: 800; line-height: 1; letter-spacing: 0.01em; color: var(--c-ink, #232124); text-decoration: none; } .ds-nav-actions { display: flex; align-items: center; justify-self: end; gap: 1rem; } .ds-nav-status { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; font-weight: 600; color: var(--c-body, #6a686f); white-space: nowrap; } .ds-nav-dot { width: 0.5rem; height: 0.5rem; background: var(--c-faint, #b4b1b3); border-radius: 50%; } .ds-nav-call { display: inline-flex; align-items: center; gap: 0.625rem; padding-block: 0.375rem; font-size: 0.9375rem; font-weight: 500; color: var(--c-ink, #232124); text-decoration: none; border-bottom: 0.0625rem solid var(--c-ink, #232124); transition: color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)), border-color var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-nav-call:hover { color: var(--c-accent-text, #b8420a); border-color: var(--c-accent, #fb6917); } .ds-nav-icon { font-size: 1.25rem; } .ds-nav a:focus-visible { outline: 0.1875rem solid var(--c-focus, #232124); outline-offset: 0.25rem; }"
     },
     {
       "name": "Follow Card",
       "kind": "custom",
       "refersTo": "follow-card",
-      "description": "The signature component in its final state: an aubergine plate with art, a Playfair title and a cream phone pill holding an inset orange Call-now pill. The script line above the title is omitted (an observation in DESIGN.md).",
+      "description": "The signature component in its final state: an aubergine plate with art, a Playfair title and a cream phone pill holding an inset orange Call-now pill (aubergine label); one ring leaves the pill once. The script line above the title is omitted (an observation in DESIGN.md).",
       "html": "<section class=\"ds-follow\"><svg class=\"ds-follow-art\" viewBox=\"0 0 96 96\" width=\"96\" height=\"96\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M48 90 12 24Q48 4 84 24Z\" fill=\"#fadb9a\"/><path d=\"M12 24Q48 4 84 24l-3 9Q48 17 15 33Z\" fill=\"#b66d1c\"/><circle cx=\"38\" cy=\"42\" r=\"6\" fill=\"#d6301f\"/><circle cx=\"58\" cy=\"48\" r=\"5\" fill=\"#d6301f\"/><circle cx=\"47\" cy=\"66\" r=\"4\" fill=\"#d6301f\"/></svg><div class=\"ds-follow-content\"><h2 class=\"ds-follow-title\">Follow us for<br>Fresh Offers</h2><div class=\"ds-follow-pill\"><a class=\"ds-follow-number\" href=\"#\">+00 000 000 0000</a><a class=\"ds-follow-call\" href=\"#\"><span>Call now</span><svg class=\"ds-follow-icon\" viewBox=\"0 0 24 24\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z\"/></svg></a></div></div></section>",
-      "css": ".ds-follow { display: flex; align-items: center; gap: 2rem; box-sizing: border-box; width: 100%; max-width: 68.5rem; min-height: 17.5rem; padding: 2rem 3rem; color: var(--c-on-dark, #ffffff); background: var(--c-dark, #271b25); border-radius: var(--r-xl, 2rem); box-shadow: var(--sh-dark, 0 2.5rem 4.5rem -1.25rem rgb(39 27 37 / 0.5)); } .ds-follow-art { flex: none; width: 12rem; height: auto; filter: var(--fx-on-dark, drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.35))); } .ds-follow-content { display: grid; justify-items: start; width: 24.5rem; max-width: 100%; margin-left: auto; } .ds-follow-title { margin: 0; font-family: var(--font-display, \"Playfair Display\", Georgia, serif); font-size: 2.3125rem; font-weight: 600; line-height: 1.19; } .ds-follow-pill { display: flex; align-items: center; box-sizing: border-box; width: min(100%, 24.4rem); height: 3rem; margin-top: 1.07rem; padding-left: 1.5rem; color: var(--c-dark, #271b25); background: var(--c-cream, #f1e8e4); border-radius: var(--r-pill, 62.5rem); } .ds-follow-number { flex: 1; min-width: 0; overflow: hidden; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; color: inherit; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; } .ds-follow-call { display: inline-flex; flex: none; align-items: center; gap: 0.5rem; height: 2.4rem; margin-right: 0.3rem; padding: 0 1.25rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.875rem; font-weight: 700; color: var(--c-on-accent, #ffffff); text-decoration: none; background: linear-gradient(180deg, var(--c-accent-hi, #ff7d31) 0%, var(--c-accent-lo, #ed600f) 100%); border-radius: var(--r-pill, 62.5rem); box-shadow: 0 0 0 0.25rem var(--c-halo-cream, rgb(241 232 228 / 0.5)); transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-follow-call:hover { transform: translateY(-0.125rem); } .ds-follow-call:focus-visible, .ds-follow-number:focus-visible { outline: 0.1875rem solid var(--c-on-dark, #ffffff); outline-offset: 0.25rem; }"
+      "css": ".ds-follow { display: flex; align-items: center; gap: 2rem; box-sizing: border-box; width: 100%; max-width: 68.5rem; min-height: 17.5rem; padding: 2rem 3rem; color: var(--c-on-dark, #ffffff); background: var(--c-dark, #271b25); border-radius: var(--r-xl, 2rem); box-shadow: var(--sh-dark, 0 2.5rem 4.5rem -1.25rem rgb(39 27 37 / 0.5)); } .ds-follow-art { flex: none; width: 12rem; height: auto; filter: var(--fx-on-dark, drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.35))); } .ds-follow-content { display: grid; justify-items: start; width: 24.5rem; max-width: 100%; margin-left: auto; } .ds-follow-title { margin: 0; font-family: var(--font-display, \"Playfair Display\", Georgia, serif); font-size: 2.3125rem; font-weight: 600; line-height: 1.19; } .ds-follow-pill { display: flex; align-items: center; box-sizing: border-box; width: min(100%, 24.4rem); height: 3rem; margin-top: 1.07rem; padding-left: 1.5rem; color: var(--c-dark, #271b25); background: var(--c-cream, #f1e8e4); border-radius: var(--r-pill, 62.5rem); } .ds-follow-number { flex: 1; min-width: 0; overflow: hidden; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; color: inherit; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; } .ds-follow-call { position: relative; display: inline-flex; flex: none; align-items: center; gap: 0.5rem; height: 2.4rem; margin-right: 0.3rem; padding: 0 1.25rem; font-family: var(--font-sans, \"Plus Jakarta Sans\", system-ui, sans-serif); font-size: 0.875rem; font-weight: 700; color: var(--c-on-accent, #271b25); text-decoration: none; background: linear-gradient(180deg, var(--c-accent-hi, #ff7d31) 0%, var(--c-accent-lo, #ed600f) 100%); border-radius: var(--r-pill, 62.5rem); box-shadow: 0 0 0 0.25rem var(--c-halo-cream, rgb(241 232 228 / 0.5)); transition: transform var(--dur-2, 0.35s) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)); } .ds-follow-call::after { content: ''; position: absolute; inset: -0.125rem; pointer-events: none; border: 0.125rem solid var(--c-accent-hi, #ff7d31); border-radius: inherit; opacity: 0; animation: ds-ping 0.9s var(--ease-expo, cubic-bezier(0.16, 1, 0.3, 1)) 1.05s 1 both; } @keyframes ds-ping { from { opacity: 0.7; transform: scale(1); } to { opacity: 0; transform: scale(1.3); } } .ds-follow-call:hover { transform: translateY(-0.125rem); } .ds-follow-call:focus-visible, .ds-follow-number:focus-visible { outline: 0.1875rem solid var(--c-on-dark, #ffffff); outline-offset: 0.25rem; }"
     },
     {
       "name": "Follow Card (Idle)",
@@ -632,15 +691,16 @@
   ],
   "narrative": {
     "northStar": "The Sunlit Counter",
-    "overview": "Piccolo is a clean, well-lit counter in a small place that cooks to order. The page is a warm white (#fdfafb) lit from above: plates sit on it and drop long, soft shadows straight down, and food is always a transparent cut-out, so a dish looks set on the surface instead of pasted into a box. Orange is the single source of heat: it fills the one thing to press on each surface and turns to a burnt-crust brown wherever it has to be read as text. Dark surfaces are rare and always slabs: the charcoal serving slab in the hero art, the aubergine Follow card and the aubergine phone menu.\n\nThe voice is editorial-casual rather than fast-food loud. High-contrast Playfair Display carries headlines and dish names, a round geometric sans (Plus Jakarta Sans) carries everything you read quickly or act on, and a brush script (Caveat Brush) is a rare handwritten aside. Density is low: section padding runs 3rem to 8rem and most sections hold one heading, one block of copy and one action or one grid. The layout copies a reference reel measured on a 1440px artboard and works from a 390px phone to a TV.\n\nMotion is quiet and out-curved. Every ease decelerates (quint, expo and quart out); hovers and lifts take 0.35s to 0.6s and are for fine pointers; each section reveals once, in time, as it reaches the viewport (about 0.7s, rising 1.75rem to 2rem). One moment is choreographed: the Follow card widens from a thin stadium to a full plate while its corners relax. That expansion is a binding brand commitment (PRODUCT.md), so other effects must not compete with it. The orange-on-warm-white palette, the three typefaces and the layout inside each section are the incumbent system recorded here, not commitments. Imagery is generated SVG illustration by decision; there is no stock photography.",
+    "overview": "Piccolo is a clean, well-lit counter in a small place that cooks to order. The page is a warm white (#fdfafb) lit from above: plates sit on it and drop long, soft shadows straight down, and food is always a transparent cut-out, so a dish looks set on the surface instead of pasted into a box. Orange is the single source of heat: it fills the one thing to press on each surface, carries an aubergine label, and turns to a burnt-crust brown wherever it has to be read as text. Dark surfaces are rare and always slabs: the charcoal serving slab in the hero art, the aubergine Follow card and the aubergine phone menu.\n\nThe voice is editorial-casual rather than fast-food loud. High-contrast Playfair Display carries headlines and dish names, a round geometric sans (Plus Jakarta Sans) carries everything you read quickly or act on, and a brush script (Caveat Brush) is a rare handwritten aside. Density is low: section padding runs 3rem to 8rem and most sections hold one heading, one block of copy and one action or one grid. The layout copies a reference reel measured on a 1440px artboard, and it is phone first: below 1024px a fixed Action Dock keeps the open status, Call, WhatsApp and Directions under the thumb, dishes are compact rows, targets are 44px and everything tappable sinks while it is held.\n\nMotion is quiet and out-curved. Every ease decelerates (quint, expo and quart out); hovers and lifts take 0.35s to 0.6s and are for fine pointers; each section reveals once, in time, as it reaches the viewport (about 0.7s, rising 1.75rem to 2rem). One moment is choreographed: the Follow card widens from a thin stadium to a full plate while its corners relax. That expansion is a binding brand commitment (PRODUCT.md), so other effects must not compete with it; the few small authored effects around it are short and serve the action (the nav underline handed from link to link, the two hero lines rising one after the other, the dock sliding up, a ring leaving the Call-now pill, the quick view's dish stepping out of the card that was tapped). The orange-on-warm-white palette, the three typefaces and the layout inside each section are the incumbent system recorded here, not commitments. Imagery is generated SVG illustration by decision; there is no stock photography.",
     "keyCharacteristics": [
       "Warm white page and near-white plates (#fdfafb, #fefefe) separated by shadow, not by tone.",
-      "Orange is the only saturated colour: a vertical gradient pill with an orange floor glow for the action, burnt orange (#b8420a) wherever orange is text.",
+      "Orange is the only saturated colour: a vertical gradient pill with an orange floor glow for the action and an aubergine label on it, burnt orange (#b8420a) wherever orange is text.",
       "Neutrals tinted toward plum, and one dark aubergine slate (#271b25).",
       "Playfair Display 500 and 600 for headlines, Plus Jakarta Sans for UI and body, Caveat Brush for asides.",
       "Stadiums for what you press, 1.125rem and 2rem plates for what holds content.",
-      "Soft, tinted, downward shadows with negative spread; 1px hairline rings instead of borders.",
+      "Soft, tinted shadows with negative spread; 1px hairline rings instead of borders.",
       "Transparent cut-out food art grounded by drop-shadow filters.",
+      "Phone first: a fixed Action Dock, compact dish rows, 44px targets and a press state on everything tappable.",
       "All lengths in rem; above 1024px the root scales with the viewport (1rem = 1/16 of a 1440px artboard).",
       "One signature motion (the Follow card) and ease-out everywhere else."
     ],
@@ -653,6 +713,11 @@
       {
         "name": "The Burnt Crust Rule",
         "body": "Orange text on a light surface is always `--c-accent-text`. The bright `--c-accent` is for fills, underlines, rings and text on aubergine (5.6:1).",
+        "section": "colors"
+      },
+      {
+        "name": "The Dark Label Rule",
+        "body": "Every label or glyph on an orange fill is aubergine (`--c-on-accent`, #271b25): 6.5:1 on #ff7d31 and 4.95:1 on #ed600f. White (`--c-on-dark`) belongs on ink and aubergine surfaces, never on orange.",
         "section": "colors"
       },
       {
@@ -671,23 +736,28 @@
         "section": "typography"
       },
       {
+        "name": "The Tabular Figures Rule",
+        "body": "Prices, opening-hours times and quick-view sizes are set in tabular numerals (`font-variant-numeric: tabular-nums`) so stacked figures line up.",
+        "section": "typography"
+      },
+      {
         "name": "The Artboard Rule",
         "body": "Write rem, never px. Above 1024px a length measured on the 1440px artboard is the same number in rem.",
         "section": "layout"
       },
       {
         "name": "The Peek Rule",
-        "body": "A phone scroller shows the edge of its next item so it reads as scrollable: Popular cards are 78% wide and the fourth menu tab is clipped at 390px, signalling swipe.",
+        "body": "A phone scroller shows the edge of its next item so it reads as scrollable: Popular cards are 78% wide, so the next card peeks.",
         "section": "layout"
       },
       {
         "name": "The Floor Shadow Rule",
-        "body": "A shadow is the shade under an object: it falls straight down, has a negative spread, and takes the colour of what casts it (plum for plates, orange for orange pills).",
+        "body": "A shadow is the shade under an object: it falls straight down, has a negative spread, and takes the colour of what casts it (plum for plates, orange for orange pills). The dock, which sits on the screen edge, is the one that falls up.",
         "section": "elevation"
       },
       {
         "name": "The Quiet Until Touched Rule",
-        "body": "Plates rest flat and lift only on hover (fine pointers) or deepen on focus-within: a card rises 0.375rem and its shadow grows. The lift never changes the plate's colour.",
+        "body": "Plates rest flat and lift only on hover (fine pointers) or deepen on focus-within: a card rises 0.375rem and its shadow grows. The lift never changes the plate's colour. On touch there is no lift: a held tappable sinks to 0.97 and a whole card or row takes the `--c-press` tint instead.",
         "section": "elevation"
       },
       {
@@ -697,7 +767,7 @@
       },
       {
         "name": "The One Signature Rule",
-        "body": "The Follow card's expansion is the only choreographed spectacle. Every other motion is a short ease-out that serves content, and nothing may compete with it.",
+        "body": "The Follow card's expansion is the only choreographed spectacle. Every other motion is a short ease-out that serves content (the call ping is its coda), and nothing may compete with it.",
         "section": "components"
       }
     ],
@@ -705,32 +775,40 @@
       "Do take every colour, radius, shadow, duration and easing from `src/styles/tokens.css`, and add the token first when a value is missing (stylelint rejects hex and colour functions anywhere else).",
       "Do write lengths in rem: 1rem is 1/16 of the 1440px artboard above 1024px, so artboard measurements convert one to one.",
       "Do set orange text on light surfaces in `--c-accent-text` (#b8420a) and keep `--c-accent` (#fb6917) for fills, underlines, rings and text on aubergine.",
+      "Do set the label and glyph on every orange fill in `--c-on-accent` (aubergine #271b25): 6.5:1 on #ff7d31, 4.95:1 on #ed600f. Keep white (`--c-on-dark`) for ink and aubergine surfaces.",
       "Do give each surface one orange-filled action (vertical gradient from #ff7d31 to #ed600f with `--sh-cta`); make secondary actions ghost pills (Plate White fill, 1px `--c-line` ring) or quiet smoke-grey links.",
       "Do make what you press a stadium (62.5rem) or a circle, and give content plates 1.125rem corners (cards) or 2rem corners (quick view, Follow card, Visit card, map tile).",
       "Do set Playfair Display at weight 500 for page and section headings and 600 inside plates (cards, dialog, Follow card); use Plus Jakarta Sans for everything else.",
       "Do ground food art with a `--fx-*` drop-shadow filter and plates with an `--sh-*` shadow, tinted plum or orange.",
-      "Do keep every ease an out-curve (`--ease-out`, `--ease-expo`, `--ease-soft`), gate hover lifts behind `@media (hover: hover)` and answer a press with `scale(0.97)`.",
+      "Do keep every ease an out-curve (`--ease-out`, `--ease-expo`, `--ease-soft`), gate hover lifts behind `@media (hover: hover)` and answer a press with `scale(0.97)`; a whole card or row takes the `--c-press` tint instead.",
       "Do keep the focus ring: a 0.1875rem solid outline in `--c-focus` (ink), 0.25rem out, white on aubergine, 0.3125rem on TV; it is never removed.",
-      "Do keep tap targets at 2.75rem (44px) for nav, tabs, toggles, close buttons and secondary links on phones."
+      "Do keep tap targets at 2.75rem (44px) on phones for buttons, tabs, nav, footer links and social buttons and dock actions, and make a whole card or row the hit area (an overlay on its details button) instead of a small arrow.",
+      "Do set prices, opening hours and sizes in tabular numerals.",
+      "Do floor small labels: the dish badge is max(0.6875rem, 11px), so it never drops below 11px when the root shrinks.",
+      "Do reserve `--dock-h` at the bottom of pages below 1024px (the footer's padding) so the Action Dock never covers content."
     ],
     "donts": [
       "Don't write a hex or colour function outside `tokens.css`, and don't use `@layer`, `@container`, `@scope`, `:has()`, `:is()`, dvh, svh or lvh units, `color-mix()`, `light-dark()`, individual transform properties (`translate`, `scale`, `rotate`) or native nesting: the floor is Chromium 94, Safari 15 and Firefox 100. The one sanctioned exception is a newer value refining an older declaration written right above it, with an inline stylelint disable and a reason (the hero's `100vh` then `100svh`).",
       "Don't set text on a light surface in `--c-accent` (2.8:1 on the page).",
+      "Don't set white text or glyphs on the orange gradient or the flat orange (2.6:1 to 3.3:1): the label on orange is aubergine.",
       "Don't animate anything but `opacity` and `transform`, and never `visibility` or `autoAlpha` in animation code: hidden content cannot take keyboard focus (ADR 0003). The Follow card's width and corner radius are the stated exemption.",
       "Don't add a second choreographed spectacle: the Follow card's expansion is the signature and other effects must not compete with it.",
       "Don't hide content before it is revealed except through the `data-reveal` protocol, which applies only while script runs and motion is allowed; the page must be complete without scripts.",
-      "Don't use hard-offset, zero-blur or black shadows on surfaces: every elevation in the system is soft, downward and has a negative spread.",
+      "Don't use hard-offset, zero-blur or black shadows on surfaces: every elevation in the system is soft, has a negative spread and falls straight down (the dock's, on the screen edge, falls up).",
+      "Don't put a script line above a section heading: the shared heading has none. The About and Follow lines are the reel's own.",
+      "Don't transform the card's details button while it is pressed: its overlay is what makes the whole card the hit area, and a transform would shrink it.",
       "Don't introduce a breakpoint other than 640, 768, 1024 and 1440 px (a unit test scans CSS, `sizes`, `matchMedia` and `client:media`).",
       "Don't add stock photography while the generated illustrations stand in as imagery (PRODUCT.md); the incumbent shows food only as transparent cut-outs, never in cropped rectangles."
     ],
     "observations": [
-      "Contrast on orange. White labels on the orange gradient measure 2.6:1 at its lightest stop (#ff7d31) and 3.3:1 at its darkest (#ed600f); on the flat orange (#fb6917) 2.9:1. The labels are 14px to 17px semibold or bold, so the 4.5:1 line applies. It affects the primary button, the selected menu tab, the Follow card's \"Call now\", the quick view's call pill and the phone menu's call pill; white glyphs on the orange hover states (details button, footer social icons) and the selection colour sit at 2.9:1. PRODUCT.md sets WCAG 2.1 AA as the target.",
-      "Functional text below 11px. The logo tagline is 0.4375rem (7px at a 16px root, 6.1px at the 1253px reference viewport) and 0.5rem (8px) below 1024px; the tag badges on cards are 0.625rem (10px, 8.7px at 1253px); the hero's rotating \"Scroll down\" ring label is about 7px (decorative, hidden from assistive technology). The quick-view tag chip sits right at 0.6875rem (11px).",
-      "Tiny running text. Card descriptions are 0.75rem (12px); the footer copyright and \"Back to top\" are 0.75rem; allergen lines, status labels, the footer blurb and hours are 0.8125rem (13px); hero and About paragraphs are 0.875rem (14px). Between 1024px and 1253px the root drops to 13.92px, so all of these shrink by 13% (card descriptions render at 10.4px, hero copy at 12.2px), smaller than on a phone.",
+      "Text below 11px. The logo tagline is 0.4375rem (7px at a 16px root, 6.1px at the 1253px reference viewport), 0.5rem (8px) below 1024px and 0.625rem on TV: it is the reel's wordmark lockup, kept as drawn. The hero's rotating \"Scroll down\" ring label is about 7px (decorative, hidden from assistive technology). The quick view's tag chip is plain 0.6875rem, so it falls to 9.6px at 1253px (the dish badge is floored at 11px).",
+      "Small running text. The footer copyright and \"Back to top\" are 0.75rem (12px); dish descriptions, allergen lines, status labels, the footer blurb and hours are 0.8125rem (13px); hero and About paragraphs are 0.875rem (14px). Between 1024px and 1253px the root drops to 13.92px, so all of these shrink by 13% (descriptions render at 11.3px, hero copy at 12.2px), smaller than on a phone.",
       "Repeated placeholder art. Fifteen menu items share four illustrations: all six pizza cards (Margherita, Pepperoni Fire, Quattro Formaggi, BBQ Chicken, Garden Veggie, Prosciutto & Rocket) show the same pizza slice, and the hot dogs, sandwiches and drinks repeat one illustration each. By decision (PRODUCT.md) the illustrations stand in until real art exists.",
-      "Decorative script eyebrow. Four section headings (About, Menu, Follow, Visit) and the 404 page carry a brush-script line above the heading, tilted -2deg in the shared section heading and on the Follow card. It is decoration the build carries, not a pattern for new sections; the heading carries its own weight. The phone menu's \"01\" to \"04\" numerals use the same script face.",
-      "Small tap targets. The card details button is 1.75rem (28px; 24px at 1253px) and the footer social buttons are 2.25rem (36px), below the 2.75rem (44px) used for nav, tabs, toggles and secondary links.",
-      "Token drift. The ten-step spacing scale (`--s-1` to `--s-10`) is consumed by no stylesheet, and `--r-sm` is unused (the details button hard-codes 0.5rem). The orange gradient is written out six times (button, tab pill, About play button, Follow call pill, quick-view call pill, phone-menu call pill) instead of being a token, and the button component's soft and large variants have no call sites.",
+      "Script lines that remain. About (\"About us\") and Follow (\"Stay in touch\") keep the reel's brush-script line above the heading, tilted -2deg on the Follow card, and the 404 page has a script \"404\" above its title. It is decoration the build carries, not a pattern for new sections. The Menu and Visit headings no longer have one.",
+      "Duplicate adjacent links. The Follow card's phone number and its Call-now pill link to the same `tel:` address, and the Visit map tile and its \"Get directions\" button link to the same map URL under the same accessible name, so each pair is two tab stops for one action.",
+      "An About glow that never paints. The About backdrop glow is `z-index: -1` with no stacking context around it, so it paints in the root stacking context behind the opaque body background: at 1440px wide not one pixel in its box changes with or without it. The hero's glow works because its section isolates.",
+      "White arrow on orange. On hover the hero scroll knob's ink disc turns orange while its arrow stays white (2.9:1; an icon on a desktop-only control).",
+      "Token drift. The ten-step spacing scale (`--s-1` to `--s-10`) is consumed by no stylesheet, and `--r-sm` is unused (the details button hard-codes 0.5rem). The orange gradient is written out seven times (button, tab pill, About play button, Follow call pill, quick-view call pill, phone-menu call pill, dock Call) instead of being a token, and the button component's soft and large variants have no call sites.",
       "Motion rule drift. The repo's rule exempts only the Follow card's width and radius from \"opacity and transform only\", but the tab pill's slide also tweens `width` (a FLIP-style move) and the phone menu's circular reveal drives `clip-path` through a custom property. Both are recorded as built."
     ]
   }

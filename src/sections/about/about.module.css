@@ -14,6 +14,8 @@
   position: relative;
   max-width: 34rem;
   margin-inline: auto;
+  /* Keeps the glow's z-index inside this block: at -1 in the page's own context it sank behind the background and never painted. */
+  isolation: isolate;
 }
 
 .glow {

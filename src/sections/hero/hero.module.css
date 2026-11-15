@@ -234,6 +234,7 @@
 
 @media (hover: hover) {
   .scroll:hover .knob {
+    color: var(--c-on-accent);
     background: var(--c-accent);
     transform: translateY(0.1875rem);
   }

@@ -83,6 +83,9 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
 | Don't animate `width` | The Follow card animates `width` and `border-radius` | It is the reel's signature; change it only with before/after numbers from `scripts/dev/sample-follow.mjs` |
 | Use `useGSAP` / `@gsap/react` | `defineScene` (scenes) and `useMotion` / `usePresence` in `shared/motion/island` (islands), built on `gsap.context()` + `revert()` | `@gsap/react` imports GSAP statically, and GSAP must stay a lazy chunk |
 | `gsap.matchMedia()` for `prefers-reduced-motion` | The scheduler's motion tiers decide; GSAP never loads on the `static` tier | One owner for capability decisions ([ADR 0005](docs/adr/0005-device-capabilities-and-motion-tiers.md)) |
+| impeccable: no kicker or eyebrow above a heading | About and Follow keep the reel's script kicker; nowhere else, and no new ones | The reel binds those two sections ([PRODUCT.md](PRODUCT.md)); the rest dropped theirs ([ADR 0010](docs/adr/0010-phone-first-design-pass.md)) |
+| impeccable: blur, clip-path, mask and shadow may be animated | Animation code stays `opacity` and `transform`; static CSS may use the others | Lint-enforced ([ADR 0003](docs/adr/0003-progressive-enhancement-and-reveal-protocol.md)) |
+| taste-skill: one section per screen, shader grounds, a kit copied into `public/`, a Stop-hook gate | None of it: the skill is art-direction advice only, and its scripts are not run against the repo | The reel binds the layout, and the kit would bypass tokens and lint |
 
 ## Gotchas (each one cost time once)
 

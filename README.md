@@ -71,4 +71,5 @@ Content is validated at build time: a typo fails the build with a precise messag
 - [docs/architecture.md](docs/architecture.md): layers, runtime, device model, quality gates, recipes
 - [docs/adr](docs/adr/README.md): why the big decisions were made
 - [docs/reference-spec.md](docs/reference-spec.md): measurements taken from the reference reel
+- [PRODUCT.md](PRODUCT.md) and [DESIGN.md](DESIGN.md): who the site is for, and the visual system as it is built
 - [AGENTS.md](AGENTS.md): guidance for AI coding agents
