@@ -104,10 +104,13 @@
 
 .number {
   flex: 1;
+  align-self: stretch; /* the whole height of the pill is the link: a thumb-sized target */
+  border-radius: var(--r-pill); /* its focus ring then hugs the pill instead of cutting across it */
   min-width: 0;
   overflow: hidden;
   font-size: 0.875rem;
   font-weight: 500;
+  line-height: 3rem;
   letter-spacing: 0.02em;
   text-align: left;
   text-overflow: ellipsis;
@@ -130,6 +133,13 @@
   border-radius: var(--r-pill);
   box-shadow: 0 0 0 0.25rem var(--c-halo-cream);
   transition: transform var(--dur-2) var(--ease-out);
+}
+
+/* The button is 2.4rem tall: an invisible frame around it makes the target a thumb's size without touching the drawing. */
+.call::before {
+  position: absolute;
+  inset: -0.4rem -0.3rem -0.4rem -0.5rem;
+  content: '';
 }
 
 /* Once the card has opened, one ring leaves the button: the point of the card is the call. */

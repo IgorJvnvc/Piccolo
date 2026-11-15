@@ -23,6 +23,7 @@
 @media (min-width: 1024px) {
   .root {
     padding-block: 5rem 4rem;
+    scroll-margin-top: -6rem; /* an anchor jump goes this much further: the heading lands just under the returning navbar (4.5rem), so a laptop-height screen holds the tabs and the first row of dishes too */
   }
 
   .browser {

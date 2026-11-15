@@ -35,7 +35,7 @@ export default defineEnhancement({
     });
 
     // Scroll-spy: the link whose section has its top nearest above the middle of the viewport is current. At the very end of the
-    // page it is the last one, because a short last section (Contact) never gets its top that high.
+    // page it is the last one, because a short last section (Contact) never gets its top that high. On the hero nothing is current.
     let spied: HTMLAnchorElement | null | undefined;
     const spy = (y: number): void => {
       let current: HTMLAnchorElement | null = null;
@@ -56,8 +56,6 @@ export default defineEnhancement({
       for (const link of links) {
         if (link === current) link.setAttribute('aria-current', 'true');
         else link.removeAttribute('aria-current');
-        // Nothing current (the hero): the first link carries the mark, like the reel.
-        link.toggleAttribute('data-active', current === null && link === links[0]);
       }
     };
 

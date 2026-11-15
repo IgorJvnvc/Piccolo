@@ -1,5 +1,6 @@
 .root {
   padding-block: 3rem 4rem;
+  scroll-margin-top: -3rem; /* an anchor jump goes this much further, so more of the map shows above the dock */
 }
 
 .grid {
@@ -113,6 +114,7 @@
 @media (min-width: 1024px) {
   .root {
     padding-block: 4rem 5rem;
+    scroll-margin-top: 0; /* the dock is a phone bar: from here the section fits whole */
   }
 
   .grid {

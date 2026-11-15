@@ -104,12 +104,10 @@
   transition: transform var(--dur-3) var(--ease-out);
 }
 
-.link[data-active],
 .link[aria-current='true'] {
   color: var(--c-accent-text);
 }
 
-.link[data-active]::after,
 .link[aria-current='true']::after {
   transform: scaleX(1);
   transform-origin: left center; /* arriving: it grows from the left, so the underline is handed from link to link */

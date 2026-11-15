@@ -28,11 +28,15 @@ test.describe('desktop', () => {
     await expect(nav).toBeInViewport();
   });
 
-  test('anchor links scroll to their section and keep the hash', async ({ page }) => {
+  test('anchor links scroll to their section, which lands where the stylesheet puts it, and keep the hash', async ({ page }) => {
     await ready(page);
     await page.getByRole('banner').getByRole('link', { name: 'Find Us' }).click();
     await expect(page).toHaveURL(/#visit$/);
-    await expect.poll(async () => (await page.locator('#visit').boundingBox())?.y ?? 9999, { timeout: 8000 }).toBeLessThan(260);
+    // scroll-padding-top (room for the navbar) plus the section's scroll-margin-top: Lenis and the browser each honour it once, never twice.
+    const inset = await page.evaluate(
+      () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) + parseFloat(getComputedStyle(document.getElementById('visit')!).scrollMarginTop),
+    );
+    await expect.poll(async () => Math.round((await page.locator('#visit').boundingBox())?.y ?? 9999), { timeout: 8000 }).toBeCloseTo(inset, -1);
   });
 
   test('the phone action dock is not shown on a desktop', async ({ page }) => {
@@ -51,13 +55,16 @@ test.describe('desktop', () => {
     await expect(page).not.toHaveURL(/#/);
   });
 
-  test('the navbar marks the section in view as current, Contact once the page ends', async ({ page }) => {
+  test('the navbar marks nothing on the hero, then the section in view as current, Contact once the page ends', async ({ page }) => {
     await ready(page);
     const current = page.getByRole('banner').locator('[aria-current="true"]');
+    await expect(current).toHaveCount(0); // the page opens on the hero, so no link may claim a section yet
     await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
     await expect(current).toHaveText('Contact');
     await page.evaluate(() => document.getElementById('visit')?.scrollIntoView({ block: 'center', behavior: 'instant' }));
     await expect(current).toHaveText('Find Us');
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    await expect(current).toHaveCount(0);
   });
 
   test('a hidden navbar comes back when keyboard focus enters it', async ({ page }) => {

@@ -1,11 +1,6 @@
 export type ScrollTarget = HTMLElement | number;
 
-export interface ScrollOptions {
-  /** Added to the target position (negative = stop above it). */
-  readonly offset: number;
-}
-
-export type ScrollDriver = (target: ScrollTarget, options: ScrollOptions) => void;
+export type ScrollDriver = (target: ScrollTarget) => void;
 
 let driver: ScrollDriver | null = null;
 
@@ -17,18 +12,20 @@ export function setScrollDriver(next: ScrollDriver): () => void {
   };
 }
 
-/** Scrolls via the registered driver (Lenis) or the browser, whose scroll-behavior (base.css) is smooth unless reduced motion is on. */
-export function scrollTo(target: ScrollTarget, offset = 0): void {
+/**
+ * Scrolls via the registered driver (Lenis) or the browser, whose scroll-behavior (base.css) is smooth unless reduced motion is on.
+ * A section lands where the stylesheet says: the page's `scroll-padding-top` (room for the navbar) plus the section's own
+ * `scroll-margin-top` (negative = a little further). Lenis reads both itself; the browser path adds them here.
+ */
+export function scrollTo(target: ScrollTarget): void {
   if (driver) {
-    driver(target, { offset });
+    driver(target);
     return;
   }
-  const top = typeof target === 'number' ? target + offset : target.getBoundingClientRect().top + window.scrollY + offset;
-  window.scrollTo({ top });
+  window.scrollTo({ top: typeof target === 'number' ? target : target.getBoundingClientRect().top + window.scrollY - inset(target) });
 }
 
-/** Offset that leaves room for the navbar (mirrors the CSS `scroll-padding-top`). */
-export function anchorOffset(): number {
-  const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop);
-  return Number.isFinite(padding) ? -padding : 0;
+function inset(target: HTMLElement): number {
+  const px = (value: string): number => parseFloat(value) || 0;
+  return px(getComputedStyle(document.documentElement).scrollPaddingTop) + px(getComputedStyle(target).scrollMarginTop);
 }

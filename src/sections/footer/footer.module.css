@@ -42,6 +42,7 @@
 .link {
   display: inline-block;
   padding-block: 0.25rem;
+  overflow-wrap: anywhere; /* the e-mail address may break inside its column instead of pushing a 320px page sideways */
   font-size: 0.875rem;
   color: var(--c-body);
   transition: color var(--dur-2) var(--ease-out);
@@ -52,11 +53,6 @@
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-  }
-
-  .social {
-    width: 2.75rem;
-    height: 2.75rem;
   }
 }
 
@@ -101,8 +97,8 @@
 .social {
   display: grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.75rem; /* a thumb-sized circle; the desktop size is set below */
+  height: 2.75rem;
   font-size: 1rem;
   color: var(--c-body);
   background: var(--c-line);
@@ -183,6 +179,11 @@
 
   .link {
     padding-block: 0.25rem;
+  }
+
+  .social {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   .barInner {

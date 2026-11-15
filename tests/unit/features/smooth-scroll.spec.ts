@@ -108,18 +108,18 @@ describe('smooth-scroll', () => {
     expect(lenis.stop).toHaveBeenCalledTimes(1);
   });
 
-  it('becomes the scroll driver for anchors, and hands scrolling back to the browser on teardown', async () => {
+  it('becomes the scroll driver for anchors (Lenis reads the CSS inset itself, so no offset is passed), and hands scrolling back to the browser on teardown', async () => {
     const { lenis, teardown } = await start();
     const top = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined);
 
-    scrollTo(480, -60);
-    expect(lenis.scrollTo).toHaveBeenCalledWith(480, { offset: -60, duration: 1.2 });
+    scrollTo(480);
+    expect(lenis.scrollTo).toHaveBeenCalledWith(480, { duration: 1.2 });
     expect(top).not.toHaveBeenCalled();
 
     teardown();
-    scrollTo(480, -60);
+    scrollTo(480);
     expect(lenis.scrollTo).toHaveBeenCalledTimes(1);
-    expect(top).toHaveBeenCalledWith({ top: 420 });
+    expect(top).toHaveBeenCalledWith({ top: 480 });
   });
 
   it('builds nothing if it was torn down while Lenis and GSAP were still loading', async () => {

@@ -108,6 +108,9 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
   overrides the blanket "no animation" rule with `!important`.
 - **`html { scroll-behavior: smooth }` makes programmatic scrolls slow** (seconds, in a test). Jump with
   `scrollTo({ top, behavior: 'instant' })`; a scene plays in real time from the moment its trigger is crossed.
+- **Lenis already honours `scroll-padding-top` (html) and the target's `scroll-margin-top`.** Never pass them as an offset
+  as well: the jump then lands twice the navbar's room too low on a mouse-and-laptop screen ([ADR 0011](docs/adr/0011-anchor-landing-and-the-hero-mark.md)).
+  Move a section's landing with its own `scroll-margin-top`.
 - **The 4 s `no-enhance` failsafe fires on a loaded CI machine.** Tests that assert the hidden pre-state neutralise it
   (`tests/e2e/motion.spec.ts`); `bootstrap-parity.spec.ts` covers the failsafe itself and `progressive.spec.ts` the dead-island
   fallback (Astro retries a failed island import once with `?astro-retry=`, so a test that blocks a chunk must match that too).

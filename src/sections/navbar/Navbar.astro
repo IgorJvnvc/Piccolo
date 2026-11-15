@@ -9,8 +9,6 @@ import type { NavbarProps } from './types';
 type Props = NavbarProps;
 
 const { brand, homeHref = '#top', links, phone, callLabel, hours, openLabel, socials } = Astro.props;
-// Only links into this page can be the current one: on the 404 page they all lead to the home page.
-const intoThisPage = links.every((link) => link.href.startsWith('#'));
 ---
 
 <header class={styles.root} {...enhanceAttr(NAVBAR.name)}>
@@ -18,9 +16,9 @@ const intoThisPage = links.every((link) => link.href.startsWith('#'));
     <nav class={styles.nav} aria-label="Primary">
       <ul class={styles.list}>
         {
-          links.map((link, index) => (
+          links.map((link) => (
             <li>
-              <a class={styles.link} href={link.href} data-active={intoThisPage && index === 0 ? '' : undefined} {...partAttr('link')}>
+              <a class={styles.link} href={link.href} {...partAttr('link')}>
                 {link.label}
               </a>
             </li>

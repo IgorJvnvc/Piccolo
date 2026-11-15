@@ -1,5 +1,5 @@
 import { defineEnhancement } from '@/shared/enhance';
-import { anchorOffset, scrollTo } from './controller';
+import { scrollTo } from './controller';
 
 /**
  * In-page links (#menu, #top, ...): smooth scroll (Lenis when active, native otherwise), keep the URL hash,
@@ -31,7 +31,7 @@ export default defineEnhancement({
 
         const toTop = target === document.body;
         event.preventDefault();
-        scrollTo(toTop ? 0 : target, toTop ? 0 : anchorOffset());
+        scrollTo(toTop ? 0 : target);
         history.replaceState(null, '', toTop ? location.pathname + location.search : hash);
 
         if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');

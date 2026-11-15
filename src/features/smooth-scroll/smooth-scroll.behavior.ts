@@ -28,8 +28,9 @@ export default defineEnhancement({
     // Lenis measures real time, so GSAP must not stretch it after a hitch. This is global to GSAP, so it is undone on teardown.
     gsap.ticker.lagSmoothing(0);
 
-    const release = setScrollDriver((target, { offset }) => {
-      lenis.scrollTo(target, { offset, duration: 1.2 });
+    // No offset: Lenis reads the CSS `scroll-padding-top` and the target's `scroll-margin-top` itself, and adding one here counted them twice.
+    const release = setScrollDriver((target) => {
+      lenis.scrollTo(target, { duration: 1.2 });
     });
 
     bus.on('scroll:lock', ({ locked }) => (locked ? lenis.stop() : lenis.start()), { signal });

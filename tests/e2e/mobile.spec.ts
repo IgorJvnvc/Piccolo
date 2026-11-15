@@ -23,6 +23,11 @@ test.describe('phone and tablet', () => {
     await expect(page.locator('html')).not.toHaveAttribute('data-scroll-lock', '');
     await expect(page).toHaveURL(/#visit$/);
     await expect(page.locator('#visit')).toBeFocused(); // the menu does not take focus back from the section it just sent you to
+    // The browser's own scroll (no Lenis on touch) puts the section at the stylesheet's inset, too.
+    const inset = await page.evaluate(
+      () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) + parseFloat(getComputedStyle(document.getElementById('visit')!).scrollMarginTop),
+    );
+    await expect.poll(async () => Math.round((await page.locator('#visit').boundingBox())?.y ?? 9999), { timeout: 8000 }).toBeCloseTo(inset, -1);
   });
 
   test('mobile menu keeps Shift+Tab inside it, even after a tap on an empty spot', async ({ page }) => {
@@ -72,5 +77,31 @@ test.describe('phone and tablet', () => {
     const grid = page.locator('[data-enhance="popular"] ul');
     const overflowX = await grid.evaluate((el) => getComputedStyle(el).overflowX);
     expect(overflowX).toBe('auto');
+  });
+
+  test('every control below 1024px is a thumb-sized target (a dish card is its own hit area, so its arrow is left out)', async ({ page }) => {
+    await ready(page);
+    await hydrated(page, 'MenuBrowser');
+    const controls = [
+      ...(await page.getByRole('banner').getByRole('link').all()),
+      ...(await page.getByRole('banner').getByRole('button').all()),
+      ...(await page.getByRole('contentinfo').getByRole('link').all()),
+      ...(await page.getByRole('group', { name: 'Quick actions' }).getByRole('link').all()),
+      ...(await page.getByRole('tab').all()),
+      ...(await page.locator('#offers').getByRole('link', { name: /^\+/ }).all()),
+    ];
+    expect(controls.length).toBeGreaterThan(15);
+    const small: string[] = [];
+    for (const control of controls) {
+      const box = await control.boundingBox();
+      if (box && box.height < 43.5) small.push(`${(await control.textContent())?.trim() || (await control.getAttribute('aria-label'))}: ${Math.round(box.width)}x${Math.round(box.height)}`);
+    }
+    expect(small).toEqual([]);
+  });
+
+  test('a 320px screen does not scroll sideways', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await ready(page);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBe(0);
   });
 });
