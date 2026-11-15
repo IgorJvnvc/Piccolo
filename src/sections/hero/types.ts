@@ -5,6 +5,8 @@ export interface HeroArt {
   readonly slab: ImageSource;
   readonly prop: ImageSource;
   readonly pizza: ImageSource;
+  /** The small whole pizza in the headline. */
+  readonly badge: ImageSource;
   readonly hotdog: ImageSource;
   readonly sandwich: ImageSource;
   readonly drink: ImageSource;

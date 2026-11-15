@@ -45,7 +45,7 @@ Not binding (free to change): the orange-on-warm-white palette, the three typefa
 
 ## Evidence on Hand
 
-- Eleven generated SVG illustrations in `src/assets` (food, hero and section art). The user chose to keep them as the imagery for now; no stock photography.
+- Twelve generated SVG illustrations in `src/assets` (food, hero and section art). The user chose to keep them as the imagery for now; no stock photography.
 - Placeholder content in `src/content/*.json`, including 15 menu items with prices, sizes, allergens and tags.
 - No real photographs, logo, testimonials, reviews, awards, press, customer counts or social proof. Future work must not fabricate any of these.
 

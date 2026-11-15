@@ -94,21 +94,6 @@
           "#f3ecf1"
         ]
       },
-      "gold": {
-        "role": "tertiary",
-        "displayName": "Cheese Gold",
-        "canonical": "#e9b44c",
-        "tonalRamp": [
-          "#130900",
-          "#332200",
-          "#573d00",
-          "#7e5a00",
-          "#a87900",
-          "#c89e4c",
-          "#e5c48b",
-          "#ffeccb"
-        ]
-      },
       "red": {
         "role": "tertiary",
         "displayName": "Tomato Red",
@@ -420,7 +405,7 @@
       {
         "name": "fx-prop",
         "value": "drop-shadow(0 1rem 0.9rem rgb(112 60 14 / 0.3))",
-        "purpose": "drop-shadow filter for the hero golden cutter."
+        "purpose": "drop-shadow filter for the hero fork and knife."
       },
       {
         "name": "fx-on-dark",
@@ -428,9 +413,9 @@
         "purpose": "drop-shadow filter for the art on the Follow card."
       },
       {
-        "name": "fx-knob",
-        "value": "drop-shadow(0 0.5rem 0.75rem rgb(35 33 36 / 0.45))",
-        "purpose": "drop-shadow filter under the hero headline badge."
+        "name": "fx-badge",
+        "value": "drop-shadow(0 0.25rem 0.375rem rgb(39 27 37 / 0.22))",
+        "purpose": "drop-shadow filter under the small pizza in the hero headline."
       },
       {
         "name": "ring-line",

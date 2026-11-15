@@ -59,28 +59,14 @@
 .badge {
   flex: none;
   width: 0.78em;
-  height: 0.78em;
   margin-top: 0.06em;
-  filter: var(--fx-knob);
 }
 
-.badgeDisc {
-  fill: var(--c-ink);
-}
-
-.badgeRing {
-  fill: var(--c-accent);
-}
-
-.badgeCore {
-  fill: var(--c-on-accent);
-}
-
-.badgeTick {
-  fill: none;
-  stroke: var(--c-gold);
-  stroke-width: 2.6;
-  stroke-linecap: round;
+.badge img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: var(--fx-badge);
 }
 
 .text {
@@ -267,11 +253,11 @@
     top: auto;
     right: auto;
     width: min(100%, 34rem);
-    margin: -6rem auto 0; /* without the chopsticks the top of the stage is empty: bring the food up to the button */
+    margin: -6rem auto 0; /* without the fork and knife the top of the stage is empty: bring the food up to the button */
     overflow: visible;
   }
 
-  /* The chopsticks are the reel's own prop; on a small screen the food is the subject, and it should not be pushed below the fold. */
+  /* The cutlery is the reel's own diagonal prop; on a small screen the food is the subject, and it should not be pushed below the fold. */
   .prop {
     display: none;
   }

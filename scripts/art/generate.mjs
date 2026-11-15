@@ -8,7 +8,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { basil, drink, drop, hotDog, pizzaSlice, place, rods, sandwich, svgDoc, tomatoHalf } from './shapes.mjs';
+import { basil, drink, drop, fork, hotDog, knife, pizzaSlice, pizzaWhole, place, sandwich, svgDoc, tomatoHalf } from './shapes.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'src', 'assets');
 
@@ -27,6 +27,7 @@ const dropAt = (x, y, scale = 1, rotate = 0, color) =>
 
 /* ---------- single food cutouts ---------- */
 write('food/pizza.svg', single(pizzaSlice('pz'), 'Slice of pepperoni pizza'));
+write('food/pizza-whole.svg', single(pizzaWhole('pw'), 'Whole pepperoni pizza'));
 write('food/hotdog.svg', single(hotDog('hd'), 'Hot dog with mustard and ketchup'));
 write('food/sandwich.svg', single(sandwich('sw'), 'Toasted club sandwich'));
 write('food/drink.svg', single(drink('dr'), 'Takeaway drink'));
@@ -63,27 +64,13 @@ function slab() {
 write('hero/slab.svg', slab());
 
 function prop() {
-  const length = 720;
-  const defs = `
-    <linearGradient id="rod" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FBD77E"/><stop offset="0.35" stop-color="#E8A93A"/><stop offset="1" stop-color="#A96A14"/>
-    </linearGradient>
-    <linearGradient id="wheel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3F1F0"/><stop offset="1" stop-color="#8E8A8C"/></linearGradient>`;
-  const rod = (y0, y1, w0, w1) =>
-    `<path d="M0 ${y0 - w0 / 2}L${length} ${y1 - w1 / 2}V${y1 + w1 / 2}L0 ${y0 + w0 / 2}Z" fill="url(#rod)"/>
-     <circle cx="0" cy="${y0}" r="${w0 / 2}" fill="#F0B94C"/>`;
-  // The soft cast shadow is applied in CSS (drop-shadow on the <img>), so it can never be clipped by the viewBox.
-  const body = `
-    <g transform="translate(4 334) rotate(-25.5)">
-      ${rod(-6, -17, 9, 18)}
-      ${rod(6, 17, 9, 18)}
-      <line x1="92" y1="-14" x2="92" y2="14" stroke="#c9c5c7" stroke-width="3.4" stroke-linecap="round"/>
-      <ellipse cx="92" cy="0" rx="40" ry="12.5" fill="url(#wheel)" stroke="#5f5b5d" stroke-width="1.8"/>
-      <ellipse cx="92" cy="0" rx="31" ry="8" fill="none" stroke="#fff" stroke-opacity="0.6" stroke-width="1.2"/>
-      <ellipse cx="92" cy="0" rx="9" ry="3.6" fill="#5f5b5d"/>
-      <circle cx="92" cy="0" r="2.4" fill="#d9d5d7"/>
-    </g>`;
-  return svgDoc({ width: 640, height: 372, defs, body, title: 'Golden pizza cutter' });
+  const fk = fork('p-fk', { head: 46, neck: 9, handle: 34 });
+  const kn = knife('p-kn', { blade: 200, height: 28, neck: 12, handle: 36 });
+  const at = (shape, x, y) => `<g transform="translate(${x} ${y - shape.height / 2})">${shape.body}</g>`;
+  // A fork and a knife side by side on the reel's chopstick diagonal; the knife sits a little behind. The soft cast shadow is
+  // applied in CSS (drop-shadow on the <img>), so it can never be clipped by the viewBox. Everything stays inside 640 x 372.
+  const body = `<g transform="translate(4 334) rotate(-25.5)">${at(fk, 26, -26)}${at(kn, 46, 15)}</g>`;
+  return svgDoc({ width: 640, height: 372, defs: fk.defs + kn.defs, body, title: 'Fork and knife' });
 }
 write('hero/prop.svg', prop());
 
@@ -143,25 +130,28 @@ function contour() {
 }
 write('about/contour.svg', contour());
 
-/* ---------- follow card art: pizza slice held by skewers, basil, tomato (wide, like the reel's art) ---------- */
+/* ---------- follow card art: pizza slice on a fork, basil, tomato (wide, like the reel's art) ---------- */
 function followArt() {
   const pz = pizzaSlice('f-pz');
-  const rd = rods('f-rd', 190);
+  const fk = fork('f-fk', { length: 172, head: 24, neck: 6.5, handle: 12.5, round: true });
   const bs = basil('f-bs');
   const tm = tomatoHalf('f-tm');
-  const defs = [pz.defs, rd.defs, bs.defs, tm.defs].join('');
+  const defs = [pz.defs, fk.defs, bs.defs, tm.defs].join('');
+  // The tines point down and right into the slice (the fork is drawn handle-left, so it is flipped), with a small contact shadow.
+  const stab = { cx: 122, cy: 75, rotate: 30, flip: true };
   const body = [
     dropAt(300, 118, 0.9, 20),
     dropAt(150, 40, 0.7, -20, '#F29A1F'),
     place(bs, { cx: 292, cy: 52, scale: 0.46, rotate: 36 }),
     place(bs, { cx: 150, cy: 196, scale: 0.4, rotate: -48 }),
     place(pz, { cx: 208, cy: 120, scale: 0.74, rotate: 52 }),
-    place(rd, { cx: 74, cy: 58, scale: 1, rotate: 24 }),
+    `<g opacity="0.22" transform="translate(3 5)">${place({ ...fk, body: fk.silhouette }, stab)}</g>`,
+    place(fk, stab),
     place(tm, { cx: 46, cy: 150, scale: 0.7 }),
     place(tm, { cx: 90, cy: 196, scale: 0.46, rotate: 40 }),
     dropAt(250, 206, 0.8, 30),
   ].join('');
-  return svgDoc({ width: 340, height: 220, defs, body, title: 'Pizza slice with basil and tomatoes' });
+  return svgDoc({ width: 340, height: 220, defs, body, title: 'Pizza slice on a fork with basil and tomatoes' });
 }
 write('follow/art.svg', followArt());
 

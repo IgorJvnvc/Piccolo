@@ -29,12 +29,7 @@ const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
       <h1 class={styles.title} id="hero-title">
         <span class={styles.line}>{title[0]}</span>
         <span class={styles.line}>
-          <svg class={styles.badge} viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-            <circle class={styles.badgeDisc} cx="24" cy="24" r="24"></circle>
-            <circle class={styles.badgeRing} cx="24" cy="24" r="9.5"></circle>
-            <circle class={styles.badgeCore} cx="24" cy="24" r="3.4"></circle>
-            <path class={styles.badgeTick} d="M9 14.5l5.2 4.4M10.6 11l5.2 4.4M39 33.5l-5.2-4.4M37.4 37l-5.2-4.4"></path>
-          </svg>
+          <Picture class={styles.badge} image={art.badge} alt="" loading="eager" />
           {title[1]}
         </span>
       </h1>

@@ -8,7 +8,6 @@ colors:
   primary-text: "#b8420a"
   primary-soft: "#feebe2"
   on-primary: "#271b25"
-  gold: "#e9b44c"
   red: "#e5342a"
   ok: "#1f9d55"
   bg: "#fdfafb"
@@ -264,14 +263,13 @@ A warm-white page with one hot colour: orange for action, plum-tinted neutrals f
 
 ### Tertiary
 Spot and state colours, each used in one place. They are not a second accent.
-- **Cheese Gold** (#e9b44c, `--c-gold`): the two tick pairs on the hero's inline badge.
 - **Tomato Red** (#e5342a, `--c-red`): the target mark after "We Serve".
 - **Open-Now Green** (#1f9d55, `--c-ok`): the status dot while the place is open (navbar, Visit card, dock).
 
 ### Neutral
 - **Counter White** (#fdfafb, `--c-bg`): page background, the lower stop of the hero wash and the quick view's size rows.
 - **Plate White** (#fefefe, `--c-surface`): cards and rows, the tab track, the quick view, the Visit card, the footer, the dock and the ghost button.
-- **Charcoal Ink** (#232124, `--c-ink`): headings, nav links, dock labels, the hero knob and badge disc, the skip link and the focus ring.
+- **Charcoal Ink** (#232124, `--c-ink`): headings, nav links, dock labels, the hero knob, the skip link and the focus ring.
 - **Smoke Grey** (#6a686f, `--c-body`): body copy, descriptions, inactive tabs, footer links; 5.3:1 on the page and 4.8:1 on the peach glow.
 - **Ash** (#b4b1b3, `--c-faint`): the closed-status dot only.
 - **Hairline Blush** (#efe9eb, `--c-line`): 1px rings and rules, footer social fills, the pressed fill of the menu toggle.
@@ -331,7 +329,7 @@ Breakpoints are 640, 768, 1024 and 1440 px, mirrored in TypeScript and checked b
 - **Navbar height** (`--nav-h`): 4.5rem, 5.5rem from 768px, 7.875rem from 1024px; the returning bar is 4.5rem.
 - **Action Dock room** (`--dock-h`): 5.5rem below 1024px, 0 from 1024px. The dock is keyed to width, not to pointer type. The footer adds the room (plus the bottom safe-area inset) as bottom padding so the dock never covers content.
 - **Section rhythm** (block padding, phone to desktop): About 4rem 3rem to 6rem 5rem; Popular 3rem, 4rem from 768px, 8rem 5rem from 1024px; Menu 3rem to 5rem 4rem; Follow 2rem 3rem to 3rem 5rem; Visit 3rem 4rem to 4rem 5rem; footer grid 3.5rem 2.5rem to 4.8rem 2.9rem. The hero fills the viewport height on desktop.
-- **Hero:** below 1024px the copy leads and the art stage (34rem at most) stacks under it, pulled up by 6rem now that the diagonal golden prop (the reel's chopsticks) is hidden, so the food sits right under the button; the scroll indicator is hidden too. From 1024px the copy (34rem at most) sits left and a 42.5rem art stage sits right, bleeding 2.5rem past the edge. The stage is a 680:620 box whose children are positioned in percent, so it scales as one piece.
+- **Hero:** below 1024px the copy leads and the art stage (34rem at most) stacks under it, pulled up by 6rem now that the diagonal steel fork and knife (the reel's chopsticks) is hidden, so the food sits right under the button; the scroll indicator is hidden too. From 1024px the copy (34rem at most) sits left and a 42.5rem art stage sits right, bleeding 2.5rem past the edge. The stage is a 680:620 box whose children are positioned in percent, so it scales as one piece.
 - **Dishes:** Popular is a horizontal snap-scroller of cards on phones (cards 78% wide, 20rem at most, 1rem gap) and three columns in a 60.25rem grid from 768px (1.25rem gap, 2rem from 1024px). The Menu is a single column of compact rows below 768px (0.75rem apart); from 768px its panels use the same cards in auto-fit columns of at least 14.5rem, three columns from 1024px.
 - **Visit:** the info card and the map tile stack on phones; two columns (1fr and 1.05fr, 2rem gap) from 1024px.
 - **Footer:** two columns on phones, four from 768px, then, from 1024px, the reel's measured column widths (20.375rem, 15.4375rem, 16.8125rem, the rest).
@@ -356,7 +354,7 @@ A hybrid that leans on shadow. The page (#fdfafb) and the plates on it (#fefefe)
 - **Slab shadow** (`box-shadow: 0 2.5rem 4.5rem -1.25rem rgb(39 27 37 / 0.5)`, `--sh-dark`): the Follow card and the quick-view panel.
 - **Bar shadow** (`box-shadow: 0 0.75rem 2rem -1rem rgb(35 33 36 / 0.25)`, `--sh-bar`): the frosted navbar when it returns, and the hero scroll knob.
 - **Dock shadow** (`box-shadow: 0 -0.75rem 2rem -1rem rgb(35 33 36 / 0.25)`, `--sh-dock`): the Action Dock, cast upward from its top edge.
-- **Cut-out filters** (`filter: drop-shadow(...)`): item `0 0.875rem 0.875rem rgb(39 27 37 / 0.16)` for dish art (cards, rows, quick view, 404); cluster `0 1.25rem 1.25rem rgb(39 27 37 / 0.12)` for the About food; slab-item `0 0.75rem 0.6rem rgb(0 0 0 / 0.4)` for food resting on the hero slab; prop `0 1rem 0.9rem rgb(112 60 14 / 0.3)` for the golden cutter; on-dark `0 0.75rem 0.75rem rgb(0 0 0 / 0.35)` for the art on the Follow card; knob `0 0.5rem 0.75rem rgb(35 33 36 / 0.45)` under the hero's inline badge.
+- **Cut-out filters** (`filter: drop-shadow(...)`): item `0 0.875rem 0.875rem rgb(39 27 37 / 0.16)` for dish art (cards, rows, quick view, 404); cluster `0 1.25rem 1.25rem rgb(39 27 37 / 0.12)` for the About food; slab-item `0 0.75rem 0.6rem rgb(0 0 0 / 0.4)` for food resting on the hero slab; prop `0 1rem 0.9rem rgb(112 60 14 / 0.3)` for the fork and knife; on-dark `0 0.75rem 0.75rem rgb(0 0 0 / 0.35)` for the art on the Follow card; badge `0 0.25rem 0.375rem rgb(39 27 37 / 0.22)` under the small pizza in the hero headline.
 - **Hairline rings** (`box-shadow: inset 0 0 0 0.0625rem`): in `--c-line` on ghost buttons, dock actions, the details button and the quick-view close button; in `--c-ring-on-dark` (rgb(255 255 255 / 0.28)) on round buttons over aubergine. **Halo rings** (`0 0 0 0.25rem`): `--c-ok-halo` (rgb(31 157 85 / 0.18)) around the open dot and `--c-halo-cream` (rgb(241 232 228 / 0.5)) around the Follow card's call pill.
 - **Frost** (`backdrop-filter`): the returning navbar sits on Frosted Paper with `blur(0.875rem) saturate(1.4)`; the quick-view scrim blurs by 0.375rem. Both are dropped where unsupported and in the lite motion tier (solid bar, plain scrim).
 
@@ -373,7 +371,7 @@ Rounded everywhere, with no sharp corners and no heavy borders. Two families: st
 - **Plate** (`--r-card`, 1.125rem): menu cards and rows (and the overlay that makes the whole card a button). **Large plate** (`--r-xl`, 2rem): the quick view, the Follow card at rest, the Visit card and the map tile. **Soft rectangle** (`--r-md`, 1rem): size rows in the quick view. **Small** (`--r-sm`, 0.5rem): the card details button and the Follow card's idle pre-state, both of which hard-code the value instead of using the token.
 - **Borders:** none on containers. 1px hairlines appear as inset rings on controls, a top rule on the footer and its bar, and a dashed rule under each opening-hours row.
 - **Clipping:** the phone menu opens through a growing circle (`clip-path: circle()`); the hero and the map tile clip with overflow. Food art is never cropped to a box.
-- **Marks:** small inline SVG marks punctuate headlines: the hero badge (charcoal disc, orange ring, aubergine core, two gold tick pairs), the About target (peach halo, red ring and core) and the Follow sparkle (three orange strokes).
+- **Marks:** small marks punctuate headlines: a whole pepperoni pizza (an image, 0.78em tall) before "Fast Food" in the hero, the About target (peach halo, red ring and core; inline SVG) and the Follow sparkle (three orange strokes; inline SVG).
 - **Icons:** one drawn set, 24-unit viewBox, 1.8 stroke with round caps and joins, sized in em (1.0625rem inside buttons, 1.25rem in call links and Visit rows); only the play glyph is filled.
 
 ### Named Rules
@@ -417,7 +415,7 @@ A thumb-reach bar for phones and tablets, below 1024px only (from desktop width 
 Centred by default and start-aligned inside the Visit card: a Headline title and nothing above it (the shared heading has no script line). Titles balance their lines.
 
 ### Signature Component: The Follow Card
-The one choreographed moment, and a binding brand commitment. Its final state is plain CSS: an aubergine plate (2rem corners, slab shadow, up to 68.5rem wide and 17.5rem tall on desktop) with skewered pizza art on the left (18.5rem wide, on-dark drop-shadow) and, from 57.5% across, a script line in orange (the reel's own), the title in white Playfair 600 (Headline-sm), and a Flour Cream stadium (3rem tall) holding the phone number (0.875rem 500, aubergine) and an inset orange "Call now" pill (2.4rem tall, 0.3rem inside, aubergine label, with a 0.25rem cream halo ring). A tiny orange sparkle sits at the top-right corner. Under the card, two quiet links (Instagram, WhatsApp; 0.875rem 600 smoke grey, burnt crust on hover, 2.75rem tall). On phones the art rises out of the top edge and everything stacks and centres.
+The one choreographed moment, and a binding brand commitment. Its final state is plain CSS: an aubergine plate (2rem corners, slab shadow, up to 68.5rem wide and 17.5rem tall on desktop) with a pizza slice on a steel fork on the left (18.5rem wide, on-dark drop-shadow) and, from 57.5% across, a script line in orange (the reel's own), the title in white Playfair 600 (Headline-sm), and a Flour Cream stadium (3rem tall) holding the phone number (0.875rem 500, aubergine) and an inset orange "Call now" pill (2.4rem tall, 0.3rem inside, aubergine label, with a 0.25rem cream halo ring). A tiny orange sparkle sits at the top-right corner. Under the card, two quiet links (Instagram, WhatsApp; 0.875rem 600 smoke grey, burnt crust on hover, 2.75rem tall). On phones the art rises out of the top edge and everything stacks and centres.
 - **Idle pre-state** (only while script runs and motion is allowed): a thin dark pill 1.15rem wide (about 16px at the reference viewport) at the card's full height with 0.5rem corners; the art, text and sparkle are at opacity 0.
 - **Sequence:** it fires once when the card's top reaches 70% of the viewport and then plays out in time, never scrubbed. The width grows to full in 0.96s on expo-out. The corners stay a full stadium (8.75rem) for 0.3s, then relax to 2rem over 0.8s on their own expo-out. The art and the text slide out from the card's centre over 0.96s (on phones they rise 1.5rem instead) while fading in: art over 0.18s, text from 0.1s over 0.3s, sparkle from 0.15s over 0.25s. The art and the text are siblings of the plate, not children, so its growth never clips them.
 - **Call ping:** once the card is open, a 0.125rem ring in the highlight orange hugs the Call-now pill (70% opacity) and, 1.05s after the card starts opening, leaves it once: scaling from 1 to 1.3 while fading to nothing over 0.9s on expo-out. The point of the card is the call.

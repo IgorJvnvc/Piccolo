@@ -9,6 +9,14 @@
 
 const SHADOW = '#2b1a10';
 
+/** One pepperoni disc. The caller defines the radial gradient `${id}-pep`. */
+function pepperoni(id, x, y, r) {
+  return `
+    <circle cx="${x}" cy="${y}" r="${r}" fill="url(#${id}-pep)" stroke="#97220F" stroke-width="1.6"/>
+    <circle cx="${x}" cy="${y}" r="${(r * 0.6).toFixed(1)}" fill="none" stroke="#F4907A" stroke-width="1.2" opacity="0.35"/>
+    <circle cx="${(x - r * 0.32).toFixed(1)}" cy="${(y - r * 0.34).toFixed(1)}" r="${(r * 0.15).toFixed(1)}" fill="#FFD6CA" opacity="0.75"/>`;
+}
+
 /** A slice of pizza, tip pointing to the lower left, crust to the upper right. */
 export function pizzaSlice(id) {
   const defs = `
@@ -16,10 +24,7 @@ export function pizzaSlice(id) {
     <linearGradient id="${id}-crust" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3C46C"/><stop offset="1" stop-color="#BF7A28"/></linearGradient>
     <radialGradient id="${id}-pep" cx="0.38" cy="0.34" r="0.78"><stop offset="0" stop-color="#EE684D"/><stop offset="0.7" stop-color="#C93A2B"/><stop offset="1" stop-color="#A12619"/></radialGradient>`;
 
-  const pep = (x, y, r) => `
-    <circle cx="${x}" cy="${y}" r="${r}" fill="url(#${id}-pep)" stroke="#97220F" stroke-width="1.6"/>
-    <circle cx="${x}" cy="${y}" r="${(r * 0.6).toFixed(1)}" fill="none" stroke="#F4907A" stroke-width="1.2" opacity="0.35"/>
-    <circle cx="${(x - r * 0.32).toFixed(1)}" cy="${(y - r * 0.34).toFixed(1)}" r="${(r * 0.15).toFixed(1)}" fill="#FFD6CA" opacity="0.75"/>`;
+  const pep = (x, y, r) => pepperoni(id, x, y, r);
 
   const body = `
     <ellipse cx="128" cy="240" rx="94" ry="8" fill="${SHADOW}" opacity="0.14"/>
@@ -145,15 +150,115 @@ export function drop(color = '#D6301F') {
   return `<path d="M0-9C6-1 8 4 0 8-8 4-6-1 0-9Z" fill="${color}" opacity="0.9"/>`;
 }
 
-/** Wooden skewer pair (the "diagonal prop" of the follow-card art). */
-export function rods(id, length = 200) {
-  const defs = `<linearGradient id="${id}-w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C98A58"/><stop offset="0.5" stop-color="#8A5330"/><stop offset="1" stop-color="#4C2C18"/></linearGradient>`;
+/** A whole pepperoni pizza from above, cut into six (cut lines at 30, 90 and 150 degrees). 240 x 240, centre (120, 120). */
+export function pizzaWhole(id) {
+  const defs = `
+    <linearGradient id="${id}-cheese" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#FFE585"/><stop offset="1" stop-color="#F2A91B"/></linearGradient>
+    <linearGradient id="${id}-crust" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3C46C"/><stop offset="1" stop-color="#BF7A28"/></linearGradient>
+    <radialGradient id="${id}-pep" cx="0.38" cy="0.34" r="0.78"><stop offset="0" stop-color="#EE684D"/><stop offset="0.7" stop-color="#C93A2B"/><stop offset="1" stop-color="#A12619"/></radialGradient>`;
+
+  const at = (angle, radius) => {
+    const a = (angle * Math.PI) / 180;
+    return [Number((120 + radius * Math.cos(a)).toFixed(1)), Number((120 + radius * Math.sin(a)).toFixed(1))];
+  };
+  // Hand-jittered rings, so six slices do not read as one slice copied six times.
+  const inner = [0, 60, 120, 180, 240, 300].map((a, i) => [...at(a + [6, -5, 4, -6, 5, -4][i], 54 + [0, 4, -3, 3, -4, 2][i]), [14, 15, 13, 15, 14, 13][i]]);
+  const outer = [30, 90, 150, 210, 270, 330].map((a, i) => [...at(a + [-4, 5, -6, 4, -5, 6][i], 78 + [0, -3, 2, -2, 3, -1][i]), [11, 12, 11, 12, 11, 12][i]]);
+  const peppers = [[120, 120, 17], ...inner, ...outer].map(([x, y, r]) => pepperoni(id, x, y, r)).join('');
+
+  const leaf = ([x, y], rotate) =>
+    `<g transform="translate(${x} ${y}) rotate(${rotate}) translate(-9 0)"><path d="M0 0C5-8 15-8 18 0 15 8 5 8 0 0Z" fill="#3F9B3E"/><path d="M2 0H15" stroke="#2D7A33" stroke-width="0.8" opacity="0.7"/></g>`;
+  const leaves = [leaf(at(30, 54), 40), leaf(at(150, 54), -30), leaf(at(270, 54), 70), leaf(at(0, 84), 100), leaf(at(120, 84), 20), leaf(at(240, 84), -60)].join('');
+
+  const cuts = [30, 90, 150]
+    .map((a) => {
+      const [x1, y1] = at(a, 116);
+      const [x2, y2] = at(a + 180, 116);
+      return `M${x1} ${y1}L${x2} ${y2}`;
+    })
+    .join('');
+  const bubbles = [[12, 109, 3], [41, 111, 2.6], [70, 108, 3.2], [99, 110, 2.8], [128, 109, 3.4], [160, 111, 2.6], [188, 108, 3], [216, 110, 3.2], [245, 109, 2.6], [276, 111, 3.4], [305, 108, 2.8], [337, 110, 3]]
+    .map(([a, r, size]) => {
+      const [x, y] = at(a, r);
+      return `<circle cx="${x}" cy="${y}" r="${size}"/>`;
+    })
+    .join('');
+
   const body = `
-    <path d="M0 0H${length}L${length + 14} 5 ${length} 10H0Z" fill="url(#${id}-w)"/>
-    <path d="M0 14H${length}L${length + 14} 19 ${length} 24H0Z" fill="url(#${id}-w)"/>
-    <path d="M4 2H${length - 6}" stroke="#F2C894" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
-    <path d="M4 16H${length - 6}" stroke="#F2C894" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>`;
-  return { defs, body, width: length + 14, height: 24 };
+    <circle cx="120" cy="120" r="116" fill="url(#${id}-crust)" stroke="#8F4F14" stroke-opacity="0.45" stroke-width="2"/>
+    <path d="M15.7 92A108 108 0 0 1 148 15.7" fill="none" stroke="#FADB9A" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+    <g fill="#B66D1C" opacity="0.5">${bubbles}</g>
+    <circle cx="120" cy="120" r="100" fill="#D6301F" opacity="0.9"/>
+    <circle cx="120" cy="120" r="95" fill="url(#${id}-cheese)"/>
+    <g fill="#FFF3B0" opacity="0.5"><ellipse cx="86" cy="50" rx="16" ry="8" transform="rotate(-30 86 50)"/><ellipse cx="172" cy="156" rx="14" ry="7" transform="rotate(-30 172 156)"/><ellipse cx="52" cy="150" rx="11" ry="6" transform="rotate(40 52 150)"/></g>
+    <g fill="#E39B1D" opacity="0.28"><ellipse cx="160" cy="70" rx="13" ry="7" transform="rotate(35 160 70)"/><ellipse cx="96" cy="184" rx="15" ry="7" transform="rotate(-20 96 184)"/></g>
+    <path d="${cuts}" fill="none" stroke="#B8761A" stroke-opacity="0.5" stroke-width="1.8" stroke-linecap="round"/>
+    ${leaves}${peppers}`;
+
+  return { defs, body, width: 240, height: 240 };
+}
+
+/** Brushed-steel gradient and outline shared by the cutlery (the same silver as the old cutter wheel). */
+const steel = (id) =>
+  `<linearGradient id="${id}-steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAF9F9"/><stop offset="0.38" stop-color="#D9D5D7"/><stop offset="0.75" stop-color="#A9A5A7"/><stop offset="1" stop-color="#8E8A8C"/></linearGradient>`;
+const STEEL_LINE = '#5f5b5d';
+
+/**
+ * A steel fork lying along +x: tines at x = 0, handle running to `length`, axis at mid-height. `round` closes the
+ * handle with a half circle (otherwise it runs on past the edge of the art). `silhouette` is the same outline in one flat fill.
+ */
+export function fork(id, { length = 760, head = 26, neck = 7, handle = 16, round = false } = {}) {
+  const t = head * 0.17;
+  const gap = (head - 4 * t) / 3;
+  const tine = head * 1.85;
+  const k = head / 24;
+  const h = head / 2;
+  const n = neck / 2;
+  const e = handle / 2;
+  const endX = round ? length - e : length;
+  const height = head + 8;
+  const tines = [0, 1, 2, 3].map((i) => -h + i * (t + gap));
+  const tineRects = (attrs) =>
+    tines.map((y) => `<rect x="0" y="${y.toFixed(2)}" width="${(tine + 8).toFixed(1)}" height="${t.toFixed(2)}" rx="${(t / 2).toFixed(2)}" ${attrs}/>`).join('');
+  const tail = round ? `L${endX} ${-e}A${e} ${e} 0 0 1 ${endX} ${e}` : `L${endX} ${-e}V${e}`;
+  const web = `M${tine - 4} ${-h}H${tine + 8 * k}C${tine + 32 * k} ${-h} ${tine + 36 * k} ${-n} ${tine + 62 * k} ${-n}${tail}L${tine + 62 * k} ${n}C${tine + 36 * k} ${n} ${tine + 32 * k} ${h} ${tine + 8 * k} ${h}H${tine - 4}Z`;
+
+  const defs = steel(id);
+  const body = `
+    <g transform="translate(0 ${height / 2})">
+      <g fill="${STEEL_LINE}" stroke="${STEEL_LINE}" stroke-width="2.8" stroke-linejoin="round">${tineRects('')}<path d="${web}"/></g>
+      <g fill="url(#${id}-steel)"><path d="${web}"/>${tineRects('')}</g>
+      <g fill="none" stroke="#fff" stroke-opacity="0.75" stroke-linecap="round">
+        ${tines.map((y) => `<path d="M${(t / 2).toFixed(1)} ${(y + t * 0.3).toFixed(2)}H${tine - 2}" stroke-width="${(t * 0.22).toFixed(2)}"/>`).join('')}
+        <path d="M${tine + 70 * k} ${(-n + 1.3).toFixed(1)}L${endX - 6} ${(-e + 1.6).toFixed(1)}" stroke-width="1.2"/>
+      </g>
+    </g>`;
+  const silhouette = `<g transform="translate(0 ${height / 2})" fill="${SHADOW}">${tineRects('')}<path d="${web}"/></g>`;
+  return { defs, body, silhouette, width: length, height };
+}
+
+/** A steel table knife lying along +x: rounded tip at x = 0, straight spine on top, handle running to `length`. */
+export function knife(id, { length = 760, blade = 170, height: bladeHeight = 18, neck = 10, handle = 18 } = {}) {
+  const k = bladeHeight / 18;
+  const h = bladeHeight / 2;
+  const n = neck / 2;
+  const e = handle / 2;
+  const height = bladeHeight + 8;
+  const path =
+    `M${h * 0.6} ${-h}H${blade}C${blade + 24 * k} ${-h} ${blade + 28 * k} ${-n} ${blade + 54 * k} ${-n}L${length} ${-e}V${e}L${blade + 54 * k} ${n}` +
+    `C${blade + 28 * k} ${n} ${blade + 24 * k} ${h} ${blade} ${h}H${h * 3.2}C${h * 1.4} ${h} ${h * 0.15} ${h * 0.7} 0 ${-h * 0.15}C0 ${-h * 0.65} ${h * 0.2} ${-h} ${h * 0.6} ${-h}Z`;
+
+  const defs = steel(id);
+  const body = `
+    <g transform="translate(0 ${height / 2})">
+      <path d="${path}" fill="url(#${id}-steel)" stroke="${STEEL_LINE}" stroke-width="1.4" stroke-linejoin="round"/>
+      <g fill="none" stroke="#fff" stroke-linecap="round">
+        <path d="M${(h * 1.2).toFixed(1)} ${(-h + 1.7).toFixed(1)}H${blade - 6}" stroke-opacity="0.75" stroke-width="1.2"/>
+        <path d="M${(h * 3.6).toFixed(1)} ${(h - 1.7).toFixed(1)}H${blade - 6}" stroke-opacity="0.3" stroke-width="1"/>
+        <path d="M${blade + 60 * k} ${(-n + 1.5).toFixed(1)}L${length - 6} ${(-e + 1.6).toFixed(1)}" stroke-opacity="0.65" stroke-width="1.2"/>
+      </g>
+    </g>`;
+  return { defs, body, width: length, height };
 }
 
 /** Wraps a shape for placement inside a composed SVG: center (cx, cy), uniform scale, rotation in degrees. */

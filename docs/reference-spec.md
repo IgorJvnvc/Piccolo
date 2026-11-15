@@ -17,7 +17,7 @@ Evidence: `reference/frames/` keeps the five key frames the layout baseline was 
 |---|---|
 | Scope | Marketing only: one landing page. No orders, login, admin or backend. |
 | Ordering elements in the reel | Replace with marketing equivalents: nav Menu / Offers / Find Us / Contact; hero CTA "View Menu" (or "Call Now"); card bag button becomes "Details"; the newsletter card becomes a Follow us / Call / WhatsApp card that keeps the same expand animation; payment logos become social links. |
-| Hero art | Same composition: Piccolo items (pizza slice, hot dog, sandwich, drink) on a dark slab, plus a diagonal prop (pizza peel or cutter) in place of the chopsticks. |
+| Hero art | Same composition: Piccolo items (pizza slice, hot dog, sandwich, drink) on a dark slab, plus a diagonal steel fork and knife in place of the chopsticks, and a small whole pizza in place of the inline badge before "Fast Food". The Follow card holds its pizza slice on a fork instead of chopsticks. |
 | Navbar | Same look at the top, but it reappears on scroll-up (the reel's navbar scrolls away and never returns). |
 | Languages / TV | English only. TV means "looks great in a TV browser" (large type, safe margins, arrow-key/remote navigation, lighter animation tier). |
 
@@ -134,7 +134,7 @@ Engine mapping (proposal): load intro = one GSAP timeline; scroll reveals = GSAP
 | Nav: Menu / Offer / Order Track | Menu / Offers / Find Us / Contact |
 | Search + bag icon | proposed: removed, or phone / "Open now" indicator |
 | "Order Now" | "View Menu" (primary), "Call Now" (secondary option) |
-| Chopsticks + black slab with pizza, sushi, burger | dark slab with Piccolo items (pizza slice, hot dog, sandwich, drink) + a diagonal prop (pizza peel or cutter) |
+| Chopsticks + black slab with pizza, sushi, burger | dark slab with Piccolo items (pizza slice, hot dog, sandwich, drink) + a diagonal steel fork and knife |
 | About: burger / panini / pizza cluster | Piccolo cluster; keep the gold contour circle and peach glow |
 | Popular Dishes (3 cards, bag button) | Popular picks (3 cards, "Details" button) |
 | Newsletter card | Follow us / Call / WhatsApp card, same expand animation |

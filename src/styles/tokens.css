@@ -12,7 +12,6 @@
   --c-accent-lo: #ed600f;
   --c-accent-text: #b8420a; /* small accent text on light/peach surfaces: >= 4.5:1 */
   --c-accent-soft: #feebe2; /* peach glow */
-  --c-gold: #e9b44c;
   --c-ok: #1f9d55;
   --c-red: #e5342a;
   --c-bg: #fdfafb;
@@ -60,7 +59,7 @@
   --fx-slab-item: drop-shadow(0 0.75rem 0.6rem rgb(0 0 0 / 0.4));
   --fx-prop: drop-shadow(0 1rem 0.9rem rgb(112 60 14 / 0.3));
   --fx-on-dark: drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.35));
-  --fx-knob: drop-shadow(0 0.5rem 0.75rem rgb(35 33 36 / 0.45));
+  --fx-badge: drop-shadow(0 0.25rem 0.375rem rgb(39 27 37 / 0.22));
 
   /* spacing */
   --s-1: 0.25rem;
