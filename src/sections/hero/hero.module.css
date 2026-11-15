@@ -41,14 +41,19 @@
   line-height: 1.125;
   letter-spacing: -0.01em;
   color: var(--c-ink);
-  animation: fade-in 0.4s var(--ease-soft) 0.3s both;
 }
 
+/* The two lines rise one after the other. */
 .line {
   display: flex;
   align-items: center;
   gap: 0.25em;
   white-space: nowrap;
+  animation: rise-in 0.5s var(--ease-expo) 0.3s both;
+}
+
+.line:nth-child(2) {
+  animation-delay: 0.42s;
 }
 
 .badge {

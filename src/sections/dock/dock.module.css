@@ -16,6 +16,7 @@
     padding: 0.5rem var(--gutter) calc(0.5rem + env(safe-area-inset-bottom));
     background: var(--c-surface);
     box-shadow: var(--sh-dock);
+    animation: dock-in 0.5s var(--ease-expo) 0.8s both;
   }
 
   .status {
@@ -47,5 +48,17 @@
     color: var(--c-on-accent);
     background: linear-gradient(180deg, var(--c-accent-hi), var(--c-accent-lo));
     box-shadow: none;
+  }
+}
+
+@keyframes dock-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }

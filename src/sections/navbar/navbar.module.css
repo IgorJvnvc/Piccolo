@@ -100,7 +100,7 @@
   background: var(--c-accent);
   border-radius: var(--r-pill);
   transform: scaleX(0);
-  transform-origin: left center;
+  transform-origin: right center; /* leaving: it runs out to the right, ready to be taken up by the next link */
   transition: transform var(--dur-3) var(--ease-out);
 }
 
@@ -112,6 +112,7 @@
 .link[data-active]::after,
 .link[aria-current='true']::after {
   transform: scaleX(1);
+  transform-origin: left center; /* arriving: it grows from the left, so the underline is handed from link to link */
 }
 
 @media (hover: hover) {
@@ -121,6 +122,7 @@
 
   .link:hover::after {
     transform: scaleX(1);
+    transform-origin: left center;
   }
 }
 

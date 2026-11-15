@@ -58,7 +58,8 @@ test.describe('phone and tablet', () => {
     await expect(dock.getByRole('link', { name: 'Directions' })).toBeVisible();
     await expect(dock).toContainText(/(Open|Closed) now/); // the open-status behaviour has run
 
-    // It stays at the bottom of the screen, and the page leaves room for it: the last link is not hidden behind it.
+    // It slides up once the page is ready, stays at the bottom of the screen, and the page leaves room for it: the last link is not hidden behind it.
+    await expect(dock).toBeInViewport({ ratio: 1 });
     await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
     const last = await page.getByRole('link', { name: /Back to top/ }).boundingBox();
     const bar = await dock.boundingBox();
