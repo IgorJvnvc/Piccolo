@@ -1,10 +1,10 @@
-import { useRef } from 'preact/hooks';
+import { useMemo, useRef } from 'preact/hooks';
 import type { MenuCardModel } from '@/entities/menu';
 import { useDialog } from '@/shared/focus/use-dialog';
 import { usePresence } from '@/shared/motion/island';
 import { Icon, Picture } from '@/shared/ui';
 import styles from './quick-view.module.css';
-import { quickViewMotion } from './quick-view.motion';
+import { createQuickViewMotion } from './quick-view.motion';
 
 export interface QuickViewProps {
   readonly card: MenuCardModel | null;
@@ -17,7 +17,11 @@ export interface QuickViewProps {
 /** Item details: sizes, allergens, and how to order (this is a marketing site: call or visit). */
 export function QuickView({ card, phone, onClose, opener }: QuickViewProps) {
   const panelRef = useRef<HTMLDivElement>(null);
-  const overlay = usePresence<HTMLDivElement>(card !== null, quickViewMotion);
+  // The dish steps out of the picture on the card that was tapped.
+  const source = useRef<Element | null>(null);
+  source.current = opener?.closest('article')?.querySelector('img') ?? null;
+  const motion = useMemo(() => createQuickViewMotion(() => source.current), []);
+  const overlay = usePresence<HTMLDivElement>(card !== null, motion);
   useDialog(panelRef, card !== null, { onClose, returnFocus: opener });
 
   // The dialog plays out after `card` has already gone back to null, so it keeps showing the last card until it is gone.
