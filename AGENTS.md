@@ -116,7 +116,7 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
   starts as the last slice leaves. Never change `data-intro` or the timeline tokens after load: a changed delay re-times an animation that is
   already running (only the `no-enhance` failsafe does it, on purpose). A timing function inside `@keyframes` cannot take `var()` (it silently
   becomes `linear`), and a delay built from fractions of a second can leave an animation a rounding error short of its end, so a discrete
-  `visibility` flip needs a stepped keyframe. Specs run with the intro marked seen (`introSeen` in `tests/e2e/fixtures.ts`); `intro.spec.ts` turns it off.
+  `visibility` flip needs a stepped keyframe. Specs run with the intro marked seen (`introSeen` in `tests/e2e/fixtures.ts`; `intro.spec.ts` turns it off), and so do the tools in `scripts/dev` (`shoot.mjs --intro` leaves it on).
 - **The 4 s `no-enhance` failsafe fires on a loaded CI machine.** Tests that assert the hidden pre-state neutralise it
   (`tests/e2e/motion.spec.ts`); `bootstrap-parity.spec.ts` covers the failsafe itself and `progressive.spec.ts` the dead-island
   fallback (Astro retries a failed island import once with `?astro-retry=`, so a test that blocks a chunk must match that too).

@@ -5,12 +5,14 @@
  *
  * Flags: --path (default /, e.g. /404.html) --width --height --scrolls (comma list of y px, or "end") --out --wait (ms after load, default 3000)
  *        --dpr --ua (user agent) --touch (emulate touch) --reduced (prefers-reduced-motion) --full (full-page shot)
+ *        --intro (leave the entry intro on: it is marked as seen by default, so it does not cover the shots)
  * Prints console errors / page errors / failed requests, and the <html> data attributes.
  */
 import { createReadStream, existsSync, mkdirSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve } from 'node:path';
 import { chromium } from 'playwright-core';
+import { skipIntro } from './skip-intro.mjs';
 
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((pairs, token, index, all) => {
@@ -57,6 +59,7 @@ const context = await browser.newContext({
   reducedMotion: args.reduced === 'true' ? 'reduce' : 'no-preference',
   ...(args.ua ? { userAgent: args.ua } : {}),
 });
+if (args.intro !== 'true') await skipIntro(context);
 const page = await context.newPage();
 
 const problems = [];

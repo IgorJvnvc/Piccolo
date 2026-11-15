@@ -198,69 +198,6 @@ export function pizzaWhole(id) {
   return { defs, body, width: 240, height: 240 };
 }
 
-/** Brushed-steel gradient and outline shared by the cutlery (the same silver as the old cutter wheel). */
-const steel = (id) =>
-  `<linearGradient id="${id}-steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAF9F9"/><stop offset="0.38" stop-color="#D9D5D7"/><stop offset="0.75" stop-color="#A9A5A7"/><stop offset="1" stop-color="#8E8A8C"/></linearGradient>`;
-const STEEL_LINE = '#5f5b5d';
-
-/**
- * A steel fork lying along +x: tines at x = 0, handle running to `length`, axis at mid-height. `round` closes the
- * handle with a half circle (otherwise it runs on past the edge of the art). `silhouette` is the same outline in one flat fill.
- */
-export function fork(id, { length = 760, head = 26, neck = 7, handle = 16, round = false } = {}) {
-  const t = head * 0.17;
-  const gap = (head - 4 * t) / 3;
-  const tine = head * 1.85;
-  const k = head / 24;
-  const h = head / 2;
-  const n = neck / 2;
-  const e = handle / 2;
-  const endX = round ? length - e : length;
-  const height = head + 8;
-  const tines = [0, 1, 2, 3].map((i) => -h + i * (t + gap));
-  const tineRects = (attrs) =>
-    tines.map((y) => `<rect x="0" y="${y.toFixed(2)}" width="${(tine + 8).toFixed(1)}" height="${t.toFixed(2)}" rx="${(t / 2).toFixed(2)}" ${attrs}/>`).join('');
-  const tail = round ? `L${endX} ${-e}A${e} ${e} 0 0 1 ${endX} ${e}` : `L${endX} ${-e}V${e}`;
-  const web = `M${tine - 4} ${-h}H${tine + 8 * k}C${tine + 32 * k} ${-h} ${tine + 36 * k} ${-n} ${tine + 62 * k} ${-n}${tail}L${tine + 62 * k} ${n}C${tine + 36 * k} ${n} ${tine + 32 * k} ${h} ${tine + 8 * k} ${h}H${tine - 4}Z`;
-
-  const defs = steel(id);
-  const body = `
-    <g transform="translate(0 ${height / 2})">
-      <g fill="${STEEL_LINE}" stroke="${STEEL_LINE}" stroke-width="2.8" stroke-linejoin="round">${tineRects('')}<path d="${web}"/></g>
-      <g fill="url(#${id}-steel)"><path d="${web}"/>${tineRects('')}</g>
-      <g fill="none" stroke="#fff" stroke-opacity="0.75" stroke-linecap="round">
-        ${tines.map((y) => `<path d="M${(t / 2).toFixed(1)} ${(y + t * 0.3).toFixed(2)}H${tine - 2}" stroke-width="${(t * 0.22).toFixed(2)}"/>`).join('')}
-        <path d="M${tine + 70 * k} ${(-n + 1.3).toFixed(1)}L${endX - 6} ${(-e + 1.6).toFixed(1)}" stroke-width="1.2"/>
-      </g>
-    </g>`;
-  const silhouette = `<g transform="translate(0 ${height / 2})" fill="${SHADOW}">${tineRects('')}<path d="${web}"/></g>`;
-  return { defs, body, silhouette, width: length, height };
-}
-
-/** A steel table knife lying along +x: rounded tip at x = 0, straight spine on top, handle running to `length`. */
-export function knife(id, { length = 760, blade = 170, height: bladeHeight = 18, neck = 10, handle = 18 } = {}) {
-  const k = bladeHeight / 18;
-  const h = bladeHeight / 2;
-  const n = neck / 2;
-  const e = handle / 2;
-  const height = bladeHeight + 8;
-  const path =
-    `M${h * 0.6} ${-h}H${blade}C${blade + 24 * k} ${-h} ${blade + 28 * k} ${-n} ${blade + 54 * k} ${-n}L${length} ${-e}V${e}L${blade + 54 * k} ${n}` +
-    `C${blade + 28 * k} ${n} ${blade + 24 * k} ${h} ${blade} ${h}H${h * 3.2}C${h * 1.4} ${h} ${h * 0.15} ${h * 0.7} 0 ${-h * 0.15}C0 ${-h * 0.65} ${h * 0.2} ${-h} ${h * 0.6} ${-h}Z`;
-
-  const defs = steel(id);
-  const body = `
-    <g transform="translate(0 ${height / 2})">
-      <path d="${path}" fill="url(#${id}-steel)" stroke="${STEEL_LINE}" stroke-width="1.4" stroke-linejoin="round"/>
-      <g fill="none" stroke="#fff" stroke-linecap="round">
-        <path d="M${(h * 1.2).toFixed(1)} ${(-h + 1.7).toFixed(1)}H${blade - 6}" stroke-opacity="0.75" stroke-width="1.2"/>
-        <path d="M${(h * 3.6).toFixed(1)} ${(h - 1.7).toFixed(1)}H${blade - 6}" stroke-opacity="0.3" stroke-width="1"/>
-        <path d="M${blade + 60 * k} ${(-n + 1.5).toFixed(1)}L${length - 6} ${(-e + 1.6).toFixed(1)}" stroke-opacity="0.65" stroke-width="1.2"/>
-      </g>
-    </g>`;
-  return { defs, body, width: length, height };
-}
-
 /** Wraps a shape for placement inside a composed SVG: center (cx, cy), uniform scale, rotation in degrees. */
 export function place(shape, { cx, cy, scale = 1, rotate = 0, flip = false }) {
   const sx = flip ? -scale : scale;

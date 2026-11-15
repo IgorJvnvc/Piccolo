@@ -13,6 +13,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright-core';
+import { skipIntro } from './skip-intro.mjs';
 import { serve } from './serve.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, token, index, all) => {
@@ -102,6 +103,7 @@ function fit(samples, threshold) {
 const { base, close } = await serve('dist');
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const context = await browser.newContext(preset);
+await skipIntro(context);
 const page = await context.newPage();
 await page.goto(`${base}/`);
 await page.waitForFunction(() => window.__PICCOLO_READY__ === true);

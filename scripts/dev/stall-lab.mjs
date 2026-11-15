@@ -29,6 +29,7 @@
  * Headless Chrome here is software-rendered, so the absolute numbers are bigger than on a GPU: read them relatively.
  */
 import { chromium } from 'playwright-core';
+import { skipIntro } from './skip-intro.mjs';
 import { serve } from './serve.mjs';
 
 const [dist = 'dist', presetName = 'desktop', variantArg = 'control', roundsArg = '3'] = process.argv.slice(2);
@@ -116,6 +117,7 @@ async function run(spec) {
   const base = await baseFor(spec.dir ?? dist);
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const context = await browser.newContext(PRESETS[presetName]);
+await skipIntro(context);
   const page = await context.newPage();
   await page.goto(`${base}/`);
   await page.waitForFunction(() => window.__PICCOLO_READY__ === true);

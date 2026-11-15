@@ -285,7 +285,7 @@ Layout never depends on device class: it is CSS (media queries and the rem model
   class: the menu is shown stacked and the buttons that would do nothing (card details, hamburger) are hidden, like without
   JavaScript.
 - **Entry intro** (`sections/intro`, [ADR 0012](adr/0012-entry-intro-as-a-css-timeline.md)): an inline gate, first in `<body>`, sets
-  `html[data-intro]` unless motion is `static`, colours are forced, the URL has a `#hash`, or the visit is marked seen. A pure CSS
+  `html[data-intro]` unless motion is `static`, colours are forced, or the visit is marked seen (the test harness only). A `#hash` does not skip it; when the intro plays the gate turns scroll restoration off and drops the `#hash`, so the page starts at its top. A pure CSS
   timeline then plays over the page, and the navbar, hero and dock add `var(--intro-wait)` to their load-animation delays, so they
   start as the last slice leaves. `html.no-enhance` hides the overlay and zeroes `--intro-wait`.
 - **Never animate or set `visibility` (or GSAP `autoAlpha`) in reveal code.** Hidden content cannot take keyboard

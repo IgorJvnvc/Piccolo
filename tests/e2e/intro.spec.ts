@@ -51,16 +51,19 @@ test.describe('entry intro', () => {
     await expect(overlay).toBeHidden();
   });
 
-  test('is skipped for reduced motion and for a deep link, and the page is then exactly as before', async ({ page }) => {
+  test('is skipped for reduced motion; a URL with a #hash (the page writes one itself) plays it and starts at the top', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await ready(page);
     await expect(page.locator('html')).not.toHaveAttribute('data-intro', '');
     await expect(page.locator('[data-intro-root]')).toBeHidden();
     await expect(page.locator('h1 span').first()).toHaveCSS('opacity', '1');
 
+    // Leave the page first: going from / to /#menu would only be a fragment navigation, not a load.
     await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('about:blank');
     await page.goto('/#menu');
-    await expect(page.locator('html')).not.toHaveAttribute('data-intro', '');
-    await expect(page.locator('[data-intro-root]')).toBeHidden();
+    await expect(page.locator('html')).toHaveAttribute('data-intro', '');
+    await expect(page.locator('[data-intro-root]')).toBeVisible();
+    expect(await page.evaluate(() => [window.location.hash, window.scrollY])).toEqual(['', 0]);
   });
 });

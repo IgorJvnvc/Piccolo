@@ -16,7 +16,6 @@ const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
 
   <!-- Art stage: every child is positioned in % of this box, so it scales as one composition. -->
   <div class={styles.art} aria-hidden="true">
-    <Picture class={`${styles.item} ${styles.prop}`} image={art.prop} alt="" loading="eager" />
     <Picture class={`${styles.item} ${styles.slab}`} image={art.slab} alt="" loading="eager" />
     <Picture class={`${styles.item} ${styles.drink}`} image={art.drink} alt="" loading="eager" />
     <Picture class={`${styles.item} ${styles.sandwich}`} image={art.sandwich} alt="" loading="eager" />

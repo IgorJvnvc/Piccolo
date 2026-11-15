@@ -3,7 +3,6 @@ import type { NavLink } from '@/entities/site';
 
 export interface HeroArt {
   readonly slab: ImageSource;
-  readonly prop: ImageSource;
   readonly pizza: ImageSource;
   /** The small whole pizza in the headline. */
   readonly badge: ImageSource;

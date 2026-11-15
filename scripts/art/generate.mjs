@@ -8,7 +8,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { basil, drink, drop, fork, hotDog, knife, pizzaSlice, pizzaWhole, place, sandwich, svgDoc, tomatoHalf } from './shapes.mjs';
+import { basil, drink, drop, hotDog, pizzaSlice, pizzaWhole, place, sandwich, svgDoc, tomatoHalf } from './shapes.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'src', 'assets');
 
@@ -33,7 +33,7 @@ write('food/sandwich.svg', single(sandwich('sw'), 'Toasted club sandwich'));
 write('food/drink.svg', single(drink('dr'), 'Takeaway drink'));
 write('food/basil.svg', single(basil('bs'), 'Basil leaf'));
 
-/* ---------- hero: slab + prop ---------- */
+/* ---------- hero: slab ---------- */
 function slab() {
   const L = [4, 201];
   const T = [425, 4];
@@ -62,17 +62,6 @@ function slab() {
   return svgDoc({ width: 640, height: 430, defs, body: `<g transform="translate(30 24)">${body}</g>`, title: 'Dark serving slab' });
 }
 write('hero/slab.svg', slab());
-
-function prop() {
-  const fk = fork('p-fk', { head: 46, neck: 9, handle: 34 });
-  const kn = knife('p-kn', { blade: 200, height: 28, neck: 12, handle: 36 });
-  const at = (shape, x, y) => `<g transform="translate(${x} ${y - shape.height / 2})">${shape.body}</g>`;
-  // A fork and a knife side by side on the reel's chopstick diagonal; the knife sits a little behind. The soft cast shadow is
-  // applied in CSS (drop-shadow on the <img>), so it can never be clipped by the viewBox. Everything stays inside 640 x 372.
-  const body = `<g transform="translate(4 334) rotate(-25.5)">${at(fk, 26, -26)}${at(kn, 46, 15)}</g>`;
-  return svgDoc({ width: 640, height: 372, defs: fk.defs + kn.defs, body, title: 'Fork and knife' });
-}
-write('hero/prop.svg', prop());
 
 /* ---------- about: food cluster + contour circle ---------- */
 function cluster() {
@@ -130,28 +119,23 @@ function contour() {
 }
 write('about/contour.svg', contour());
 
-/* ---------- follow card art: pizza slice on a fork, basil, tomato (wide, like the reel's art) ---------- */
+/* ---------- follow card art: pizza slice, basil, tomato (wide, like the reel's art) ---------- */
 function followArt() {
   const pz = pizzaSlice('f-pz');
-  const fk = fork('f-fk', { length: 172, head: 24, neck: 6.5, handle: 12.5, round: true });
   const bs = basil('f-bs');
   const tm = tomatoHalf('f-tm');
-  const defs = [pz.defs, fk.defs, bs.defs, tm.defs].join('');
-  // The tines point down and right into the slice (the fork is drawn handle-left, so it is flipped), with a small contact shadow.
-  const stab = { cx: 122, cy: 75, rotate: 30, flip: true };
+  const defs = [pz.defs, bs.defs, tm.defs].join('');
   const body = [
     dropAt(300, 118, 0.9, 20),
     dropAt(150, 40, 0.7, -20, '#F29A1F'),
     place(bs, { cx: 292, cy: 52, scale: 0.46, rotate: 36 }),
     place(bs, { cx: 150, cy: 196, scale: 0.4, rotate: -48 }),
     place(pz, { cx: 208, cy: 120, scale: 0.74, rotate: 52 }),
-    `<g opacity="0.22" transform="translate(3 5)">${place({ ...fk, body: fk.silhouette }, stab)}</g>`,
-    place(fk, stab),
     place(tm, { cx: 46, cy: 150, scale: 0.7 }),
     place(tm, { cx: 90, cy: 196, scale: 0.46, rotate: 40 }),
     dropAt(250, 206, 0.8, 30),
   ].join('');
-  return svgDoc({ width: 340, height: 220, defs, body, title: 'Pizza slice on a fork with basil and tomatoes' });
+  return svgDoc({ width: 340, height: 220, defs, body, title: 'Pizza slice with basil and tomatoes' });
 }
 write('follow/art.svg', followArt());
 

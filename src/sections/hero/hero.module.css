@@ -108,17 +108,6 @@
   height: auto;
 }
 
-.prop {
-  top: 4.52%;
-  left: 7.35%;
-  width: 94.12%;
-  animation: prop-in 0.65s var(--ease-out) calc(var(--intro-wait) + 0.35s) both;
-}
-
-.prop img {
-  filter: var(--fx-prop);
-}
-
 .slab {
   top: 40%;
   left: 12.06%;
@@ -253,13 +242,8 @@
     top: auto;
     right: auto;
     width: min(100%, 34rem);
-    margin: -6rem auto 0; /* without the fork and knife the top of the stage is empty: bring the food up to the button */
+    margin: -6rem auto 0; /* the top of the stage is empty: bring the food up to the button */
     overflow: visible;
-  }
-
-  /* The cutlery is the reel's own diagonal prop; on a small screen the food is the subject, and it should not be pushed below the fold. */
-  .prop {
-    display: none;
   }
 
   .scroll {
@@ -317,18 +301,6 @@
   from {
     opacity: 0;
     transform: translate3d(4.75rem, 0, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes prop-in {
-  from {
-    opacity: 0;
-    transform: translate3d(8rem, -4.75rem, 0);
   }
 
   to {

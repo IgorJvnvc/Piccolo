@@ -60,9 +60,8 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
     return toCardModel(item, source, format);
   };
 
-  const [slab, prop, pizza, pizzaWhole, hotdog, sandwich, drink, cluster, contour, followArt, map] = await Promise.all([
+  const [slab, pizza, pizzaWhole, hotdog, sandwich, drink, cluster, contour, followArt, map] = await Promise.all([
     image('hero/slab'),
-    image('hero/prop'),
     image('food/pizza'),
     image('food/pizza-whole'),
     image('food/hotdog'),
@@ -115,7 +114,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
       cta: copy.hero.cta,
       scrollLabel: copy.hero.scrollLabel,
       scrollHref: '#about',
-      art: { slab, prop, pizza, badge: pizzaWhole, hotdog, sandwich, drink },
+      art: { slab, pizza, badge: pizzaWhole, hotdog, sandwich, drink },
     },
 
     about: {

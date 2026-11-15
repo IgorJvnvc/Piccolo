@@ -7,12 +7,14 @@ import type { IntroProps } from './types';
 type Props = IntroProps;
 
 const { pizza } = Astro.props;
+// The gate ships inline in every page, so its comments stay in the source file and out of the HTML.
+const script = gate.replace(/\/\*[\s\S]*?\*\/|^\s*\/\/.*$/gm, '').replace(/\n\s*\n/g, '\n').trim();
 // One wedge per slice: the CSS gives each its direction and its place in the stagger.
 const slices = [0, 1, 2, 3, 4, 5];
 ---
 
 <!-- Must come first in the body, ahead of the navbar, so it has run before anything that waits for the intro is styled. -->
-<script is:inline set:html={gate}></script>
+<script is:inline set:html={script}></script>
 
 <div class={styles.root} data-intro-root aria-hidden="true">
   {

@@ -12,11 +12,14 @@
  *   node scripts/dev/sample-follow.mjs          (DUMP=1 for raw frames and stall attribution)
  */
 import { chromium } from 'playwright-core';
+import { skipIntro } from './skip-intro.mjs';
 import { serve } from './serve.mjs';
 
 const { base, close } = await serve('dist');
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
-const page = await (await browser.newContext({ viewport: { width: 1253, height: 712 } })).newPage();
+const context = await browser.newContext({ viewport: { width: 1253, height: 712 } });
+await skipIntro(context);
+const page = await context.newPage();
 await page.goto(`${base}/`);
 await page.waitForFunction(() => window.__PICCOLO_READY__ === true);
 await page.evaluate(() => document.fonts.ready);

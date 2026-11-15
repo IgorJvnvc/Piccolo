@@ -25,14 +25,17 @@ What shapes it:
    same frame it stops, and the cuts drawn in the art line up with the sectors. Slices leave along their own direction, 60 ms apart; in
    portrait the whole arrangement turns 30 degrees so each slice has about as far to go.
 2. **A gate**: a tiny ES5 script, first thing in `<body>`, sets `html[data-intro]`. It does nothing for reduced motion
-   (`data-motion="static"`), forced colours, a `#hash` deep link, or `sessionStorage['piccolo:intro'] === 'seen'` (which only the test
-   harness sets). Without the attribute the overlay is `display: none` and nothing waits: no JavaScript, no intro.
+   (`data-motion="static"`), forced colours, or `sessionStorage['piccolo:intro'] === 'seen'` (which only the test harness sets).
+   Without the attribute the overlay is `display: none` and nothing waits: no JavaScript, no intro. A `#hash` in the URL is not a
+   reason to skip: `anchors.behavior.ts` writes one whenever an in-page link is used, so a reload would lose the intro as soon as the
+   visitor had clicked anything. When it plays, the gate also turns scroll restoration off and drops the `#hash`, so the page starts
+   at its top and the intro ends on the landing page, not on whichever section the visitor had reloaded from or linked to.
 3. **One clock instead of a handshake.** `--intro-wait` is `0s`; under `html[data-intro]` it is the whole intro (3 s + 0.4 s + 1.1 s + 5 x 60 ms).
    The 13 load-animation delays add it. Everything starts in the same frame, so the hero starts exactly when the last slice is
    gone, and there is no event to miss.
 4. **The failsafe is the existing one.** `html.no-enhance` (ADR 0003, rule 5) hides the overlay and sets `--intro-wait: 0s`, so a dead
    runtime shows the page at once instead of after five seconds of orange.
-5. **Every full load plays it** (the owner's choice), except as in 2. No skip control and no scroll lock: the overlay blocks pointer
+5. **Every full load plays it** (the owner's choice), a reload included, except as in 2. No skip control and no scroll lock: the overlay blocks pointer
    events and `touch-action: none` stops touch scrolling, but a mouse wheel still scrolls the page underneath.
 
 ## Consequences
