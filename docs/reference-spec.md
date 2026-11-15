@@ -1,8 +1,8 @@
 # Piccolo: Reference Spec (from the reel recording)
 
-Status: draft v1. Analysis only; nothing is implemented yet.
+Status: the measurement record the site was built from. It is implemented; where the build deliberately differs, the ADRs say why.
 Source: `C:\Users\ijovanovic\Videos\2026-11-13 16-40-16.mp4` (OBS capture of the Instagram reel).
-Evidence: `reference/frames/` (key frames `k_*.png`, contact sheets `sheet_*.png`, typography crops `z_*.png`).
+Evidence: `reference/frames/` keeps the five key frames the layout baseline was matched against (see the evidence index at the end).
 
 ## 1. Source and measurement basis
 
@@ -159,6 +159,5 @@ Piccolo logo (SVG); product photos or transparent cutouts: pizza, hot dog, sandw
 
 ## 11. Evidence index
 
-- Key frames (full 1280x720): `k_0.3, k_1, k_1.9, k_2.5, k_2.8, k_3.1, k_3.7, k_4.6, k_5.3, k_5.6, k_6, k_6.8, k_7.2, k_7.6, k_8.1`.
-- Contact sheets: `sheet_all` (2 fps whole clip), `sheet_burst1` (2.4 to 3.2 s), `sheet_burst2` (5.2 to 6.0 s), `sheet_burst3` (6.6 to 7.6 s).
-- Typography crops: `z_nav`, `z_hero_text`, `z_newsletter`.
+- Kept in `reference/frames/` (full 1280x720, the frames `scripts/dev/match_frames.py` compares against): `k_2.5` hero, `k_3.7` about, `k_5.6` popular, `k_7.6` follow, `k_8.1` footer.
+- Removed once the measurements above were taken (still in git history): the other ten key frames, the contact sheets (`sheet_*`, 2 fps and three bursts) and the typography crops (`z_nav`, `z_hero_text`, `z_newsletter`).
