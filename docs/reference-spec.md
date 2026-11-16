@@ -2,7 +2,7 @@
 
 Status: the measurement record the site was built from. It is implemented; where the build deliberately differs, the ADRs say why.
 Source: an OBS capture of the Instagram reel (the recording itself is not in the repo).
-Evidence: `reference/frames/` keeps the five key frames the layout baseline was matched against (see the evidence index at the end).
+Evidence: the five key frames the layout baseline was matched against live in `reference/frames/` on the machine that has the recording. They are frames of a third party's reel, so they are gitignored and not published (see the evidence index at the end).
 
 ## 1. Source and measurement basis
 
@@ -160,5 +160,5 @@ Piccolo logo (SVG); product photos or transparent cutouts: pizza, hot dog, sandw
 
 ## 11. Evidence index
 
-- Kept in `reference/frames/` (full 1280x720, the frames `scripts/dev/match_frames.py` compares against): `k_2.5` hero, `k_3.7` about, `k_5.6` popular, `k_7.6` follow, `k_8.1` footer.
+- Kept locally in `reference/frames/`, not in the repo (full 1280x720, the frames `scripts/dev/match_frames.py` compares against): `k_2.5` hero, `k_3.7` about, `k_5.6` popular, `k_7.6` follow, `k_8.1` footer.
 - Removed once the measurements above were taken (still in git history): the other ten key frames, the contact sheets (`sheet_*`, 2 fps and three bursts) and the typography crops (`z_nav`, `z_hero_text`, `z_newsletter`).

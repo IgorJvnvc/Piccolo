@@ -1,6 +1,6 @@
 """Finds, for each key reel frame, the scroll position where our page looks most like it.
 
-usage: python match_frames.py          (after: node scripts/dev/scan.mjs)
+usage: python match_frames.py          (after: node scripts/dev/scan.mjs; needs the reel frames in reference/frames/, which are not in the repo)
 Prints the 3 best scroll positions per frame with their mean abs luminance diff (0-255; lower = closer), and
 writes blend overlays for the best one to .shots/match/<name>.png (green = reel, magenta = ours) and a side-by-side sheet.
 """
