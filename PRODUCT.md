@@ -45,8 +45,8 @@ Not binding (free to change): the orange-on-warm-white palette, the three typefa
 
 ## Evidence on Hand
 
-- Eleven generated SVG illustrations in `src/assets` (food, hero and section art). The user chose to keep them as the imagery for now; no stock photography.
-- Placeholder content in `src/content/*.json`, including 15 menu items with prices, sizes, allergens and tags.
+- Generated SVG illustrations in `src/assets`: hero and section art, and one drawing for each of the 70 menu pictures (ADR 0015). The user chose to keep them as the imagery for now; no stock photography.
+- Placeholder business content in `src/content/*.json`. The menu is the owner's printed one (71 items, prices in RSD, ADR 0014); it has no descriptions and no allergen data yet.
 - No real photographs, logo, testimonials, reviews, awards, press, customer counts or social proof. Future work must not fabricate any of these.
 
 ## Product Principles

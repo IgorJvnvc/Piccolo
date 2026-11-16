@@ -41,8 +41,8 @@ On Windows PowerShell, use `npm.cmd` / `npx.cmd` if script execution policy bloc
 | --- | --- |
 | Business name, tagline, phone, e-mail, address, opening hours, social links | `src/content/site.json` |
 | Page copy (hero, about, footer, labels) | `src/content/home.json` |
-| Menu categories and items (prices in major units, e.g. `8.5`) | `src/content/menu/categories.json`, `items.json` |
-| Artwork | `src/assets/<group>/<name>.png / jpg / webp / avif`, same base name as the placeholder SVG (the raster wins) |
+| Menu categories and items (prices in major units, RSD, e.g. `220`) | `src/content/menu/categories.json`, `items.json` |
+| Artwork | `src/assets/<group>/<name>.png / jpg / webp / avif`, same base name as the placeholder SVG (the raster wins); each menu picture is `src/assets/menu/<item id>` |
 
 Content is validated at build time: a typo fails the build with a precise message instead of shipping a broken page.
 

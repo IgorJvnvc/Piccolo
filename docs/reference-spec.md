@@ -143,7 +143,7 @@ Engine mapping (proposal): load intro = one GSAP timeline; scroll reveals = GSAP
 
 ## 8. Sections not in the reel (design extrapolation, needs approval)
 
-- Full **Menu** with four categories (Pizza, Hot dogs, Sandwiches, Drinks): tabs plus card grid in the same card style, placed after Popular picks.
+- Full **Menu** with six categories (the owner's printed menu, ADR 0014): tabs plus card grid in the same card style, in pages of nine, placed after Popular picks.
 - **Location / hours / contact** block (the reel only has the footer column).
 - Other breakpoints: the reel is one 1253 px viewport. Proposed rules: <768 stacks the hero (text first, art below) and makes the card row a horizontal snap-scroller; 768 to 1023 keeps two columns with smaller type; >=1920 and TV scale up with larger type and safe margins; the newsletter card expands to full container width on every size.
 
