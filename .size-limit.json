@@ -2,7 +2,7 @@
   {
     "name": "HTML (index, with inlined CSS)",
     "path": "dist/index.html",
-    "limit": "28 kB",
+    "limit": "30 kB",
     "gzip": true
   },
   {

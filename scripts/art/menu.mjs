@@ -243,6 +243,212 @@ const kifla = () => {
   return svgDoc({ width: 300, height: 190, defs, body, title: 'Kifla' });
 };
 
+/* ---------- shared helpers for the next pictures ---------- */
+
+/** A small seeded generator, so a re-run draws the same picture. */
+function seeded(seed) {
+  let state = seed >>> 0;
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let t = state;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** `count` things scattered inside an ellipse [cx, cy, rx, ry]; `draw(x, y, index, next)` returns the markup of one. */
+function scatter(seed, count, [cx, cy, rx, ry], draw) {
+  const next = seeded(seed);
+  return Array.from({ length: count }, (_, index) => {
+    const angle = next() * Math.PI * 2;
+    const radius = Math.sqrt(next());
+    return draw(n1(cx + Math.cos(angle) * radius * rx), n1(cy + Math.sin(angle) * radius * ry), index, next);
+  }).join('');
+}
+
+/* ---------- pies, from above: a crimped rim, fruit, and a lattice over it ---------- */
+
+const latticePie = (id, title, { filling, fruit }) => {
+  const defs = [
+    lin(`${id}-crust`, CRUST, [0, 0, 1, 1]),
+    lin(`${id}-strip`, [[0, '#F8D68A'], [1, '#D99A48']]),
+    rad(`${id}-fill`, [[0, filling[0]], [1, filling[1]]], [0.4, 0.35, 0.8]),
+    `<clipPath id="${id}-clip"><circle cx="120" cy="120" r="92"/></clipPath>`,
+  ].join('');
+  const strips = (turn) =>
+    `<g transform="rotate(${turn} 120 120)">${[36, 76, 116, 156, 196].map((y) => `<rect x="0" y="${y}" width="240" height="17" fill="url(#${id}-strip)"/><rect x="0" y="${y}" width="240" height="3.5" fill="#FFF1CF" opacity="0.6"/>`).join('')}</g>`;
+  const body = `
+    <circle cx="120" cy="120" r="116" fill="url(#${id}-crust)" stroke="#8F4F14" stroke-opacity="0.4" stroke-width="2"/>
+    <circle cx="120" cy="120" r="104" fill="none" stroke="#B8762E" stroke-width="9" stroke-linecap="round" stroke-dasharray="0.1 13" opacity="0.65"/>
+    <path d="M17 92A108 108 0 0 1 148 17" fill="none" stroke="#FFF1CF" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    <circle cx="120" cy="120" r="92" fill="url(#${id}-fill)"/>
+    <g clip-path="url(#${id}-clip)">${fruit}${strips(45)}${strips(-45)}</g>
+    <circle cx="120" cy="120" r="92" fill="none" stroke="#B8762E" stroke-width="3" opacity="0.5"/>`;
+  return svgDoc({ width: 240, height: 240, defs, body, title });
+};
+
+const cherries = scatter(11, 14, [120, 120, 76, 76], (x, y) => `<circle cx="${x}" cy="${y}" r="11" fill="#8E1A2B" stroke="#5E0F1C" stroke-width="1.5"/><ellipse cx="${n1(x - 3.5)}" cy="${n1(y - 4)}" rx="3.4" ry="2" fill="#fff" opacity="0.5"/>`);
+const berries = scatter(23, 18, [120, 120, 76, 76], (x, y) => `<circle cx="${x}" cy="${y}" r="9" fill="#D6325A" stroke="#9C1E40" stroke-width="1.4"/><circle cx="${n1(x - 3)}" cy="${n1(y - 3)}" r="1.8" fill="#FFB3C4"/><circle cx="${n1(x + 3)}" cy="${n1(y + 1)}" r="1.5" fill="#FFB3C4"/>`);
+const appleSlices = scatter(5, 14, [120, 120, 76, 76], (x, y, _i, next) => `<ellipse cx="${x}" cy="${y}" rx="15" ry="7" transform="rotate(${n1(next() * 180)} ${x} ${y})" fill="#F6E3A1" stroke="#CFA24A" stroke-width="1.4"/>`);
+
+/* ---------- a sweet sandwich: two slices with jam between ---------- */
+
+const jamSandwich = (id, title, { jam, topping }) => {
+  const defs = [lin(`${id}-slice`, [[0, '#FBE3B0'], [1, '#E9B96E']]), lin(`${id}-crust`, [[0, '#E2A456'], [1, '#B8762E']]), lin(`${id}-jam`, [[0, jam[0]], [1, jam[1]]])].join('');
+  const body = `
+    <rect x="22" y="106" width="216" height="46" rx="18" fill="url(#${id}-crust)"/>
+    <rect x="30" y="110" width="200" height="36" rx="13" fill="url(#${id}-slice)"/>
+    <path d="M26 104C60 94 80 112 124 102s70 10 112 0c4 14 2 22-10 28-14 6-24-4-30 8s-16 6-22 0-16 6-30 0-18 4-28 0-26 8-40 0-24 2-24-12Z" fill="url(#${id}-jam)"/>
+    <path d="M40 108q20-6 40-2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+    <rect x="22" y="48" width="216" height="52" rx="22" fill="url(#${id}-crust)"/>
+    <rect x="30" y="54" width="200" height="40" rx="17" fill="url(#${id}-slice)"/>
+    <path d="M44 64q40-8 90-6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+    <g fill="#fff" opacity="0.8"><circle cx="70" cy="78" r="1.8"/><circle cx="104" cy="70" r="1.6"/><circle cx="150" cy="80" r="1.8"/><circle cx="188" cy="68" r="1.6"/><circle cx="120" cy="84" r="1.5"/></g>
+    ${topping}`;
+  return svgDoc({ width: 260, height: 170, defs, body, title });
+};
+
+const cherryTop = `<path d="M180 52c-4-14 2-24 12-30" fill="none" stroke="#4F7F2E" stroke-width="3" stroke-linecap="round"/><circle cx="180" cy="62" r="13" fill="#8E1A2B" stroke="#5E0F1C" stroke-width="1.5"/><ellipse cx="175" cy="57" rx="4" ry="2.4" fill="#fff" opacity="0.55"/>`;
+const berryTop = `<g fill="#D6325A" stroke="#9C1E40" stroke-width="1.4"><circle cx="176" cy="60" r="9"/><circle cx="192" cy="58" r="9"/><circle cx="184" cy="48" r="9"/></g><g fill="#FFB3C4"><circle cx="173" cy="57" r="1.8"/><circle cx="189" cy="55" r="1.8"/><circle cx="181" cy="45" r="1.8"/></g>`;
+
+/* ---------- bowls: salads (a mound) and soups (a surface) ---------- */
+
+/** A bowl. `rim` is [y of the rim's centre, its half height]: a salad's bowl is seen nearly from the side, a soup's from higher up. */
+const bowl = (id, title, inside, [rimY, rimRy] = [104, 22]) => {
+  const defs = [lin(`${id}-bowl`, [[0, '#FFFFFF'], [0.6, '#F1EBE7'], [1, '#D9CFCA']], [0, 0, 1, 0]), lin(`${id}-inner`, [[0, '#E2D9D3'], [1, '#F6F1ED']])].join('');
+  const body = `
+    <path d="M28 ${rimY}Q28 184 130 184T232 ${rimY}Z" fill="url(#${id}-bowl)"/>
+    <path d="M34 ${rimY + 28}Q130 ${rimY + 54} 226 ${rimY + 28}" fill="none" stroke="#4B7FB7" stroke-width="6" opacity="0.8"/>
+    <path d="M40 ${rimY + 8}Q44 ${rimY + 46} 78 168" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="130" cy="${rimY}" rx="102" ry="${rimRy}" fill="url(#${id}-inner)" stroke="#D3C9C2" stroke-width="2"/>
+    ${inside}
+    <path d="M28 ${rimY}Q130 ${rimY + 2 * rimRy - 10} 232 ${rimY}" fill="none" stroke="#F6F1ED" stroke-width="5" stroke-linecap="round"/>
+    <path d="M28 ${rimY}Q130 ${rimY + 2 * rimRy - 10} 232 ${rimY}" fill="none" stroke="#D3C9C2" stroke-width="1.5"/>`;
+  return svgDoc({ width: 260, height: 200, defs, body, title });
+};
+
+const mound = (fill, edge, bits) =>
+  `<path d="M40 104Q42 34 130 32T220 104Q130 128 40 104Z" fill="${fill}" stroke="${edge}" stroke-width="2"/><path d="M60 80Q78 48 124 42" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.4"/>${bits}`;
+const dill = `<path d="M130 36q-4-14 6-22M130 36q8-10 20-8M130 36q-12-6-22-2" fill="none" stroke="#4F9A3A" stroke-width="2.6" stroke-linecap="round"/>`;
+const PILE = [130, 78, 72, 28];
+
+const russianSalad = () =>
+  bowl('rs', 'Russian salad', mound('#F7ECE0', '#D7C7A4',
+    `${scatter(3, 18, PILE, (x, y) => `<circle cx="${x}" cy="${y}" r="4.4" fill="#6DB74A" stroke="#4F8F34" stroke-width="1"/>`)}${scatter(8, 12, PILE, (x, y) => `<rect x="${x}" y="${y}" width="9" height="9" rx="1.8" fill="#F29A3C" stroke="#C9741C" stroke-width="1"/>`)}${scatter(14, 7, PILE, (x, y) => `<rect x="${x}" y="${y}" width="11" height="8" rx="2" fill="#BFD98A" stroke="#8FB04F" stroke-width="1"/>`)}${scatter(30, 5, PILE, (x, y) => `<rect x="${x}" y="${y}" width="8" height="8" rx="2" fill="#FFF8E6" stroke="#D8C9A0" stroke-width="1"/>`)}${dill}`));
+
+const chickenSalad = () =>
+  bowl('cs', 'Chicken salad', mound('#F9F1DE', '#D9C59A',
+    `${scatter(5, 14, PILE, (x, y, i) => `<rect x="${x}" y="${y}" width="17" height="11" rx="5.5" transform="rotate(${i * 37 % 180} ${x} ${y})" fill="#F1D6A0" stroke="#C99A5C" stroke-width="1.5"/>`)}${scatter(9, 12, PILE, (x, y) => `<circle cx="${x}" cy="${y}" r="4" fill="#6DB74A" stroke="#4F8F34" stroke-width="1"/>`)}${scatter(17, 8, PILE, (x, y) => `<rect x="${x}" y="${y}" width="8" height="8" rx="2" fill="#F29A3C"/>`)}${dill}`));
+
+const beefSalad = () =>
+  bowl('bs', 'Beef salad', mound('#F2E2D8', '#CFA894',
+    `${scatter(7, 15, PILE, (x, y, i) => `<rect x="${x}" y="${y}" width="15" height="10" rx="4.5" transform="rotate(${i * 41 % 180} ${x} ${y})" fill="#A9605A" stroke="#7A3A36" stroke-width="1.4"/>`)}${scatter(12, 8, PILE, (x, y) => `<ellipse cx="${x}" cy="${y}" rx="7" ry="3.5" fill="#9BBF4C" stroke="#6F8F30" stroke-width="1.2"/>`)}${scatter(19, 9, PILE, (x, y) => `<rect x="${x}" y="${y}" width="8" height="8" rx="2" fill="#F29A3C"/>`)}${dill}`));
+
+const tunaSalad = () =>
+  bowl('ts2', 'Tuna salad', mound('#F6E8DF', '#D9B8A6',
+    `${scatter(6, 14, PILE, (x, y, i) => `<ellipse cx="${x}" cy="${y}" rx="11" ry="6" transform="rotate(${i * 43 % 180} ${x} ${y})" fill="#EDB39E" stroke="#C98A74" stroke-width="1.3"/>`)}${scatter(10, 6, PILE, (x, y) => `<circle cx="${x}" cy="${y}" r="6.5" fill="none" stroke="#2A2A2E" stroke-width="3.6"/>`)}${scatter(15, 9, PILE, (x, y) => `<circle cx="${x}" cy="${y}" r="3.8" fill="#FFD23F"/>`)}<path d="M64 74q12-26 38-26" fill="none" stroke="#5FB041" stroke-width="9" stroke-linecap="round"/>`));
+
+/** Soup: a surface in a bowl seen from higher up, with what is in it. */
+const soup = (id, title, { broth, bits }) =>
+  bowl(id, title, `<ellipse cx="130" cy="92" rx="92" ry="31" fill="${broth[0]}"/><ellipse cx="130" cy="96" rx="82" ry="24" fill="${broth[1]}" opacity="0.55"/><path d="M62 86q22-8 44 0M150 84q22-8 44 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.4"/>${bits}`, [92, 40]);
+
+const SOUP = [130, 93, 72, 22];
+const steam = '<path d="M96 52q-8-12 0-22M130 46q-8-12 0-22M164 52q-8-12 0-22" fill="none" stroke="#CFC4BC" stroke-width="4" stroke-linecap="round" opacity="0.8"/>';
+
+const chickenSoup = () =>
+  soup('cso', 'Chicken soup', {
+    broth: ['#F2C86A', '#E3A93A'],
+    bits: `${scatter(4, 8, SOUP, (x, y) => `<circle cx="${x}" cy="${y}" r="7" fill="#F29A3C" stroke="#C9741C" stroke-width="1.4"/><circle cx="${x}" cy="${y}" r="2.6" fill="#FBC98A"/>`)}${scatter(13, 9, SOUP, (x, y) => `<path d="M${x - 9} ${y}q4.5-6 9 0t9 0" fill="none" stroke="#FBEFC4" stroke-width="3.4" stroke-linecap="round"/>`)}${scatter(21, 7, SOUP, (x, y) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#4F9A3A"/>`)}${steam}`,
+  });
+
+const beefSoup = () =>
+  soup('bso', 'Beef soup', {
+    broth: ['#B8742F', '#8C531C'],
+    bits: `${scatter(8, 6, SOUP, (x, y) => `<rect x="${x - 8}" y="${y - 5}" width="16" height="11" rx="4.5" fill="#7A3A2A" stroke="#4E2118" stroke-width="1.4"/>`)}${scatter(2, 6, SOUP, (x, y) => `<circle cx="${x}" cy="${y}" r="6" fill="#F29A3C" stroke="#C9741C" stroke-width="1.4"/>`)}${scatter(24, 5, SOUP, (x, y) => `<rect x="${x - 4.5}" y="${y - 4.5}" width="9" height="9" rx="2" fill="#F1DDA0"/>`)}${scatter(27, 6, SOUP, (x, y) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#4F9A3A"/>`)}${steam}`,
+  });
+/* ---------- sides: cheese, meats, a spread, biscuits, jam ---------- */
+
+const holes = (seed, count, region) => scatter(seed, count, region, (x, y, _i, next) => `<ellipse cx="${x}" cy="${y}" rx="${n1(3 + next() * 3)}" ry="${n1(2.4 + next() * 2)}" fill="#E0A21F"/>`);
+
+const kashkaval = () => {
+  const id = 'kv';
+  const defs = [lin(`${id}-front`, [[0, '#FFE98F'], [1, '#F2B722']]), lin(`${id}-top`, [[0, '#FFF3B8'], [1, '#FCD25A']])].join('');
+  const body = `
+    <path d="M24 84 150 40l92 34-126 52Z" fill="url(#${id}-top)"/>
+    <path d="M24 84v34l92 52v-44Z" fill="url(#${id}-front)"/>
+    <path d="M116 126 242 74v36L116 170Z" fill="#E6A91E"/>
+    <path d="M24 84 150 40" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity="0.7"/>
+    ${holes(2, 4, [60, 120, 22, 18])}${holes(6, 3, [176, 100, 34, 14])}
+    <path d="M38 98v24l30 18" fill="none" stroke="#FFF7CC" stroke-width="2.4" stroke-linecap="round" opacity="0.5"/>`;
+  return svgDoc({ width: 260, height: 190, defs, body, title: 'Kashkaval cheese' });
+};
+
+/** A fan of slices of a cold cut: `rim` is the edge colour, `meat` the middle. */
+const slicesFan = (id, title, { meat, rim, fleck }) => {
+  const defs = lin(`${id}-meat`, [[0, meat[0]], [1, meat[1]]], [0, 0, 1, 1]);
+  const slice = (x, y, turn) =>
+    `<g transform="translate(${x} ${y}) rotate(${turn})"><ellipse rx="52" ry="40" fill="${rim}"/><ellipse rx="46" ry="34" fill="url(#${id}-meat)"/><ellipse cx="-14" cy="-12" rx="20" ry="8" fill="#fff" opacity="0.25"/>${fleck}</g>`;
+  return svgDoc({ width: 260, height: 190, defs, body: `${slice(86, 86, -14)}${slice(150, 100, 6)}${slice(196, 80, 20)}`, title });
+};
+
+const sideHam = () => {
+  const id = 'sm';
+  const defs = lin(`${id}-ham`, [[0, '#F9B6B8'], [1, '#E5808A']]);
+  const fold = (y, turn) =>
+    `<g transform="translate(130 ${y}) rotate(${turn})"><path d="M-96 0q24-28 48 0t48 0t48 0t48 0v22q-24 24-48 0t-48 0t-48 0t-48 0Z" fill="url(#${id}-ham)" stroke="#D9737F" stroke-width="1.6"/><path d="M-90 4q22-22 44 0t44 0t44 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.35"/></g>`;
+  return svgDoc({ width: 260, height: 190, defs, body: `${fold(138, -4)}${fold(104, 3)}${fold(70, -2)}`, title: 'Ham' });
+};
+
+const sideKulen = () => {
+  const id = 'kl';
+  const defs = lin(`${id}-skin`, [[0, '#B23A22'], [1, '#7A1E10']]);
+  const round = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="30" ry="34" fill="#C8472B" stroke="#8E2A18" stroke-width="2.4"/><ellipse cx="${x - 8}" cy="${y - 10}" rx="12" ry="7" fill="#E56B4A" opacity="0.7"/>${scatter(x, 6, [x, y, 18, 22], (px, py) => `<circle cx="${px}" cy="${py}" r="2.4" fill="#FBE3D0"/>`)}`;
+  const body = `
+    <rect x="132" y="68" width="116" height="58" rx="26" fill="url(#${id}-skin)"/>
+    <path d="M144 80h92" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+    <ellipse cx="136" cy="97" rx="14" ry="29" fill="#C8472B" stroke="#8E2A18" stroke-width="2.2"/>
+    ${scatter(41, 6, [136, 97, 8, 20], (x, y) => `<circle cx="${x}" cy="${y}" r="2" fill="#FBE3D0"/>`)}
+    ${round(64, 112)}${round(100, 58)}`;
+  return svgDoc({ width: 260, height: 190, defs, body, title: 'Kulen' });
+};
+
+const sideChicken = () =>
+  slicesFan('ch', 'Chicken breast', { meat: ['#FBEBCF', '#F1D6A8'], rim: '#D9A55E', fleck: '<path d="M-30 6q14 8 30 0t30 0" fill="none" stroke="#E4C28A" stroke-width="2" stroke-linecap="round"/>' });
+const sidePork = () =>
+  slicesFan('pk', 'Smoked pork loin', { meat: ['#D48A86', '#B5605C'], rim: '#7A2E2E', fleck: '<g fill="#F4D9D6" opacity="0.7"><circle cx="-8" cy="4" r="2.4"/><circle cx="14" cy="-6" r="2"/><circle cx="6" cy="14" r="2.2"/></g>' });
+
+/** A jar with a lid and a label. `lid` is the cap colour, `fill` the colour of what is inside. */
+const jar = (id, title, { fill, lid, label, extra = '' }) => {
+  const defs = [lin(`${id}-glass`, [[0, '#FFFFFF', 0.85], [1, '#DCE6EA', 0.7]], [0, 0, 1, 0]), lin(`${id}-fill`, [[0, fill[0]], [1, fill[1]]]), lin(`${id}-lid`, [[0, lid[0]], [1, lid[1]]])].join('');
+  const body = `
+    <rect x="60" y="64" width="140" height="132" rx="26" fill="url(#${id}-glass)" stroke="#C9D5DA" stroke-width="2"/>
+    <rect x="66" y="84" width="128" height="106" rx="22" fill="url(#${id}-fill)"/>
+    <ellipse cx="116" cy="96" rx="40" ry="8" fill="#fff" opacity="0.25"/>
+    <rect x="72" y="118" width="116" height="52" rx="10" fill="${label}"/>
+    <circle cx="130" cy="144" r="15" fill="${fill[1]}"/><circle cx="125" cy="139" r="4" fill="#fff" opacity="0.5"/>
+    <rect x="56" y="38" width="148" height="34" rx="9" fill="url(#${id}-lid)"/>
+    <path d="M64 46h132" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+    <path d="M74 90v90" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+    ${extra}`;
+  return svgDoc({ width: 260, height: 210, defs, body, title });
+};
+
+const eurokrem = () =>
+  jar('ek', 'Chocolate hazelnut spread', {
+    fill: ['#8A5A3A', '#5E3620'], lid: ['#F2A33A', '#D17F18'], label: '#F8E4C4',
+    extra: '<g fill="#B97626" stroke="#8A4A18" stroke-width="1.6"><ellipse cx="226" cy="178" rx="13" ry="15"/><ellipse cx="238" cy="188" rx="11" ry="13"/></g><path d="M222 168q4-4 8 0" fill="none" stroke="#F4C37A" stroke-width="2" stroke-linecap="round"/>',
+  });
+const jamJar = (id, title, jam, cap) =>
+  jar(id, title, { fill: jam, lid: ['#F5EFE6', '#D8CFC2'], label: '#FFF7EC', extra: `<path d="M56 56h148" stroke="${cap}" stroke-width="7" stroke-dasharray="9 6" opacity="0.9"/>` });
+
+const plazma = () => {
+  const id = 'pl2';
+  const defs = lin(`${id}-biscuit`, [[0, '#F2C98A'], [1, '#CF9246']], [0, 0, 1, 1]);
+  const biscuit = (x, y, turn) =>
+    `<g transform="translate(${x} ${y}) rotate(${turn})"><rect x="-62" y="-32" width="124" height="64" rx="9" fill="url(#${id}-biscuit)" stroke="#A8702A" stroke-width="1.6"/><path d="M-56 -26h112" stroke="#FFF1CF" stroke-width="2.4" stroke-linecap="round" opacity="0.7"/>${[-36, -12, 12, 36].map((px) => [-14, 6, 24].map((py) => `<circle cx="${px}" cy="${py}" r="2.6" fill="#A8702A" opacity="0.7"/>`).join('')).join('')}</g>`;
+  return svgDoc({ width: 260, height: 190, defs, body: `${biscuit(112, 118, -12)}${biscuit(144, 86, 8)}${biscuit(120, 58, -5)}`, title: 'Plazma biscuits' });
+};
 /** [item id, svg document] for every menu picture. */
 export function menuPictures() {
   return withDetail(0, () => [
@@ -260,5 +466,24 @@ export function menuPictures() {
     ['kulen-sandwich', kulenSandwich()],
     ['tuna-sandwich', tunaSandwich()],
     ['kifla', kifla()],
-  ]);
+    ['sour-cherry-pie', latticePie('cp2', 'Sour cherry pie', { filling: ['#A8283C', '#6E1226'], fruit: cherries })],
+    ['apple-pie', latticePie('ap', 'Apple pie', { filling: ['#F2DFA0', '#D9B25A'], fruit: appleSlices })],
+    ['raspberry-pie', latticePie('rp', 'Raspberry pie', { filling: ['#E04870', '#A21E48'], fruit: berries })],
+    ['raspberry-sandwich', jamSandwich('rsw', 'Raspberry sandwich', { jam: ['#E04870', '#A21E48'], topping: berryTop })],
+    ['sour-cherry-sandwich', jamSandwich('csw', 'Sour cherry sandwich', { jam: ['#A8283C', '#6E1226'], topping: cherryTop })],
+    ['russian-salad', russianSalad()],
+    ['chicken-salad', chickenSalad()],
+    ['beef-salad', beefSalad()],
+    ['tuna-salad', tunaSalad()],
+    ['chicken-soup', chickenSoup()],
+    ['beef-soup', beefSoup()],
+    ['side-kashkaval', kashkaval()],
+    ['side-ham', sideHam()],
+    ['side-smoked-pork-loin', sidePork()],
+    ['side-kulen', sideKulen()],
+    ['side-chicken-breast', sideChicken()],
+    ['side-eurokrem', eurokrem()],
+    ['side-plazma', plazma()],
+    ['side-sour-cherry', jamJar('scj', 'Sour cherry jam', ['#A8283C', '#6E1226'], '#C9302C')],
+    ['side-raspberry', jamJar('rj', 'Raspberry jam', ['#E04870', '#A21E48'], '#D6325A')],  ]);
 }

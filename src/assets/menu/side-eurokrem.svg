@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 210" width="260" height="210" role="img" aria-label="Chocolate hazelnut spread">
+  <title>Chocolate hazelnut spread</title>
+  <defs><linearGradient id="ek-glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.85"/><stop offset="1" stop-color="#DCE6EA" stop-opacity="0.7"/></linearGradient><linearGradient id="ek-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A5A3A"/><stop offset="1" stop-color="#5E3620"/></linearGradient><linearGradient id="ek-lid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2A33A"/><stop offset="1" stop-color="#D17F18"/></linearGradient></defs>
+  
+    <rect x="60" y="64" width="140" height="132" rx="26" fill="url(#ek-glass)" stroke="#C9D5DA" stroke-width="2"/>
+    <rect x="66" y="84" width="128" height="106" rx="22" fill="url(#ek-fill)"/>
+    <ellipse cx="116" cy="96" rx="40" ry="8" fill="#fff" opacity="0.25"/>
+    <rect x="72" y="118" width="116" height="52" rx="10" fill="#F8E4C4"/>
+    <circle cx="130" cy="144" r="15" fill="#5E3620"/><circle cx="125" cy="139" r="4" fill="#fff" opacity="0.5"/>
+    <rect x="56" y="38" width="148" height="34" rx="9" fill="url(#ek-lid)"/>
+    <path d="M64 46h132" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+    <path d="M74 90v90" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+    <g fill="#B97626" stroke="#8A4A18" stroke-width="1.6"><ellipse cx="226" cy="178" rx="13" ry="15"/><ellipse cx="238" cy="188" rx="11" ry="13"/></g><path d="M222 168q4-4 8 0" fill="none" stroke="#F4C37A" stroke-width="2" stroke-linecap="round"/>
+</svg>
