@@ -70,7 +70,7 @@ More recipes: [docs/architecture.md](docs/architecture.md#recipes).
 
 Skills live in the developer's own opencode setup (`~/.config/opencode/skills`, `~/.agents/skills`, plugins in
 `~/.config/opencode/opencode.jsonc`), never in this repo, so nothing here vendors, pins or locks them. Used for this
-project: the official GreenSock skills (`gsap-*`), `impeccable` and `design-taste-frontend` (design), `playwright-cli`
+project: the official GreenSock skills (`gsap-*`), `impeccable`, `design-taste-frontend` and `landing-page-design` (design), `playwright-cli`
 (browser checks), `ponytail` (less code) and `img2threejs` (dormant: 3D needs an ADR first). Load only what the task
 needs: `gsap-core`, `gsap-timeline`, `gsap-scrolltrigger` and `gsap-performance` for scenes; `gsap-react` for island
 hooks; `gsap-plugins` before adding a plugin. In a session that started before an install, read the `SKILL.md` directly.
@@ -86,6 +86,7 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
 | impeccable: no kicker or eyebrow above a heading | About and Follow keep the reel's script kicker; nowhere else, and no new ones | The reel binds those two sections ([PRODUCT.md](PRODUCT.md)); the rest dropped theirs ([ADR 0010](docs/adr/0010-phone-first-design-pass.md)) |
 | impeccable: blur, clip-path, mask and shadow may be animated | Animation code stays `opacity` and `transform`; static CSS may use the others | Lint-enforced ([ADR 0003](docs/adr/0003-progressive-enhancement-and-reveal-protocol.md)) |
 | taste-skill: one section per screen, shader grounds, a kit copied into `public/`, a Stop-hook gate | None of it: the skill is art-direction advice only, and its scripts are not run against the repo | The reel binds the layout, and the kit would bypass tokens and lint |
+| landing-page-design: its own fonts, type scale, spacing, radius and motion values, a hero layout, a mandatory tagline-reveal section, and "this file wins over a framework default" | Copy and conversion advice only (intake, headlines, CTAs, FAQ, SEO); every value comes from 	okens.css, the section list from the reel and [PRODUCT.md](PRODUCT.md) | The reel binds the layout and the tokens bind the values; a new section needs a reason |
 
 ## Gotchas (each one cost time once)
 
