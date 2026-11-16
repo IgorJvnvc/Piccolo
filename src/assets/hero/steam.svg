@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 170" width="60" height="170" role="img" aria-label="Steam">
-  <title>Steam</title>
-  <defs>
-    <linearGradient id="steam-fade" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#fff" stop-opacity="0.8"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
-    </linearGradient>
-    <filter id="steam-blur" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="4.2"/></filter></defs>
-  <path d="M26 168C10 138 42 118 22 88S26 34 10 6C20-2 36-2 42 4 52 36 20 62 40 92S22 142 38 168Z" fill="url(#steam-fade)" filter="url(#steam-blur)"/>
-</svg>

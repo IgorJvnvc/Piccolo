@@ -60,9 +60,8 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
     return toCardModel(item, source, format);
   };
 
-  const [slab, steam, pizza, pizzaWhole, hotdog, sandwich, drink, cluster, contour, followArt, map] = await Promise.all([
+  const [slab, pizza, pizzaWhole, hotdog, sandwich, drink, cluster, contour, followArt, map] = await Promise.all([
     image('hero/slab'),
-    image('hero/steam'),
     image('hero/pizza'),
     image('food/pizza-whole'),
     image('hero/hotdog'),
@@ -114,16 +113,9 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
       text: copy.hero.text,
       cta: copy.hero.cta,
       call: { label: copy.nav.callLabel, href: phone.href },
-      info: {
-        hours: site.hours,
-        openLabel,
-        address: site.address.lines.join(', '),
-        mapUrl: site.address.mapUrl,
-        directionsLabel: copy.visit.directionsLabel,
-      },
       scrollLabel: copy.hero.scrollLabel,
       scrollHref: '#about',
-      art: { slab, pizza, badge: pizzaWhole, hotdog, sandwich, drink, steam },
+      art: { slab, pizza, badge: pizzaWhole, hotdog, sandwich, drink },
     },
 
     about: {

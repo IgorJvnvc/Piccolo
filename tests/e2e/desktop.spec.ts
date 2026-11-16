@@ -44,21 +44,16 @@ test.describe('desktop', () => {
     await expect(page.getByRole('group', { name: 'Quick actions' })).toBeHidden();
   });
 
-  test('the hero offers Call us and a row of facts (status, address, directions) filled in from the site data', async ({ page }) => {
+  test('the hero offers Call us beside the menu button', async ({ page }) => {
     await ready(page);
     const hero = page.locator('[data-enhance="hero"]');
     await expect(hero.getByRole('link', { name: 'Call us' })).toHaveAttribute('href', /^tel:\+?\d+$/);
-    const facts = hero.getByRole('list');
-    await expect(facts.getByText('123 Placeholder Street, Your City, 00000')).toBeVisible();
-    await expect(facts.getByRole('link', { name: 'Get directions' })).toHaveAttribute('href', /^https:\/\/.*maps/);
-    await expect(facts.locator('[data-part="open-status"]')).toHaveAttribute('data-open', /^(true|false)$/); // the status behavior reached it
   });
 
-  test('the hero food drifts against the pointer, each piece by its own depth, settles when the pointer leaves, and steams', async ({ page }) => {
+  test('the hero food drifts against the pointer, each piece by its own depth, and settles when the pointer leaves', async ({ page }) => {
     await ready(page);
     const hero = page.locator('[data-enhance="hero"]');
     await expect(hero).toHaveAttribute('data-parallax', ''); // the behavior runs: a mouse, hover, the full motion tier
-    await expect(hero.locator('img[src*="/steam."]').first()).toBeVisible();
     // how far a piece has drifted from where it rests: the x of its transform (the hot dog's turn leaves the translation alone)
     const drift = (piece: string): Promise<number> =>
       hero.locator(`img[src*="/${piece}."]`).evaluate((img) => new DOMMatrix(getComputedStyle(img).transform).m41);

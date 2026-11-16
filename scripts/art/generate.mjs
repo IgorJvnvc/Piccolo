@@ -84,17 +84,6 @@ function slab() {
 }
 write('hero/slab.svg', slab());
 
-/* ---------- hero: a plume of steam (white: it shows on the dark slab and as a lighter haze over the page) ---------- */
-function steam() {
-  const defs = `
-    <linearGradient id="steam-fade" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#fff" stop-opacity="0.8"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
-    </linearGradient>
-    <filter id="steam-blur" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="4.2"/></filter>`;
-  const body = `<path d="M26 168C10 138 42 118 22 88S26 34 10 6C20-2 36-2 42 4 52 36 20 62 40 92S22 142 38 168Z" fill="url(#steam-fade)" filter="url(#steam-blur)"/>`;
-  return svgDoc({ width: 60, height: 170, defs, body, title: 'Steam' });
-}
-write('hero/steam.svg', steam());
 /* ---------- about: food cluster + contour circle ---------- */
 function cluster() {
   const hd = hotDog('c-hd');

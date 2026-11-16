@@ -94,66 +94,11 @@
   animation: rise-in 0.5s var(--ease-out) calc(var(--intro-wait) + 0.65s) both;
 }
 
-/* ---------- info row: the hard facts along the bottom of the first screen ---------- */
-.info {
-  position: absolute;
-  inset: auto 0 2.25rem;
-  z-index: var(--z-hero-copy);
-  animation: fade-in 0.6s var(--ease-soft) calc(var(--intro-wait) + 1.3s) both;
-}
-
-.facts {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding-top: 1.25rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--c-ink);
-  border-top: 0.0625rem solid var(--c-line);
-}
-
-/* The status chip brings its own caption size; here it reads at the row's size. */
-.facts [data-part='open-status'] {
-  font-size: inherit;
-}
-
-.fact {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-
-.factIcon {
-  flex: none;
-  font-size: 1.25rem;
-  color: var(--c-accent-text);
-}
-
-.factLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-weight: 600;
-  color: var(--c-accent-text);
-}
-
-.factLink svg {
-  transition: transform var(--dur-2) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .factLink:hover svg {
-    transform: translate(0.125rem, -0.125rem);
-  }
-}
-
 /* ---------- art stage: 680 x 620 artboard px, children in % so it scales as one piece ---------- */
 .art {
   position: absolute;
-  top: -2rem;
-  right: -3rem;
+  top: -3.5rem;
+  right: -2.25rem;
   z-index: var(--z-hero-art);
   width: 48rem;
   aspect-ratio: 680 / 620;
@@ -255,42 +200,6 @@
   transform: var(--drift) rotate(3deg);
 }
 
-/* ---------- steam: soft plumes rising from the hot food, on the full motion tier only (ADR 0013) ---------- */
-.steam {
-  position: absolute;
-  display: none;
-  width: 6%;
-  opacity: 0;
-  pointer-events: none;
-  animation: steam 5.5s linear calc(var(--intro-wait) + 2.2s) infinite;
-}
-
-:global(html[data-motion='full']) .steam {
-  display: block;
-}
-
-.steam img {
-  width: 100%;
-  height: auto;
-}
-
-.steamDog {
-  top: 41%;
-  left: 50%;
-}
-
-.steamDogTwo {
-  top: 36%;
-  left: 62%;
-  animation-delay: calc(var(--intro-wait) + 4.9s);
-}
-
-.steamPizza {
-  top: 51%;
-  left: 30.5%;
-  animation-delay: calc(var(--intro-wait) + 3.6s);
-}
-
 /* ---------- scroll indicator: dark knob inside a slowly rotating text ring ---------- */
 .scroll {
   position: absolute;
@@ -376,8 +285,7 @@
   }
 
   /* The dock holds these actions on a phone and a tablet. */
-  .call,
-  .info {
+  .call {
     display: none;
   }
 
@@ -387,7 +295,7 @@
     top: auto;
     right: auto;
     width: min(118%, 38rem); /* wider than a phone's screen, so the food is larger and the slab bleeds off the edges */
-    margin: -6rem calc((100% - min(118%, 38rem)) / 2) 0; /* centred; the top of the stage is empty, so the food comes up to the button */
+    margin: -7rem calc((100% - min(118%, 38rem)) / 2) 0; /* centred; the top of the stage is empty, so the food comes up to the button */
     overflow: visible;
   }
 
@@ -451,22 +359,6 @@
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes steam {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.85);
-  }
-
-  18% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(8%, -45%, 0) scale(1.15);
   }
 }
 

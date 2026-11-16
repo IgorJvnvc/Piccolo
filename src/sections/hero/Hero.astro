@@ -1,13 +1,13 @@
 ---
 import { enhanceAttr } from '@/shared/lib';
-import { Button, Container, Icon, OpenStatus, Picture, VisuallyHidden } from '@/shared/ui';
+import { Button, Container, Icon, Picture, VisuallyHidden } from '@/shared/ui';
 import { HERO } from './hero.hooks';
 import styles from './hero.module.css';
 import type { HeroProps } from './types';
 
 type Props = HeroProps;
 
-const { title, text, cta, call, info, scrollLabel, scrollHref, art } = Astro.props;
+const { title, text, cta, call, scrollLabel, scrollHref, art } = Astro.props;
 const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
 ---
 
@@ -21,9 +21,6 @@ const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
     <Picture class={`${styles.item} ${styles.sandwich}`} image={art.sandwich} alt="" loading="eager" />
     <Picture class={`${styles.item} ${styles.hotdog}`} image={art.hotdog} alt="" loading="eager" />
     <Picture class={`${styles.item} ${styles.pizza}`} image={art.pizza} alt="" loading="eager" />
-    <Picture class={`${styles.steam} ${styles.steamDog}`} image={art.steam} alt="" />
-    <Picture class={`${styles.steam} ${styles.steamDogTwo}`} image={art.steam} alt="" />
-    <Picture class={`${styles.steam} ${styles.steamPizza}`} image={art.steam} alt="" />
   </div>
 
   <Container class={styles.container}>
@@ -42,27 +39,6 @@ const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
       </div>
     </div>
   </Container>
-
-  <!-- Hard facts under the copy, from the same site data as the Visit section. A phone has the dock, so this row is desktop only. -->
-  <div class={styles.info}>
-    <Container>
-      <ul class={styles.facts}>
-        <li>
-          <OpenStatus hours={info.hours} label={info.openLabel} detail />
-        </li>
-        <li class={styles.fact}>
-          <Icon name="pin" class={styles.factIcon} />
-          <span>{info.address}</span>
-        </li>
-        <li>
-          <a class={styles.factLink} href={info.mapUrl} target="_blank" rel="noopener noreferrer">
-            <span>{info.directionsLabel}</span>
-            <Icon name="arrow-up-right" />
-          </a>
-        </li>
-      </ul>
-    </Container>
-  </div>
 
   <a class={styles.scroll} href={scrollHref}>
     <VisuallyHidden text={scrollLabel} />

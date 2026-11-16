@@ -31,8 +31,6 @@
   --c-ring-on-dark: rgb(255 255 255 / 0.28); /* hairline ring around round buttons on dark surfaces */
   --c-press: rgb(39 27 37 / 0.06); /* tint over a whole row or card while it is pressed */
   --c-halo-cream: rgb(241 232 228 / 0.5); /* soft halo around light pills on dark cards */
-  --c-steam: rgb(255 255 255 / 0.55); /* a wisp of steam rising from the hot food on the hero slab; white on the dark slab, so it fades out over the page */
-  --c-steam-0: rgb(255 255 255 / 0);
   --c-ok-halo: rgb(31 157 85 / 0.18); /* "open now" status dot halo */
 
   /* peach glow steps (hero + about backgrounds); -0 is the deeper core of the hero's pool of light */
