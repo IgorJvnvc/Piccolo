@@ -53,7 +53,7 @@ export function buildRestaurantJsonLd(
           .map((item) => ({
             '@type': 'MenuItem',
             name: item.name,
-            description: item.description,
+            ...(item.description ? { description: item.description } : {}),
             offers: { '@type': 'Offer', price: amount(item.price.minor), priceCurrency: item.price.currency },
           })),
       })),

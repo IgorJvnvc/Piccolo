@@ -267,7 +267,7 @@ test.describe('the quick view', () => {
     await ready(page);
     await hydrated(page, 'MenuBrowser');
     await gsapReady(page);
-    const opener = page.locator('#menu').getByRole('button', { name: 'Details: Pizza Margherita' });
+    const opener = page.locator('#menu').getByRole('button', { name: 'Details: Pizza Slice' });
     await opener.scrollIntoViewIfNeeded();
     return opener;
   };
@@ -304,7 +304,7 @@ test.describe('the quick view', () => {
     await page.keyboard.press('Escape');
     // The closing dialog covers the button, so click it from inside the page: this lands while the exit is still playing.
     await opener.dispatchEvent('click');
-    const dialog = page.getByRole('dialog', { name: 'Pizza Margherita' });
+    const dialog = page.getByRole('dialog', { name: 'Pizza Slice' });
 
     await expect(dialog).toBeVisible();
     await expect.poll(() => page.evaluate(SCRIM_OPACITY), { message: 'it settles fully open again', timeout: 10_000 }).toBe(1);
@@ -318,13 +318,58 @@ test.describe('the quick view', () => {
     const opener = await prepare(page);
 
     await opener.click();
-    const dialog = page.getByRole('dialog', { name: 'Pizza Margherita' });
+    const dialog = page.getByRole('dialog', { name: 'Pizza Slice' });
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole('button', { name: 'Close details' })).toBeFocused();
     await page.keyboard.press('Escape');
 
     await expect(page.locator(QUICK_VIEW)).toHaveCount(0);
     await expect(opener).toBeFocused();
+  });
+});
+
+test.describe('the menu pages', () => {
+  test('a long category shows nine cards, the pager turns the page, and the other pages stay out of view', async ({ page }) => {
+    await ready(page);
+    await hydrated(page, 'MenuBrowser');
+    const menu = page.locator('#menu');
+    await menu.getByRole('tab', { name: 'Cold Drinks' }).click();
+    const panel = menu.getByRole('tabpanel', { name: 'Cold Drinks' });
+    const visible = panel.locator('article:visible');
+    const status = (text: string): Locator => panel.getByText(text, { exact: true });
+    const next = panel.getByRole('button', { name: 'Next', exact: true });
+    const previous = panel.getByRole('button', { name: 'Previous', exact: true });
+
+    await expect(visible).toHaveCount(9);
+    await expect(status('Page 1 of 4')).toBeVisible();
+    await expect(previous).toHaveAttribute('aria-disabled', 'true');
+    const firstOfPageOne = await visible.first().getAttribute('data-card');
+
+    await next.click();
+    await expect(status('Page 2 of 4')).toBeVisible();
+    await expect(visible).toHaveCount(9);
+    expect(await visible.first().getAttribute('data-card')).not.toBe(firstOfPageOne);
+
+    await next.click();
+    await next.click();
+    await expect(status('Page 4 of 4')).toBeVisible();
+    await expect(visible).toHaveCount(4); // 31 cards: three full pages and four
+    await expect(next).toHaveAttribute('aria-disabled', 'true');
+    await expect(next).toBeFocused(); // pressing the end of the range did not drop focus
+
+    await previous.click();
+    await previous.click();
+    await previous.click();
+    await expect(status('Page 1 of 4')).toBeVisible();
+    expect(await visible.first().getAttribute('data-card')).toBe(firstOfPageOne);
+  });
+
+  test('a category that fits on one page has no pager', async ({ page }) => {
+    await ready(page);
+    await hydrated(page, 'MenuBrowser');
+    const menu = page.locator('#menu');
+    await expect(menu.getByRole('tabpanel', { name: 'Pizza & Calzones' }).locator('article:visible')).toHaveCount(6);
+    await expect(menu.getByRole('navigation')).toHaveCount(0);
   });
 });
 
@@ -338,12 +383,12 @@ test.describe('the menu tabs', () => {
   })()`;
   /** How far ahead the first card of the shown category is of its last: above 0 only while they rise one after another. */
   const STAGGER = `(() => {
-    const cards = [...document.querySelectorAll('#menu [role="tabpanel"]:not([hidden]) [data-part="cell"]')];
+    const cards = [...document.querySelectorAll('#menu [role="tabpanel"]:not([hidden]) [data-part="page"]:not([hidden]) [data-part="cell"]')];
     if (cards.length < 2) return -1;
     return Number(getComputedStyle(cards[0]).opacity) - Number(getComputedStyle(cards[cards.length - 1]).opacity);
   })()`;
   const INLINE_PILL = `(() => document.querySelector('#menu [data-part="pill"]')?.style.cssText ?? 'no pill')()`;
-  const INLINE_CARDS = `[...document.querySelectorAll('#menu [role="tabpanel"]:not([hidden]) [data-part="cell"]')].map((card) => card.style.cssText).join('')`;
+  const INLINE_CARDS = `[...document.querySelectorAll('#menu [role="tabpanel"]:not([hidden]) [data-part="page"]:not([hidden]) [data-part="cell"]')].map((card) => card.style.cssText).join('')`;
 
   test('the pill slides to the new tab and the cards rise in one after another', async ({ page }) => {
     await ready(page);
@@ -393,6 +438,6 @@ test.describe('the menu tabs', () => {
 
     await expect(tab).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByRole('tabpanel', { name: 'Hot Dogs' })).toBeVisible();
-    await expect(page.locator('#menu [role="tabpanel"]:not([hidden]) [data-part="cell"]').first()).toHaveCSS('opacity', '1');
+    await expect(page.locator('#menu [role="tabpanel"]:not([hidden]) [data-part="page"]:not([hidden]) [data-part="cell"]').first()).toHaveCSS('opacity', '1');
   });
 });

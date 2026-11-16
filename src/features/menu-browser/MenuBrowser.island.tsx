@@ -5,6 +5,8 @@ import { appBus } from '@/shared/events';
 import { useMotion } from '@/shared/motion/island';
 import styles from './menu-browser.module.css';
 import { type PillBox, measurePill, revealCards, slidePill } from './menu-browser.motion';
+import { Pager } from './Pager';
+import { paginate } from './pagination';
 import { QuickView } from './QuickView';
 import type { MenuBrowserProps } from './types';
 
@@ -20,6 +22,8 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
   const [activeId, setActiveId] = useState(firstId);
   /** Bumps on every switch so the newly shown panel replays its entrance. */
   const [pulse, setPulse] = useState(0);
+  /** The page each category is on (zero-based); a category not in here is on its first. */
+  const [pages, setPages] = useState<Record<string, number>>({});
   const [detailId, setDetailId] = useState<string | null>(null);
   const [opener, setOpener] = useState<HTMLElement | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -56,7 +60,7 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
 
     const playing = [
       list && from ? slidePill(list, from, tools) : undefined,
-      revealCards(root.querySelectorAll('[role="tabpanel"]:not([hidden]) [data-part="cell"]'), tools),
+      revealCards(root.querySelectorAll('[role="tabpanel"]:not([hidden]) [data-part="page"]:not([hidden]) [data-part="cell"]'), tools),
     ];
     return () => {
       for (const animation of playing) animation?.kill();
@@ -82,6 +86,14 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
     () => (detailId ? categories.flatMap((category) => category.cards).find((card) => card.id === detailId) ?? null : null),
     [categories, detailId],
   );
+
+  const goToPage = (categoryId: string, page: number): void => {
+    setPages((current) => ({ ...current, [categoryId]: page }));
+    setPulse((value) => value + 1);
+    // Pressed at the foot of a long page: bring the top of the menu back into view.
+    const tabs = tabsRef.current;
+    if (tabs && tabs.getBoundingClientRect().top < 0) tabs.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  };
 
   const onTabKeyDown = (event: KeyboardEvent, index: number): void => {
     const last = categories.length - 1;
@@ -136,6 +148,7 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
 
       {categories.map((category) => {
         const isActive = category.id === activeId;
+        const pagesOf = paginate(category.cards);
         return (
           <div
             key={category.id}
@@ -146,14 +159,23 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
             hidden={!isActive}
           >
             <h3 class={styles.panelTitle}>{category.title}</h3>
-            {/* Remounts (new key) each time this panel becomes active, so every switch starts from fresh markup. */}
-            <ul class={styles.grid} role="list" key={isActive ? `on-${pulse}` : 'off'}>
-              {category.cards.map((card) => (
-                <li key={card.id} class={styles.cell} data-part="cell">
-                  <MenuCard model={card} idScope="menu" variant="row" />
-                </li>
-              ))}
-            </ul>
+            {/* Every page is in the markup (search engines, no JavaScript); only the current one is shown. A page remounts (new key)
+                each time it is shown, so every switch starts from fresh markup. */}
+            {pagesOf.map((cards, index) => {
+              const current = index === (pages[category.id] ?? 0);
+              return (
+                <ul class={styles.grid} role="list" data-part="page" hidden={!current} key={current && isActive ? `${index}-on-${pulse}` : `${index}-off`}>
+                  {cards.map((card) => (
+                    <li key={card.id} class={styles.cell} data-part="cell">
+                      <MenuCard model={card} idScope="menu" variant="row" />
+                    </li>
+                  ))}
+                </ul>
+              );
+            })}
+            {pagesOf.length > 1 ? (
+              <Pager page={pages[category.id] ?? 0} count={pagesOf.length} label={`${category.title} pages`} onChange={(page) => goToPage(category.id, page)} />
+            ) : null}
           </div>
         );
       })}

@@ -91,6 +91,54 @@
   height: 100%;
 }
 
+/* Previous / Page 2 of 4 / Next, under a category with more than one page of cards. */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  font-size: 0.9375rem;
+}
+
+.pagerButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  background: var(--c-surface);
+  border-radius: var(--r-pill);
+  box-shadow: var(--sh-card);
+  transition:
+    color var(--dur-2) var(--ease-out),
+    opacity var(--dur-2) var(--ease-out);
+}
+
+.pagerButton[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pagerPrev {
+  transform: scaleX(-1);
+}
+
+.pagerStatus {
+  min-width: 6.5rem;
+  font-weight: 600;
+  color: var(--c-body);
+  text-align: center;
+}
+
+@media (hover: hover) {
+  .pagerButton[aria-disabled='false']:hover {
+    color: var(--c-accent-text);
+  }
+}
+
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -109,6 +157,17 @@
 :global(html:not(.js)) .panel[hidden],
 :global(html.no-enhance) .panel[hidden] {
   display: block !important;
+}
+
+/* ...and every page of it, without the pager. */
+:global(html:not(.js)) .grid[hidden],
+:global(html.no-enhance) .grid[hidden] {
+  display: grid !important;
+}
+
+:global(html:not(.js)) .pager,
+:global(html.no-enhance) .pager {
+  display: none;
 }
 
 :global(html:not(.js)) .panelTitle,

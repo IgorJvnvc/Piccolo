@@ -118,7 +118,8 @@ export const itemSchema = z.object({
   id: slug,
   category: z.string().min(1),
   name: z.string().min(1),
-  description: z.string().min(10),
+  /** Optional: the printed menu has none, and the quick view and the card simply leave the line out. */
+  description: z.string().default(''),
   /** Major units (8.5 = 8.50); converted to integer minor units when mapped to the entity. */
   price,
   sizes: z.array(z.object({ label: z.string().min(1), price })).default([]),

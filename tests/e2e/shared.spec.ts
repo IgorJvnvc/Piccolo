@@ -29,7 +29,7 @@ test.describe('page (all devices)', () => {
     await ready(page);
     await hydrated(page, 'MenuBrowser');
     const tabs = page.getByRole('tab');
-    await expect(tabs).toHaveCount(4);
+    await expect(tabs).toHaveCount(6);
     await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
 
     const hotDogs = page.getByRole('tab', { name: 'Hot Dogs' });
@@ -49,13 +49,13 @@ test.describe('page (all devices)', () => {
     test(`quick view from ${label} opens, traps focus, closes with Escape and returns focus`, async ({ page }) => {
       await ready(page);
       await hydrated(page, 'MenuBrowser');
-      const opener = page.locator(scope).getByRole('button', { name: 'Details: Pizza Margherita' });
+      const opener = page.locator(scope).getByRole('button', { name: 'Details: Pizza Slice' });
       await opener.scrollIntoViewIfNeeded();
       await opener.click();
 
-      const dialog = page.getByRole('dialog', { name: 'Pizza Margherita' });
+      const dialog = page.getByRole('dialog', { name: 'Pizza Slice' });
       await expect(dialog).toBeVisible();
-      await expect(dialog).toContainText('Contains:');
+      await expect(dialog).toContainText('220 RSD');
 
       // Focus moves into the dialog on open (which also means its key handlers are attached).
       await expect(dialog.getByRole('button', { name: 'Close details' })).toBeFocused();

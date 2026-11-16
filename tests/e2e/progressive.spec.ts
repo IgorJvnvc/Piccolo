@@ -1,5 +1,7 @@
 import { expect, ready, settled, test } from './fixtures';
 
+const CATEGORIES = ['Pizza & Calzones', 'Hot Dogs & Sandwiches', 'Sweet Pies & Sandwiches', 'Salads, Soups & Sides', 'Hot Drinks', 'Cold Drinks'];
+
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' });
 
@@ -35,14 +37,17 @@ test.describe('without JavaScript', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Fast Food');
     await expect(page.getByRole('heading', { name: 'Our Menu' })).toBeVisible();
     // no tab UI, but every category is present and visible, stacked
-    await expect(page.getByRole('tab', { includeHidden: true })).toHaveCount(4);
+    await expect(page.getByRole('tab', { includeHidden: true })).toHaveCount(6);
     await expect(page.getByRole('tab', { includeHidden: true }).first()).toBeHidden();
-    for (const name of ['Pizza', 'Hot Dogs', 'Sandwiches', 'Drinks']) {
-      await expect(page.getByRole('heading', { name, level: 3 }).first()).toBeVisible();
+    for (const name of CATEGORIES) {
+      await expect(page.getByRole('heading', { name, level: 3, exact: true })).toBeVisible();
     }
     const stageWidth = (await page.locator('#offers [data-part="stage"]').boundingBox())?.width ?? 1;
     const bgWidth = (await page.locator('#offers [data-part="bg"]').boundingBox())?.width ?? 0;
     expect(bgWidth).toBeGreaterThan(stageWidth - 2);
+    // Every page of a long category is shown, and the pager that would turn them is not.
+    await expect(page.getByRole('heading', { name: 'Ultra Energy', level: 3 })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Cold Drinks pages', includeHidden: true })).toBeHidden();
   });
 });
 
@@ -62,8 +67,8 @@ test.describe('an island that never arrives', () => {
     expect(await page.evaluate(() => window.__PICCOLO_READY__)).toBe(true); // it is the islands that failed, not the runtime
 
     await expect(page.getByRole('tab', { includeHidden: true }).first()).toBeHidden();
-    for (const name of ['Pizza', 'Hot Dogs', 'Sandwiches', 'Drinks']) {
-      await expect(page.getByRole('heading', { name, level: 3 }).first()).toBeVisible();
+    for (const name of CATEGORIES) {
+      await expect(page.getByRole('heading', { name, level: 3, exact: true })).toBeVisible();
     }
     await expect(page.locator('[data-details]:visible')).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeHidden();

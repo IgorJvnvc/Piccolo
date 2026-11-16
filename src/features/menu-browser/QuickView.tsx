@@ -63,7 +63,7 @@ export function QuickView({ card, phone, onClose, opener }: QuickViewProps) {
           <h3 class={styles.title} id="quick-view-title">
             {shown.name}
           </h3>
-          <p class={styles.description}>{shown.description}</p>
+          {shown.description ? <p class={styles.description}>{shown.description}</p> : null}
 
           {shown.sizes.length > 0 ? (
             <ul class={styles.sizes} role="list" aria-label="Sizes and prices">
@@ -84,7 +84,7 @@ export function QuickView({ card, phone, onClose, opener }: QuickViewProps) {
                 <strong>Contains:</strong> {shown.allergens.join(', ')}
               </>
             ) : (
-              'No listed allergens. Ask us if you have any concerns.'
+              'Please ask us about allergens before you order.'
             )}
           </p>
 

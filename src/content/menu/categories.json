@@ -1,6 +1,38 @@
 [
-  { "id": "pizza", "title": "Pizza", "blurb": "Stone-baked and made to order", "order": 1 },
-  { "id": "hot-dogs", "title": "Hot Dogs", "blurb": "Grilled franks in toasted buns", "order": 2 },
-  { "id": "sandwiches", "title": "Sandwiches", "blurb": "Stacked, toasted and hearty", "order": 3 },
-  { "id": "drinks", "title": "Drinks", "blurb": "Ice cold and fresh", "order": 4 }
+  {
+    "id": "pizza",
+    "title": "Pizza & Calzones",
+    "blurb": "Sold by the slice or whole",
+    "order": 1
+  },
+  {
+    "id": "hot-dogs-sandwiches",
+    "title": "Hot Dogs & Sandwiches",
+    "blurb": "Hot dogs, sandwiches and kifla",
+    "order": 2
+  },
+  {
+    "id": "sweet",
+    "title": "Sweet Pies & Sandwiches",
+    "blurb": "Pies and sweet sandwiches",
+    "order": 3
+  },
+  {
+    "id": "salads-soups-sides",
+    "title": "Salads, Soups & Sides",
+    "blurb": "Salads by weight, soups and extras",
+    "order": 4
+  },
+  {
+    "id": "hot-drinks",
+    "title": "Hot Drinks",
+    "blurb": "Coffee and hot drinks",
+    "order": 5
+  },
+  {
+    "id": "cold-drinks",
+    "title": "Cold Drinks",
+    "blurb": "Soft drinks, juices, water and more",
+    "order": 6
+  }
 ]

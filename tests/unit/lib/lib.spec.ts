@@ -3,13 +3,17 @@ import { formatMoney, nbsp, telHref } from '@/shared/lib/format';
 import { compactScript } from '@/shared/lib/inline';
 
 describe('formatMoney', () => {
-  it('formats integer cents with two decimals', () => {
-    expect(formatMoney(850, 'EUR')).toBe('€8.50');
-    expect(formatMoney(0, 'EUR')).toBe('€0.00');
-    expect(formatMoney(1999, 'EUR')).toBe('€19.99');
+  it('writes whole amounts as printed on a menu: the amount, then the currency code', () => {
+    expect(formatMoney(22000, 'RSD')).toBe('220 RSD');
+    expect(formatMoney(132000, 'RSD')).toBe('1320 RSD'); // no thousands separator
+    expect(formatMoney(0, 'RSD')).toBe('0 RSD');
+  });
+
+  it('keeps two decimals when the amount is not whole', () => {
+    expect(formatMoney(850, 'EUR')).toBe('8.50 EUR');
+    expect(formatMoney(1999, 'EUR')).toBe('19.99 EUR');
   });
 });
-
 describe('telHref', () => {
   it('keeps digits and a leading plus only', () => {
     expect(telHref('+00 000 000 0000')).toBe('tel:+000000000000');

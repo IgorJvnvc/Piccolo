@@ -35,7 +35,16 @@ describe('src/content', () => {
     expect(empty.map((category) => category['id'])).toEqual([]);
     expect(items.filter((item) => item['popular'] === true).length).toBeGreaterThanOrEqual(3);
   });
-});
+
+  it('prices an item from its cheapest size and lists each size once', () => {
+    const sized = items.filter((item) => Array.isArray(item['sizes']) && item['sizes'].length > 0);
+    expect(sized.length).toBeGreaterThan(0);
+    const wrong = sized.filter((item) => {
+      const sizes = item['sizes'] as { label: string; price: number }[];
+      return item['price'] !== Math.min(...sizes.map((size) => size.price)) || new Set(sizes.map((size) => size.label)).size !== sizes.length;
+    });
+    expect(wrong.map((item) => item['id'])).toEqual([]);
+  });});
 
 describe('schemas reject bad content', () => {
   const hours = site['hours'] as { weekly: Row };

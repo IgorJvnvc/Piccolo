@@ -41,7 +41,7 @@ export function MenuCard({ model, idScope, class: className, variant = 'card', e
       <h3 class={styles.title} id={titleId}>
         {model.name}
       </h3>
-      <p class={styles.description}>{model.description}</p>
+      {model.description ? <p class={styles.description}>{model.description}</p> : null}
       <div class={styles.foot}>
         <span class={styles.price}>{model.priceLabel}</span>
         <button

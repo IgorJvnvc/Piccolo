@@ -23,9 +23,9 @@ test.describe('TV', () => {
   test('the D-pad stays inside an open dialog', async ({ page }) => {
     await ready(page);
     await hydrated(page, 'MenuBrowser');
-    await page.locator('#menu').getByRole('button', { name: 'Details: Pizza Margherita' }).focus();
+    await page.locator('#menu').getByRole('button', { name: 'Details: Pizza Slice' }).focus();
     await page.keyboard.press('Enter');
-    const dialog = page.getByRole('dialog', { name: 'Pizza Margherita' });
+    const dialog = page.getByRole('dialog', { name: 'Pizza Slice' });
     await expect(dialog.getByRole('button', { name: 'Close details' })).toBeFocused();
 
     for (const key of ['ArrowDown', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowUp']) {
