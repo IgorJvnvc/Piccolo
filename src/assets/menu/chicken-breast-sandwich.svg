@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="Chicken breast sandwich">
+  <title>Chicken breast sandwich</title>
+  <defs><linearGradient id="cs-bread" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4CE92"/><stop offset="1" stop-color="#D39A4E"/></linearGradient><linearGradient id="cs-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9DBA0"/><stop offset="0.55" stop-color="#E3AE60"/><stop offset="1" stop-color="#C98A3E"/></linearGradient></defs>
+  
+    <path d="M18 130H302V148Q302 166 282 166H38Q18 166 18 148Z" fill="url(#cs-bread)"/>
+    <path d="M18 130H302V135H18Z" fill="#B3732B" opacity="0.3"/>
+    
+    
+    <path d="M10 126q10 -20 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="none" stroke="#3E8A2E" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 124q10 -20 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="none" stroke="#5FB041" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 120q10 -20 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="none" stroke="#A5E07A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+    <ellipse cx="66" cy="114" rx="24" ry="8" fill="#E2402C" stroke="#B02818" stroke-width="1.2"/><ellipse cx="66" cy="112" rx="17" ry="4" fill="#F47866" opacity="0.7"/><ellipse cx="134" cy="114" rx="24" ry="8" fill="#E2402C" stroke="#B02818" stroke-width="1.2"/><ellipse cx="134" cy="112" rx="17" ry="4" fill="#F47866" opacity="0.7"/><ellipse cx="202" cy="114" rx="24" ry="8" fill="#E2402C" stroke="#B02818" stroke-width="1.2"/><ellipse cx="202" cy="112" rx="17" ry="4" fill="#F47866" opacity="0.7"/><ellipse cx="262" cy="114" rx="24" ry="8" fill="#E2402C" stroke="#B02818" stroke-width="1.2"/><ellipse cx="262" cy="112" rx="17" ry="4" fill="#F47866" opacity="0.7"/>
+    <g stroke="#C99A5C" stroke-width="1.6">
+      <rect x="26" y="90" width="86" height="17" rx="8" fill="#F6E2BC"/><rect x="104" y="92" width="86" height="17" rx="8" fill="#F9E9CB"/><rect x="182" y="90" width="86" height="17" rx="8" fill="#F6E2BC"/><rect x="238" y="94" width="62" height="15" rx="7" fill="#F9E9CB"/>
+    </g>
+    <g fill="#E9B773" opacity="0.75"><rect x="30" y="90" width="78" height="4" rx="2"/><rect x="108" y="92" width="78" height="4" rx="2"/><rect x="186" y="90" width="78" height="4" rx="2"/></g>
+    <path d="M12 84Q12 26 160 24Q308 26 308 84V88H12Z" fill="url(#cs-top)"/>
+    <g stroke="#B97626" stroke-width="5.5" stroke-linecap="round" opacity="0.45"><path d="M70 44l16 32M118 34l16 42M170 32l14 44M222 38l12 38"/></g>
+    <path d="M30 68Q40 36 110 28" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" opacity="0.45"/>
+    <path d="M12 88H308" stroke="#B3732B" stroke-width="2" opacity="0.35"/>
+</svg>

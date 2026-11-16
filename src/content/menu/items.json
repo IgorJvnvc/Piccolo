@@ -4,7 +4,7 @@
     "category": "pizza",
     "name": "Pizza Slice",
     "price": 220,
-    "image": "food/pizza",
+    "image": "menu/pizza-slice",
     "popular": true,
     "order": 1
   },
@@ -13,7 +13,7 @@
     "category": "pizza",
     "name": "Whole Pizza",
     "price": 1320,
-    "image": "food/pizza-whole",
+    "image": "menu/whole-pizza",
     "order": 2
   },
   {
@@ -21,7 +21,7 @@
     "category": "pizza",
     "name": "Calzone",
     "price": 440,
-    "image": "food/pizza",
+    "image": "menu/calzone",
     "order": 3
   },
   {
@@ -29,7 +29,7 @@
     "category": "pizza",
     "name": "Whole Chicken Pizza",
     "price": 1320,
-    "image": "food/pizza-whole",
+    "image": "menu/whole-chicken-pizza",
     "order": 4
   },
   {
@@ -37,7 +37,7 @@
     "category": "pizza",
     "name": "Whole Tuna Pizza",
     "price": 1920,
-    "image": "food/pizza-whole",
+    "image": "menu/whole-tuna-pizza",
     "order": 5
   },
   {
@@ -45,7 +45,7 @@
     "category": "pizza",
     "name": "Pizza Box",
     "price": 100,
-    "image": "food/pizza-whole",
+    "image": "menu/pizza-box",
     "order": 6
   },
   {
@@ -53,7 +53,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Small Hot Dog",
     "price": 130,
-    "image": "food/hotdog",
+    "image": "menu/small-hot-dog",
     "order": 1
   },
   {
@@ -61,7 +61,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Large Hot Dog",
     "price": 260,
-    "image": "food/hotdog",
+    "image": "menu/large-hot-dog",
     "popular": true,
     "order": 2
   },
@@ -70,7 +70,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Ham Sandwich",
     "price": 240,
-    "image": "food/sandwich",
+    "image": "menu/ham-sandwich",
     "popular": true,
     "order": 3
   },
@@ -79,7 +79,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Smoked Pork Loin Sandwich",
     "price": 260,
-    "image": "food/sandwich",
+    "image": "menu/smoked-pork-loin-sandwich",
     "order": 4
   },
   {
@@ -87,7 +87,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Chicken Breast Sandwich",
     "price": 240,
-    "image": "food/sandwich",
+    "image": "menu/chicken-breast-sandwich",
     "order": 5
   },
   {
@@ -95,7 +95,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Kulen Sandwich",
     "price": 260,
-    "image": "food/sandwich",
+    "image": "menu/kulen-sandwich",
     "order": 6
   },
   {
@@ -103,7 +103,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Tuna Sandwich",
     "price": 300,
-    "image": "food/sandwich",
+    "image": "menu/tuna-sandwich",
     "order": 7
   },
   {
@@ -111,7 +111,7 @@
     "category": "hot-dogs-sandwiches",
     "name": "Kifla",
     "price": 100,
-    "image": "food/sandwich",
+    "image": "menu/kifla",
     "order": 8
   },
   {

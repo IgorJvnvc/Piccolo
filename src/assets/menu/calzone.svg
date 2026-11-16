@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 190" width="260" height="190" role="img" aria-label="Calzone">
+  <title>Calzone</title>
+  <defs><linearGradient id="cz-crust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7D283"/><stop offset="0.5" stop-color="#DDA24A"/><stop offset="1" stop-color="#AE6A22"/></linearGradient><linearGradient id="cz-cheese" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE98F"/><stop offset="0.55" stop-color="#FAC73A"/><stop offset="1" stop-color="#EC9A1B"/></linearGradient><linearGradient id="cz-rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2AE62"/><stop offset="1" stop-color="#B8762E"/></linearGradient></defs>
+  
+    <path d="M16 140C16 60 66 30 130 30S244 60 244 140C200 166 60 166 16 140Z" fill="url(#cz-crust)"/>
+    <path d="M26 118C32 72 74 46 130 44" fill="none" stroke="#FFF1CF" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+    <ellipse cx="150" cy="84" rx="48" ry="16" fill="#FFE8A8" opacity="0.3"/>
+    <path d="M22 142C70 166 190 166 238 142" fill="none" stroke="url(#cz-rim)" stroke-width="15" stroke-linecap="round" stroke-dasharray="10 5"/>
+    <path d="M22 138C70 162 190 162 238 138" fill="none" stroke="#F7D790" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 5" opacity="0.8"/>
+    <path d="M100 58q16 18 8 46M136 54q16 18 8 46" fill="none" stroke="#8A4A18" stroke-width="3.4" stroke-linecap="round" opacity="0.55"/>
+    <path d="M232 132c18 4 22 26 4 32-14 4-22-8-16-18Z" fill="#D6301F"/>
+    <path d="M226 138c14-2 24 10 14 20-8 6-18 2-18-8Z" fill="url(#cz-cheese)"/>
+    <g fill="#4FA33A"><path d="M84 70c8-8 18-4 16 4-2 8-12 8-16-4Z"/><path d="M168 98c8-8 18-4 16 4-2 8-12 8-16-4Z"/></g>
+    <g fill="#fff" opacity="0.5"><circle cx="60" cy="86" r="1.8"/><circle cx="190" cy="62" r="1.6"/><circle cx="208" cy="108" r="1.8"/><circle cx="46" cy="116" r="1.5"/><circle cx="120" cy="120" r="1.8"/></g>
+</svg>

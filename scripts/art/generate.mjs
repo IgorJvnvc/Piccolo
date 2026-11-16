@@ -9,6 +9,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { basil, drink, drop, hotDog, pizzaSlice, pizzaWhole, place, sandwich, specks, svgDoc, tomatoHalf, withDetail } from './shapes.mjs';
+import { menuPictures } from './menu.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'src', 'assets');
 
@@ -195,3 +196,6 @@ function mapArt() {
   return svgDoc({ width: 640, height: 440, defs, body, title: 'Map showing the restaurant location' });
 }
 write('visit/map.svg', mapArt());
+
+/* ---------- one picture per menu item (ADR 0015) ---------- */
+for (const [id, svg] of menuPictures()) write(`menu/${id}.svg`, svg);

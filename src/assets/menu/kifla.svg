@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 190" width="300" height="190" role="img" aria-label="Kifla">
+  <title>Kifla</title>
+  <defs><linearGradient id="kf-bread" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9DBA0"/><stop offset="0.5" stop-color="#E3AE60"/><stop offset="1" stop-color="#C07A32"/></linearGradient></defs>
+  
+    <path d="M34 180A116 116 0 0 1 266 180A250 250 0 0 0 34 180Z" fill="url(#kf-bread)" stroke="#C98A3E" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M50.2 121L71.8 164M81.8 86.2L102.1 156.1M124.7 66.8L133.2 152.1M175.3 66.8L166.8 152.1M218.2 86.2L197.9 156.1M249.8 121L228.2 164" fill="none" stroke="#A96A24" stroke-width="3.6" stroke-linecap="round" opacity="0.5"/>
+    <path d="M52 150A104 104 0 0 1 170 80" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
+    <g fill="#FFF3D6" opacity="0.85"><circle cx="96" cy="104" r="1.8"/><circle cx="150" cy="86" r="1.8"/><circle cx="204" cy="100" r="1.8"/><circle cx="130" cy="112" r="1.6"/><circle cx="176" cy="116" r="1.6"/></g>
+</svg>
