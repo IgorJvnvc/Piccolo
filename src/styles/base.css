@@ -5,6 +5,7 @@
 
 html {
   font-size: 100%;
+  scrollbar-width: none; /* no scrollbar track on the right: the page still scrolls (wheel, touch, keys); Chromium before 121 reads the rule below */
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) * 0.7);
   background: var(--c-bg);
@@ -163,8 +164,11 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-/* Modal surfaces (mobile menu, quick view) freeze the page behind them. The scrollbar goes, its gutter stays: no sideways jump. */
+/* Modal surfaces (mobile menu, quick view) freeze the page behind them. */
 html[data-scroll-lock] {
   overflow: hidden;
-  scrollbar-gutter: stable;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }

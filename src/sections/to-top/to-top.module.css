@@ -1,0 +1,48 @@
+/*
+ * Back to top: a dark box with an arrow, bottom right, like the hero's scroll knob turned around. It rises into place once the
+ * page is scrolled (to-top.behavior.ts sets data-visible) and sits above the phone dock.
+ */
+.root {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(var(--dock-h) + 1.25rem);
+  z-index: var(--z-top);
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.25rem;
+  color: var(--c-on-dark);
+  background: var(--c-ink);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-bar);
+  opacity: 0;
+  transform: translateY(0.75rem);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out),
+    color var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out);
+}
+
+.root[data-visible] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+@media (hover: hover) {
+  .root[data-visible]:hover {
+    color: var(--c-on-accent);
+    background: var(--c-accent);
+    transform: translateY(-0.1875rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .root {
+    right: 2rem;
+    bottom: 2rem;
+  }
+}

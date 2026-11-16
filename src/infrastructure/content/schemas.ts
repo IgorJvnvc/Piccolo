@@ -69,7 +69,7 @@ export const siteSchema = z.object({
 
 export const homeSchema = z.object({
   seo: z.object({ title: z.string().min(1), description: z.string().min(50).max(200) }),
-  nav: z.object({ links: z.array(navLink).min(1), callLabel: z.string().min(1) }),
+  nav: z.object({ links: z.array(navLink).min(1), callLabel: z.string().min(1), toTopLabel: z.string().min(1) }),
   dock: z.object({ label: z.string().min(1), call: z.string().min(1), whatsapp: z.string().min(1), directions: z.string().min(1) }),
   hero: z.object({
     title: z.tuple([z.string(), z.string()]),

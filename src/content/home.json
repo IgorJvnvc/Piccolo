@@ -11,7 +11,8 @@
         { "label": "Find Us", "href": "#visit" },
         { "label": "Contact", "href": "#contact" }
       ],
-      "callLabel": "Call us"
+      "callLabel": "Call us",
+      "toTopLabel": "Scroll to top"
     },
     "dock": { "label": "Quick actions", "call": "Call", "whatsapp": "WhatsApp", "directions": "Directions" },
     "hero": {

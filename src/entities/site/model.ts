@@ -57,7 +57,7 @@ export interface FooterColumn {
 /** All marketing copy of the home page. Edit src/content/home.json, not the components. */
 export interface HomeCopy {
   readonly seo: { readonly title: string; readonly description: string };
-  readonly nav: { readonly links: readonly NavLink[]; readonly callLabel: string };
+  readonly nav: { readonly links: readonly NavLink[]; readonly callLabel: string; readonly toTopLabel: string };
   readonly dock: { readonly label: string; readonly call: string; readonly whatsapp: string; readonly directions: string };
   readonly hero: {
     readonly title: readonly [string, string];

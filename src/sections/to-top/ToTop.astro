@@ -1,0 +1,16 @@
+---
+import { enhanceAttr } from '@/shared/lib';
+import { Icon } from '@/shared/ui';
+import { TO_TOP } from './to-top.hooks';
+import styles from './to-top.module.css';
+import type { ToTopProps } from './types';
+
+type Props = ToTopProps;
+
+const { label } = Astro.props;
+---
+
+<!-- A plain link to the top (the anchors behavior scrolls it). Out of the tab order and the accessibility tree until the behavior shows it. -->
+<a class={styles.root} href="#top" aria-label={label} aria-hidden="true" tabindex="-1" {...enhanceAttr(TO_TOP.name)}>
+  <Icon name="arrow-up" />
+</a>

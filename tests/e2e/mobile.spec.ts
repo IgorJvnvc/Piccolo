@@ -14,6 +14,18 @@ test.describe('phone and tablet', () => {
     await expect(page.locator('[data-enhance="hero"]')).not.toHaveAttribute('data-parallax', '');
   });
 
+  test('the scroll-to-top button shows once scrolled and sits above the dock, not on it', async ({ page }) => {
+    await ready(page);
+    const toTop = page.getByRole('link', { name: 'Scroll to top' });
+    await expect(toTop).toHaveCount(0);
+    await page.evaluate(() => window.scrollTo({ top: 1200, behavior: 'instant' }));
+    await expect(toTop).toBeVisible();
+    const button = await toTop.boundingBox();
+    const dock = await page.getByRole('group', { name: 'Quick actions' }).boundingBox();
+    if (!button || !dock) throw new Error('no button or dock box');
+    expect(button.y + button.height).toBeLessThanOrEqual(dock.y);
+  });
+
   test('mobile menu opens as a dialog, navigates and closes', async ({ page }) => {
     await ready(page);
     await hydrated(page, 'MobileNav');

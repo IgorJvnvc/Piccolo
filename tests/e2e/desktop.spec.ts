@@ -68,6 +68,29 @@ test.describe('desktop', () => {
     await expect.poll(() => drift('drink')).toBeLessThan(0.5);
   });
 
+  test('the page shows no scrollbar', async ({ page }) => {
+    await ready(page);
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollbarWidth)).toBe('none');
+  });
+
+  test('a scroll-to-top button, bottom right, appears once the page is scrolled and takes the visitor home', async ({ page }) => {
+    await ready(page);
+    const toTop = page.getByRole('link', { name: 'Scroll to top' });
+    await expect(toTop).toHaveCount(0); // at the top it is out of the accessibility tree and the tab order
+
+    await page.getByRole('banner').getByRole('link', { name: 'Find Us' }).click(); // a nav link counts as a scroll
+    await expect(toTop).toBeVisible();
+    const box = await toTop.boundingBox();
+    const viewport = page.viewportSize();
+    if (!box || !viewport) throw new Error('no button box or viewport');
+    expect(box.x + box.width).toBeGreaterThan(viewport.width - 60);
+    expect(box.y + box.height).toBeGreaterThan(viewport.height - 60);
+
+    await toTop.click();
+    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 8000 }).toBeLessThan(5);
+    await expect(toTop).toHaveCount(0);
+  });
+
   test('the logo goes back to the top and takes keyboard focus with it', async ({ page }) => {
     await ready(page);
     await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }));

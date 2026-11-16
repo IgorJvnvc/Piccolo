@@ -11,6 +11,7 @@ import { Intro } from '@/sections/intro';
 import { Menu } from '@/sections/menu';
 import { Navbar } from '@/sections/navbar';
 import { Popular } from '@/sections/popular';
+import { ToTop } from '@/sections/to-top';
 import { Visit } from '@/sections/visit';
 import { env } from '@/shared/config';
 
@@ -28,4 +29,5 @@ const page = await buildHomePage(container, env.siteUrl);
   <Visit {...page.visit} />
   <Footer slot="footer" {...page.footer} />
   <Dock slot="footer" {...page.dock} />
+  <ToTop slot="footer" {...page.toTop} />
 </BaseLayout>

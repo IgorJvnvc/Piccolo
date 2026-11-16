@@ -9,6 +9,7 @@ import type { IntroProps } from '@/sections/intro';
 import type { MenuSectionProps } from '@/sections/menu';
 import type { NavbarProps } from '@/sections/navbar';
 import type { PopularProps } from '@/sections/popular';
+import type { ToTopProps } from '@/sections/to-top';
 import type { VisitProps } from '@/sections/visit';
 import { formatMoney, nbsp, telHref } from '@/shared/lib';
 import type { ImageSource } from '@/shared/ui';
@@ -33,6 +34,7 @@ export interface HomePageModel {
   readonly visit: VisitProps;
   readonly footer: FooterProps;
   readonly dock: DockProps;
+  readonly toTop: ToTopProps;
 }
 
 /**
@@ -192,5 +194,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
       hours: site.hours,
       openLabel,
     },
+
+    toTop: { label: copy.nav.toTopLabel },
   };
 }
