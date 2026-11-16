@@ -8,7 +8,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { basil, drink, drop, hotDog, pizzaSlice, pizzaWhole, place, sandwich, svgDoc, tomatoHalf } from './shapes.mjs';
+import { basil, drink, drop, hotDog, pizzaSlice, pizzaWhole, place, sandwich, specks, svgDoc, tomatoHalf } from './shapes.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'src', 'assets');
 
@@ -50,13 +50,21 @@ function slab() {
     <linearGradient id="slab-gloss" x1="0" y1="0" x2="1" y2="0.6">
       <stop offset="0" stop-color="#fff" stop-opacity="0.13"/><stop offset="0.5" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>
-    <filter id="slab-blur" x="-20%" y="-30%" width="140%" height="190%"><feGaussianBlur stdDeviation="14"/></filter>`;
+    <filter id="slab-blur" x="-20%" y="-30%" width="140%" height="190%"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="slab-bounce" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="22"/></filter>
+    <clipPath id="slab-clip"><polygon points="${pts(L, T, R, B)}"/></clipPath>`;
   const body = `
     <polygon points="${pts([L[0] + 18, L[1] + 34], [T[0] + 18, T[1] + 34], [R[0] + 18, R[1] + 34], [B[0] + 18, B[1] + 48])}" fill="#5a2a14" opacity="0.26" filter="url(#slab-blur)"/>
     <polygon points="${pts(L, B, [B[0], B[1] + t], [L[0], L[1] + t])}" fill="url(#slab-edge-l)" stroke="url(#slab-edge-l)" stroke-width="6" stroke-linejoin="round"/>
     <polygon points="${pts(B, R, [R[0], R[1] + t], [B[0], B[1] + t])}" fill="url(#slab-edge-r)" stroke="url(#slab-edge-r)" stroke-width="6" stroke-linejoin="round"/>
     <polygon points="${pts(L, T, R, B)}" fill="url(#slab-top)" stroke="url(#slab-top)" stroke-width="10" stroke-linejoin="round"/>
     <polygon points="${pts(L, T, R, B)}" fill="url(#slab-gloss)"/>
+    <g clip-path="url(#slab-clip)">
+      <ellipse cx="282" cy="168" rx="214" ry="40" transform="rotate(-26 282 168)" fill="#FF7A2B" opacity="0.16" filter="url(#slab-bounce)"/>
+      <g fill="#fff" opacity="0.07">${specks(71, 260, [4, 4, 559, 315], [0.5, 1.1])}</g>
+      <g fill="#000" opacity="0.2">${specks(72, 160, [4, 4, 559, 315], [0.6, 1.3])}</g>
+    </g>
+    <polyline points="${pts(L, T, R)}" fill="none" stroke="#fff" stroke-opacity="0.1" stroke-width="1.4" stroke-linejoin="round"/>
     <polyline points="${pts(L, B, R)}" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.6" stroke-linejoin="round"/>`;
   // Padded viewBox (640 x 430) so the blurred cast shadow is never clipped; content is shifted by (30, 24).
   return svgDoc({ width: 640, height: 430, defs, body: `<g transform="translate(30 24)">${body}</g>`, title: 'Dark serving slab' });
