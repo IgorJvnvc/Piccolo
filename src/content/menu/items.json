@@ -385,7 +385,7 @@
     "category": "hot-drinks",
     "name": "Espresso",
     "price": 140,
-    "image": "food/drink",
+    "image": "menu/espresso",
     "order": 1
   },
   {
@@ -393,7 +393,7 @@
     "category": "hot-drinks",
     "name": "Coffee with Milk",
     "price": 150,
-    "image": "food/drink",
+    "image": "menu/coffee-with-milk",
     "order": 2
   },
   {
@@ -401,7 +401,7 @@
     "category": "hot-drinks",
     "name": "Cappuccino",
     "price": 150,
-    "image": "food/drink",
+    "image": "menu/cappuccino",
     "order": 3
   },
   {
@@ -409,7 +409,7 @@
     "category": "hot-drinks",
     "name": "Cappuccino with Chocolate",
     "price": 160,
-    "image": "food/drink",
+    "image": "menu/cappuccino-with-chocolate",
     "order": 4
   },
   {
@@ -417,7 +417,7 @@
     "category": "hot-drinks",
     "name": "Mocaccino",
     "price": 150,
-    "image": "food/drink",
+    "image": "menu/mocaccino",
     "order": 5
   },
   {
@@ -425,7 +425,7 @@
     "category": "hot-drinks",
     "name": "Nesquik",
     "price": 150,
-    "image": "food/drink",
+    "image": "menu/nesquik",
     "order": 6
   },
   {

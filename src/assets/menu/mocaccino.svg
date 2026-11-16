@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" width="260" height="200" role="img" aria-label="Mocaccino with cream and chocolate">
+  <title>Mocaccino with cream and chocolate</title>
+  <defs><linearGradient id="mc-cup" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#F1EBE7"/><stop offset="1" stop-color="#D9CFCA"/></linearGradient><linearGradient id="mc-sau" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DDD4CE"/></linearGradient></defs>
+  
+    <ellipse cx="122" cy="158" rx="102" ry="24" fill="url(#mc-sau)" stroke="#D3C9C2" stroke-width="1.5"/>
+    <ellipse cx="122" cy="154" rx="47.5" ry="13" fill="#E9E1DB"/>
+    
+    <path d="M180 106C218 98 222 144 176 144" fill="none" stroke="#D3C9C2" stroke-width="12" stroke-linecap="round"/>
+    <path d="M180 106C218 98 222 144 176 144" fill="none" stroke="#F6F1ED" stroke-width="8" stroke-linecap="round"/>
+    <path d="M56 94C56 144 92 156 122 156C152 156 188 144 188 94Z" fill="url(#mc-cup)"/>
+    <path d="M62 116Q122 146 182 116" fill="none" stroke="#8C531C" stroke-width="6" opacity="0.85"/>
+    <path d="M64 104Q68 134 86 138" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="122" cy="94" rx="66" ry="18" fill="#F3EEEA" stroke="#D3C9C2" stroke-width="2"/>
+    <ellipse cx="122" cy="95" rx="60" ry="15" fill="#6A3A1C"/><ellipse cx="122" cy="96" rx="52" ry="11" fill="#4A2410"/><ellipse cx="122" cy="92" rx="46" ry="13" fill="#FFFDF7" stroke="#E2D2BC" stroke-width="1.5"/><ellipse cx="122" cy="81" rx="34" ry="10" fill="#FFFDF7" stroke="#E2D2BC" stroke-width="1.5"/><ellipse cx="122" cy="71" rx="22" ry="8" fill="#FFFDF7" stroke="#E2D2BC" stroke-width="1.5"/><path d="M122 64q8-6 2-14q-10 2-2 14Z" fill="#FFFDF7" stroke="#E2D2BC" stroke-width="1.5"/><path d="M88 90q8 8 16 0t16 0t16 0t16 0M102 79q7 7 14 0t14 0t14 0" fill="none" stroke="#5A2E18" stroke-width="3" stroke-linecap="round"/>
+    
+</svg>

@@ -449,6 +449,82 @@ const plazma = () => {
     `<g transform="translate(${x} ${y}) rotate(${turn})"><rect x="-62" y="-32" width="124" height="64" rx="9" fill="url(#${id}-biscuit)" stroke="#A8702A" stroke-width="1.6"/><path d="M-56 -26h112" stroke="#FFF1CF" stroke-width="2.4" stroke-linecap="round" opacity="0.7"/>${[-36, -12, 12, 36].map((px) => [-14, 6, 24].map((py) => `<circle cx="${px}" cy="${py}" r="2.6" fill="#A8702A" opacity="0.7"/>`).join('')).join('')}</g>`;
   return svgDoc({ width: 260, height: 190, defs, body: `${biscuit(112, 118, -12)}${biscuit(144, 86, 8)}${biscuit(120, 58, -5)}`, title: 'Plazma biscuits' });
 };
+/* ---------- hot drinks: a cup on a saucer seen from a little above, and one glass mug ---------- */
+
+const steamAt = (cx, y) =>
+  `<path d="M${cx - 18} ${y}q-8-12 0-22M${cx} ${y - 6}q-8-12 0-22M${cx + 18} ${y}q-8-12 0-22" fill="none" stroke="#CFC4BC" stroke-width="4" stroke-linecap="round" opacity="0.8"/>`;
+
+/** The cup's contents seen through its rim: an outer ring and an inner surface. */
+const liquid = (rim, rimY, [edge, mid], bits = '') => {
+  const ry = Math.round(rim * 0.28);
+  return `<ellipse cx="122" cy="${rimY + 1}" rx="${rim - 6}" ry="${ry - 3}" fill="${edge}"/><ellipse cx="122" cy="${rimY + 2}" rx="${rim - 14}" ry="${ry - 7}" fill="${mid}"/>${bits}`;
+};
+
+const cup = (id, title, { rim = 66, rimY = 90, band, inside, above = '', beside = '', steam = true }) => {
+  const cx = 122;
+  const ry = Math.round(rim * 0.28);
+  const x2 = cx + rim;
+  const handle = `M${x2 - 8} ${rimY + 12}C${x2 + 30} ${rimY + 4} ${x2 + 34} ${rimY + 50} ${x2 - 12} ${rimY + 50}`;
+  const defs = [lin(`${id}-cup`, [[0, '#FFFFFF'], [0.6, '#F1EBE7'], [1, '#D9CFCA']], [0, 0, 1, 0]), lin(`${id}-sau`, [[0, '#FFFFFF'], [1, '#DDD4CE']])].join('');
+  const body = `
+    <ellipse cx="${cx}" cy="158" rx="${rim + 36}" ry="24" fill="url(#${id}-sau)" stroke="#D3C9C2" stroke-width="1.5"/>
+    <ellipse cx="${cx}" cy="154" rx="${n1(rim * 0.72)}" ry="13" fill="#E9E1DB"/>
+    ${beside}
+    <path d="${handle}" fill="none" stroke="#D3C9C2" stroke-width="12" stroke-linecap="round"/>
+    <path d="${handle}" fill="none" stroke="#F6F1ED" stroke-width="8" stroke-linecap="round"/>
+    <path d="M${cx - rim} ${rimY}C${cx - rim} 144 ${cx - 30} 156 ${cx} 156C${cx + 30} 156 ${x2} 144 ${x2} ${rimY}Z" fill="url(#${id}-cup)"/>
+    <path d="M${cx - rim + 6} ${rimY + 22}Q${cx} ${rimY + 16 + 2 * ry} ${x2 - 6} ${rimY + 22}" fill="none" stroke="${band}" stroke-width="6" opacity="0.85"/>
+    <path d="M${cx - rim + 8} ${rimY + 10}Q${cx - rim + 12} ${rimY + 40} ${cx - rim + 30} 138" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="${cx}" cy="${rimY}" rx="${rim}" ry="${ry}" fill="#F3EEEA" stroke="#D3C9C2" stroke-width="2"/>
+    ${inside}${above}
+    ${steam ? steamAt(cx, rimY - ry - 8) : ''}`;
+  return svgDoc({ width: 260, height: 200, defs, body, title });
+};
+
+const espresso = () =>
+  cup('es', 'Espresso', { rim: 50, rimY: 104, band: '#D8442E', inside: liquid(50, 104, ['#B97A3F', '#6A3A1C'], '<ellipse cx="108" cy="103" rx="13" ry="2.6" fill="#fff" opacity="0.3"/>') });
+
+const coffeeWithMilk = () =>
+  cup('cm', 'Coffee with milk', { rim: 62, rimY: 94, band: '#F29A3C', inside: liquid(62, 94, ['#B98652', '#D6AE84'], '<path d="M98 95q12-6 24 0t24 0" fill="none" stroke="#F0DCC0" stroke-width="3" stroke-linecap="round" opacity="0.75"/>') });
+
+const cappuccino = () =>
+  cup('cc', 'Cappuccino', { band: '#4B7FB7', inside: liquid(66, 90, ['#B98652', '#F6E9D6'], '<path d="M122 100C106 92 110 80 122 86C134 80 138 92 122 100Z" fill="#B98652"/>') });
+
+const cappuccinoChocolate = () =>
+  cup('ch', 'Cappuccino with chocolate', {
+    band: '#6B3A1E',
+    inside: liquid(66, 90, ['#B98652', '#F4E2C6'], `${scatter(31, 46, [122, 92, 44, 8], (x, y) => `<circle cx="${x}" cy="${y}" r="1.6" fill="#5A3018"/>`)}<path d="M94 92l8-5l10 9l10-9l10 9l10-9l10 9l8-4" fill="none" stroke="#5A3018" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`),
+    beside: '<g transform="rotate(-12 188 162)"><rect x="172" y="152" width="32" height="20" rx="3" fill="#6B3A1E" stroke="#4A2410" stroke-width="1.5"/><path d="M182 152v20M193 152v20M172 162h32" stroke="#4A2410" stroke-width="1.2" opacity="0.7"/><rect x="174" y="154" width="8" height="6" rx="1.5" fill="#fff" opacity="0.25"/></g>',
+  });
+
+const mocaccino = () => {
+  const y = 92;
+  const tier = (cy, rx, ry) => `<ellipse cx="122" cy="${cy}" rx="${rx}" ry="${ry}" fill="#FFFDF7" stroke="#E2D2BC" stroke-width="1.5"/>`;
+  return cup('mc', 'Mocaccino with cream and chocolate', {
+    band: '#8C531C',
+    steam: false,
+    inside: liquid(66, 94, ['#6A3A1C', '#4A2410']),
+    above: `${tier(y, 46, 13)}${tier(y - 11, 34, 10)}${tier(y - 21, 22, 8)}<path d="M122 ${y - 28}q8-6 2-14q-10 2-2 14Z" fill="#FFFDF7" stroke="#E2D2BC" stroke-width="1.5"/><path d="M88 ${y - 2}q8 8 16 0t16 0t16 0t16 0M102 ${y - 13}q7 7 14 0t14 0t14 0" fill="none" stroke="#5A2E18" stroke-width="3" stroke-linecap="round"/>`,
+    rimY: 94,
+  });
+};
+
+const nesquik = () => {
+  const handle = 'M170 84C210 80 214 136 170 138';
+  const defs = [lin('nq-milk', [[0, '#B77C52'], [1, '#7E4526']]), lin('nq-glass', [[0, '#FFFFFF', 0.9], [0.5, '#EAF2F6', 0.6], [1, '#CFDDE6', 0.8]], [0, 0, 1, 0])].join('');
+  const body = `
+    <path d="${handle}" fill="none" stroke="#C3D0D8" stroke-width="12" stroke-linecap="round"/>
+    <path d="${handle}" fill="none" stroke="#EAF2F6" stroke-width="8" stroke-linecap="round"/>
+    <path d="M72 62V140Q72 160 92 160H152Q172 160 172 140V62Z" fill="url(#nq-glass)" stroke="#C3D0D8" stroke-width="2"/>
+    <path d="M77 82V138Q77 155 94 155H150Q167 155 167 138V82Z" fill="url(#nq-milk)"/>
+    <ellipse cx="122" cy="82" rx="45" ry="11" fill="#C99468"/>
+    <ellipse cx="122" cy="83" rx="37" ry="7" fill="#EBCDA8"/>
+    <path d="M77 112Q122 126 167 112" fill="none" stroke="#F2B705" stroke-width="7" opacity="0.9"/>
+    <ellipse cx="122" cy="62" rx="50" ry="13" fill="#F6FAFC" fill-opacity="0.55" stroke="#C3D0D8" stroke-width="2"/>
+    <path d="M82 74V142" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+    ${steamAt(122, 44)}`;
+  return svgDoc({ width: 260, height: 200, defs, body, title: 'Nesquik' });
+};
 /** [item id, svg document] for every menu picture. */
 export function menuPictures() {
   return withDetail(0, () => [
@@ -485,5 +561,12 @@ export function menuPictures() {
     ['side-eurokrem', eurokrem()],
     ['side-plazma', plazma()],
     ['side-sour-cherry', jamJar('scj', 'Sour cherry jam', ['#A8283C', '#6E1226'], '#C9302C')],
-    ['side-raspberry', jamJar('rj', 'Raspberry jam', ['#E04870', '#A21E48'], '#D6325A')],  ]);
+    ['side-raspberry', jamJar('rj', 'Raspberry jam', ['#E04870', '#A21E48'], '#D6325A')],
+    ['espresso', espresso()],
+    ['coffee-with-milk', coffeeWithMilk()],
+    ['cappuccino', cappuccino()],
+    ['cappuccino-with-chocolate', cappuccinoChocolate()],
+    ['mocaccino', mocaccino()],
+    ['nesquik', nesquik()],
+  ]);
 }
