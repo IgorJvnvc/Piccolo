@@ -75,7 +75,7 @@ describe('schemas reject bad content', () => {
       name: 'Plain',
       description: 'Just a plain pizza.',
       price: 7,
-      image: 'food/pizza',
+      image: 'menu/pizza-slice',
     });
     expect(minimal).toMatchObject({ sizes: [], allergens: [], tags: [], popular: false, order: 0 });
   });

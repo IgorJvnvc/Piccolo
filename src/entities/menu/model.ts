@@ -41,7 +41,7 @@ export interface MenuItem {
   /** Base ("from") price. */
   readonly price: Money;
   readonly sizes: readonly MenuSize[];
-  /** Key into the image catalog (e.g. "food/pizza"). */
+  /** Key into the image catalog (e.g. "menu/pizza-slice"). */
   readonly imageKey: string;
   readonly allergens: readonly Allergen[];
   readonly tags: readonly DietaryTag[];

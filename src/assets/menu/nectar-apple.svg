@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-label="Apple nectar">
+  <title>Apple nectar</title>
+  <defs><linearGradient id="nea-liq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2D86A"/><stop offset="1" stop-color="#D9AE2C"/></linearGradient><clipPath id="nea-c"><path d="M-6 22H6V36C6 46 22 50 22 66V148Q22 158 12 158H-12Q-22 158 -22 148V66C-22 50 -6 46 -6 36Z"/></clipPath></defs>
+  <g transform="translate(76 28)">
+    <path d="M-6 22H6V36C6 46 22 50 22 66V148Q22 158 12 158H-12Q-22 158 -22 148V66C-22 50 -6 46 -6 36Z" fill="#EAF2F6" fill-opacity="0.6"/>
+    <g clip-path="url(#nea-c)">
+      <rect x="-30" y="40" width="60" height="130" fill="url(#nea-liq)"/>
+      <rect x="-30" y="84" width="60" height="52" fill="#fff"/>
+      <rect x="-30" y="84" width="60" height="5" fill="#D9AE2C"/><rect x="-30" y="131" width="60" height="5" fill="#D9AE2C"/>
+    </g>
+    <g transform="translate(0 110) scale(1)"><path d="M0-12C-6-17-18-13-17 0C-16 12-8 18 0 15C8 18 16 12 17 0C18-13 6-17 0-12Z" fill="#D9302C" stroke="#9C1B1B" stroke-width="1.5"/><path d="M0-12q1-6 5-8" fill="none" stroke="#6B4420" stroke-width="2" stroke-linecap="round"/><path d="M2-15q8-6 12-1q-6 6-12 1Z" fill="#5FB041"/><ellipse cx="-7" cy="-4" rx="3" ry="5" fill="#fff" opacity="0.35"/></g>
+    <path d="M-6 22H6V36C6 46 22 50 22 66V148Q22 158 12 158H-12Q-22 158 -22 148V66C-22 50 -6 46 -6 36Z" fill="none" stroke="#9FB0BA" stroke-width="1.6"/>
+    <path d="M-15 70V82M-3 24V34" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    <path d="M-8.5 13H8.5L7 23H-7Z" fill="#C9302C"/>
+  </g><g transform="translate(150 168) scale(1.5)"><path d="M0-12C-6-17-18-13-17 0C-16 12-8 18 0 15C8 18 16 12 17 0C18-13 6-17 0-12Z" fill="#D9302C" stroke="#9C1B1B" stroke-width="1.5"/><path d="M0-12q1-6 5-8" fill="none" stroke="#6B4420" stroke-width="2" stroke-linecap="round"/><path d="M2-15q8-6 12-1q-6 6-12 1Z" fill="#5FB041"/><ellipse cx="-7" cy="-4" rx="3" ry="5" fill="#fff" opacity="0.35"/></g><g transform="translate(186 176) scale(0.9)"><path d="M0-12C-6-17-18-13-17 0C-16 12-8 18 0 15C8 18 16 12 17 0C18-13 6-17 0-12Z" fill="#D9302C" stroke="#9C1B1B" stroke-width="1.5"/><path d="M0-12q1-6 5-8" fill="none" stroke="#6B4420" stroke-width="2" stroke-linecap="round"/><path d="M2-15q8-6 12-1q-6 6-12 1Z" fill="#5FB041"/><ellipse cx="-7" cy="-4" rx="3" ry="5" fill="#fff" opacity="0.35"/></g>
+</svg>

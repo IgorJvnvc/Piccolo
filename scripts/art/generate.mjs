@@ -3,7 +3,7 @@
  *   npm run art
  *
  * Output is committed. Replace any generated file with a real photo/cutout of the same base name
- * (e.g. src/assets/food/pizza.png): the image catalog prefers raster files over these SVG placeholders.
+ * (e.g. src/assets/menu/pizza-slice.png): the image catalog prefers raster files over these SVG placeholders.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -33,13 +33,8 @@ const dropAt = (x, y, scale = 1, rotate = 0, color) =>
  */
 const LIGHT = 0;
 
-/* ---------- single food cutouts (cards, the intro, the hero badge): light ---------- */
-write('food/pizza.svg', withDetail(LIGHT, () => single(pizzaSlice('pz'), 'Slice of pepperoni pizza')));
+/* ---------- the whole pizza (the intro and the heading badge): light ---------- */
 write('food/pizza-whole.svg', withDetail(LIGHT, () => single(pizzaWhole('pw'), 'Whole pepperoni pizza')));
-write('food/hotdog.svg', withDetail(LIGHT, () => single(hotDog('hd'), 'Hot dog with mustard and ketchup')));
-write('food/sandwich.svg', withDetail(LIGHT, () => single(sandwich('sw'), 'Toasted club sandwich')));
-write('food/drink.svg', single(drink('dr'), 'Takeaway drink'));
-write('food/basil.svg', single(basil('bs'), 'Basil leaf'));
 
 /* ---------- the hero's own pieces: the same drawings with the full texture ---------- */
 write('hero/pizza.svg', single(pizzaSlice('pz'), 'Slice of pepperoni pizza'));

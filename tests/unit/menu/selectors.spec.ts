@@ -31,7 +31,7 @@ const item = ({ id, category, order = 0, popular = false, price = 1000, sizes = 
   description: `Description of ${id}`,
   price: money(price),
   sizes: sizes.map(([label, minor]) => ({ label, price: money(minor) })),
-  imageKey: 'food/pizza',
+  imageKey: 'menu/pizza-slice',
   allergens: [],
   tags: [],
   popular,

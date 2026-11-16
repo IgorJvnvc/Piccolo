@@ -150,7 +150,7 @@ content JSON ──Zod──▶ collections ──▶ repositories ──▶ com
 - `composition/home.ts` turns domain data into the exact props each section needs (formatted prices, grouped hours,
   `tel:` links, non-breaking phone numbers, image sources, the JSON-LD for search engines).
 - Prices are integer minor units (cents) in the domain and formatted once, in one place.
-- Images: `infrastructure/images/catalog.ts` resolves a key such as `food/pizza` to `src/assets/food/pizza.*`. A raster
+- Images: `infrastructure/images/catalog.ts` resolves a key such as `menu/pizza-slice` to `src/assets/menu/pizza-slice.*`. A raster
   file (`png/jpg/webp/avif`) wins over `svg`, so dropping a photo next to a placeholder replaces it.
 
 ## Run time: enhancements
@@ -342,7 +342,7 @@ guards, bus replay, D-pad weighting, price labels and `tel:` links each makes a 
 placeholder SVG; the raster wins. `npm run art` regenerates the placeholders.
 
 **Add a menu item.** Append to `src/content/menu/items.json` with an existing `category` and an `image` key that has
-a file under `src/assets` (the build fails otherwise). To feature it on the home page set `"popular": true`.
+a file under `src/assets` (the build fails otherwise): draw it in `scripts/art/menu.mjs` and run `npm run art`, or reuse another item's key. To feature it on the home page set `"popular": true`.
 
 **Add a section.** Create `src/sections/<name>/` with `<Name>.astro`, `<name>.module.css`, `<name>.hooks.ts` (root +
 parts), `types.ts`, `index.ts`; build its props in `composition/home.ts`; add it to `pages/index.astro`. Add a

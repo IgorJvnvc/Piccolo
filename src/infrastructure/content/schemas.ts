@@ -123,7 +123,7 @@ export const itemSchema = z.object({
   /** Major units (8.5 = 8.50); converted to integer minor units when mapped to the entity. */
   price,
   sizes: z.array(z.object({ label: z.string().min(1), price })).default([]),
-  /** Key into src/assets, e.g. "food/pizza". */
+  /** Key into src/assets, e.g. "menu/pizza-slice". */
   image: z.string().min(1),
   allergens: z.array(z.enum(ALLERGENS)).default([]),
   tags: z.array(z.enum(DIETARY_TAGS)).default([]),

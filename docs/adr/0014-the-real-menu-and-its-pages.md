@@ -37,7 +37,7 @@ What shapes it:
 - The next lever, if that matters: render only the first page of each category and serve the rest from a static `/menu/` page. It
   would shrink the home page and give up "every page is in the home page's HTML".
 - Cards without a description keep their height (`min-height`), so the grid does not change when descriptions arrive.
-- Every card uses one of five placeholder illustrations until the owner supplies pictures.
+- Every card used one of five placeholder illustrations until [ADR 0015](0015-one-picture-for-every-product.md) gave each product its own.
 
 ## Alternatives considered
 

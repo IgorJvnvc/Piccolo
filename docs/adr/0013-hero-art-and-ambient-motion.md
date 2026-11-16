@@ -53,7 +53,7 @@ final one. Swapping group `opacity` for per-child alpha, a hypothesis about off-
 
 - The numbers come from a software rasteriser in headless Chrome. They rank builds; they say little in milliseconds on a real phone
   or TV. Re-check there.
-- Two asset sets exist for one drawing (`food/*` light, `hero/*` full). A new dish illustration is generated light.
+- Two asset sets exist for one drawing (`menu/*` light, `hero/*` full). A new dish illustration is generated light.
 - `tests/e2e/intro.spec.ts` used to measure the intro pizza after `ready`, which worked only when the boot took longer than the
   0.5 s pop-in (it failed 2 of 8 runs at the original commit). It now waits for the pizza to finish growing.
 

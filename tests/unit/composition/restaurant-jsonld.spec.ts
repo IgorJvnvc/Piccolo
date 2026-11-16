@@ -42,7 +42,7 @@ const item = (id: string, category: string, minor: number): MenuItem => ({
   description: `About ${id}`,
   price: { minor, currency: 'EUR' },
   sizes: [],
-  imageKey: 'food/pizza',
+  imageKey: 'menu/pizza-slice',
   allergens: [],
   tags: [],
   popular: false,

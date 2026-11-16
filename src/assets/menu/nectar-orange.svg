@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-label="Orange nectar">
+  <title>Orange nectar</title>
+  <defs><linearGradient id="neo-liq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB23A"/><stop offset="1" stop-color="#FF8A00"/></linearGradient><clipPath id="neo-c"><path d="M-6 22H6V36C6 46 22 50 22 66V148Q22 158 12 158H-12Q-22 158 -22 148V66C-22 50 -6 46 -6 36Z"/></clipPath></defs>
+  <g transform="translate(76 28)">
+    <path d="M-6 22H6V36C6 46 22 50 22 66V148Q22 158 12 158H-12Q-22 158 -22 148V66C-22 50 -6 46 -6 36Z" fill="#EAF2F6" fill-opacity="0.6"/>
+    <g clip-path="url(#neo-c)">
+      <rect x="-30" y="40" width="60" height="130" fill="url(#neo-liq)"/>
+      <rect x="-30" y="84" width="60" height="52" fill="#fff"/>
+      <rect x="-30" y="84" width="60" height="5" fill="#FF8A00"/><rect x="-30" y="131" width="60" height="5" fill="#FF8A00"/>
+    </g>
+    <g transform="translate(0 110) scale(1)"><circle r="16" fill="#FF9A1F" stroke="#D9700A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/></g>
+    <path d="M-6 22H6V36C6 46 22 50 22 66V148Q22 158 12 158H-12Q-22 158 -22 148V66C-22 50 -6 46 -6 36Z" fill="none" stroke="#9FB0BA" stroke-width="1.6"/>
+    <path d="M-15 70V82M-3 24V34" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    <path d="M-8.5 13H8.5L7 23H-7Z" fill="#C9302C"/>
+  </g><g transform="translate(150 168) scale(1.5)"><circle r="16" fill="#FF9A1F" stroke="#D9700A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/></g><g transform="translate(186 176) scale(0.9)"><circle r="16" fill="#FF9A1F" stroke="#D9700A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/></g>
+</svg>

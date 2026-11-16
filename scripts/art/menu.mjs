@@ -525,6 +525,182 @@ const nesquik = () => {
     ${steamAt(122, 44)}`;
   return svgDoc({ width: 260, height: 200, defs, body, title: 'Nesquik' });
 };
+/* ---------- cold drinks: a container and what goes with it, colour-coded by flavour, no brands ---------- */
+
+const FLOOR = 186;
+const GLASS_EDGE = '#B7C6CF';
+
+const FRUIT = {
+  apple: '<path d="M0-12C-6-17-18-13-17 0C-16 12-8 18 0 15C8 18 16 12 17 0C18-13 6-17 0-12Z" fill="#D9302C" stroke="#9C1B1B" stroke-width="1.5"/><path d="M0-12q1-6 5-8" fill="none" stroke="#6B4420" stroke-width="2" stroke-linecap="round"/><path d="M2-15q8-6 12-1q-6 6-12 1Z" fill="#5FB041"/><ellipse cx="-7" cy="-4" rx="3" ry="5" fill="#fff" opacity="0.35"/>',
+  peach: '<circle r="16" fill="#F8A25C" stroke="#D9743A" stroke-width="1.5"/><path d="M0-15Q-8 0 0 15" fill="none" stroke="#D9743A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/>',
+  blueberry: '<g fill="#3E5FA8" stroke="#243F7C" stroke-width="1.4"><circle cx="-8" cy="4" r="9"/><circle cx="8" cy="4" r="9"/><circle cx="0" cy="-8" r="9"/></g><circle cx="-10" cy="1" r="2" fill="#fff" opacity="0.4"/>',
+  orange: '<circle r="16" fill="#FF9A1F" stroke="#D9700A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/>',
+  strawberry: '<path d="M0 17C-12 10-17-2-14-9C-10-15 10-15 14-9C17-2 12 10 0 17Z" fill="#E0243C" stroke="#A11427" stroke-width="1.5"/><path d="M-8-13l4 4l4-5l4 5l4-4l-4-4h-8Z" fill="#5FB041"/><g fill="#FFE9A8"><circle cx="-6" cy="-2" r="1.4"/><circle cx="5" cy="-3" r="1.4"/><circle cx="0" cy="3" r="1.4"/><circle cx="-4" cy="9" r="1.4"/><circle cx="6" cy="6" r="1.4"/></g>',
+  lemon: '<path d="M-17 0C-17-10-6-14 0-14C8-14 20-12 20-6l-4 6l4 6C20 12 8 14 0 14C-6 14-17 10-17 0Z" fill="#F7DE55" stroke="#C9A914" stroke-width="1.5"/><ellipse cx="-6" cy="-5" rx="5" ry="2.5" fill="#fff" opacity="0.45"/>',
+  lime: '<path d="M-17 0C-17-10-6-14 0-14C8-14 20-12 20-6l-4 6l4 6C20 12 8 14 0 14C-6 14-17 10-17 0Z" fill="#8CCB4A" stroke="#5E9A2A" stroke-width="1.5"/><ellipse cx="-6" cy="-5" rx="5" ry="2.5" fill="#fff" opacity="0.45"/>',
+  berries: '<g stroke="#4B1236" stroke-width="1.2"><circle cx="-8" cy="4" r="8" fill="#7A2C6E"/><circle cx="8" cy="4" r="8" fill="#A32A5C"/><circle cx="0" cy="-8" r="8" fill="#5A2A7E"/></g><circle cx="-9" cy="1" r="1.8" fill="#fff" opacity="0.4"/>',
+  flower: '<g fill="#fff" stroke="#DCD3BC" stroke-width="1.2"><circle cx="9" cy="0" r="7"/><circle cx="2.8" cy="8.6" r="7"/><circle cx="-7.3" cy="5.3" r="7"/><circle cx="-7.3" cy="-5.3" r="7"/><circle cx="2.8" cy="-8.6" r="7"/></g><circle r="4" fill="#F7C948"/>',
+};
+const fruit = (kind, x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})">${FRUIT[kind]}</g>`;
+const citrus = (x, y, [rind, flesh]) =>
+  `<g transform="translate(${x} ${y})"><circle r="13" fill="${rind}"/><circle r="10.5" fill="${flesh}"/><path d="M-10.5 0H10.5M0-10.5V10.5M-7.4-7.4L7.4 7.4M-7.4 7.4L7.4-7.4" stroke="#fff" stroke-width="1.3" opacity="0.85"/></g>`;
+const ORANGE_SLICE = ['#FF9A1F', '#FFC25A'];
+const LEMON_SLICE = ['#F3D54A', '#FBEF9A'];
+const LIME_SLICE = ['#6FB23A', '#C5E58A'];
+
+const part = (p) => (typeof p === 'string' ? { defs: '', body: p } : p);
+const scene = (title, ...parts) => {
+  const all = parts.map(part);
+  return svgDoc({ width: 220, height: 200, defs: all.map((p) => p.defs).join(''), body: all.map((p) => p.body).join(''), title });
+};
+
+/** A tumbler standing on the floor line, centred on `x`. */
+const tumbler = (id, x, { w = 58, h = 86, liquid, ice = true, bubbles = 0, straw, slice, extra = '' }) => {
+  const t = FLOOR - h;
+  const l = x - w / 2;
+  const r = x + w / 2;
+  const bl = x - w * 0.37;
+  const br = x + w * 0.37;
+  const shell = `M${l} ${t}L${bl} ${FLOOR - 6}Q${bl + 1} ${FLOOR} ${bl + 7} ${FLOOR}H${br - 7}Q${br - 1} ${FLOOR} ${br} ${FLOOR - 6}L${r} ${t}Z`;
+  const wet = `M${l + 2.5} ${t + 12}L${bl + 2} ${FLOOR - 7}Q${bl + 3} ${FLOOR - 3} ${bl + 8} ${FLOOR - 3}H${br - 8}Q${br - 3} ${FLOOR - 3} ${br - 2} ${FLOOR - 7}L${r - 2.5} ${t + 12}Z`;
+  const cube = (cx, cy, a) => `<rect x="${n1(cx - 7)}" y="${n1(cy - 7)}" width="14" height="14" rx="3" transform="rotate(${a} ${n1(cx)} ${n1(cy)})" fill="#fff" fill-opacity="0.45" stroke="#fff" stroke-opacity="0.85" stroke-width="1.2"/>`;
+  const defs = lin(`${id}-liq`, [[0, liquid[0]], [1, liquid[1]]]) + lin(`${id}-gl`, [[0, '#FFFFFF', 0.85], [0.5, '#EAF2F6', 0.4], [1, '#CFDDE6', 0.7]], [0, 0, 1, 0]);
+  const rx = n1(w / 2 - 3);
+  const body = `
+    <path d="${shell}" fill="url(#${id}-gl)"/>
+    <path d="${wet}" fill="url(#${id}-liq)"/>
+    <ellipse cx="${x}" cy="${t + 12}" rx="${rx}" ry="4.5" fill="${liquid[0]}"/><ellipse cx="${x}" cy="${t + 12}" rx="${rx}" ry="4.5" fill="#fff" opacity="0.28"/>
+    ${ice ? cube(x - w * 0.18, t + 24, -14) + cube(x + w * 0.14, t + 20, 12) + cube(x - w * 0.02, t + 42, 6) : ''}
+    ${bubbles ? scatter(7, bubbles, [x, t + h * 0.58, w * 0.3, h * 0.3], (bx, by) => `<circle cx="${bx}" cy="${by}" r="1.5" fill="#fff" opacity="0.7"/>`) : ''}
+    ${straw ? `<path d="M${n1(x + 4)} ${t - 20}L${n1(x - w * 0.12)} ${FLOOR - 16}" stroke="${straw}" stroke-width="5" stroke-linecap="round"/>` : ''}
+    <path d="${shell}" fill="none" stroke="${GLASS_EDGE}" stroke-width="2"/>
+    <ellipse cx="${x}" cy="${t}" rx="${n1(w / 2)}" ry="5" fill="#F6FAFC" fill-opacity="0.5" stroke="${GLASS_EDGE}" stroke-width="2"/>
+    <path d="M${l + 7} ${t + 14}L${n1(bl + 6)} ${FLOOR - 14}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.65"/>
+    ${slice ? citrus(r - 4, t + 2, slice) : ''}${extra}`;
+  return { defs, body };
+};
+
+const BOTTLES = {
+  contour: { path: 'M-7.5 12H7.5V38C7.5 54 25 60 25 84C25 98 20 106 20 118C20 132 26 138 26 150V158Q26 168 16 168H-16Q-26 168 -26 158V150C-26 138 -20 132 -20 118C-20 106 -25 98 -25 84C-25 60 -7.5 54 -7.5 38Z', level: 36, label: [84, 44] },
+  pet: { path: 'M-7.5 12H7.5V28C7.5 38 24 42 24 58V154Q24 168 12 168H-12Q-24 168 -24 154V58C-24 42 -7.5 38 -7.5 28Z', level: 32, label: [74, 48] },
+};
+
+/** A bottle with a cap, a wrapped label and a wave across it. */
+const bottle = (id, x, { shape, liquid, tint = '#EAF2F6', label, wave, cap, icon = '', bubbles = 0 }) => {
+  const { path, level, label: [ly, lh] } = BOTTLES[shape];
+  const defs = `${lin(`${id}-liq`, [[0, liquid[0]], [1, liquid[1]]])}<clipPath id="${id}-c"><path d="${path}"/></clipPath>`;
+  const body = `<g transform="translate(${x} ${FLOOR - 168})">
+    <path d="${path}" fill="${tint}" fill-opacity="0.6"/>
+    <g clip-path="url(#${id}-c)">
+      <rect x="-30" y="${level}" width="60" height="140" fill="url(#${id}-liq)"/>
+      <ellipse cx="0" cy="${level}" rx="9" ry="2.4" fill="#fff" opacity="0.3"/>
+      ${bubbles ? scatter(3, bubbles, [0, 146, 17, 16], (bx, by) => `<circle cx="${bx}" cy="${by}" r="1.5" fill="#fff" opacity="0.8"/>`) : ''}
+      <rect x="-30" y="${ly}" width="60" height="${lh}" fill="${label}"/>
+      <path d="M-30 ${ly + lh * 0.8}q15-12 30 0t30 0" fill="none" stroke="${wave}" stroke-width="5"/>
+      ${icon}
+    </g>
+    <path d="${path}" fill="none" stroke="#9FB0BA" stroke-width="1.6"/>
+    <path d="M-17 ${ly + 4}V${ly + lh - 4}M-4 18V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+    <rect x="-8.5" y="0" width="17" height="13" rx="3" fill="${cap}" stroke="#00000022" stroke-width="1"/>
+  </g>`;
+  return { defs, body };
+};
+
+/** A carton with a straw, a fruit on a white disc and a white wave at its foot. */
+const carton = (x, { front, side, kind }) =>
+  `<g transform="translate(${x} ${FLOOR - 168})">
+    <path d="M12 62L34 54V158L12 168Z" fill="${side}"/>
+    <rect x="-30" y="62" width="42" height="106" fill="${front}"/>
+    <path d="M-30 148q10-9 21 0t21 0V168H-30Z" fill="#fff" fill-opacity="0.85"/>
+    <circle cx="-9" cy="104" r="19" fill="#fff"/>
+    ${fruit(kind, -9, 104, 1.05)}
+    <path d="M-27 66V144" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+    <path d="M-30 62L-8 54H34L12 62Z" fill="#F7F3EE"/>
+    <path d="M-8 54L-5 49H30L34 54Z" fill="#fff" stroke="#D9D2CC" stroke-width="1"/>
+    <path d="M16 58L36 12H50" fill="none" stroke="#E5484D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>`;
+
+const NECTAR = 'M-6 22H6V36C6 46 22 50 22 66V148Q22 158 12 158H-12Q-22 158 -22 148V66C-22 50 -6 46 -6 36Z';
+/** A small glass bottle of juice with a crown cap and a fruit on the label. */
+const juiceBottle = (id, x, { liquid, cap, kind }) => ({
+  defs: `${lin(`${id}-liq`, [[0, liquid[0]], [1, liquid[1]]])}<clipPath id="${id}-c"><path d="${NECTAR}"/></clipPath>`,
+  body: `<g transform="translate(${x} ${FLOOR - 158})">
+    <path d="${NECTAR}" fill="#EAF2F6" fill-opacity="0.6"/>
+    <g clip-path="url(#${id}-c)">
+      <rect x="-30" y="40" width="60" height="130" fill="url(#${id}-liq)"/>
+      <rect x="-30" y="84" width="60" height="52" fill="#fff"/>
+      <rect x="-30" y="84" width="60" height="5" fill="${liquid[1]}"/><rect x="-30" y="131" width="60" height="5" fill="${liquid[1]}"/>
+    </g>
+    ${fruit(kind, 0, 110, 1)}
+    <path d="${NECTAR}" fill="none" stroke="#9FB0BA" stroke-width="1.6"/>
+    <path d="M-15 70V82M-3 24V34" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    <path d="M-8.5 13H8.5L7 23H-7Z" fill="${cap}"/>
+  </g>`,
+});
+
+/** A slim can with its art drawn by the caller. */
+const can = (id, x, { body, edge, art }) => ({
+  defs: lin(`${id}-can`, [[0, edge], [0.3, body], [0.7, body], [1, edge]], [0, 0, 1, 0]),
+  body: `<g transform="translate(${x} ${FLOOR - 150})">
+    <path d="M-22 12Q-22 6 -15 4H15Q22 6 22 12V138Q22 146 14 148H-14Q-22 146 -22 138Z" fill="url(#${id}-can)"/>
+    <ellipse cx="0" cy="4" rx="15" ry="3.6" fill="#D5D9DE" stroke="#A7AEB6" stroke-width="1"/>
+    <ellipse cx="0" cy="3.4" rx="5" ry="1.6" fill="#B8BEC5"/>
+    ${art}
+    <path d="M-16 24V128" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+  </g>`,
+});
+
+const seed = (x, y) => `<g transform="translate(${x} ${y})"><circle r="10" fill="#F6EBD2"/><circle r="6.2" fill="#2B1612"/><ellipse cx="-2" cy="-2" rx="2" ry="1.4" fill="#fff" opacity="0.5"/></g>`;
+
+/** A bottle of fizzy drink and a glass of the same, with ice. */
+const soda = (id, title, { liquid, tint, label, wave, cap, slice, beside = '' }) =>
+  scene(title, bottle(id, 70, { shape: 'contour', liquid, tint, label, wave, cap }), tumbler(`${id}g`, 152, { liquid, slice, bubbles: 20 }), beside);
+
+const COLA = ['#4A2412', '#24110A'];
+const cola = () => soda('cola', 'Cola', { liquid: COLA, label: '#D6322E', wave: '#fff', cap: '#D6322E' });
+const colaZero = () => soda('colz', 'Cola zero', { liquid: COLA, label: '#1E1E22', wave: '#C9CDD2', cap: '#1E1E22' });
+const lemonLime = () => soda('lml', 'Lemon-lime soda', { liquid: ['#EAF6C8', '#CFE79A'], tint: '#BFE39A', label: '#1F9D55', wave: '#fff', cap: '#1F9D55', slice: LIME_SLICE, beside: fruit('lime', 200, 172) });
+const orangeSoda = () => soda('ors', 'Orange soda', { liquid: ['#FFA436', '#F0720F'], label: '#fff', wave: '#F0720F', cap: '#F0720F', beside: fruit('orange', 200, 170) });
+const orangeSodaSlice = () => soda('osl', 'Orange soda with a slice of orange', { liquid: ['#FFA436', '#F0720F'], label: '#F0720F', wave: '#fff', cap: '#F0720F', slice: ORANGE_SLICE, beside: fruit('orange', 200, 170) });
+const bitter = () => soda('bit', 'Bitter lemon soda', { liquid: ['#F1E3A0', '#D9C25A'], label: '#14532D', wave: '#E8C547', cap: '#E8C547', slice: LEMON_SLICE, beside: fruit('lemon', 198, 172) });
+
+const mint = (x, y) => `<g fill="#4FA23A" stroke="#35792A" stroke-width="1"><path d="M${x} ${y}q-12-4-14-16q12 0 14 16Z"/><path d="M${x} ${y}q12-4 16-16q-12 0-16 16Z"/><path d="M${x} ${y}q-2-12 6-22q6 10-6 22Z"/></g>`;
+const lemonade = () =>
+  scene('Lemonade', tumbler('lmd', 84, { w: 84, h: 126, liquid: ['#FBEF9A', '#F3D54A'], straw: '#E5484D', slice: LEMON_SLICE, bubbles: 16, extra: mint(66, 64) }), fruit('lemon', 168, 168, 1.35), fruit('lemon', 198, 176, 0.8));
+
+const fuze = (id, title, { kind, liquid, label, wave }) =>
+  scene(title, bottle(id, 72, { shape: 'pet', liquid, label, wave, cap: wave, icon: fruit(kind, 0, 92, 0.95) }), fruit(kind, 160, 168, 1.5), fruit(kind, 194, 176, 0.9));
+
+const juiceGlass = (id, title, { liquid, slice, straw, beside }) =>
+  scene(title, tumbler(id, 84, { w: 84, h: 126, liquid, slice, straw, ice: false }), beside);
+
+const lifeCarton = (id, title, { kind, front, side }) =>
+  scene(title, carton(76, { front, side, kind }), fruit(kind, 166, 166, 1.5), fruit(kind, 198, 176, 0.9));
+
+const nectarBottle = (id, title, { kind, liquid }) =>
+  scene(title, juiceBottle(id, 76, { liquid, cap: '#C9302C', kind }), fruit(kind, 150, 168, 1.5), fruit(kind, 186, 176, 0.9));
+
+const DROP = '<path d="M0 82C-9 94-11 100-11 105A11 11 0 0 0 11 105C11 100 9 94 0 82Z" fill="#fff" opacity="0.9"/>';
+const water = (id, title, { label, cap, sparkling }) =>
+  scene(title, bottle(id, 70, { shape: 'pet', liquid: ['#E4F3FA', '#B7DDF0'], label, wave: '#fff', cap, icon: DROP, bubbles: sparkling ? 26 : 0 }), tumbler(`${id}g`, 152, { liquid: ['#EAF6FC', '#C5E5F4'], ice: !sparkling, bubbles: sparkling ? 26 : 0, slice: LEMON_SLICE }));
+
+const yogurt = () => {
+  const tub = `<g transform="translate(70 ${FLOOR}) scale(1.35)">
+    <path d="M-30-72H30L24-6Q23 0 17 0H-17Q-23 0-24-6Z" fill="#F6F1ED" stroke="#D3C9C2" stroke-width="1.5"/>
+    <path d="M-27.5-44H27.5L25.5-22H-25.5Z" fill="#4B8BD6"/>
+    <path d="M-27-32q9-8 18 0t18 0t18 0" fill="none" stroke="#fff" stroke-width="3"/>
+    <ellipse cx="0" cy="-72" rx="30" ry="6" fill="#DADFE4" stroke="#B7C0C8" stroke-width="1.2"/>
+    <ellipse cx="0" cy="-72" rx="24" ry="4" fill="#F4F6F8"/>
+    <path d="M-22-64L-19-18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  </g>`;
+  return scene('Yogurt', tub, tumbler('yg', 152, { liquid: ['#FFFFFF', '#F0E9DC'], ice: false, extra: '<path d="M136 112q10-6 20 0t10 0" fill="none" stroke="#E9DFC9" stroke-width="3" stroke-linecap="round"/>' }));
+};
+
+const guarana = () =>
+  scene('Guarana drink', can('gu', 78, { body: '#C2272D', edge: '#7A1218', art: `${seed(0, 52)}${seed(-4, 92)}${seed(6, 122)}` }), tumbler('gug', 156, { liquid: ['#F0B35A', '#C97A1E'], bubbles: 18 }), seed(200, 176));
+
+const energy = () =>
+  scene('Energy drink', can('en', 78, { body: '#1B2E66', edge: '#0B1636', art: '<path d="M6 36L-12 86H-1L-7 126L15 72H4Z" fill="#36D1F0"/><path d="M-22 134q11-8 22 0t22 0" fill="none" stroke="#36D1F0" stroke-width="4"/>' }), tumbler('eng', 156, { liquid: ['#6FE3F5', '#2F9FE0'], bubbles: 18 }), '<path d="M204 150L192 176H199L195 190L210 168H203Z" fill="#36D1F0"/>');
 /** [item id, svg document] for every menu picture. */
 export function menuPictures() {
   return withDetail(0, () => [
@@ -568,5 +744,35 @@ export function menuPictures() {
     ['cappuccino-with-chocolate', cappuccinoChocolate()],
     ['mocaccino', mocaccino()],
     ['nesquik', nesquik()],
+    ['coca-cola', cola()],
+    ['coca-cola-zero', colaZero()],
+    ['sprite', lemonLime()],
+    ['fanta', orangeSoda()],
+    ['fanta-orange', orangeSodaSlice()],
+    ['schweppes-bitter', bitter()],
+    ['next-lemonade', lemonade()],
+    ['fuze-peach', fuze('fzp', 'Peach iced tea', { kind: 'peach', liquid: ['#F8B777', '#E8742C'], label: '#FFE2C2', wave: '#F8A25C' })],
+    ['fuze-forest-fruits', fuze('fzf', 'Forest fruits iced tea', { kind: 'berries', liquid: ['#9B3B7A', '#4B1236'], label: '#E6D5EE', wave: '#7A2C6E' })],
+    ['fuze-lemon', fuze('fzl', 'Lemon iced tea', { kind: 'lemon', liquid: ['#F8E27A', '#E6B91C'], label: '#FFF6B8', wave: '#E6B91C' })],
+    ['joy-orange', juiceGlass('jo', 'Orange juice drink', { liquid: ['#FFB23A', '#FF8A00'], slice: ORANGE_SLICE, straw: '#E5484D', beside: `${fruit('orange', 168, 168, 1.35)}${fruit('orange', 198, 176, 0.8)}` })],
+    ['joy-multivitamin', juiceGlass('jm', 'Multivitamin juice drink', { liquid: ['#FFC94A', '#F28C1E'], slice: ORANGE_SLICE, straw: '#E5484D', beside: `${fruit('orange', 152, 170, 1.15)}${fruit('apple', 182, 172, 1)}${fruit('lemon', 202, 178, 0.75)}` })],
+    ['joy-elderflower', juiceGlass('je', 'Elderflower drink', { liquid: ['#F7F3C8', '#E6DE8E'], slice: LEMON_SLICE, straw: '#E5484D', beside: `${fruit('flower', 156, 160, 1.5)}${fruit('flower', 190, 172, 1.1)}${fruit('flower', 200, 142, 0.8)}` })],
+    ['life-apple', lifeCarton('lia', 'Apple juice', { kind: 'apple', front: '#6FBF4A', side: '#4F9A34' })],
+    ['life-peach', lifeCarton('lip', 'Peach juice', { kind: 'peach', front: '#F8A25C', side: '#D9743A' })],
+    ['life-blueberry', lifeCarton('lib', 'Blueberry juice', { kind: 'blueberry', front: '#4B5FB0', side: '#34447F' })],
+    ['life-orange', lifeCarton('lio', 'Orange juice', { kind: 'orange', front: '#FF9A1F', side: '#D9700A' })],
+    ['life-strawberry', lifeCarton('lis', 'Strawberry juice', { kind: 'strawberry', front: '#E0243C', side: '#A11427' })],
+    ['nectar-apple', nectarBottle('nea', 'Apple nectar', { kind: 'apple', liquid: ['#F2D86A', '#D9AE2C'] })],
+    ['nectar-peach', nectarBottle('nep', 'Peach nectar', { kind: 'peach', liquid: ['#F8B777', '#E8742C'] })],
+    ['nectar-blueberry', nectarBottle('neb', 'Blueberry nectar', { kind: 'blueberry', liquid: ['#6B5AA8', '#34286B'] })],
+    ['nectar-orange', nectarBottle('neo', 'Orange nectar', { kind: 'orange', liquid: ['#FFB23A', '#FF8A00'] })],
+    ['nectar-strawberry', nectarBottle('nes', 'Strawberry nectar', { kind: 'strawberry', liquid: ['#F0546A', '#B01E3E'] })],
+    ['knjaz-milos', water('kmw', 'Still mineral water', { label: '#1C8A4A', cap: '#1C8A4A' })],
+    ['rosa', water('rsw2', 'Still water', { label: '#E5527A', cap: '#2D6FD4' })],
+    ['rosa-sparkling-water', water('rsp', 'Sparkling water', { label: '#8E2F6B', cap: '#8E2F6B', sparkling: true })],
+    ['aqua-viva', water('avw', 'Spring water', { label: '#2D6FD4', cap: '#2D6FD4' })],
+    ['yogurt', yogurt()],
+    ['guarana', guarana()],
+    ['ultra-energy', energy()],
   ]);
 }

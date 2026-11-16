@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-label="Blueberry juice">
+  <title>Blueberry juice</title>
+  <defs></defs>
+  <g transform="translate(76 18)">
+    <path d="M12 62L34 54V158L12 168Z" fill="#34447F"/>
+    <rect x="-30" y="62" width="42" height="106" fill="#4B5FB0"/>
+    <path d="M-30 148q10-9 21 0t21 0V168H-30Z" fill="#fff" fill-opacity="0.85"/>
+    <circle cx="-9" cy="104" r="19" fill="#fff"/>
+    <g transform="translate(-9 104) scale(1.05)"><g fill="#3E5FA8" stroke="#243F7C" stroke-width="1.4"><circle cx="-8" cy="4" r="9"/><circle cx="8" cy="4" r="9"/><circle cx="0" cy="-8" r="9"/></g><circle cx="-10" cy="1" r="2" fill="#fff" opacity="0.4"/></g>
+    <path d="M-27 66V144" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+    <path d="M-30 62L-8 54H34L12 62Z" fill="#F7F3EE"/>
+    <path d="M-8 54L-5 49H30L34 54Z" fill="#fff" stroke="#D9D2CC" stroke-width="1"/>
+    <path d="M16 58L36 12H50" fill="none" stroke="#E5484D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g><g transform="translate(166 166) scale(1.5)"><g fill="#3E5FA8" stroke="#243F7C" stroke-width="1.4"><circle cx="-8" cy="4" r="9"/><circle cx="8" cy="4" r="9"/><circle cx="0" cy="-8" r="9"/></g><circle cx="-10" cy="1" r="2" fill="#fff" opacity="0.4"/></g><g transform="translate(198 176) scale(0.9)"><g fill="#3E5FA8" stroke="#243F7C" stroke-width="1.4"><circle cx="-8" cy="4" r="9"/><circle cx="8" cy="4" r="9"/><circle cx="0" cy="-8" r="9"/></g><circle cx="-10" cy="1" r="2" fill="#fff" opacity="0.4"/></g>
+</svg>

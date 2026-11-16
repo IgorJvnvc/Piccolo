@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-label="Peach iced tea">
+  <title>Peach iced tea</title>
+  <defs><linearGradient id="fzp-liq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8B777"/><stop offset="1" stop-color="#E8742C"/></linearGradient><clipPath id="fzp-c"><path d="M-7.5 12H7.5V28C7.5 38 24 42 24 58V154Q24 168 12 168H-12Q-24 168 -24 154V58C-24 42 -7.5 38 -7.5 28Z"/></clipPath></defs>
+  <g transform="translate(72 18)">
+    <path d="M-7.5 12H7.5V28C7.5 38 24 42 24 58V154Q24 168 12 168H-12Q-24 168 -24 154V58C-24 42 -7.5 38 -7.5 28Z" fill="#EAF2F6" fill-opacity="0.6"/>
+    <g clip-path="url(#fzp-c)">
+      <rect x="-30" y="32" width="60" height="140" fill="url(#fzp-liq)"/>
+      <ellipse cx="0" cy="32" rx="9" ry="2.4" fill="#fff" opacity="0.3"/>
+      
+      <rect x="-30" y="74" width="60" height="48" fill="#FFE2C2"/>
+      <path d="M-30 112.4q15-12 30 0t30 0" fill="none" stroke="#F8A25C" stroke-width="5"/>
+      <g transform="translate(0 92) scale(0.95)"><circle r="16" fill="#F8A25C" stroke="#D9743A" stroke-width="1.5"/><path d="M0-15Q-8 0 0 15" fill="none" stroke="#D9743A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/></g>
+    </g>
+    <path d="M-7.5 12H7.5V28C7.5 38 24 42 24 58V154Q24 168 12 168H-12Q-24 168 -24 154V58C-24 42 -7.5 38 -7.5 28Z" fill="none" stroke="#9FB0BA" stroke-width="1.6"/>
+    <path d="M-17 78V118M-4 18V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+    <rect x="-8.5" y="0" width="17" height="13" rx="3" fill="#F8A25C" stroke="#00000022" stroke-width="1"/>
+  </g><g transform="translate(160 168) scale(1.5)"><circle r="16" fill="#F8A25C" stroke="#D9743A" stroke-width="1.5"/><path d="M0-15Q-8 0 0 15" fill="none" stroke="#D9743A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/></g><g transform="translate(194 176) scale(0.9)"><circle r="16" fill="#F8A25C" stroke="#D9743A" stroke-width="1.5"/><path d="M0-15Q-8 0 0 15" fill="none" stroke="#D9743A" stroke-width="1.5"/><path d="M1-15q8-8 15-3q-5 8-15 3Z" fill="#5FB041"/><ellipse cx="-7" cy="-5" rx="3" ry="5" fill="#fff" opacity="0.4"/></g>
+</svg>

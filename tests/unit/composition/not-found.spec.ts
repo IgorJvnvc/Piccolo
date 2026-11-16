@@ -23,7 +23,7 @@ const items: MenuItem[] = [
     description: 'Tomato, mozzarella, basil.',
     price: { minor: 850, currency: 'EUR' },
     sizes: [],
-    imageKey: 'food/pizza',
+    imageKey: 'menu/pizza-slice',
     allergens: [],
     tags: [],
     popular: true,

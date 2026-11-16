@@ -42,7 +42,7 @@ On Windows PowerShell use `npm.cmd` / `npx.cmd` if script execution policy block
 | You want to... | Do this |
 | --- | --- |
 | Change copy, hours, links, menu | Edit `src/content/*.json` (validated at build time) |
-| Add a menu item | Append to `src/content/menu/items.json`; `image` must have a file under `src/assets` |
+| Add a menu item | Append to `src/content/menu/items.json`; `image` must have a file under `src/assets`: add its drawing to `scripts/art/menu.mjs` and run `npm run art` ([ADR 0015](docs/adr/0015-one-picture-for-every-product.md)) |
 | Add a section | `src/sections/<name>/` (`.astro`, `.module.css`, `.hooks.ts`, `types.ts`, `index.ts`); props in `composition/home.ts`; add to `pages/index.astro` |
 | Animate a section on scroll | `<name>.scene.ts` default-exporting `defineScene({ id, selector, start, build })`; `build` gets the scene's `timeline`, `fadeUp`, `px`. Numbers (eases, durations, travel in rem) come from `shared/motion/tokens.ts` |
 | Add interaction (not UI state) | `*.behavior.ts` in the owning feature |

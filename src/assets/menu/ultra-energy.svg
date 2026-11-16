@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" width="220" height="200" role="img" aria-label="Energy drink">
+  <title>Energy drink</title>
+  <defs><linearGradient id="en-can" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0B1636"/><stop offset="0.3" stop-color="#1B2E66"/><stop offset="0.7" stop-color="#1B2E66"/><stop offset="1" stop-color="#0B1636"/></linearGradient><linearGradient id="eng-liq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6FE3F5"/><stop offset="1" stop-color="#2F9FE0"/></linearGradient><linearGradient id="eng-gl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.85"/><stop offset="0.5" stop-color="#EAF2F6" stop-opacity="0.4"/><stop offset="1" stop-color="#CFDDE6" stop-opacity="0.7"/></linearGradient></defs>
+  <g transform="translate(78 36)">
+    <path d="M-22 12Q-22 6 -15 4H15Q22 6 22 12V138Q22 146 14 148H-14Q-22 146 -22 138Z" fill="url(#en-can)"/>
+    <ellipse cx="0" cy="4" rx="15" ry="3.6" fill="#D5D9DE" stroke="#A7AEB6" stroke-width="1"/>
+    <ellipse cx="0" cy="3.4" rx="5" ry="1.6" fill="#B8BEC5"/>
+    <path d="M6 36L-12 86H-1L-7 126L15 72H4Z" fill="#36D1F0"/><path d="M-22 134q11-8 22 0t22 0" fill="none" stroke="#36D1F0" stroke-width="4"/>
+    <path d="M-16 24V128" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+  </g>
+    <path d="M127 100L134.54 180Q135.54 186 141.54 186H170.46Q176.46 186 177.46 180L185 100Z" fill="url(#eng-gl)"/>
+    <path d="M129.5 112L136.54 179Q137.54 183 142.54 183H169.46Q174.46 183 175.46 179L182.5 112Z" fill="url(#eng-liq)"/>
+    <ellipse cx="156" cy="112" rx="26" ry="4.5" fill="#6FE3F5"/><ellipse cx="156" cy="112" rx="26" ry="4.5" fill="#fff" opacity="0.28"/>
+    <rect x="138.6" y="117" width="14" height="14" rx="3" transform="rotate(-14 145.6 124)" fill="#fff" fill-opacity="0.45" stroke="#fff" stroke-opacity="0.85" stroke-width="1.2"/><rect x="157.1" y="113" width="14" height="14" rx="3" transform="rotate(12 164.1 120)" fill="#fff" fill-opacity="0.45" stroke="#fff" stroke-opacity="0.85" stroke-width="1.2"/><rect x="147.8" y="135" width="14" height="14" rx="3" transform="rotate(6 154.8 142)" fill="#fff" fill-opacity="0.45" stroke="#fff" stroke-opacity="0.85" stroke-width="1.2"/>
+    <circle cx="160.3" cy="150.4" r="1.5" fill="#fff" opacity="0.7"/><circle cx="170.4" cy="146.8" r="1.5" fill="#fff" opacity="0.7"/><circle cx="145" cy="147.7" r="1.5" fill="#fff" opacity="0.7"/><circle cx="147.7" cy="152.5" r="1.5" fill="#fff" opacity="0.7"/><circle cx="142" cy="142.6" r="1.5" fill="#fff" opacity="0.7"/><circle cx="155.7" cy="160.1" r="1.5" fill="#fff" opacity="0.7"/><circle cx="157.1" cy="131.4" r="1.5" fill="#fff" opacity="0.7"/><circle cx="159.4" cy="164.7" r="1.5" fill="#fff" opacity="0.7"/><circle cx="152.6" cy="168.1" r="1.5" fill="#fff" opacity="0.7"/><circle cx="151.1" cy="174.3" r="1.5" fill="#fff" opacity="0.7"/><circle cx="156.3" cy="174" r="1.5" fill="#fff" opacity="0.7"/><circle cx="158.4" cy="159" r="1.5" fill="#fff" opacity="0.7"/><circle cx="161.3" cy="161.4" r="1.5" fill="#fff" opacity="0.7"/><circle cx="141.5" cy="143.2" r="1.5" fill="#fff" opacity="0.7"/><circle cx="170.8" cy="161" r="1.5" fill="#fff" opacity="0.7"/><circle cx="143.1" cy="143.1" r="1.5" fill="#fff" opacity="0.7"/><circle cx="148.7" cy="126.9" r="1.5" fill="#fff" opacity="0.7"/><circle cx="144.1" cy="132.4" r="1.5" fill="#fff" opacity="0.7"/>
+    
+    <path d="M127 100L134.54 180Q135.54 186 141.54 186H170.46Q176.46 186 177.46 180L185 100Z" fill="none" stroke="#B7C6CF" stroke-width="2"/>
+    <ellipse cx="156" cy="100" rx="29" ry="5" fill="#F6FAFC" fill-opacity="0.5" stroke="#B7C6CF" stroke-width="2"/>
+    <path d="M134 114L140.5 172" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.65"/>
+    <path d="M204 150L192 176H199L195 190L210 168H203Z" fill="#36D1F0"/>
+</svg>
