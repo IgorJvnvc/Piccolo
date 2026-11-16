@@ -60,9 +60,11 @@ beforeEach(() => {
   fixture = mount();
 });
 
-afterEach(() => {
+afterEach(async () => {
   document.documentElement.style.fontSize = '';
   document.body.innerHTML = '';
+  // The real ticker asks for a frame in a callback of its own; once happy-dom is torn down that call fails as an unhandled error.
+  (await loadGsap()).gsap.ticker.sleep();
 });
 
 /** Runs the real scene; returns its (paused, trigger-less) timeline and the gsap it used. */
