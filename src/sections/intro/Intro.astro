@@ -1,4 +1,5 @@
 ---
+import { compactScript } from '@/shared/lib';
 import { Picture } from '@/shared/ui';
 import gate from './intro-gate.inline.js?raw';
 import styles from './intro.module.css';
@@ -7,8 +8,7 @@ import type { IntroProps } from './types';
 type Props = IntroProps;
 
 const { pizza } = Astro.props;
-// The gate ships inline in every page, so its comments stay in the source file and out of the HTML.
-const script = gate.replace(/\/\*[\s\S]*?\*\/|^\s*\/\/.*$/gm, '').replace(/\n\s*\n/g, '\n').trim();
+const script = compactScript(gate);
 // One wedge per slice: the CSS gives each its direction and its place in the stagger.
 const slices = [0, 1, 2, 3, 4, 5];
 ---

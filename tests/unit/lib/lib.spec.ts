@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { formatMoney, nbsp, telHref } from '@/shared/lib/format';
+import { compactScript } from '@/shared/lib/inline';
 
 describe('formatMoney', () => {
   it('formats integer cents with two decimals', () => {
@@ -25,5 +26,12 @@ describe('nbsp', () => {
 
   it('does not change the tel: link built from the same number', () => {
     expect(telHref(nbsp('+00 000 000 0000'))).toBe('tel:+000000000000');
+  });
+});
+
+describe('compactScript', () => {
+  it('drops block comments, whole-line comments and blank lines, and keeps the code and a // that follows code', () => {
+    const source = '/*\n * header\n */\n(function () {\n  // a note\n  var a = 1;\n\n  var url = "http://x"; // trailing\n})();\n';
+    expect(compactScript(source)).toBe('(function () {\n  var a = 1;\n  var url = "http://x"; // trailing\n})();');
   });
 });

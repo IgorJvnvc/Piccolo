@@ -18,6 +18,7 @@
   --c-surface: #fefefe;
   --c-ink: #232124;
   --c-body: #6a686f; /* >= 4.5:1 on the page and on the peach glow */
+  --c-lead: #4d4a52; /* the hero's lead paragraph, a step darker than the body: 8.3:1 on the page, 7.4:1 on the peach glow */
   --c-faint: #b4b1b3;
   --c-line: #efe9eb;
   --c-dark: #271b25;
@@ -32,10 +33,12 @@
   --c-halo-cream: rgb(241 232 228 / 0.5); /* soft halo around light pills on dark cards */
   --c-ok-halo: rgb(31 157 85 / 0.18); /* "open now" status dot halo */
 
-  /* peach glow steps (hero + about backgrounds) */
+  /* peach glow steps (hero + about backgrounds); -0 is the deeper core of the hero's pool of light */
+  --c-glow-0: #fdd9c5;
   --c-glow-1: rgb(254 235 226 / 1);
   --c-glow-2: rgb(254 235 226 / 0.55);
   --c-glow-3: rgb(254 235 226 / 0);
+  --c-bg-clear: rgb(253 250 251 / 0); /* the page colour at 0%: a fade into the page needs its own transparent (plain "transparent" greys on older Safari) */
 
   /* radii */
   --r-sm: 0.5rem;

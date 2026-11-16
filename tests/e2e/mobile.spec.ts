@@ -7,6 +7,12 @@ test.describe('phone and tablet', () => {
     await expect(page.locator('html')).toHaveAttribute('data-pointer', 'coarse');
   });
 
+  test('the dock already holds Call and Directions, so the hero keeps its desktop-only extras hidden', async ({ page }) => {
+    await ready(page);
+    await expect(page.locator('[data-enhance="hero"] a[href^="tel:"]')).toBeHidden();
+    await expect(page.locator('[data-enhance="hero"] ul')).toBeHidden();
+  });
+
   test('mobile menu opens as a dialog, navigates and closes', async ({ page }) => {
     await ready(page);
     await hydrated(page, 'MobileNav');

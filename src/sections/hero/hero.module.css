@@ -20,7 +20,10 @@
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(56rem 40rem at 74% 10%, var(--c-glow-1) 0%, var(--c-glow-2) 42%, var(--c-glow-3) 76%),
+    /* the page colour is back by the bottom edge, so the section below starts on a clean seam */
+    linear-gradient(180deg, var(--c-bg-clear) 64%, var(--c-bg) 100%),
+    /* a pool of warm light behind the art */
+    radial-gradient(48rem 38rem at 77% 48%, var(--c-glow-0) 0%, var(--c-glow-1) 34%, var(--c-glow-2) 62%, var(--c-glow-3) 88%),
     linear-gradient(180deg, var(--c-surface) 0%, var(--c-bg) 100%);
 }
 
@@ -70,11 +73,11 @@
 }
 
 .text {
-  max-width: 24.5rem;
-  margin-top: 1.34rem;
-  font-size: 0.875rem;
-  line-height: 1.75;
-  color: var(--c-body);
+  max-width: 27rem;
+  margin-top: 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--c-lead);
   animation: fade-in 0.5s var(--ease-soft) calc(var(--intro-wait) + 0.5s) both;
 }
 
@@ -83,8 +86,67 @@
 }
 
 .cta {
-  margin-top: 1.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
   animation: rise-in 0.5s var(--ease-out) calc(var(--intro-wait) + 0.65s) both;
+}
+
+/* ---------- info row: the hard facts along the bottom of the first screen ---------- */
+.info {
+  position: absolute;
+  inset: auto 0 2.25rem;
+  z-index: var(--z-hero-copy);
+  animation: fade-in 0.6s var(--ease-soft) calc(var(--intro-wait) + 1.3s) both;
+}
+
+.facts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--c-ink);
+  border-top: 0.0625rem solid var(--c-line);
+}
+
+/* The status chip brings its own caption size; here it reads at the row's size. */
+.facts [data-part='open-status'] {
+  font-size: inherit;
+}
+
+.fact {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.factIcon {
+  flex: none;
+  font-size: 1.25rem;
+  color: var(--c-accent-text);
+}
+
+.factLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 600;
+  color: var(--c-accent-text);
+}
+
+.factLink svg {
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .factLink:hover svg {
+    transform: translate(0.125rem, -0.125rem);
+  }
 }
 
 /* ---------- art stage: 680 x 620 artboard px, children in % so it scales as one piece ---------- */
@@ -166,7 +228,7 @@
 /* ---------- scroll indicator: dark knob inside a slowly rotating text ring ---------- */
 .scroll {
   position: absolute;
-  top: 55.3%;
+  top: 64%;
   left: 42.3%;
   z-index: var(--z-hero-copy);
   display: grid;
@@ -236,6 +298,23 @@
     order: 1;
   }
 
+  /* Stacked: the pool of light sits behind the headline, not behind an art stage that is no longer beside it. */
+  .glow {
+    background:
+      radial-gradient(56rem 40rem at 74% 10%, var(--c-glow-1) 0%, var(--c-glow-2) 42%, var(--c-glow-3) 76%),
+      linear-gradient(180deg, var(--c-surface) 0%, var(--c-bg) 100%);
+  }
+
+  .text {
+    font-size: 1rem;
+  }
+
+  /* The dock holds these actions on a phone and a tablet. */
+  .call,
+  .info {
+    display: none;
+  }
+
   .art {
     order: 2;
     position: relative;
@@ -257,8 +336,8 @@
   }
 
   .text {
-    font-size: 1rem;
-    max-width: 30rem;
+    font-size: 1.125rem;
+    max-width: 32rem;
   }
 }
 

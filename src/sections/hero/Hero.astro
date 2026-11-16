@@ -1,13 +1,13 @@
 ---
 import { enhanceAttr } from '@/shared/lib';
-import { Button, Container, Icon, Picture, VisuallyHidden } from '@/shared/ui';
+import { Button, Container, Icon, OpenStatus, Picture, VisuallyHidden } from '@/shared/ui';
 import { HERO } from './hero.hooks';
 import styles from './hero.module.css';
 import type { HeroProps } from './types';
 
 type Props = HeroProps;
 
-const { title, text, cta, scrollLabel, scrollHref, art } = Astro.props;
+const { title, text, cta, call, info, scrollLabel, scrollHref, art } = Astro.props;
 const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
 ---
 
@@ -35,9 +35,31 @@ const ringText = `${scrollLabel.toUpperCase()} • `.repeat(2);
       <p class={styles.text}>{text}</p>
       <div class={styles.cta}>
         <Button class={styles.button} href={cta.href} label={cta.label} icon="arrow-right" />
+        <Button class={styles.call} href={call.href} label={call.label} icon="phone" variant="ghost" />
       </div>
     </div>
   </Container>
+
+  <!-- Hard facts under the copy, from the same site data as the Visit section. A phone has the dock, so this row is desktop only. -->
+  <div class={styles.info}>
+    <Container>
+      <ul class={styles.facts}>
+        <li>
+          <OpenStatus hours={info.hours} label={info.openLabel} detail />
+        </li>
+        <li class={styles.fact}>
+          <Icon name="pin" class={styles.factIcon} />
+          <span>{info.address}</span>
+        </li>
+        <li>
+          <a class={styles.factLink} href={info.mapUrl} target="_blank" rel="noopener noreferrer">
+            <span>{info.directionsLabel}</span>
+            <Icon name="arrow-up-right" />
+          </a>
+        </li>
+      </ul>
+    </Container>
+  </div>
 
   <a class={styles.scroll} href={scrollHref}>
     <VisuallyHidden text={scrollLabel} />

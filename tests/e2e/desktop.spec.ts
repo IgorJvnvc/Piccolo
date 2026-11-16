@@ -44,6 +44,16 @@ test.describe('desktop', () => {
     await expect(page.getByRole('group', { name: 'Quick actions' })).toBeHidden();
   });
 
+  test('the hero offers Call us and a row of facts (status, address, directions) filled in from the site data', async ({ page }) => {
+    await ready(page);
+    const hero = page.locator('[data-enhance="hero"]');
+    await expect(hero.getByRole('link', { name: 'Call us' })).toHaveAttribute('href', /^tel:\+?\d+$/);
+    const facts = hero.getByRole('list');
+    await expect(facts.getByText('123 Placeholder Street, Your City, 00000')).toBeVisible();
+    await expect(facts.getByRole('link', { name: 'Get directions' })).toHaveAttribute('href', /^https:\/\/.*maps/);
+    await expect(facts.locator('[data-part="open-status"]')).toHaveAttribute('data-open', /^(true|false)$/); // the status behavior reached it
+  });
+
   test('the logo goes back to the top and takes keyboard focus with it', async ({ page }) => {
     await ready(page);
     await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }));
