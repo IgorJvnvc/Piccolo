@@ -6,8 +6,7 @@ import { Icon, type IconName } from './Icon';
 export interface ButtonProps {
   readonly label: string;
   readonly href?: string;
-  readonly variant?: 'primary' | 'soft' | 'ghost';
-  readonly size?: 'md' | 'lg';
+  readonly variant?: 'primary' | 'ghost';
   readonly icon?: IconName;
   readonly type?: 'button' | 'submit';
   readonly external?: boolean;
@@ -21,7 +20,6 @@ export function Button({
   label,
   href,
   variant = 'primary',
-  size = 'md',
   icon,
   type = 'button',
   external = false,
@@ -29,7 +27,7 @@ export function Button({
   data,
   onClick,
 }: ButtonProps) {
-  const classes = cn(styles.root, styles[variant], size === 'lg' && styles.lg, className);
+  const classes = cn(styles.root, styles[variant], className);
   const content = (
     <>
       <span>{label}</span>

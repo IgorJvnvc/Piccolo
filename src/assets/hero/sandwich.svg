@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 226" width="280" height="226" role="img" aria-label="Toasted club sandwich">
+  <title>Toasted club sandwich</title>
+  <defs>
+    <linearGradient id="sw-bread" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4CE92"/><stop offset="1" stop-color="#D39A4E"/></linearGradient>
+    <linearGradient id="sw-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9DBA0"/><stop offset="0.55" stop-color="#E3AE60"/><stop offset="1" stop-color="#C98A3E"/></linearGradient>
+    <linearGradient id="sw-ham" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9B6B8"/><stop offset="1" stop-color="#E5808A"/></linearGradient>
+    <linearGradient id="sw-cheese" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE878"/><stop offset="1" stop-color="#F2B31F"/></linearGradient>
+    <radialGradient id="sw-tom" cx="0.4" cy="0.35" r="0.8"><stop offset="0" stop-color="#F4624C"/><stop offset="1" stop-color="#CC2E1E"/></radialGradient>
+    <radialGradient id="sw-olive" cx="0.38" cy="0.35" r="0.75"><stop offset="0" stop-color="#9DB043"/><stop offset="1" stop-color="#566622"/></radialGradient>
+    <clipPath id="sw-topclip"><path d="M18 126V112Q18 62 140 62Q262 62 262 112V126Z"/></clipPath>
+    <clipPath id="sw-botclip"><path d="M20 180H260V192Q260 206 246 206H34Q20 206 20 192Z"/></clipPath></defs>
+  
+    
+    <path d="M20 180H260V192Q260 206 246 206H34Q20 206 20 192Z" fill="url(#sw-bread)"/>
+    <g clip-path="url(#sw-botclip)">
+      <g fill="#A9692A" opacity="0.3"><circle cx="221.4" cy="194.2" r="1.1"/><circle cx="149.6" cy="201" r="1"/><circle cx="236.1" cy="192.9" r="0.7"/><circle cx="188.6" cy="200.6" r="0.9"/><circle cx="103.2" cy="203.1" r="1"/><circle cx="73.3" cy="189.3" r="1.2"/><circle cx="211.8" cy="190.2" r="0.9"/><circle cx="149.4" cy="188.3" r="1"/><circle cx="59" cy="193.6" r="0.9"/><circle cx="32.7" cy="201" r="0.8"/><circle cx="31.2" cy="197.3" r="1"/><circle cx="139.6" cy="199.1" r="0.9"/><circle cx="190.7" cy="193.2" r="1.1"/><circle cx="65.5" cy="187.8" r="1.2"/><circle cx="149.9" cy="189.3" r="1.3"/></g>
+      <rect x="20" y="197" width="240" height="10" fill="#8C531C" opacity="0.25"/>
+    </g>
+    <path d="M20 180H260V185H20Z" fill="#B3732B" opacity="0.35"/>
+    <path d="M14 162H266V178q-12 12-24 0t-24 0t-24 0t-24 0t-24 0t-24 0t-24 0t-24 0t-24 0t-24 0t-24 0Z" fill="url(#sw-ham)"/>
+    <path d="M18 170H262" stroke="#fff" stroke-width="2" opacity="0.28"/>
+    <path d="M12 152q10 -22 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="none" stroke="#3E8A2E" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 150q10 -22 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="none" stroke="#5FB041" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 145q10 -22 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="none" stroke="#A5E07A" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+    
+    <ellipse cx="68" cy="143" rx="28" ry="9.5" fill="url(#sw-tom)" stroke="#B02818" stroke-width="1.2"/>
+    <ellipse cx="68" cy="141" rx="20.2" ry="4.8" fill="#F47866" opacity="0.7"/>
+    <g fill="#FFD9A0" opacity="0.8"><circle cx="59.1" cy="142.5" r="1"/><circle cx="57.6" cy="143.6" r="0.9"/><circle cx="67.2" cy="143.9" r="1.3"/></g>
+    <ellipse cx="140" cy="146" rx="30" ry="10" fill="url(#sw-tom)" stroke="#B02818" stroke-width="1.2"/>
+    <ellipse cx="140" cy="144" rx="21.6" ry="5" fill="#F47866" opacity="0.7"/>
+    <g fill="#FFD9A0" opacity="0.8"><circle cx="132.3" cy="145" r="1"/><circle cx="148.9" cy="148.3" r="1.1"/><circle cx="128.6" cy="146.8" r="1.2"/></g>
+    <ellipse cx="212" cy="143" rx="28" ry="9.5" fill="url(#sw-tom)" stroke="#B02818" stroke-width="1.2"/>
+    <ellipse cx="212" cy="141" rx="20.2" ry="4.8" fill="#F47866" opacity="0.7"/>
+    <g fill="#FFD9A0" opacity="0.8"><circle cx="201" cy="146.7" r="0.8"/><circle cx="223.7" cy="142.5" r="1.1"/><circle cx="201.3" cy="146.5" r="1.1"/></g>
+    <rect x="26" y="134" width="228" height="8" fill="#5B1209" opacity="0.2"/>
+    <path d="M24 124H256V136H170L158 156L146 136H24Z" fill="url(#sw-cheese)"/>
+    <path d="M24 124H256V128H24Z" fill="#fff" opacity="0.3"/>
+    <path d="M24 136H146L158 156L170 136H256" fill="none" stroke="#C98A0E" stroke-width="1.4" opacity="0.5"/>
+    <path d="M18 126V112Q18 62 140 62Q262 62 262 112V126Z" fill="url(#sw-top)"/>
+    <g clip-path="url(#sw-topclip)">
+      <g fill="#8A5522" opacity="0.32"><circle cx="171.1" cy="69.8" r="1.2"/><circle cx="150.7" cy="94" r="1.3"/><circle cx="181.7" cy="99.8" r="0.8"/><circle cx="155.3" cy="71.3" r="0.9"/><circle cx="105.2" cy="77.2" r="1.2"/><circle cx="134.9" cy="111.8" r="1"/><circle cx="189.5" cy="102.7" r="1.4"/><circle cx="45" cy="97.2" r="1.5"/><circle cx="207.2" cy="102.1" r="1.3"/><circle cx="24.9" cy="112.2" r="1.6"/><circle cx="73.8" cy="65.9" r="1.1"/><circle cx="54" cy="64.7" r="1.1"/><circle cx="162.9" cy="76.3" r="1.1"/><circle cx="156.6" cy="104" r="1.2"/><circle cx="45.1" cy="79.9" r="1"/><circle cx="235" cy="84.4" r="1.4"/><circle cx="88.5" cy="83.4" r="1.5"/><circle cx="27.5" cy="102.7" r="1.2"/><circle cx="88.5" cy="94.6" r="1.5"/><circle cx="243.8" cy="90.1" r="1.4"/><circle cx="71.2" cy="66.3" r="0.9"/></g>
+      <rect x="18" y="114" width="244" height="12" fill="#7A4318" opacity="0.2"/>
+    </g>
+    <g fill="none" stroke-linecap="round">
+      <g stroke="#7A4A1E" stroke-width="6" opacity="0.5"><path d="M72 84 90 114"/><path d="M110 74 128 114"/><path d="M150 72 168 114"/><path d="M190 76 208 114"/><path d="M226 90 238 114"/></g>
+      <g stroke="#E2B06A" stroke-width="1.6" opacity="0.7" transform="translate(-1.6 -0.4)"><path d="M72 84 90 114"/><path d="M110 74 128 114"/><path d="M150 72 168 114"/><path d="M190 76 208 114"/><path d="M226 90 238 114"/></g>
+    </g>
+    <path d="M40 92Q90 66 150 66" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+    <line x1="140" y1="64" x2="140" y2="16" stroke="#E9CD90" stroke-width="3" stroke-linecap="round"/>
+    <line x1="141.2" y1="64" x2="141.2" y2="18" stroke="#B88B45" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+    <ellipse cx="140" cy="20" rx="11" ry="9" fill="url(#sw-olive)"/>
+    <circle cx="140" cy="20" r="3.5" fill="#D6402E"/>
+    <ellipse cx="135.6" cy="16" rx="3.4" ry="1.8" transform="rotate(-25 135.6 16)" fill="#fff" opacity="0.5"/>
+</svg>

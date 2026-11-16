@@ -1,4 +1,4 @@
-import { expect, hydrated, ready, test } from './fixtures';
+import { expect, hydrated, ready, settled, test } from './fixtures';
 
 test.describe('phone and tablet', () => {
   test('touch devices keep native scrolling (no smooth-scroll library)', async ({ page }) => {
@@ -7,10 +7,12 @@ test.describe('phone and tablet', () => {
     await expect(page.locator('html')).toHaveAttribute('data-pointer', 'coarse');
   });
 
-  test('the dock already holds Call and Directions, so the hero keeps its desktop-only extras hidden', async ({ page }) => {
+  test('the dock already holds Call and Directions, so the hero keeps its desktop-only extras hidden and the pointer parallax off', async ({ page }) => {
     await ready(page);
+    await settled(page);
     await expect(page.locator('[data-enhance="hero"] a[href^="tel:"]')).toBeHidden();
     await expect(page.locator('[data-enhance="hero"] ul')).toBeHidden();
+    await expect(page.locator('[data-enhance="hero"]')).not.toHaveAttribute('data-parallax', '');
   });
 
   test('mobile menu opens as a dialog, navigates and closes', async ({ page }) => {

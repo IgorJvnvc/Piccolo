@@ -26,10 +26,29 @@ function seeded(seed) {
 
 const n1 = (value) => Number(value.toFixed(1));
 
+/**
+ * Texture is a budget. Every speck is a vector element the browser has to paint, and painting an art layer is what stalls the first
+ * frame of the scene that reveals it (ADR 0009), so the counts below are asked for in a generous "amount of grain" and scaled down.
+ * Blur filters are avoided for the same reason: each one is an off-screen pass. Soft shade is a gradient or a faint, wider stroke.
+ */
+let detail = 0.45;
+const scaled = (count) => (detail === 0 ? 0 : Math.max(1, Math.round(count * detail)));
+
+/** Runs `build` with another amount of texture (0 for none): art that is decoded at the very moment its scene starts asks for less. */
+export function withDetail(amount, build) {
+  const previous = detail;
+  detail = amount;
+  try {
+    return build();
+  } finally {
+    detail = previous;
+  }
+}
+
 /** `count` round specks in the box [x0, y0, x1, y1]; the caller's group gives them their colour. */
 export function specks(seed, count, [x0, y0, x1, y1], [r0, r1]) {
   const next = seeded(seed);
-  return Array.from({ length: count }, () => {
+  return Array.from({ length: scaled(count) }, () => {
     const x = x0 + next() * (x1 - x0);
     const y = y0 + next() * (y1 - y0);
     return `<circle cx="${n1(x)}" cy="${n1(y)}" r="${n1(r0 + next() * (r1 - r0))}"/>`;
@@ -39,7 +58,7 @@ export function specks(seed, count, [x0, y0, x1, y1], [r0, r1]) {
 /** `count` tilted ovals in a box: browning on cheese, blisters on crust. */
 function blobs(seed, count, [x0, y0, x1, y1], [rx0, rx1], [ry0, ry1]) {
   const next = seeded(seed);
-  return Array.from({ length: count }, () => {
+  return Array.from({ length: scaled(count) }, () => {
     const x = x0 + next() * (x1 - x0);
     const y = y0 + next() * (y1 - y0);
     const rx = rx0 + next() * (rx1 - rx0);
@@ -51,7 +70,7 @@ function blobs(seed, count, [x0, y0, x1, y1], [rx0, rx1], [ry0, ry1]) {
 /** Specks scattered along a quadratic curve, up to `spread` to either side: flour on a crust. */
 function alongCurve(seed, count, [p0, p1, p2], spread, [r0, r1]) {
   const next = seeded(seed);
-  return Array.from({ length: count }, () => {
+  return Array.from({ length: scaled(count) }, () => {
     const t = next();
     const x = (1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * p1[0] + t ** 2 * p2[0];
     const y = (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * p1[1] + t ** 2 * p2[1];
@@ -63,9 +82,6 @@ function alongCurve(seed, count, [p0, p1, p2], spread, [r0, r1]) {
   }).join('');
 }
 
-/** A blur for soft shade. */
-const soft = (id, deviation) =>
-  `<filter id="${id}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="${deviation}"/></filter>`;
 
 /** One pepperoni disc (the caller defines the radial gradient `${id}-pep`): darker rim, fat flecks and a gloss. */
 function pepperoni(id, x, y, r) {
@@ -79,9 +95,9 @@ function pepperoni(id, x, y, r) {
     <ellipse cx="${gx}" cy="${gy}" rx="${n1(r * 0.3)}" ry="${n1(r * 0.16)}" transform="rotate(-32 ${gx} ${gy})" fill="#fff" opacity="0.5"/>`;
 }
 
-/** The blurred shade under a set of pepperoni: one filter pass for all of them. The caller defines `${id}-soft`. */
+/** The shade under a set of pepperoni: each disc's twin, nudged down and to the right. */
 const pepperoniShade = (id, discs) =>
-  `<g filter="url(#${id}-soft)" fill="#5A1A0A" opacity="0.34">${discs
+  `<g fill="#5A1A0A" opacity="0.24">${discs
     .map(([x, y, r]) => `<ellipse cx="${n1(x + r * 0.14)}" cy="${n1(y + r * 0.24)}" rx="${r}" ry="${n1(r * 0.95)}"/>`)
     .join('')}</g>`;
 
@@ -92,8 +108,7 @@ export function pizzaSlice(id) {
     <radialGradient id="${id}-melt" cx="0.42" cy="0.42" r="0.6"><stop offset="0" stop-color="#FFF6C2" stop-opacity="0.5"/><stop offset="1" stop-color="#FFF6C2" stop-opacity="0"/></radialGradient>
     <linearGradient id="${id}-crust" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7D283"/><stop offset="0.5" stop-color="#DDA24A"/><stop offset="1" stop-color="#AE6A22"/></linearGradient>
     <radialGradient id="${id}-pep" cx="0.38" cy="0.34" r="0.78"><stop offset="0" stop-color="#F0704F"/><stop offset="0.65" stop-color="#C93A2B"/><stop offset="1" stop-color="#9A2216"/></radialGradient>
-    <clipPath id="${id}-clip"><path d="M38 214 84 44Q182 16 212 120Z"/></clipPath>
-    ${soft(`${id}-soft`, 2.4)}`;
+    <clipPath id="${id}-clip"><path d="M38 214 84 44Q182 16 212 120Z"/></clipPath>`;
 
   const discs = [[118, 90, 19], [170, 114, 16], [88, 136, 17], [122, 152, 12], [66, 186, 10]];
   const crust = [[86, 34], [190, 6], [222, 118]];
@@ -107,7 +122,7 @@ export function pizzaSlice(id) {
       <rect x="30" y="20" width="200" height="210" fill="url(#${id}-melt)"/>
       <g fill="#D98A1E" opacity="0.38">${blobs(3, 11, [60, 50, 200, 200], [6, 14], [3, 6])}</g>
       <g fill="#FFF3B5" opacity="0.5">${blobs(5, 6, [70, 60, 190, 190], [7, 13], [3, 5])}</g>
-      <path d="M84 44Q182 16 212 120" fill="none" stroke="#A9620F" stroke-width="13" opacity="0.3" filter="url(#${id}-soft)"/>
+      <path d="M84 44Q182 16 212 120" fill="none" stroke="#A9620F" stroke-width="13" opacity="0.18"/>
       <g fill="#B8681A" opacity="0.4">${specks(9, 16, [50, 40, 210, 210], [0.9, 1.8])}</g>
     </g>
     <path d="M38 214 84 44" fill="none" stroke="#FFF6C8" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
@@ -142,8 +157,7 @@ export function hotDog(id) {
     <linearGradient id="${id}-bunfront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDE3AE"/><stop offset="0.4" stop-color="#F1BC68"/><stop offset="1" stop-color="#D68A38"/></linearGradient>
     <linearGradient id="${id}-bunshade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A4A18" stop-opacity="0"/><stop offset="1" stop-color="#8A4A18" stop-opacity="0.38"/></linearGradient>
     <clipPath id="${id}-sclip"><rect x="2" y="56" width="376" height="56" rx="28"/></clipPath>
-    <clipPath id="${id}-fclip"><rect x="22" y="100" width="336" height="76" rx="38"/></clipPath>
-    ${soft(`${id}-soft`, 1.6)}`;
+    <clipPath id="${id}-fclip"><rect x="22" y="100" width="336" height="76" rx="38"/></clipPath>`;
 
   const wave = (startX, y, amp, seg, count) =>
     `M${startX} ${y}q${seg / 2} ${-amp * 2} ${seg} 0${`t${seg} 0`.repeat(count - 1)}`;
@@ -157,7 +171,7 @@ export function hotDog(id) {
       <rect x="2" y="56" width="376" height="56" fill="url(#${id}-ends)"/>
       <rect x="2" y="56" width="376" height="56" fill="url(#${id}-under)"/>
       <g stroke="#5E160D" stroke-width="3.2" opacity="0.2">${marks}</g>
-      <path d="M30 66Q190 58 350 66" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.38" filter="url(#${id}-soft)"/>
+      <path d="M30 66Q190 58 350 66" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.3"/>
       <ellipse cx="96" cy="67.5" rx="34" ry="2.4" fill="#fff" opacity="0.5"/>
     </g>
     <path d="${wave(30, 84, 8, 28, 11)}" fill="none" stroke="#B8860B" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
@@ -168,10 +182,10 @@ export function hotDog(id) {
     <path d="${wave(44, 92.6, 7, 28, 10)}" fill="none" stroke="#FF8F7C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
     <rect x="22" y="100" width="336" height="76" rx="38" fill="url(#${id}-bunfront)"/>
     <g clip-path="url(#${id}-fclip)">
-      <rect x="22" y="100" width="336" height="9" fill="#8A4A18" opacity="0.3" filter="url(#${id}-soft)"/>
+      <rect x="22" y="100" width="336" height="9" fill="#8A4A18" opacity="0.22"/>
       <rect x="22" y="140" width="336" height="36" fill="url(#${id}-bunshade)"/>
       <g fill="#B97626" opacity="0.28">${specks(31, 70, [26, 104, 354, 172], [0.7, 1.5])}</g>
-      <path d="M44 114Q190 100 336 114" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.25" filter="url(#${id}-soft)"/>
+      <path d="M44 114Q190 100 336 114" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.2"/>
     </g>
     <path d="M40 112Q190 100 340 112" fill="none" stroke="#FFEBC4" stroke-width="3.2" stroke-linecap="round" opacity="0.75"/>
     <path d="M40 156Q190 172 340 156" fill="none" stroke="#B97626" stroke-width="3" stroke-linecap="round" opacity="0.25"/>`;
@@ -189,8 +203,7 @@ export function sandwich(id) {
     <radialGradient id="${id}-tom" cx="0.4" cy="0.35" r="0.8"><stop offset="0" stop-color="#F4624C"/><stop offset="1" stop-color="#CC2E1E"/></radialGradient>
     <radialGradient id="${id}-olive" cx="0.38" cy="0.35" r="0.75"><stop offset="0" stop-color="#9DB043"/><stop offset="1" stop-color="#566622"/></radialGradient>
     <clipPath id="${id}-topclip"><path d="M18 126V112Q18 62 140 62Q262 62 262 112V126Z"/></clipPath>
-    <clipPath id="${id}-botclip"><path d="M20 180H260V192Q260 206 246 206H34Q20 206 20 192Z"/></clipPath>
-    ${soft(`${id}-soft`, 2)}`;
+    <clipPath id="${id}-botclip"><path d="M20 180H260V192Q260 206 246 206H34Q20 206 20 192Z"/></clipPath>`;
 
   const ripple = (startX, y, seg, count, amp) =>
     `M${startX} ${y}q${seg / 2} ${-amp} ${seg} 0${`t${seg} 0`.repeat(count - 1)}`;
@@ -218,14 +231,14 @@ export function sandwich(id) {
     <g fill="#FFD9A0" opacity="0.8">${specks(51 + index, 6, [cx - rx * 0.45, cy - ry * 0.1, cx + rx * 0.45, cy + ry * 0.5], [0.8, 1.3])}</g>`,
       )
       .join('')}
-    <rect x="26" y="134" width="228" height="8" fill="#5B1209" opacity="0.28" filter="url(#${id}-soft)"/>
+    <rect x="26" y="134" width="228" height="8" fill="#5B1209" opacity="0.2"/>
     <path d="M24 124H256V136H170L158 156L146 136H24Z" fill="url(#${id}-cheese)"/>
     <path d="M24 124H256V128H24Z" fill="#fff" opacity="0.3"/>
     <path d="M24 136H146L158 156L170 136H256" fill="none" stroke="#C98A0E" stroke-width="1.4" opacity="0.5"/>
     <path d="M18 126V112Q18 62 140 62Q262 62 262 112V126Z" fill="url(#${id}-top)"/>
     <g clip-path="url(#${id}-topclip)">
       <g fill="#8A5522" opacity="0.32">${specks(47, 46, [20, 64, 260, 124], [0.8, 1.6])}</g>
-      <rect x="18" y="114" width="244" height="12" fill="#7A4318" opacity="0.28" filter="url(#${id}-soft)"/>
+      <rect x="18" y="114" width="244" height="12" fill="#7A4318" opacity="0.2"/>
     </g>
     <g fill="none" stroke-linecap="round">
       <g stroke="#7A4A1E" stroke-width="6" opacity="0.5">${grill.map((d) => `<path d="${d}"/>`).join('')}</g>
@@ -319,8 +332,7 @@ export function pizzaWhole(id) {
     <radialGradient id="${id}-melt" cx="0.4" cy="0.38" r="0.62"><stop offset="0" stop-color="#FFF6C2" stop-opacity="0.5"/><stop offset="1" stop-color="#FFF6C2" stop-opacity="0"/></radialGradient>
     <linearGradient id="${id}-crust" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7D283"/><stop offset="0.5" stop-color="#DDA24A"/><stop offset="1" stop-color="#AE6A22"/></linearGradient>
     <radialGradient id="${id}-pep" cx="0.38" cy="0.34" r="0.78"><stop offset="0" stop-color="#F0704F"/><stop offset="0.65" stop-color="#C93A2B"/><stop offset="1" stop-color="#9A2216"/></radialGradient>
-    <clipPath id="${id}-clip"><circle cx="120" cy="120" r="95"/></clipPath>
-    ${soft(`${id}-soft`, 2.2)}`;
+    <clipPath id="${id}-clip"><circle cx="120" cy="120" r="95"/></clipPath>`;
 
   const at = (angle, radius) => {
     const a = (angle * Math.PI) / 180;
@@ -352,7 +364,7 @@ export function pizzaWhole(id) {
   // Blisters and flour on the crust ring, placed by angle.
   const ring = (seed, count, [rMin, rMax]) => {
     const next = seeded(seed);
-    return Array.from({ length: count }, () => {
+    return Array.from({ length: scaled(count) }, () => {
       const angle = next() * Math.PI * 2;
       const radius = rMin + next() * (rMax - rMin);
       return [n1(120 + radius * Math.cos(angle)), n1(120 + radius * Math.sin(angle)), (angle * 180) / Math.PI + 90];
@@ -374,7 +386,7 @@ export function pizzaWhole(id) {
       <rect x="25" y="25" width="190" height="190" fill="url(#${id}-melt)"/>
       <g fill="#D98A1E" opacity="0.36">${blobs(23, 16, [30, 30, 210, 210], [8, 17], [4, 8])}</g>
       <g fill="#FFF3B5" opacity="0.5">${blobs(29, 7, [40, 40, 200, 200], [8, 15], [3.5, 6])}</g>
-      <circle cx="120" cy="120" r="89" fill="none" stroke="#A9620F" stroke-width="12" opacity="0.3" filter="url(#${id}-soft)"/>
+      <circle cx="120" cy="120" r="89" fill="none" stroke="#A9620F" stroke-width="12" opacity="0.18"/>
       <g fill="#B8681A" opacity="0.4">${specks(31, 22, [28, 28, 212, 212], [0.9, 1.8])}</g>
     </g>
     <path d="${cuts}" fill="none" stroke="#B8761A" stroke-opacity="0.5" stroke-width="1.8" stroke-linecap="round"/>

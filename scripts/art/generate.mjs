@@ -8,7 +8,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { basil, drink, drop, hotDog, pizzaSlice, pizzaWhole, place, sandwich, specks, svgDoc, tomatoHalf } from './shapes.mjs';
+import { basil, drink, drop, hotDog, pizzaSlice, pizzaWhole, place, sandwich, specks, svgDoc, tomatoHalf, withDetail } from './shapes.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'src', 'assets');
 
@@ -25,13 +25,26 @@ const single = (shape, title) =>
 const dropAt = (x, y, scale = 1, rotate = 0, color) =>
   `<g transform="translate(${x} ${y}) rotate(${rotate}) scale(${scale})">${drop(color)}</g>`;
 
-/* ---------- single food cutouts ---------- */
-write('food/pizza.svg', single(pizzaSlice('pz'), 'Slice of pepperoni pizza'));
-write('food/pizza-whole.svg', single(pizzaWhole('pw'), 'Whole pepperoni pizza'));
-write('food/hotdog.svg', single(hotDog('hd'), 'Hot dog with mustard and ketchup'));
-write('food/sandwich.svg', single(sandwich('sw'), 'Toasted club sandwich'));
+/*
+ * Texture is a paint cost, and paint is what stalls the first frame of the scene that reveals the art (ADR 0009, 0013). Art that
+ * the page draws many times, small, or in the frame a scene starts gets none (the gradients and highlights still light it); the
+ * four pieces on the hero, which are drawn once, large, at the top of the page, get the full amount.
+ */
+const LIGHT = 0;
+
+/* ---------- single food cutouts (cards, the intro, the hero badge): light ---------- */
+write('food/pizza.svg', withDetail(LIGHT, () => single(pizzaSlice('pz'), 'Slice of pepperoni pizza')));
+write('food/pizza-whole.svg', withDetail(LIGHT, () => single(pizzaWhole('pw'), 'Whole pepperoni pizza')));
+write('food/hotdog.svg', withDetail(LIGHT, () => single(hotDog('hd'), 'Hot dog with mustard and ketchup')));
+write('food/sandwich.svg', withDetail(LIGHT, () => single(sandwich('sw'), 'Toasted club sandwich')));
 write('food/drink.svg', single(drink('dr'), 'Takeaway drink'));
 write('food/basil.svg', single(basil('bs'), 'Basil leaf'));
+
+/* ---------- the hero's own pieces: the same drawings with the full texture ---------- */
+write('hero/pizza.svg', single(pizzaSlice('pz'), 'Slice of pepperoni pizza'));
+write('hero/hotdog.svg', single(hotDog('hd'), 'Hot dog with mustard and ketchup'));
+write('hero/sandwich.svg', single(sandwich('sw'), 'Toasted club sandwich'));
+write('hero/drink.svg', single(drink('dr'), 'Takeaway drink'));
 
 /* ---------- hero: slab ---------- */
 function slab() {
@@ -51,7 +64,7 @@ function slab() {
       <stop offset="0" stop-color="#fff" stop-opacity="0.13"/><stop offset="0.5" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>
     <filter id="slab-blur" x="-20%" y="-30%" width="140%" height="190%"><feGaussianBlur stdDeviation="14"/></filter>
-    <filter id="slab-bounce" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="22"/></filter>
+    <radialGradient id="slab-bounce"><stop offset="0" stop-color="#FF7A2B" stop-opacity="0.2"/><stop offset="1" stop-color="#FF7A2B" stop-opacity="0"/></radialGradient>
     <clipPath id="slab-clip"><polygon points="${pts(L, T, R, B)}"/></clipPath>`;
   const body = `
     <polygon points="${pts([L[0] + 18, L[1] + 34], [T[0] + 18, T[1] + 34], [R[0] + 18, R[1] + 34], [B[0] + 18, B[1] + 48])}" fill="#5a2a14" opacity="0.26" filter="url(#slab-blur)"/>
@@ -60,9 +73,9 @@ function slab() {
     <polygon points="${pts(L, T, R, B)}" fill="url(#slab-top)" stroke="url(#slab-top)" stroke-width="10" stroke-linejoin="round"/>
     <polygon points="${pts(L, T, R, B)}" fill="url(#slab-gloss)"/>
     <g clip-path="url(#slab-clip)">
-      <ellipse cx="282" cy="168" rx="214" ry="40" transform="rotate(-26 282 168)" fill="#FF7A2B" opacity="0.16" filter="url(#slab-bounce)"/>
-      <g fill="#fff" opacity="0.07">${specks(71, 260, [4, 4, 559, 315], [0.5, 1.1])}</g>
-      <g fill="#000" opacity="0.2">${specks(72, 160, [4, 4, 559, 315], [0.6, 1.3])}</g>
+      <ellipse cx="282" cy="168" rx="214" ry="40" transform="rotate(-26 282 168)" fill="url(#slab-bounce)"/>
+      <g fill="#fff" opacity="0.07">${specks(71, 120, [4, 4, 559, 315], [0.6, 1.2])}</g>
+      <g fill="#000" opacity="0.2">${specks(72, 80, [4, 4, 559, 315], [0.7, 1.4])}</g>
     </g>
     <polyline points="${pts(L, T, R)}" fill="none" stroke="#fff" stroke-opacity="0.1" stroke-width="1.4" stroke-linejoin="round"/>
     <polyline points="${pts(L, B, R)}" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.6" stroke-linejoin="round"/>`;
@@ -71,6 +84,17 @@ function slab() {
 }
 write('hero/slab.svg', slab());
 
+/* ---------- hero: a plume of steam (white: it shows on the dark slab and as a lighter haze over the page) ---------- */
+function steam() {
+  const defs = `
+    <linearGradient id="steam-fade" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.8"/><stop offset="0.55" stop-color="#fff" stop-opacity="0.5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="steam-blur" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="4.2"/></filter>`;
+  const body = `<path d="M26 168C10 138 42 118 22 88S26 34 10 6C20-2 36-2 42 4 52 36 20 62 40 92S22 142 38 168Z" fill="url(#steam-fade)" filter="url(#steam-blur)"/>`;
+  return svgDoc({ width: 60, height: 170, defs, body, title: 'Steam' });
+}
+write('hero/steam.svg', steam());
 /* ---------- about: food cluster + contour circle ---------- */
 function cluster() {
   const hd = hotDog('c-hd');
@@ -93,7 +117,7 @@ function cluster() {
   ].join('');
   return svgDoc({ width: 540, height: 360, defs, body, title: 'Hot dog, sandwich and pizza' });
 }
-write('about/cluster.svg', cluster());
+write('about/cluster.svg', withDetail(LIGHT, cluster));
 
 function contour() {
   const cx = 100;
@@ -145,7 +169,7 @@ function followArt() {
   ].join('');
   return svgDoc({ width: 340, height: 220, defs, body, title: 'Pizza slice with basil and tomatoes' });
 }
-write('follow/art.svg', followArt());
+write('follow/art.svg', withDetail(LIGHT, followArt));
 
 /* ---------- visit: stylised map with an orange pin ---------- */
 function mapArt() {

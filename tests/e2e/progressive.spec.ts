@@ -1,4 +1,4 @@
-import { expect, ready, test } from './fixtures';
+import { expect, ready, settled, test } from './fixtures';
 
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' });
@@ -16,6 +16,17 @@ test.describe('reduced motion', () => {
     const bgWidth = (await page.locator('#offers [data-part="bg"]').boundingBox())?.width ?? 0;
     const stageWidth = (await page.locator('#offers [data-part="stage"]').boundingBox())?.width ?? 1;
     expect(bgWidth).toBeGreaterThan(stageWidth - 2);
+  });
+
+  test('keeps the hero food still: no parallax, no steam', async ({ page }) => {
+    await ready(page);
+    await settled(page);
+    await page.mouse.move(20, 300);
+    const hero = page.locator('[data-enhance="hero"]');
+    await expect(hero).not.toHaveAttribute('data-parallax', '');
+    const steam = await hero.locator('img[src*="/steam."]').all();
+    expect(steam.length).toBeGreaterThan(0);
+    for (const wisp of steam) await expect(wisp).toBeHidden();
   });
 });
 

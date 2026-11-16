@@ -83,22 +83,11 @@ typography:
     lineHeight: 1
     letterSpacing: "0.01em"
 rounded:
-  sm: "0.5rem"
   md: "1rem"
   card: "1.125rem"
   xl: "2rem"
   pill: "62.5rem"
 spacing:
-  s-1: "0.25rem"
-  s-2: "0.5rem"
-  s-3: "0.75rem"
-  s-4: "1rem"
-  s-5: "1.5rem"
-  s-6: "2rem"
-  s-7: "3rem"
-  s-8: "4rem"
-  s-9: "6rem"
-  s-10: "8rem"
   content-max: "90rem"
 components:
   button-primary:
@@ -258,7 +247,7 @@ A warm-white page with one hot colour: orange for action, plum-tinted neutrals f
 - **Oven Orange** (#fb6917, `--c-accent`): the flat brand orange. Selection fill, nav underline, hover fills (details button, footer social icons, hero knob), the sparkle and the script line on the Follow card. Never text on a light surface (2.8:1 on the page).
 - **Fresh-Baked Highlight** (#ff7d31, `--c-accent-hi`) and **Deep-Baked Orange** (#ed600f, `--c-accent-lo`): the top and bottom stops of the vertical gradient used by every orange-filled pill. The highlight is also the ring that leaves the Follow card's Call-now pill.
 - **Burnt Crust** (#b8420a, `--c-accent-text`): every orange word on a light surface (prices, active nav link, "Explore More", tag chips, Visit icons, logo tagline, the script lines); 5.3:1 on the page and 4.8:1 on the peach glow.
-- **Peach Glow** (#feebe2, `--c-accent-soft`): tag-chip fill and the soft button fill. The same peach, as `--c-glow-1`, `--c-glow-2` and `--c-glow-3` at 100%, 55% and 0% alpha, washes the hero, the quick view's image pane and the 404 page; the About backdrop uses it too.
+- **Peach Glow** (#feebe2, `--c-accent-soft`): tag-chip fill. The same peach, as `--c-glow-1`, `--c-glow-2` and `--c-glow-3` at 100%, 55% and 0% alpha, washes the hero, the quick view's image pane and the 404 page; the About backdrop uses it too.
 - **Aubergine Ink on Orange** (#271b25, `--c-on-accent`): the label and glyph on every orange fill, and the selection text. An alias of Aubergine Slate: 6.5:1 on the light gradient stop (#ff7d31), 5.6:1 on the flat orange and 4.95:1 on the dark stop (#ed600f).
 
 ### Tertiary
@@ -338,7 +327,7 @@ Breakpoints are 640, 768, 1024 and 1440 px, mirrored in TypeScript and checked b
 - **Anchor landing:** a jump to a section lands where the stylesheet says: the page's `scroll-padding-top` (0.7 of the navbar height) plus the section's own `scroll-margin-top`, honoured once, by Lenis and by the browser path alike. Two sections go further (ADR 0011): the Menu by 6rem from 1024px, so its heading lands just under the returning bar and a laptop-height screen holds the tabs and the first row of dishes; the Visit section by 3rem below 1024px, so more of the map shows above the dock.
 - **Stacking:** hero art 1, hero copy 2, navbar 50, dock 60, phone menu 80, quick view and skip link 90.
 
-Spacing tokens (`--s-1` to `--s-10`, 0.25rem to 8rem) are declared but no stylesheet consumes them (see Observations). The build uses rem values on a quarter-rem grid: 0.25rem to 0.5rem inside controls, 0.75rem to 1.5rem between related items, 2rem to 3rem inside plates, 3rem to 8rem between sections.
+There is no spacing scale: the build uses rem values on a quarter-rem grid: 0.25rem to 0.5rem inside controls, 0.75rem to 1.5rem between related items, 2rem to 3rem inside plates, 3rem to 8rem between sections.
 
 ### Named Rules
 **The Artboard Rule.** Write rem, never px. Above 1024px a length measured on the 1440px artboard is the same number in rem.
@@ -369,7 +358,7 @@ A hybrid that leans on shadow. The page (#fdfafb) and the plates on it (#fefefe)
 Rounded everywhere, with no sharp corners and no heavy borders. Two families: stadiums for what you press and plates for what holds content.
 
 - **Stadium** (`--r-pill`, 62.5rem): buttons, tabs and the tab track, tag chips, dock actions, the Follow card's phone pill. **Circles** (50%): icon buttons (menu toggle, close, social, play, hero knob) and status dots.
-- **Plate** (`--r-card`, 1.125rem): menu cards and rows (and the overlay that makes the whole card a button). **Large plate** (`--r-xl`, 2rem): the quick view, the Follow card at rest, the Visit card and the map tile. **Soft rectangle** (`--r-md`, 1rem): size rows in the quick view. **Small** (`--r-sm`, 0.5rem): the card details button and the Follow card's idle pre-state, both of which hard-code the value instead of using the token.
+- **Plate** (`--r-card`, 1.125rem): menu cards and rows (and the overlay that makes the whole card a button). **Large plate** (`--r-xl`, 2rem): the quick view, the Follow card at rest, the Visit card and the map tile. **Soft rectangle** (`--r-md`, 1rem): size rows in the quick view. **Small** (0.5rem, written out, no token): the card details button and the Follow card's idle pre-state.
 - **Borders:** none on containers. 1px hairlines appear as inset rings on controls, a top rule on the footer and its bar, and a dashed rule under each opening-hours row.
 - **Clipping:** the phone menu opens through a growing circle (`clip-path: circle()`); the hero and the map tile clip with overflow. Food art is never cropped to a box.
 - **Marks:** small marks punctuate headlines: a whole pepperoni pizza (an image, 0.78em tall) before "Fast Food" in the hero, the About target (peach halo, red ring and core; inline SVG) and the Follow sparkle (three orange strokes; inline SVG).
@@ -385,7 +374,6 @@ Pills that feel pressed rather than clicked: they lift on hover and sink on pres
 - **Shape:** stadium (`--r-pill`).
 - **Primary:** vertical gradient from #ff7d31 to #ed600f, aubergine 600 label at 0.9375rem (6.5:1 to 4.95:1), 2.75rem tall, 1.75rem side padding, 0.625rem gap to a 1.0625rem icon, with the orange floor glow. One per surface: hero "View Menu", Visit "Get directions", 404 "Back to the menu".
 - **Ghost:** Plate White fill, ink label, 1px inset ring in `--c-line` that turns ink on hover. Visit and 404 "Call us".
-- **Soft:** peach fill with a burnt-crust label that fills solid orange (with an aubergine label) on hover. Defined in the component; no page uses it. A large size (3.5rem tall, 2.25rem side padding, 1.0625rem label) is defined and also unused.
 - **Hover / Focus / Active:** on fine pointers the primary lifts 0.125rem, its glow deepens and its arrow nudges 0.1875rem right over 0.35s. Every `a` and `button` sinks to 0.97 while held (one global rule in `base.css`, which also clears the browser's tap flash and double-tap delay); on a mouse the primary's hover lift wins the cascade, so its press shows on touch. The focus ring is a 0.1875rem ink outline 0.25rem out. On TV a button is 3.5rem tall with a 1.125rem label.
 - **Hand-rolled copies:** the Follow card's "Call now" (2.4rem tall), the quick view's call pill (3rem), the phone menu's call pill (3.5rem), the dock's Call action (2.75rem), the selected tab pill and the About play button (3.125rem circle) re-implement the same gradient (and, except on the Follow card and in the dock, the same glow) instead of using the button component.
 
@@ -462,5 +450,5 @@ These are facts about the current code, recorded so nobody mistakes them for pre
 - **Repeated placeholder art.** Fifteen menu items share four illustrations: all six pizza cards (Margherita, Pepperoni Fire, Quattro Formaggi, BBQ Chicken, Garden Veggie, Prosciutto & Rocket) show the same pizza slice, and the hot dogs, sandwiches and drinks repeat one illustration each. By decision (PRODUCT.md) the illustrations stand in until real art exists.
 - **Script lines that remain.** About ("About us") and Follow ("Stay in touch") keep the reel's brush-script line above the heading, tilted -2deg on the Follow card, and the 404 page has a script "404" above its title. It is decoration the build carries, not a pattern for new sections. The Menu and Visit headings no longer have one.
 - **Duplicate adjacent links.** The Follow card's phone number and its Call-now pill link to the same `tel:` address, and the Visit map tile and its "Get directions" button link to the same map URL under the same accessible name, so each pair is two tab stops for one action.
-- **Token drift.** The ten-step spacing scale (`--s-1` to `--s-10`) is consumed by no stylesheet, and `--r-sm` is unused (the details button hard-codes 0.5rem). The orange gradient is written out seven times (button, tab pill, About play button, Follow call pill, quick-view call pill, phone-menu call pill, dock Call) instead of being a token, and the button component's soft and large variants have no call sites.
+- **Token drift.** The orange gradient is written out seven times (button, tab pill, About play button, Follow call pill, quick-view call pill, phone-menu call pill, dock Call) instead of being a token, and the card details button and the Follow card's idle pre-state write 0.5rem out instead of using a token.
 - **Motion rule drift.** The repo's rule exempts only the Follow card's width and radius from "opacity and transform only", but the tab pill's slide also tweens `width` (a FLIP-style move) and the phone menu's circular reveal drives `clip-path` through a custom property. Both are recorded as built.

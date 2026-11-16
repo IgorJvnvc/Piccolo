@@ -60,13 +60,14 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
     return toCardModel(item, source, format);
   };
 
-  const [slab, pizza, pizzaWhole, hotdog, sandwich, drink, cluster, contour, followArt, map] = await Promise.all([
+  const [slab, steam, pizza, pizzaWhole, hotdog, sandwich, drink, cluster, contour, followArt, map] = await Promise.all([
     image('hero/slab'),
-    image('food/pizza'),
+    image('hero/steam'),
+    image('hero/pizza'),
     image('food/pizza-whole'),
-    image('food/hotdog'),
-    image('food/sandwich'),
-    image('food/drink'),
+    image('hero/hotdog'),
+    image('hero/sandwich'),
+    image('hero/drink'),
     image('about/cluster'),
     image('about/contour'),
     image('follow/art'),
@@ -122,7 +123,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
       },
       scrollLabel: copy.hero.scrollLabel,
       scrollHref: '#about',
-      art: { slab, pizza, badge: pizzaWhole, hotdog, sandwich, drink },
+      art: { slab, pizza, badge: pizzaWhole, hotdog, sandwich, drink, steam },
     },
 
     about: {

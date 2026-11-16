@@ -14,13 +14,16 @@ test.describe('entry intro', () => {
     const overlay = page.locator('[data-intro-root]');
     await expect(overlay).toBeVisible();
 
-    // The pizza box is the last child (it pops in, which takes 0.5 s, and `ready` has already waited longer than that).
-    const pizza = await overlay.locator(':scope > :last-child').boundingBox();
+    // The pizza box is the last child. It grows from 60% to full size over 0.5 s and `ready` does not always take that long, so
+    // measure it once it has grown past a quarter of the screen (it never overshoots).
+    const box = overlay.locator(':scope > :last-child');
     const viewport = page.viewportSize();
-    if (!pizza || !viewport) throw new Error('no pizza box or viewport');
-    const share = pizza.width / Math.min(viewport.width, viewport.height);
-    expect(share).toBeGreaterThan(0.25);
-    expect(share).toBeLessThan(0.33);
+    if (!viewport) throw new Error('no viewport');
+    const share = async (): Promise<number> => ((await box.boundingBox())?.width ?? 0) / Math.min(viewport.width, viewport.height);
+    await expect.poll(share).toBeGreaterThan(0.25);
+    expect(await share()).toBeLessThan(0.33);
+    const pizza = await box.boundingBox();
+    if (!pizza) throw new Error('no pizza box');
     // It is in the middle of the screen.
     expect(Math.abs(pizza.x + pizza.width / 2 - viewport.width / 2)).toBeLessThan(2);
     expect(Math.abs(pizza.y + pizza.height / 2 - viewport.height / 2)).toBeLessThan(2);

@@ -54,6 +54,25 @@ test.describe('desktop', () => {
     await expect(facts.locator('[data-part="open-status"]')).toHaveAttribute('data-open', /^(true|false)$/); // the status behavior reached it
   });
 
+  test('the hero food drifts against the pointer, each piece by its own depth, settles when the pointer leaves, and steams', async ({ page }) => {
+    await ready(page);
+    const hero = page.locator('[data-enhance="hero"]');
+    await expect(hero).toHaveAttribute('data-parallax', ''); // the behavior runs: a mouse, hover, the full motion tier
+    await expect(hero.locator('img[src*="/steam."]').first()).toBeVisible();
+    // how far a piece has drifted from where it rests: the x of its transform (the hot dog's turn leaves the translation alone)
+    const drift = (piece: string): Promise<number> =>
+      hero.locator(`img[src*="/${piece}."]`).evaluate((img) => new DOMMatrix(getComputedStyle(img).transform).m41);
+
+    await page.mouse.move(20, 300); // the left edge of the section: the food moves right, the nearest piece the most
+    await expect.poll(() => drift('drink')).toBeGreaterThan(8);
+    expect(await drift('drink')).toBeGreaterThan(await drift('hotdog'));
+    expect(await drift('hotdog')).toBeGreaterThan(await drift('slab'));
+    expect(await drift('slab')).toBeGreaterThan(0);
+
+    await hero.dispatchEvent('pointerleave');
+    await expect.poll(() => drift('drink')).toBeLessThan(0.5);
+  });
+
   test('the logo goes back to the top and takes keyboard focus with it', async ({ page }) => {
     await ready(page);
     await page.evaluate(() => window.scrollTo({ top: 2400, behavior: 'instant' }));

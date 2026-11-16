@@ -9,6 +9,8 @@ export interface HeroArt {
   readonly hotdog: ImageSource;
   readonly sandwich: ImageSource;
   readonly drink: ImageSource;
+  /** A plume of steam rising from the hot food. */
+  readonly steam: ImageSource;
 }
 
 export interface HeroProps {

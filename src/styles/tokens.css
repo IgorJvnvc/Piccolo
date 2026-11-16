@@ -31,6 +31,8 @@
   --c-ring-on-dark: rgb(255 255 255 / 0.28); /* hairline ring around round buttons on dark surfaces */
   --c-press: rgb(39 27 37 / 0.06); /* tint over a whole row or card while it is pressed */
   --c-halo-cream: rgb(241 232 228 / 0.5); /* soft halo around light pills on dark cards */
+  --c-steam: rgb(255 255 255 / 0.55); /* a wisp of steam rising from the hot food on the hero slab; white on the dark slab, so it fades out over the page */
+  --c-steam-0: rgb(255 255 255 / 0);
   --c-ok-halo: rgb(31 157 85 / 0.18); /* "open now" status dot halo */
 
   /* peach glow steps (hero + about backgrounds); -0 is the deeper core of the hero's pool of light */
@@ -41,7 +43,6 @@
   --c-bg-clear: rgb(253 250 251 / 0); /* the page colour at 0%: a fade into the page needs its own transparent (plain "transparent" greys on older Safari) */
 
   /* radii */
-  --r-sm: 0.5rem;
   --r-md: 1rem;
   --r-card: 1.125rem;
   --r-xl: 2rem;
@@ -65,17 +66,6 @@
   --fx-on-dark: drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.35));
   --fx-badge: drop-shadow(0 0.25rem 0.375rem rgb(39 27 37 / 0.22));
 
-  /* spacing */
-  --s-1: 0.25rem;
-  --s-2: 0.5rem;
-  --s-3: 0.75rem;
-  --s-4: 1rem;
-  --s-5: 1.5rem;
-  --s-6: 2rem;
-  --s-7: 3rem;
-  --s-8: 4rem;
-  --s-9: 6rem;
-  --s-10: 8rem;
 
   /* layout */
   --content-max: 90rem;

@@ -44,6 +44,14 @@ export async function ready(page: import('@playwright/test').Page): Promise<void
 }
 
 /**
+ * Resolves once every `idle` enhancement has had its turn: the runtime queued them before READY and idle callbacks run in the
+ * order they were queued. Needed before asserting that an enhancement did NOT run, which would otherwise pass too early.
+ */
+export async function settled(page: import('@playwright/test').Page): Promise<void> {
+  await page.evaluate(() => new Promise<void>((resolve) => requestIdleCallback(() => resolve())));
+}
+
+/**
  * Scrolls through the whole page so every once-only scene plays, then returns to the top once each reveal target has been
  * handed over from the CSS pre-state (`data-revealed`). The scenes themselves may still be playing out.
  *
