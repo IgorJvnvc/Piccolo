@@ -54,7 +54,7 @@ Content is validated at build time: a typo fails the build with a precise messag
 - [ ] Set `site` in `astro.config.ts` to the real URL (it feeds canonical links and JSON-LD; it is currently
       `https://piccolo.example`), and add the real logo / favicon in `public/`.
 - [ ] Decide on the follow-ups listed in [docs/architecture.md](docs/architecture.md#known-trade-offs).
-- [ ] `npm run verify:all`, then deploy `dist/` to any static host.
+- [ ] `npm run verify:all`, then deploy `dist/` to any static host ([GitHub and Vercel setup](docs/deployment.md)).
 
 ## How it is built
 
@@ -69,6 +69,7 @@ Content is validated at build time: a typo fails the build with a precise messag
 ## Documentation
 
 - [docs/architecture.md](docs/architecture.md): layers, runtime, device model, quality gates, recipes
+- [docs/deployment.md](docs/deployment.md): GitHub and Vercel, the site URL, going live
 - [docs/adr](docs/adr/README.md): why the big decisions were made
 - [docs/reference-spec.md](docs/reference-spec.md): measurements taken from the reference reel
 - [PRODUCT.md](PRODUCT.md) and [DESIGN.md](DESIGN.md): who the site is for, and the visual system as it is built

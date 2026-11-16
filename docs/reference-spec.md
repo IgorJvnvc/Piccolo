@@ -1,7 +1,7 @@
 # Piccolo: Reference Spec (from the reel recording)
 
 Status: the measurement record the site was built from. It is implemented; where the build deliberately differs, the ADRs say why.
-Source: `C:\Users\ijovanovic\Videos\2026-11-13 16-40-16.mp4` (OBS capture of the Instagram reel).
+Source: an OBS capture of the Instagram reel (the recording itself is not in the repo).
 Evidence: `reference/frames/` keeps the five key frames the layout baseline was matched against (see the evidence index at the end).
 
 ## 1. Source and measurement basis

@@ -1,3 +1,4 @@
+import process from 'node:process';
 import preact from '@astrojs/preact';
 import { defineConfig, fontProviders } from 'astro/config';
 
@@ -9,8 +10,11 @@ import { defineConfig, fontProviders } from 'astro/config';
  * - `build.target` is lowered to the TV browser floor (Chromium 94: LG webOS 23+, Samsung Tizen 2023+).
  *   Older TVs still receive readable static HTML + CSS because nothing critical depends on JS.
  */
+// Vercel exposes the production domain while it builds; anywhere else, or on a custom domain, set the real URL here (docs/deployment.md).
+const productionHost = process.env['VERCEL_PROJECT_PRODUCTION_URL'];
+
 export default defineConfig({
-  site: 'https://piccolo.example',
+  site: productionHost ? `https://${productionHost}` : 'https://piccolo.example',
   output: 'static',
   trailingSlash: 'ignore',
   devToolbar: { enabled: false },

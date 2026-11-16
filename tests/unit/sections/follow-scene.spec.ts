@@ -63,8 +63,11 @@ beforeEach(() => {
 afterEach(async () => {
   document.documentElement.style.fontSize = '';
   document.body.innerHTML = '';
-  // The real ticker asks for a frame in a callback of its own; once happy-dom is torn down that call fails as an unhandled error.
-  (await loadGsap()).gsap.ticker.sleep();
+  // The real ticker and ScrollTrigger's 250 ms sync timer ask for a frame in callbacks of their own; once happy-dom is torn down
+  // those calls fail as an unhandled error. Put both to sleep.
+  const { gsap, ScrollTrigger } = await loadGsap();
+  gsap.ticker.sleep();
+  ScrollTrigger.disable();
 });
 
 /** Runs the real scene; returns its (paused, trigger-less) timeline and the gsap it used. */
