@@ -1,13 +1,11 @@
-import { createPortal } from 'preact/compat';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import { MenuCard } from '@/entities/menu/ui';
-import { appBus } from '@/shared/events';
 import { useMotion } from '@/shared/motion/island';
 import styles from './menu-browser.module.css';
 import { type PillBox, measurePill, revealCards, slidePill } from './menu-browser.motion';
 import { Pager } from './Pager';
 import { paginate } from './pagination';
-import { QuickView } from './QuickView';
+import { QuickViewHost } from './QuickViewHost';
 import type { MenuBrowserProps } from './types';
 
 /**
@@ -24,9 +22,6 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
   const [pulse, setPulse] = useState(0);
   /** The page each category is on (zero-based); a category not in here is on its first. */
   const [pages, setPages] = useState<Record<string, number>>({});
-  const [detailId, setDetailId] = useState<string | null>(null);
-  const [opener, setOpener] = useState<HTMLElement | null>(null);
-  const [mounted, setMounted] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -35,8 +30,6 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
   const getTools = useMotion();
 
   const activeRef = useRef(firstId);
-
-  useEffect(() => setMounted(true), []);
 
   const select = useCallback((id: string, focus = false): void => {
     if (id !== activeRef.current) {
@@ -66,26 +59,6 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
       for (const animation of playing) animation?.kill();
     };
   }, [pulse, getTools]);
-
-  // Anyone can ask for an item's details (popular cards, other sections). `replay` delivers a click that
-  // happened before this island finished hydrating.
-  useEffect(() => {
-    const controller = new AbortController();
-    appBus.on(
-      'menu:details',
-      ({ itemId, opener: from }) => {
-        setOpener(from ?? null);
-        setDetailId(itemId);
-      },
-      { signal: controller.signal, replay: true },
-    );
-    return () => controller.abort();
-  }, []);
-
-  const detail = useMemo(
-    () => (detailId ? categories.flatMap((category) => category.cards).find((card) => card.id === detailId) ?? null : null),
-    [categories, detailId],
-  );
 
   const goToPage = (categoryId: string, page: number): void => {
     setPages((current) => ({ ...current, [categoryId]: page }));
@@ -180,9 +153,7 @@ export default function MenuBrowser({ categories, phone }: MenuBrowserProps) {
         );
       })}
 
-      {mounted
-        ? createPortal(<QuickView card={detail} phone={phone} opener={opener} onClose={() => setDetailId(null)} />, document.body)
-        : null}
+      <QuickViewHost categories={categories} phone={phone} />
     </div>
   );
 }

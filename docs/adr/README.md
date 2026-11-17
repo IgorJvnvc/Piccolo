@@ -21,6 +21,7 @@ supersede it with a new one.
 | [0013](0013-hero-art-and-ambient-motion.md) | The hero is lit art with an ambient layer, and art has a paint budget | Accepted |
 | [0014](0014-the-real-menu-and-its-pages.md) | The real menu, in pages, with a larger HTML budget | Accepted |
 | [0015](0015-one-picture-for-every-product.md) | One generated picture for every product | Accepted |
+| [0016](0016-quick-view-on-a-real-phone.md) | The quick view on a real phone: its own layers, and a state that does not re-render the menu | Accepted |
 
 Format: **Context** (the forces), **Decision**, **Consequences** (good and bad), and **Alternatives** when they were
 seriously considered.

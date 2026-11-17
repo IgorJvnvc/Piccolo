@@ -73,7 +73,7 @@ const PANEL_OPACITY = `(() => { const panel = document.querySelector('${MENU}');
 const QUICK_VIEW = '[role="dialog"][aria-labelledby="quick-view-title"]';
 /** The quick view scrim's opacity, or -1 when the dialog is not in the DOM. */
 const SCRIM_OPACITY = `(() => { const dialog = document.querySelector('${QUICK_VIEW}'); return dialog?.parentElement ? Number(getComputedStyle(dialog.parentElement).opacity) : -1; })()`;
-/** The quick view panel's opacity (it fades over 0.45 s, the scrim over 0.25 s), or -1 when the dialog is not in the DOM. */
+/** The quick view panel's opacity (it fades over 0.32 s, the scrim over 0.2 s), or -1 when the dialog is not in the DOM. */
 const PANEL_FADE = `(() => { const dialog = document.querySelector('${QUICK_VIEW}'); return dialog ? Number(getComputedStyle(dialog).opacity) : -1; })()`;
 
 const isPhoneLayout = (page: Page): boolean => (page.viewportSize()?.width ?? 0) < 1024;
@@ -294,6 +294,18 @@ test.describe('the quick view', () => {
     );
     expect(fadeFrames(closing), 'frames caught mid-fade').toBeGreaterThanOrEqual(1);
     await expect(opener).toBeFocused();
+  });
+
+  test('draws its animated parts on their own compositor layers', async ({ page }) => {
+    // Without them the entrance is painted into the page's root layer and every frame re-rasters the whole screen: on a real phone
+    // that was 172 raster tasks in 900 ms and 9 frames over 20 ms (ADR 0016). The headless browser cannot show the cost, only the cause.
+    const opener = await prepare(page);
+    await openQuickView(page, opener);
+
+    const dialog = page.locator(QUICK_VIEW);
+    await expect(dialog.locator('xpath=..'), 'the scrim').toHaveCSS('will-change', 'opacity');
+    await expect(dialog, 'the panel').toHaveCSS('will-change', 'transform, opacity');
+    await expect(dialog.locator('img'), 'the dish').toHaveCSS('will-change', 'transform');
   });
 
   test('can be opened again while it is still playing out', async ({ page }) => {

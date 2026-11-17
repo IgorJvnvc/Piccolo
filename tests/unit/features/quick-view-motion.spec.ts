@@ -50,7 +50,7 @@ describe('the quick view choreography', () => {
 
     expect(overlay.style.opacity).toBe('0');
     expect(panel.style.opacity).toBe('0');
-    expect(panel.style.transform).toContain('32px');
+    expect(panel.style.transform).toContain('24px');
     expect(panel.style.transform).toContain('0.97');
   });
 

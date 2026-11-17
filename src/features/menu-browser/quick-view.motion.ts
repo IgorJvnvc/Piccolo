@@ -2,9 +2,9 @@ import { ease } from '@/shared/motion';
 import type { PresenceMotion } from '@/shared/motion/island';
 
 /** Seconds and pixels from the dialog's own design, not from the reel. */
-const SCRIM = 0.25;
-const PANEL = { duration: 0.45, enterRise: 32, enterScale: 0.97, exitRise: 24, exitScale: 0.98 } as const;
-const DISH = { enter: 0.55, exit: 0.4 } as const;
+const SCRIM = 0.2;
+const PANEL = { duration: 0.32, enterRise: 24, enterScale: 0.97, exitRise: 16, exitScale: 0.98 } as const;
+const DISH = { enter: 0.42, exit: 0.28 } as const;
 
 const panelOf = (overlay: HTMLElement): HTMLElement | null => overlay.querySelector<HTMLElement>('[data-part="panel"]');
 const dishOf = (overlay: HTMLElement): HTMLElement | null => overlay.querySelector<HTMLElement>('img');

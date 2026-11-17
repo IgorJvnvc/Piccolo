@@ -1,6 +1,6 @@
 # 0009. First-frame stalls: what was measured, and the two things adopted
 
-Status: Accepted
+Status: Accepted. Its finding that `will-change` hurts the quick view is superseded by [0016](0016-quick-view-on-a-real-phone.md): it came from software rendering, and on a real phone the layers are what makes the quick view smooth.
 
 ## Context
 

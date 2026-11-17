@@ -176,7 +176,7 @@ await skipIntro(context);
           rows.push([t, dialog ? Number(getComputedStyle(dialog).opacity) : -1]);
           if (!clickedAt && t - t0 > 200) {
             clickedAt = performance.now();
-            [...document.querySelectorAll('#menu button')].find((button) => button.textContent?.includes('Details'))?.click();
+            document.querySelector('#menu [data-details]')?.click();
           }
           if (t - t0 < 1800) requestAnimationFrame(tick);
           else resolve({ rows, clickedAt });

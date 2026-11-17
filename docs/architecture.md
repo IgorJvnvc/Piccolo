@@ -238,7 +238,8 @@ on `<html>`, which `smooth-scroll` checks once when it starts.
 **Islands.** Only two exist: `MobileNav` (`client:media="(max-width: 1023px)"`) and `MenuBrowser` (`client:idle`). The menu
 browser server-renders every category panel, so search engines and no-JS visitors get the full menu; the island turns it
 into tabs, pages of nine cards (`Pager`; every page stays in the markup and only the current one is shown) and a quick-view dialog (`shared/focus/use-dialog`: focus trap, Escape, scroll lock, focus returns to the
-opener). If an island's code cannot be loaded, the page falls back to the no-JS layout ([ADR 0003](adr/0003-progressive-enhancement-and-reveal-protocol.md)).
+opener). The dialog's state lives in `QuickViewHost`, not in `MenuBrowser`, so opening it re-renders the dialog and not the 71 cards,
+and its scrim, panel and dish each have a compositor layer (`will-change`) for as long as it is open ([ADR 0016](adr/0016-quick-view-on-a-real-phone.md)). If an island's code cannot be loaded, the page falls back to the no-JS layout ([ADR 0003](adr/0003-progressive-enhancement-and-reveal-protocol.md)).
 
 Islands are animated with the same GSAP as the scenes. Each feature describes its choreography in a `*.motion.ts`: plain
 functions of `(node, tools)` with no framework in them (`mobile-nav.motion.ts`: the circle that grows from the toggle,

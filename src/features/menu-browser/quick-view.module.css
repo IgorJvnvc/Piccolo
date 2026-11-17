@@ -1,3 +1,8 @@
+/*
+ * The dialog is in the DOM only while it is open, so these layers exist only then. Each part that the entrance animates (the
+ * scrim's opacity, the panel's opacity and transform, the dish's transform) gets its own compositor layer: without them the
+ * animation is drawn into the page's root layer, and every frame re-rasters the whole screen on the phone's GPU (ADR 0017).
+ */
 .overlay {
   position: fixed;
   inset: 0;
@@ -8,6 +13,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--c-scrim);
+  will-change: opacity;
 }
 
 @supports (backdrop-filter: blur(1px)) {
@@ -29,6 +35,7 @@
   background: var(--c-surface);
   border-radius: var(--r-xl);
   box-shadow: var(--sh-dark);
+  will-change: transform, opacity;
 }
 
 .close {
@@ -62,6 +69,7 @@
   max-height: 14rem;
   object-fit: contain;
   filter: var(--fx-item);
+  will-change: transform;
 }
 
 .body {

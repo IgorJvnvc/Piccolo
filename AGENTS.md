@@ -63,7 +63,9 @@ More recipes: [docs/architecture.md](docs/architecture.md#recipes).
   baseline verified with the reel. If you change layout on purpose, re-verify with `scripts/dev` (`scan.mjs` +
   `match_frames.py`) and regenerate it: `UPDATE_GOLDEN=1 npx playwright test --project=reference`. The other tools in
   `scripts/dev` (screenshots, overlays, Follow-card animation fit, motion profiles) are described in their file headers.
-  Judge a stall or a layer change with `scripts/dev/stall-lab.mjs`: it starts a cold Chrome per run and A/Bs two builds or
+  Judge smoothness on a real phone with `scripts/dev/device-trace.mjs` (USB debugging, adb on PATH): it A/Bs builds on the device and reads the
+  frames the screen actually presented. Headless Chrome got the `will-change` question for the quick view backwards ([ADR 0016](docs/adr/0016-quick-view-on-a-real-phone.md)).
+  Judge a stall or a layer change in the lab with `scripts/dev/stall-lab.mjs`: it starts a cold Chrome per run and A/Bs two builds or
   injected CSS variants. Measure cold and by median; a warm browser shows almost no stalls ([ADR 0009](docs/adr/0009-first-frame-stalls.md)).
 
 ## Agent skills (user-level)
@@ -132,7 +134,13 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
   frame falls inside it. `islands.spec.ts` records through `record()`, which repeats an interaction whose recording shows
   no motion *and* contains a gap above 120 ms; a recording with every frame on time that shows no motion still fails.
 - **Headless Chrome is software-rendered**, so the stalls at a scene's start are GPU-process tasks (texture upload of the
-  layers that start animating), not JavaScript. Read profiles relatively (before vs after), never absolutely.
+  layers that start animating), not JavaScript. Read profiles relatively (before vs after), never absolutely. It also cannot
+  show a per-frame raster cost: a quick view that stuttered on a phone looked fine there ([ADR 0016](docs/adr/0016-quick-view-on-a-real-phone.md)).
+- **A leftover `astro preview` on port 4321 makes Playwright test an old build.** `reuseExistingServer` is on, so an interrupted
+  run's server is reused and `npm run build` is skipped. If a planted violation does not fail, check the port first
+  (`Get-NetTCPConnection -LocalPort 4321`) and stop that process.
+- **In a CSS Module, a media block above the base rule it overrides loses** (same specificity, later wins). A phone-only
+  override once never applied for that reason.
 - **`gsap` and `lenis` are loaded with dynamic `import()`**, so a grep for `from 'gsap'` finds nothing; lint covers both forms.
 - **TypeScript is pinned to ~6.0** because typescript-eslint and `@astrojs/check` do not yet accept 7.
 - **Editing source through a shell:** in PowerShell, backticks and `$` inside double-quoted strings are escape sequences
