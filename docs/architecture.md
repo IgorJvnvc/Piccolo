@@ -122,7 +122,7 @@ src/
   runtime/          boot.ts  registry.ts  scheduler.ts  timing.ts
   shared/           config device enhance events focus lib motion seo ui
   styles/           tokens.css  reset.css  base.css
-  content/          site.json  home.json  menu/categories.json  menu/items.json
+  content/          site.json  home.json  menu/categories.json  menu/items.json  menu/addons.json
   assets/           placeholder art (replace with real photos, same base names)
 ```
 
@@ -238,7 +238,7 @@ on `<html>`, which `smooth-scroll` checks once when it starts.
 **Islands.** Only two exist: `MobileNav` (`client:media="(max-width: 1023px)"`) and `MenuBrowser` (`client:idle`). The menu
 browser server-renders every category panel, so search engines and no-JS visitors get the full menu; the island turns it
 into tabs, pages of nine cards (`Pager`; every page stays in the markup and only the current one is shown) and a quick-view dialog (`shared/focus/use-dialog`: focus trap, Escape, scroll lock, focus returns to the
-opener). The dialog's state lives in `QuickViewHost`, not in `MenuBrowser`, so opening it re-renders the dialog and not the 71 cards,
+opener). The dialog's state lives in `QuickViewHost`, not in `MenuBrowser`, so opening it re-renders the dialog and not the cards,
 and its scrim, panel and dish each have a compositor layer (`will-change`) for as long as it is open ([ADR 0016](adr/0016-quick-view-on-a-real-phone.md)). If an island's code cannot be loaded, the page falls back to the no-JS layout ([ADR 0003](adr/0003-progressive-enhancement-and-reveal-protocol.md)).
 
 Islands are animated with the same GSAP as the scenes. Each feature describes its choreography in a `*.motion.ts`: plain
@@ -340,10 +340,15 @@ guards, bus replay, D-pad weighting, price labels and `tel:` links each makes a 
 (8.5 = 8.50) and converted to cents.
 
 **Replace placeholder art.** Put real files in `src/assets/<group>/<name>.png|jpg|webp|avif` using the same base name as the
-placeholder SVG; the raster wins. `npm run art` regenerates the placeholders.
+placeholder SVG; the raster wins. `npm run art` regenerates the hero and section placeholders. Menu pictures are made differently: see the next recipe.
 
-**Add a menu item.** Append to `src/content/menu/items.json` with an existing `category` and an `image` key that has
-a file under `src/assets` (the build fails otherwise): draw it in `scripts/art/menu.mjs` and run `npm run art`, or reuse another item's key. To feature it on the home page set `"popular": true`.
+**Add a menu item.** Put its shot in `scripts/menu-images/originals/<item id>.png` and run
+`.shots/venv/Scripts/python scripts/menu-images/build.py <item id>` (the environment is in `scripts/menu-images/requirements.txt`; `--sheet <item id>`
+writes review sheets to `.shots/menu-review`). Then append the item to `src/content/menu/items.json` with an existing `category` and
+`"image": "menu/<item id>"`: the build fails without `src/assets/menu/<item id>.webp`, and `tests/unit/content/menu-images.spec.ts` wants one picture per
+item. To feature it on the home page set `"popular": true` ([ADR 0017](adr/0017-the-owners-product-shots.md)). A dish can take add-ons: list the ids
+of groups from `src/content/menu/addons.json` in `"addons"` (a group is a `title`, an optional `note` and `options`, and an option has a `price` only
+where the shop states one; [ADR 0018](adr/0018-real-details-and-add-ons.md)).
 
 **Add a section.** Create `src/sections/<name>/` with `<Name>.astro`, `<name>.module.css`, `<name>.hooks.ts` (root +
 parts), `types.ts`, `index.ts`; build its props in `composition/home.ts`; add it to `pages/index.astro`. Add a

@@ -38,7 +38,7 @@ export function buildRestaurantJsonLd(
     description: site.description,
     url,
     telephone: site.contact.phone,
-    email: site.contact.email,
+    ...(site.contact.email ? { email: site.contact.email } : {}),
     servesCuisine: categories.map((category) => category.title),
     address: { '@type': 'PostalAddress', streetAddress: site.address.lines.join(', ') },
     openingHoursSpecification,

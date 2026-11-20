@@ -27,6 +27,7 @@ const card = (id: string) => ({
   description: '',
   priceLabel: '100 RSD',
   sizes: [],
+  addons: [],
   allergens: [],
   tags: [],
   image: { src: '/dish.svg', width: 10, height: 10 },

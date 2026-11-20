@@ -14,7 +14,7 @@ export interface QuickViewProps {
   readonly opener: HTMLElement | null;
 }
 
-/** Item details: sizes, allergens, and how to order (this is a marketing site: call or visit). */
+/** Item details: sizes, optional add-ons, allergens, and how to order (this is a marketing site: call or visit). */
 export function QuickView({ card, phone, onClose, opener }: QuickViewProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   // The dish steps out of the picture on the card that was tapped.
@@ -77,6 +77,28 @@ export function QuickView({ card, phone, onClose, opener }: QuickViewProps) {
           ) : (
             <p class={styles.single}>{shown.priceLabel}</p>
           )}
+
+          {shown.addons.length > 0 ? (
+            <div class={styles.addons}>
+              <h4 class={styles.addonsTitle}>Add-ons</h4>
+              {shown.addons.map((group) => (
+                <div class={styles.group} key={group.title}>
+                  <h5 class={styles.groupTitle}>
+                    {group.title}
+                    {group.note ? <span class={styles.groupNote}>{group.note}</span> : null}
+                  </h5>
+                  <ul class={styles.chips} role="list">
+                    {group.options.map((option) => (
+                      <li class={styles.chip} key={option.label}>
+                        <span>{option.label}</span>
+                        {option.priceLabel ? <strong>+{option.priceLabel}</strong> : null}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : null}
 
           <p class={styles.allergens}>
             {shown.allergens.length > 0 ? (

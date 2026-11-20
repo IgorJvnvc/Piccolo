@@ -42,6 +42,7 @@ const item = (id: string, category: string, minor: number): MenuItem => ({
   description: `About ${id}`,
   price: { minor, currency: 'EUR' },
   sizes: [],
+  addons: [],
   imageKey: 'menu/pizza-slice',
   allergens: [],
   tags: [],
@@ -65,6 +66,12 @@ describe('buildRestaurantJsonLd', () => {
       servesCuisine: ['Pizza', 'Drinks'],
       address: { '@type': 'PostalAddress', streetAddress: '1 Example Street, Dublin' },
     });
+  });
+
+  it('leaves the email out when the business has none', () => {
+    const noEmail = { ...site, contact: { phone: site.contact.phone } };
+
+    expect(buildRestaurantJsonLd(noEmail, 'https://piccolo.example/', categories, items)).not.toHaveProperty('email');
   });
 
   it('lists opening hours for open days only', () => {

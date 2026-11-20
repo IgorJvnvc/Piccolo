@@ -1,5 +1,5 @@
 import { getCollection } from 'astro:content';
-import { type MenuCategory, type MenuItem, type MenuRepository, byOrder } from '@/entities/menu';
+import { type MenuAddonGroup, type MenuCategory, type MenuItem, type MenuRepository, byOrder } from '@/entities/menu';
 
 export interface MenuSourceOptions {
   /** ISO 4217 currency for every price (owned by the site entity, injected by the composition root). */
@@ -14,7 +14,7 @@ const toMinor = (major: number): number => Math.round(major * 100);
  */
 const rawRows = import.meta.glob<unknown[]>('/src/content/menu/*.json', { eager: true, import: 'default' });
 
-function loaded<T>(name: 'categories' | 'items', entries: readonly T[]): readonly T[] {
+function loaded<T>(name: 'categories' | 'items' | 'addons', entries: readonly T[]): readonly T[] {
   const expected = rawRows[`/src/content/menu/${name}.json`]?.length ?? 0;
   if (entries.length !== expected) {
     throw new Error(
@@ -40,14 +40,30 @@ export function createContentMenuRepository({ currency }: MenuSourceOptions): Me
     },
 
     async items(): Promise<readonly MenuItem[]> {
-      const [entries, code, categories] = await Promise.all([
+      const [entries, code, categories, addons] = await Promise.all([
         getCollection('items'),
         currency(),
         getCollection('categories'),
+        getCollection('addons'),
       ]);
       const known = new Set(categories.map((category) => category.id));
 
       const money = (major: number) => ({ minor: toMinor(major), currency: code });
+
+      const groups = new Map(
+        loaded('addons', addons).map((entry): [string, MenuAddonGroup] => [
+          entry.id,
+          {
+            id: entry.id,
+            title: entry.data.title,
+            note: entry.data.note,
+            options: entry.data.options.map((option) => ({
+              label: option.label,
+              price: option.price === undefined ? null : money(option.price),
+            })),
+          },
+        ]),
+      );
 
       return byOrder(
         loaded('items', entries).map((entry): MenuItem => {
@@ -61,6 +77,11 @@ export function createContentMenuRepository({ currency }: MenuSourceOptions): Me
             description: entry.data.description,
             price: money(entry.data.price),
             sizes: entry.data.sizes.map((size) => ({ label: size.label, price: money(size.price) })),
+            addons: entry.data.addons.map((id) => {
+              const group = groups.get(id);
+              if (!group) throw new Error(`Menu item "${entry.id}" references unknown add-on group "${id}"`);
+              return group;
+            }),
             imageKey: entry.data.image,
             allergens: entry.data.allergens,
             tags: entry.data.tags,

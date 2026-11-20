@@ -1,7 +1,7 @@
 import type { ImageSource } from '@/shared/ui';
 
 export interface FollowLink {
-  readonly network: 'whatsapp' | 'instagram';
+  readonly network: 'whatsapp' | 'instagram' | 'facebook';
   readonly label: string;
   readonly href: string;
 }

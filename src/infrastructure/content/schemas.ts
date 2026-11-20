@@ -40,7 +40,8 @@ export const siteSchema = z.object({
   currency: z.string().length(3),
   contact: z.object({
     phone: z.string().min(5),
-    email: z.email(),
+    /** Optional: the footer and the structured data leave it out when there is none. */
+    email: z.email().optional(),
   }),
   address: z.object({
     lines: z.array(z.string().min(1)).min(1),
@@ -91,6 +92,7 @@ export const homeSchema = z.object({
     callLabel: z.string().min(1),
     whatsappLabel: z.string().min(1),
     instagramLabel: z.string().min(1),
+    facebookLabel: z.string().min(1),
   }),
   visit: z.object({
     title: z.string().min(1),
@@ -114,6 +116,18 @@ export const categorySchema = z.object({
   order: z.number().int(),
 });
 
+/**
+ * Add-on groups ("Sauces", "Extras", ...) that items point to by id. This site takes no orders, so they only inform.
+ * An option's price is optional: without one the shop states none, and nothing is shown (never an assumed "free").
+ */
+export const addonGroupSchema = z.object({
+  id: slug,
+  title: z.string().min(1),
+  /** Shown beside the title, e.g. "60 g each". */
+  note: z.string().default(''),
+  options: z.array(z.object({ label: z.string().min(1), price: price.optional() })).min(1),
+});
+
 export const itemSchema = z.object({
   id: slug,
   category: z.string().min(1),
@@ -123,6 +137,8 @@ export const itemSchema = z.object({
   /** Major units (8.5 = 8.50); converted to integer minor units when mapped to the entity. */
   price,
   sizes: z.array(z.object({ label: z.string().min(1), price })).default([]),
+  /** Ids of the groups in menu/addons.json that go with this item, in the order they are shown. */
+  addons: z.array(slug).default([]),
   /** Key into src/assets, e.g. "menu/pizza-slice". */
   image: z.string().min(1),
   allergens: z.array(z.enum(ALLERGENS)).default([]),

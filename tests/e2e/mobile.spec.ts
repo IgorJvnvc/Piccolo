@@ -73,13 +73,13 @@ test.describe('phone and tablet', () => {
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused();
   });
 
-  test('the action dock keeps call, WhatsApp, directions and the open status in reach', async ({ page }) => {
+  test('the action dock keeps call, directions and the open status in reach', async ({ page }) => {
     await ready(page);
     const dock = page.getByRole('group', { name: 'Quick actions' });
     await expect(dock).toBeVisible();
     await expect(dock.getByRole('link', { name: 'Call' })).toHaveAttribute('href', /^tel:/);
-    await expect(dock.getByRole('link', { name: 'WhatsApp' })).toBeVisible();
     await expect(dock.getByRole('link', { name: 'Directions' })).toBeVisible();
+    await expect(dock.getByRole('link', { name: 'WhatsApp' })).toHaveCount(0); // the shop has no WhatsApp, so the dock must not offer one
     await expect(dock).toContainText(/(Open|Closed) now/); // the open-status behaviour has run
 
     // It slides up once the page is ready, stays at the bottom of the screen, and the page leaves room for it: the last link is not hidden behind it.

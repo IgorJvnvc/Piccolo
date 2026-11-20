@@ -37,7 +37,8 @@
       "title": ["Follow us for", "Fresh Offers"],
       "callLabel": "Call now",
       "whatsappLabel": "Message us on WhatsApp",
-      "instagramLabel": "Follow us on Instagram"
+      "instagramLabel": "Follow us on Instagram",
+      "facebookLabel": "Follow us on Facebook"
     },
     "visit": {
       "title": "Find Us",

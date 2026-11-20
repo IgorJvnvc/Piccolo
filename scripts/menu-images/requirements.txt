@@ -1,0 +1,18 @@
+# The environment scripts/menu-images/build.py runs in. Dev only: the finished WebP files are committed, and nothing here is part of
+# `npm run verify` or the build (ADR 0017).
+#
+#   python -m venv .shots/venv
+#   .shots/venv/Scripts/python -m pip install -r scripts/menu-images/requirements.txt      (bin/python on macOS and Linux)
+#
+# On Linux pip's default torch is the CUDA build (large): add --extra-index-url https://download.pytorch.org/whl/cpu for the CPU one.
+# The first run downloads two models: rembg's isnet-general-use (170 MB, into ~/.u2net) and Real-ESRGAN general x4v3 (5 MB, into
+# .shots/models; build.py checks its SHA-256 against the official release).
+numpy==2.2.6
+onnxruntime==1.23.2
+opencv-python-headless==5.1.0.95
+pillow==12.3.0
+PyMatting==1.1.16
+rembg==2.0.69
+scikit-image==0.25.2
+scipy==1.15.3
+torch==2.14.1

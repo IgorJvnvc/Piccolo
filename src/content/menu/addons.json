@@ -1,0 +1,45 @@
+[
+  {
+    "id": "sauces",
+    "title": "Sauces",
+    "options": [{ "label": "Ketchup" }, { "label": "Mayonnaise" }, { "label": "Mustard" }, { "label": "Chili" }]
+  },
+  {
+    "id": "extras",
+    "title": "Extras",
+    "note": "60 g each",
+    "options": [
+      { "label": "Cheese", "price": 150 },
+      { "label": "Ham", "price": 150 },
+      { "label": "Smoked pork loin", "price": 150 },
+      { "label": "Pepperoni", "price": 150 },
+      { "label": "Chicken breast", "price": 150 }
+    ]
+  },
+  {
+    "id": "salads",
+    "title": "Salads",
+    "note": "50 g each",
+    "options": [
+      { "label": "Russian salad", "price": 80 },
+      { "label": "Chicken salad", "price": 80 },
+      { "label": "Beef salad", "price": 80 },
+      { "label": "Tuna salad", "price": 100 }
+    ]
+  },
+  {
+    "id": "sweet-fillings",
+    "title": "Sweet fillings",
+    "options": [
+      { "label": "Eurokrem (50 g)", "price": 100 },
+      { "label": "Plazma (20 g)", "price": 100 },
+      { "label": "Sour cherry (50 g)", "price": 100 },
+      { "label": "Raspberry (50 g)", "price": 100 }
+    ]
+  },
+  {
+    "id": "toasting",
+    "title": "Toasted or not",
+    "options": [{ "label": "Toasted" }, { "label": "Untoasted" }]
+  }
+]

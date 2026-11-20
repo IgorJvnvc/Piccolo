@@ -23,6 +23,7 @@ const items: MenuItem[] = [
     description: 'Tomato, mozzarella, basil.',
     price: { minor: 850, currency: 'EUR' },
     sizes: [],
+    addons: [],
     imageKey: 'menu/pizza-slice',
     allergens: [],
     tags: [],
@@ -65,13 +66,19 @@ describe('buildNotFoundPage', () => {
   });
 
   it('leaves links that already work from anywhere untouched (tel:, mailto:, https:)', async () => {
-    const { footer } = await build();
+    // The real site has no email and no WhatsApp, so give this one both: they are the kinds of link the footer can carry.
+    const full = {
+      ...site,
+      contact: { ...site.contact, email: 'hello@example.com' },
+      socials: [...site.socials, { network: 'whatsapp' as const, label: 'WhatsApp', href: 'https://wa.me/381640000000' }],
+    };
+    const { footer } = await buildNotFoundPage({ ...container, site: { ...container.site, site: () => Promise.resolve(full) } }, 'https://piccolo.example');
     const contact = footer.columns.find((column) => column.title === 'Contact');
     const hrefs = contact?.links.map((link) => link.href) ?? [];
 
-    expect(hrefs.length).toBeGreaterThan(0);
     expect(hrefs.some((href) => href.startsWith('tel:'))).toBe(true);
     expect(hrefs.some((href) => href.startsWith('mailto:'))).toBe(true);
+    expect(hrefs.some((href) => href.startsWith('https:'))).toBe(true);
     expect(hrefs.every((href) => !href.startsWith('/'))).toBe(true);
   });
 });

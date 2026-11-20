@@ -31,6 +31,7 @@ const item = ({ id, category, order = 0, popular = false, price = 1000, sizes = 
   description: `Description of ${id}`,
   price: money(price),
   sizes: sizes.map(([label, minor]) => ({ label, price: money(minor) })),
+  addons: [],
   imageKey: 'menu/pizza-slice',
   allergens: [],
   tags: [],
@@ -159,10 +160,26 @@ describe('toCardModel', () => {
         { label: 'Small', priceLabel: '€8.50' },
         { label: 'Large', priceLabel: '€12.50' },
       ],
+      addons: [],
       allergens: ['Gluten', 'Dairy', 'Tree nuts'],
       tags: ['Vegetarian'],
       image,
     });
+  });
+
+  it('carries add-ons with their prices, and an empty price label where the shop states none', () => {
+    const source: MenuItem = {
+      ...item({ id: 'ham-sandwich', category: 'sandwiches' }),
+      addons: [
+        { id: 'sauces', title: 'Sauces', note: '', options: [{ label: 'Ketchup', price: null }, { label: 'Chili', price: null }] },
+        { id: 'extras', title: 'Extras', note: '60 g each', options: [{ label: 'Ham', price: money(1500) }] },
+      ],
+    };
+
+    expect(toCardModel(source, image, euro).addons).toEqual([
+      { title: 'Sauces', note: '', options: [{ label: 'Ketchup', priceLabel: '' }, { label: 'Chili', priceLabel: '' }] },
+      { title: 'Extras', note: '60 g each', options: [{ label: 'Ham', priceLabel: '€15.00' }] },
+    ]);
   });
 });
 

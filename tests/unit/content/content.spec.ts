@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { categorySchema, homeSchema, itemSchema, siteSchema } from '@/infrastructure/content/schemas';
+import { addonGroupSchema, categorySchema, homeSchema, itemSchema, siteSchema } from '@/infrastructure/content/schemas';
 
 const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 
@@ -14,6 +14,7 @@ const site = mainOf('site.json');
 const home = mainOf('home.json');
 const categories = rowsOf('menu/categories.json');
 const items = rowsOf('menu/items.json');
+const addons = rowsOf('menu/addons.json');
 
 const problems = (name: string, result: { success: boolean; error?: { message: string } }): string[] =>
   result.success ? [] : [`${name}: ${result.error?.message ?? ''}`];
@@ -27,6 +28,7 @@ describe('src/content', () => {
       ...problems('home', homeSchema.safeParse(home)),
       ...categories.flatMap((row) => problems(`category ${String(row['id'])}`, categorySchema.safeParse(row))),
       ...items.flatMap((row) => problems(`item ${String(row['id'])}`, itemSchema.safeParse(row))),
+      ...addons.flatMap((row) => problems(`add-on group ${String(row['id'])}`, addonGroupSchema.safeParse(row))),
     ]).toEqual([]);
   });
 
@@ -44,7 +46,25 @@ describe('src/content', () => {
       return item['price'] !== Math.min(...sizes.map((size) => size.price)) || new Set(sizes.map((size) => size.label)).size !== sizes.length;
     });
     expect(wrong.map((item) => item['id'])).toEqual([]);
-  });});
+  });
+
+  it('points every item at add-on groups that exist, each once', () => {
+    const known = new Set(addons.map((group) => group['id']));
+    const wrong = items.filter((item) => {
+      const used = (item['addons'] ?? []) as string[];
+      return used.some((id) => !known.has(id)) || new Set(used).size !== used.length;
+    });
+    expect(wrong.map((item) => item['id'])).toEqual([]);
+  });
+
+  it('lists each add-on option once per group', () => {
+    const repeated = addons.filter((group) => {
+      const labels = (group['options'] as { label: string }[]).map((option) => option.label);
+      return new Set(labels).size !== labels.length;
+    });
+    expect(repeated.map((group) => group['id'])).toEqual([]);
+  });
+});
 
 describe('schemas reject bad content', () => {
   const hours = site['hours'] as { weekly: Row };
@@ -55,6 +75,7 @@ describe('schemas reject bad content', () => {
     ['an unpadded time', monday({ open: '9:30', close: '23:00' })],
     ['an unknown time zone', { ...site, hours: { ...hours, timezone: 'Europe/Atlantis' } }],
     ['a currency that is not a 3-letter code', { ...site, currency: 'EURO' }],
+    ['an email that is not an address', { ...site, contact: { ...(site['contact'] as Row), email: 'not-an-email' } }],
   ])('site.json: %s', (_name, bad) => {
     expect(siteSchema.safeParse(bad).success).toBe(false);
   });
@@ -64,8 +85,17 @@ describe('schemas reject bad content', () => {
     ['a price with fractions of a cent', { price: 8.505 }],
     ['an id that is not a slug', { id: 'Big Mac' }],
     ['an unknown allergen', { allergens: ['pollen'] }],
+    ['an add-on group id that is not a slug', { addons: ['Big Sauce'] }],
   ])('items.json: %s', (_name, patch) => {
     expect(itemSchema.safeParse({ ...items[0], ...patch }).success).toBe(false);
+  });
+
+  it.each([
+    ['an add-on priced 0 (leave the price out: nothing is claimed)', { options: [{ label: 'Ketchup', price: 0 }] }],
+    ['a group without options', { options: [] }],
+    ['an id that is not a slug', { id: 'Extra Sauces' }],
+  ])('addons.json: %s', (_name, patch) => {
+    expect(addonGroupSchema.safeParse({ ...addons[0], ...patch }).success).toBe(false);
   });
 
   it('fills defaults for optional item fields', () => {
@@ -77,6 +107,6 @@ describe('schemas reject bad content', () => {
       price: 7,
       image: 'menu/pizza-slice',
     });
-    expect(minimal).toMatchObject({ sizes: [], allergens: [], tags: [], popular: false, order: 0 });
+    expect(minimal).toMatchObject({ sizes: [], addons: [], allergens: [], tags: [], popular: false, order: 0 });
   });
 });

@@ -8,7 +8,7 @@
   {
     "id": "hot-dogs-sandwiches",
     "title": "Hot Dogs & Sandwiches",
-    "blurb": "Hot dogs, sandwiches and kifla",
+    "blurb": "Hot dogs and sandwiches",
     "order": 2
   },
   {
@@ -18,21 +18,15 @@
     "order": 3
   },
   {
-    "id": "salads-soups-sides",
-    "title": "Salads, Soups & Sides",
-    "blurb": "Salads by weight, soups and extras",
+    "id": "soups",
+    "title": "Soups",
+    "blurb": "Chicken and beef soup",
     "order": 4
-  },
-  {
-    "id": "hot-drinks",
-    "title": "Hot Drinks",
-    "blurb": "Coffee and hot drinks",
-    "order": 5
   },
   {
     "id": "cold-drinks",
     "title": "Cold Drinks",
     "blurb": "Soft drinks, juices, water and more",
-    "order": 6
+    "order": 5
   }
 ]

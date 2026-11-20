@@ -1,6 +1,6 @@
 import { expect, ready, settled, test } from './fixtures';
 
-const CATEGORIES = ['Pizza & Calzones', 'Hot Dogs & Sandwiches', 'Sweet Pies & Sandwiches', 'Salads, Soups & Sides', 'Hot Drinks', 'Cold Drinks'];
+const CATEGORIES = ['Pizza & Calzones', 'Hot Dogs & Sandwiches', 'Sweet Pies & Sandwiches', 'Soups', 'Cold Drinks'];
 
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' });
@@ -37,7 +37,7 @@ test.describe('without JavaScript', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Fast Food');
     await expect(page.getByRole('heading', { name: 'Our Menu' })).toBeVisible();
     // no tab UI, but every category is present and visible, stacked
-    await expect(page.getByRole('tab', { includeHidden: true })).toHaveCount(6);
+    await expect(page.getByRole('tab', { includeHidden: true })).toHaveCount(5);
     await expect(page.getByRole('tab', { includeHidden: true }).first()).toBeHidden();
     for (const name of CATEGORIES) {
       await expect(page.getByRole('heading', { name, level: 3, exact: true })).toBeVisible();
@@ -46,7 +46,7 @@ test.describe('without JavaScript', () => {
     const bgWidth = (await page.locator('#offers [data-part="bg"]').boundingBox())?.width ?? 0;
     expect(bgWidth).toBeGreaterThan(stageWidth - 2);
     // Every page of a long category is shown, and the pager that would turn them is not.
-    await expect(page.getByRole('heading', { name: 'Ultra Energy', level: 3 })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Yogurt', level: 3 })).toBeVisible();
     await expect(page.getByRole('navigation', { name: 'Cold Drinks pages', includeHidden: true })).toBeHidden();
   });
 });

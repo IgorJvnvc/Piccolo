@@ -7,7 +7,7 @@ Guidance for AI coding agents working in this repository. Humans should start wi
 
 A static, single-page marketing site (Astro 7, two Preact islands, GSAP + Lenis) for a fast-food place. It copies a
 reference reel's layout and motion ([docs/reference-spec.md](docs/reference-spec.md)) and works from phones to TVs. No
-backend. All business content and artwork are **placeholders**.
+backend. The business details (address, phone, hours, socials) and the menu are real ([ADR 0018](docs/adr/0018-real-details-and-add-ons.md)); the page copy and the hero and section artwork are **placeholders**.
 
 ## Commands
 
@@ -42,7 +42,8 @@ On Windows PowerShell use `npm.cmd` / `npx.cmd` if script execution policy block
 | You want to... | Do this |
 | --- | --- |
 | Change copy, hours, links, menu | Edit `src/content/*.json` (validated at build time) |
-| Add a menu item | Append to `src/content/menu/items.json`; `image` must have a file under `src/assets`: add its drawing to `scripts/art/menu.mjs` and run `npm run art` ([ADR 0015](docs/adr/0015-one-picture-for-every-product.md)) |
+| Add a menu item | Put its shot in `scripts/menu-images/originals/<item id>.png`, run `build.py <item id>` in `.shots/venv` (setup in `requirements.txt`; `--sheet` writes review sheets), look at them, then append the item to `src/content/menu/items.json` with `"image": "menu/<item id>"` ([ADR 0017](docs/adr/0017-the-owners-product-shots.md)). Never put a raw shot in `src/assets`: it is bundled |
+| Give a dish add-ons | Add or edit a group in `src/content/menu/addons.json` (`id`, `title`, optional `note`, `options`), then list its id in the item's `addons`; the quick view shows the groups in that order ([ADR 0018](docs/adr/0018-real-details-and-add-ons.md)) |
 | Add a section | `src/sections/<name>/` (`.astro`, `.module.css`, `.hooks.ts`, `types.ts`, `index.ts`); props in `composition/home.ts`; add to `pages/index.astro` |
 | Animate a section on scroll | `<name>.scene.ts` default-exporting `defineScene({ id, selector, start, build })`; `build` gets the scene's `timeline`, `fadeUp`, `px`. Numbers (eases, durations, travel in rem) come from `shared/motion/tokens.ts` |
 | Add interaction (not UI state) | `*.behavior.ts` in the owning feature |
@@ -73,7 +74,8 @@ More recipes: [docs/architecture.md](docs/architecture.md#recipes).
 Skills live in the developer's own opencode setup (`~/.config/opencode/skills`, `~/.agents/skills`, plugins in
 `~/.config/opencode/opencode.jsonc`), never in this repo, so nothing here vendors, pins or locks them. Used for this
 project: the official GreenSock skills (`gsap-*`), `impeccable`, `design-taste-frontend` and `landing-page-design` (design), `playwright-cli`
-(browser checks), `ponytail` (less code) and `img2threejs` (dormant: 3D needs an ADR first). Load only what the task
+(browser checks), `ponytail` (less code), `image-enhancer` (ComposioHQ) and `imagen` (sanjay3290; needs `GEMINI_API_KEY`) for the menu
+pictures, and `img2threejs` (dormant: 3D needs an ADR first). Load only what the task
 needs: `gsap-core`, `gsap-timeline`, `gsap-scrolltrigger` and `gsap-performance` for scenes; `gsap-react` for island
 hooks; `gsap-plugins` before adding a plugin. In a session that started before an install, read the `SKILL.md` directly.
 
@@ -88,7 +90,9 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
 | impeccable: no kicker or eyebrow above a heading | About and Follow keep the reel's script kicker; nowhere else, and no new ones | The reel binds those two sections ([PRODUCT.md](PRODUCT.md)); the rest dropped theirs ([ADR 0010](docs/adr/0010-phone-first-design-pass.md)) |
 | impeccable: blur, clip-path, mask and shadow may be animated | Animation code stays `opacity` and `transform`; static CSS may use the others | Lint-enforced ([ADR 0003](docs/adr/0003-progressive-enhancement-and-reveal-protocol.md)) |
 | taste-skill: one section per screen, shader grounds, a kit copied into `public/`, a Stop-hook gate | None of it: the skill is art-direction advice only, and its scripts are not run against the repo | The reel binds the layout, and the kit would bypass tokens and lint |
-| landing-page-design: its own fonts, type scale, spacing, radius and motion values, a hero layout, a mandatory tagline-reveal section, and "this file wins over a framework default" | Copy and conversion advice only (intake, headlines, CTAs, FAQ, SEO); every value comes from 	okens.css, the section list from the reel and [PRODUCT.md](PRODUCT.md) | The reel binds the layout and the tokens bind the values; a new section needs a reason |
+| landing-page-design: its own fonts, type scale, spacing, radius and motion values, a hero layout, a mandatory tagline-reveal section, and "this file wins over a framework default" | Copy and conversion advice only (intake, headlines, CTAs, FAQ, SEO); every value comes from `tokens.css`, the section list from the reel and [PRODUCT.md](PRODUCT.md) | The reel binds the layout and the tokens bind the values; a new section needs a reason |
+| image-enhancer: write `<name>-enhanced.png` beside the file and keep `<name>-original.png` | The shot stays in `scripts/menu-images/originals/<item id>.png` and `build.py` writes `src/assets/menu/<item id>.webp` (4x model upscale, cut-out, 640 px) | One pipeline makes every picture alike, and `src/assets` is bundled, so a stray PNG there would ship ([ADR 0017](docs/adr/0017-the-owners-product-shots.md)) |
+| imagen: generate a picture from a text prompt, "placeholder or actual images for any UI" | Only for a menu picture the owner has marked as bad; the result is saved as that item's original and goes through `build.py` like any other | A generated bottle invents its label and a generated dish is not this shop's food ([ADR 0017](docs/adr/0017-the-owners-product-shots.md)) |
 
 ## Gotchas (each one cost time once)
 
@@ -101,6 +105,7 @@ hooks; `gsap-plugins` before adding a plugin. In a session that started before a
   `document.activeElement` is unreliable after a tap.
 - **Phone numbers use non-breaking spaces** (`nbsp()` in composition); the `tel:` href strips them.
 - **Money is integer minor units** in the domain; JSON is in major units and converted once in the adapter.
+- **An add-on option has a price only where the shop states one.** `price: 0` is rejected: the sauces and "toasted or not" show none, and nothing on the site is called free ([ADR 0018](docs/adr/0018-real-details-and-add-ons.md)).
 - **Astro frontmatter exports are fragile**: put section prop types in `types.ts`.
 - **`gsap.context()` needs a function.** Without one it returns the context that is *currently running* (undefined at
   setup), not a new one. `createScene` passes a no-op and runs the scene through `context.add`.

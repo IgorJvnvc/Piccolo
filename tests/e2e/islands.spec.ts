@@ -325,6 +325,31 @@ test.describe('the quick view', () => {
     await expect(page.locator(QUICK_VIEW)).toHaveCount(0);
   });
 
+  test('lists the add-ons that go with a dish, priced only where the shop states a price, and none for a soup', async ({ page }) => {
+    await ready(page);
+    await hydrated(page, 'MenuBrowser');
+    const menu = page.locator('#menu');
+
+    // The tuna sandwich takes the toasting choice and every add-on group (the shop's own rule for it).
+    await menu.getByRole('tab', { name: 'Hot Dogs' }).click();
+    await menu.getByRole('button', { name: 'Details: Tuna Sandwich' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Tuna Sandwich' });
+    await expect(dialog.getByRole('heading', { name: 'Add-ons' })).toBeVisible();
+    for (const group of ['Sauces', 'Extras', 'Salads', 'Toasted or not']) {
+      await expect(dialog.getByRole('heading', { name: group })).toBeVisible();
+    }
+    await expect(dialog.getByRole('listitem').filter({ hasText: 'Cheese' })).toContainText('+150 RSD');
+    await expect(dialog.getByRole('listitem').filter({ hasText: 'Tuna salad' })).toContainText('+100 RSD');
+    // No price is stated for sauces, and "free" is never assumed.
+    await expect(dialog.getByRole('listitem').filter({ hasText: 'Ketchup' })).not.toContainText('RSD');
+    await closeQuickView(page);
+
+    await menu.getByRole('tab', { name: 'Soups' }).click();
+    await menu.getByRole('button', { name: 'Details: Chicken Soup' }).click();
+    await expect(page.getByRole('dialog', { name: 'Chicken Soup' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Add-ons' })).toHaveCount(0);
+  });
+
   test('when GSAP cannot be downloaded it still opens and closes', async ({ page }) => {
     await page.route(GSAP_CHUNK, (route) => route.abort());
     const opener = await prepare(page);
@@ -353,26 +378,24 @@ test.describe('the menu pages', () => {
     const previous = panel.getByRole('button', { name: 'Previous', exact: true });
 
     await expect(visible).toHaveCount(9);
-    await expect(status('Page 1 of 4')).toBeVisible();
+    await expect(status('Page 1 of 3')).toBeVisible();
     await expect(previous).toHaveAttribute('aria-disabled', 'true');
     const firstOfPageOne = await visible.first().getAttribute('data-card');
 
     await next.click();
-    await expect(status('Page 2 of 4')).toBeVisible();
+    await expect(status('Page 2 of 3')).toBeVisible();
     await expect(visible).toHaveCount(9);
     expect(await visible.first().getAttribute('data-card')).not.toBe(firstOfPageOne);
 
     await next.click();
-    await next.click();
-    await expect(status('Page 4 of 4')).toBeVisible();
-    await expect(visible).toHaveCount(4); // 31 cards: three full pages and four
+    await expect(status('Page 3 of 3')).toBeVisible();
+    await expect(visible).toHaveCount(1); // 19 cards: two full pages and one
     await expect(next).toHaveAttribute('aria-disabled', 'true');
     await expect(next).toBeFocused(); // pressing the end of the range did not drop focus
 
     await previous.click();
     await previous.click();
-    await previous.click();
-    await expect(status('Page 1 of 4')).toBeVisible();
+    await expect(status('Page 1 of 3')).toBeVisible();
     expect(await visible.first().getAttribute('data-card')).toBe(firstOfPageOne);
   });
 
@@ -380,7 +403,7 @@ test.describe('the menu pages', () => {
     await ready(page);
     await hydrated(page, 'MenuBrowser');
     const menu = page.locator('#menu');
-    await expect(menu.getByRole('tabpanel', { name: 'Pizza & Calzones' }).locator('article:visible')).toHaveCount(6);
+    await expect(menu.getByRole('tabpanel', { name: 'Pizza & Calzones' }).locator('article:visible')).toHaveCount(5);
     await expect(menu.getByRole('navigation')).toHaveCount(0);
   });
 });

@@ -29,7 +29,9 @@ const catalog = buildCatalog();
 /**
  * Adapter: src/assets/** -> optimized, responsive ImageSource.
  * - SVG placeholders pass through untouched.
- * - Rasters get AVIF + WebP sources at several widths, plus a same-format fallback.
+ * - So does a WebP: the menu pictures (scripts/menu-images) are exported at the size they are shown, and a srcset in three formats
+ *   for every card would not fit the HTML budget (ADR 0017).
+ * - Other rasters get AVIF + WebP sources at several widths, plus a same-format fallback.
  */
 export function createImageResolver(): ImageResolver {
   return {
@@ -41,7 +43,7 @@ export function createImageResolver(): ImageResolver {
       }
 
       const base: ImageSource = { src: meta.src, width: meta.width, height: meta.height };
-      if (meta.format === 'svg') return base;
+      if (meta.format === 'svg' || meta.format === 'webp') return base;
 
       const widths = Array.from(new Set([...DEFAULT_WIDTHS.filter((width) => width < meta.width), meta.width])).sort(
         (a, b) => a - b,

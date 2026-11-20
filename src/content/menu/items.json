@@ -3,7 +3,13 @@
     "id": "pizza-slice",
     "category": "pizza",
     "name": "Pizza Slice",
+    "description": "A slice (1/6) of our 43 cm pizza: dough, tomato sauce, cheese, ham, mushrooms, sesame.",
     "price": 220,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads"
+    ],
     "image": "menu/pizza-slice",
     "popular": true,
     "order": 1
@@ -12,7 +18,13 @@
     "id": "whole-pizza",
     "category": "pizza",
     "name": "Whole Pizza",
+    "description": "43 cm, 6 slices. Dough, tomato sauce, cheese, ham, mushrooms, sesame.",
     "price": 1320,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads"
+    ],
     "image": "menu/whole-pizza",
     "order": 2
   },
@@ -20,7 +32,11 @@
     "id": "calzone",
     "category": "pizza",
     "name": "Calzone",
+    "description": "Dough, tomato sauce, cheese, ham, mushrooms, sesame.",
     "price": 440,
+    "addons": [
+      "extras"
+    ],
     "image": "menu/calzone",
     "order": 3
   },
@@ -28,7 +44,13 @@
     "id": "whole-chicken-pizza",
     "category": "pizza",
     "name": "Whole Chicken Pizza",
+    "description": "43 cm, 6 slices. Dough, tomato sauce, cheese, chicken breast, mushrooms, sesame.",
     "price": 1320,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads"
+    ],
     "image": "menu/whole-chicken-pizza",
     "order": 4
   },
@@ -36,40 +58,40 @@
     "id": "whole-tuna-pizza",
     "category": "pizza",
     "name": "Whole Tuna Pizza",
+    "description": "43 cm, 6 slices. Dough, tomato sauce, tuna, sweetcorn, potato, onion, mushrooms, sesame.",
     "price": 1920,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads"
+    ],
     "image": "menu/whole-tuna-pizza",
     "order": 5
-  },
-  {
-    "id": "pizza-box",
-    "category": "pizza",
-    "name": "Pizza Box",
-    "price": 100,
-    "image": "menu/pizza-box",
-    "order": 6
   },
   {
     "id": "small-hot-dog",
     "category": "hot-dogs-sandwiches",
     "name": "Small Hot Dog",
     "price": 130,
+    "addons": [
+      "sauces"
+    ],
     "image": "menu/small-hot-dog",
-    "order": 1
-  },
-  {
-    "id": "large-hot-dog",
-    "category": "hot-dogs-sandwiches",
-    "name": "Large Hot Dog",
-    "price": 260,
-    "image": "menu/large-hot-dog",
     "popular": true,
-    "order": 2
+    "order": 1
   },
   {
     "id": "ham-sandwich",
     "category": "hot-dogs-sandwiches",
     "name": "Ham Sandwich",
+    "description": "Bread roll, cheese, ham.",
     "price": 240,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads",
+      "toasting"
+    ],
     "image": "menu/ham-sandwich",
     "popular": true,
     "order": 3
@@ -78,7 +100,14 @@
     "id": "smoked-pork-loin-sandwich",
     "category": "hot-dogs-sandwiches",
     "name": "Smoked Pork Loin Sandwich",
+    "description": "Bread roll, cheese, lettuce, smoked pork loin.",
     "price": 260,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads",
+      "toasting"
+    ],
     "image": "menu/smoked-pork-loin-sandwich",
     "order": 4
   },
@@ -86,15 +115,29 @@
     "id": "chicken-breast-sandwich",
     "category": "hot-dogs-sandwiches",
     "name": "Chicken Breast Sandwich",
+    "description": "Bread roll, cheese, chicken breast.",
     "price": 240,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads",
+      "toasting"
+    ],
     "image": "menu/chicken-breast-sandwich",
     "order": 5
   },
   {
     "id": "kulen-sandwich",
     "category": "hot-dogs-sandwiches",
-    "name": "Kulen Sandwich",
+    "name": "Pepperoni Sandwich",
+    "description": "Bread roll, cheese, lettuce, pepperoni.",
     "price": 260,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads",
+      "toasting"
+    ],
     "image": "menu/kulen-sandwich",
     "order": 6
   },
@@ -102,38 +145,31 @@
     "id": "tuna-sandwich",
     "category": "hot-dogs-sandwiches",
     "name": "Tuna Sandwich",
+    "description": "Lenten. Bread roll, lettuce, tuna, sweetcorn, potato, onion, tomato sauce.",
     "price": 300,
+    "addons": [
+      "sauces",
+      "extras",
+      "salads",
+      "toasting"
+    ],
     "image": "menu/tuna-sandwich",
     "order": 7
-  },
-  {
-    "id": "kifla",
-    "category": "hot-dogs-sandwiches",
-    "name": "Kifla",
-    "price": 100,
-    "image": "menu/kifla",
-    "order": 8
   },
   {
     "id": "sour-cherry-pie",
     "category": "sweet",
     "name": "Sour Cherry Pie",
+    "description": "One piece.",
     "price": 180,
     "image": "menu/sour-cherry-pie",
     "order": 1
   },
   {
-    "id": "apple-pie",
-    "category": "sweet",
-    "name": "Apple Pie",
-    "price": 180,
-    "image": "menu/apple-pie",
-    "order": 2
-  },
-  {
     "id": "raspberry-pie",
     "category": "sweet",
     "name": "Raspberry Pie",
+    "description": "One piece.",
     "price": 180,
     "image": "menu/raspberry-pie",
     "order": 3
@@ -142,7 +178,12 @@
     "id": "raspberry-sandwich",
     "category": "sweet",
     "name": "Raspberry Sandwich",
+    "description": "Bread roll, Eurokrem, Plazma, raspberry.",
     "price": 260,
+    "addons": [
+      "sweet-fillings",
+      "toasting"
+    ],
     "image": "menu/raspberry-sandwich",
     "order": 4
   },
@@ -150,86 +191,20 @@
     "id": "sour-cherry-sandwich",
     "category": "sweet",
     "name": "Sour Cherry Sandwich",
+    "description": "Bread roll, Eurokrem, Plazma, sour cherry.",
     "price": 260,
+    "addons": [
+      "sweet-fillings",
+      "toasting"
+    ],
     "image": "menu/sour-cherry-sandwich",
     "order": 5
   },
   {
-    "id": "russian-salad",
-    "category": "salads-soups-sides",
-    "name": "Russian Salad",
-    "price": 80,
-    "sizes": [
-      {
-        "label": "50 g",
-        "price": 80
-      },
-      {
-        "label": "1 kg",
-        "price": 1600
-      }
-    ],
-    "image": "menu/russian-salad",
-    "order": 1
-  },
-  {
-    "id": "chicken-salad",
-    "category": "salads-soups-sides",
-    "name": "Chicken Salad",
-    "price": 80,
-    "sizes": [
-      {
-        "label": "50 g",
-        "price": 80
-      },
-      {
-        "label": "1 kg",
-        "price": 1600
-      }
-    ],
-    "image": "menu/chicken-salad",
-    "order": 2
-  },
-  {
-    "id": "beef-salad",
-    "category": "salads-soups-sides",
-    "name": "Beef Salad",
-    "price": 80,
-    "sizes": [
-      {
-        "label": "50 g",
-        "price": 80
-      },
-      {
-        "label": "1 kg",
-        "price": 1600
-      }
-    ],
-    "image": "menu/beef-salad",
-    "order": 3
-  },
-  {
-    "id": "tuna-salad",
-    "category": "salads-soups-sides",
-    "name": "Tuna Salad",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "50 g",
-        "price": 100
-      },
-      {
-        "label": "1 kg",
-        "price": 2000
-      }
-    ],
-    "image": "menu/tuna-salad",
-    "order": 4
-  },
-  {
     "id": "chicken-soup",
-    "category": "salads-soups-sides",
+    "category": "soups",
     "name": "Chicken Soup",
+    "description": "Homemade clear chicken soup.",
     "price": 100,
     "sizes": [
       {
@@ -242,8 +217,9 @@
   },
   {
     "id": "beef-soup",
-    "category": "salads-soups-sides",
+    "category": "soups",
     "name": "Beef Soup",
+    "description": "Homemade clear beef soup.",
     "price": 100,
     "sizes": [
       {
@@ -252,180 +228,6 @@
       }
     ],
     "image": "menu/beef-soup",
-    "order": 6
-  },
-  {
-    "id": "side-kashkaval",
-    "category": "salads-soups-sides",
-    "name": "Side of Kashkaval",
-    "price": 150,
-    "sizes": [
-      {
-        "label": "60 g",
-        "price": 150
-      }
-    ],
-    "image": "menu/side-kashkaval",
-    "order": 7
-  },
-  {
-    "id": "side-ham",
-    "category": "salads-soups-sides",
-    "name": "Side of Ham",
-    "price": 150,
-    "sizes": [
-      {
-        "label": "60 g",
-        "price": 150
-      }
-    ],
-    "image": "menu/side-ham",
-    "order": 8
-  },
-  {
-    "id": "side-smoked-pork-loin",
-    "category": "salads-soups-sides",
-    "name": "Side of Smoked Pork Loin",
-    "price": 150,
-    "sizes": [
-      {
-        "label": "60 g",
-        "price": 150
-      }
-    ],
-    "image": "menu/side-smoked-pork-loin",
-    "order": 9
-  },
-  {
-    "id": "side-kulen",
-    "category": "salads-soups-sides",
-    "name": "Side of Kulen",
-    "price": 150,
-    "sizes": [
-      {
-        "label": "60 g",
-        "price": 150
-      }
-    ],
-    "image": "menu/side-kulen",
-    "order": 10
-  },
-  {
-    "id": "side-chicken-breast",
-    "category": "salads-soups-sides",
-    "name": "Side of Chicken Breast",
-    "price": 150,
-    "sizes": [
-      {
-        "label": "60 g",
-        "price": 150
-      }
-    ],
-    "image": "menu/side-chicken-breast",
-    "order": 11
-  },
-  {
-    "id": "side-eurokrem",
-    "category": "salads-soups-sides",
-    "name": "Side of Eurokrem",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "50 g",
-        "price": 100
-      }
-    ],
-    "image": "menu/side-eurokrem",
-    "order": 12
-  },
-  {
-    "id": "side-plazma",
-    "category": "salads-soups-sides",
-    "name": "Side of Plazma",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "20 g",
-        "price": 100
-      }
-    ],
-    "image": "menu/side-plazma",
-    "order": 13
-  },
-  {
-    "id": "side-sour-cherry",
-    "category": "salads-soups-sides",
-    "name": "Side of Sour Cherry",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "50 g",
-        "price": 100
-      }
-    ],
-    "image": "menu/side-sour-cherry",
-    "order": 14
-  },
-  {
-    "id": "side-raspberry",
-    "category": "salads-soups-sides",
-    "name": "Side of Raspberry",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "50 g",
-        "price": 100
-      }
-    ],
-    "image": "menu/side-raspberry",
-    "order": 15
-  },
-  {
-    "id": "espresso",
-    "category": "hot-drinks",
-    "name": "Espresso",
-    "price": 140,
-    "image": "menu/espresso",
-    "order": 1
-  },
-  {
-    "id": "coffee-with-milk",
-    "category": "hot-drinks",
-    "name": "Coffee with Milk",
-    "price": 150,
-    "image": "menu/coffee-with-milk",
-    "order": 2
-  },
-  {
-    "id": "cappuccino",
-    "category": "hot-drinks",
-    "name": "Cappuccino",
-    "price": 150,
-    "image": "menu/cappuccino",
-    "order": 3
-  },
-  {
-    "id": "cappuccino-with-chocolate",
-    "category": "hot-drinks",
-    "name": "Cappuccino with Chocolate",
-    "price": 160,
-    "image": "menu/cappuccino-with-chocolate",
-    "order": 4
-  },
-  {
-    "id": "mocaccino",
-    "category": "hot-drinks",
-    "name": "Mocaccino",
-    "price": 150,
-    "image": "menu/mocaccino",
-    "order": 5
-  },
-  {
-    "id": "nesquik",
-    "category": "hot-drinks",
-    "name": "Nesquik",
-    "price": 150,
-    "image": "menu/nesquik",
     "order": 6
   },
   {
@@ -491,28 +293,6 @@
     "order": 3
   },
   {
-    "id": "fanta",
-    "category": "cold-drinks",
-    "name": "Fanta",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "0.25 l",
-        "price": 100
-      },
-      {
-        "label": "0.33 l",
-        "price": 120
-      },
-      {
-        "label": "0.5 l",
-        "price": 140
-      }
-    ],
-    "image": "menu/fanta",
-    "order": 4
-  },
-  {
     "id": "fanta-orange",
     "category": "cold-drinks",
     "name": "Fanta Orange",
@@ -547,7 +327,7 @@
   {
     "id": "next-lemonade",
     "category": "cold-drinks",
-    "name": "Next Lemonade",
+    "name": "Next Lemon & Mint",
     "price": 140,
     "sizes": [
       {
@@ -557,20 +337,6 @@
     ],
     "image": "menu/next-lemonade",
     "order": 7
-  },
-  {
-    "id": "next-limunana",
-    "category": "cold-drinks",
-    "name": "Next Limunana",
-    "price": 140,
-    "sizes": [
-      {
-        "label": "0.4 l",
-        "price": 140
-      }
-    ],
-    "image": "menu/next-lemonade",
-    "order": 8
   },
   {
     "id": "fuze-peach",
@@ -713,90 +479,6 @@
     "order": 18
   },
   {
-    "id": "life-strawberry",
-    "category": "cold-drinks",
-    "name": "Life Strawberry",
-    "price": 130,
-    "sizes": [
-      {
-        "label": "0.25 l",
-        "price": 130
-      }
-    ],
-    "image": "menu/life-strawberry",
-    "order": 19
-  },
-  {
-    "id": "nectar-apple",
-    "category": "cold-drinks",
-    "name": "Nectar Apple",
-    "price": 90,
-    "sizes": [
-      {
-        "label": "0.2 l",
-        "price": 90
-      }
-    ],
-    "image": "menu/nectar-apple",
-    "order": 20
-  },
-  {
-    "id": "nectar-peach",
-    "category": "cold-drinks",
-    "name": "Nectar Peach",
-    "price": 90,
-    "sizes": [
-      {
-        "label": "0.2 l",
-        "price": 90
-      }
-    ],
-    "image": "menu/nectar-peach",
-    "order": 21
-  },
-  {
-    "id": "nectar-blueberry",
-    "category": "cold-drinks",
-    "name": "Nectar Blueberry",
-    "price": 90,
-    "sizes": [
-      {
-        "label": "0.2 l",
-        "price": 90
-      }
-    ],
-    "image": "menu/nectar-blueberry",
-    "order": 22
-  },
-  {
-    "id": "nectar-orange",
-    "category": "cold-drinks",
-    "name": "Nectar Orange",
-    "price": 90,
-    "sizes": [
-      {
-        "label": "0.2 l",
-        "price": 90
-      }
-    ],
-    "image": "menu/nectar-orange",
-    "order": 23
-  },
-  {
-    "id": "nectar-strawberry",
-    "category": "cold-drinks",
-    "name": "Nectar Strawberry",
-    "price": 90,
-    "sizes": [
-      {
-        "label": "0.2 l",
-        "price": 90
-      }
-    ],
-    "image": "menu/nectar-strawberry",
-    "order": 24
-  },
-  {
     "id": "knjaz-milos",
     "category": "cold-drinks",
     "name": "Knjaz Miloš",
@@ -825,34 +507,6 @@
     "order": 26
   },
   {
-    "id": "rosa-sparkling-water",
-    "category": "cold-drinks",
-    "name": "Rosa Sparkling Water",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "0.5 l",
-        "price": 100
-      }
-    ],
-    "image": "menu/rosa-sparkling-water",
-    "order": 27
-  },
-  {
-    "id": "aqua-viva",
-    "category": "cold-drinks",
-    "name": "Aqua Viva",
-    "price": 100,
-    "sizes": [
-      {
-        "label": "0.5 l",
-        "price": 100
-      }
-    ],
-    "image": "menu/aqua-viva",
-    "order": 28
-  },
-  {
     "id": "yogurt",
     "category": "cold-drinks",
     "name": "Yogurt",
@@ -869,33 +523,5 @@
     ],
     "image": "menu/yogurt",
     "order": 29
-  },
-  {
-    "id": "guarana",
-    "category": "cold-drinks",
-    "name": "Guarana",
-    "price": 150,
-    "sizes": [
-      {
-        "label": "0.25 l",
-        "price": 150
-      }
-    ],
-    "image": "menu/guarana",
-    "order": 30
-  },
-  {
-    "id": "ultra-energy",
-    "category": "cold-drinks",
-    "name": "Ultra Energy",
-    "price": 150,
-    "sizes": [
-      {
-        "label": "0.25 l",
-        "price": 150
-      }
-    ],
-    "image": "menu/ultra-energy",
-    "order": 31
   }
 ]

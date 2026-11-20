@@ -47,8 +47,8 @@ follows it. If the build does not pick it up, set `site` in `astro.config.ts` to
 
 ## The demo is placeholder content
 
-The name, address, phone number, hours and artwork are placeholders (see the [go-live checklist](../README.md#go-live-checklist)), and the
-page publishes them as structured data for a restaurant. Until the real details are in, keep the demo out of search results by adding
+The page copy and the artwork are placeholders (see the [go-live checklist](../README.md#go-live-checklist)), while the address, phone number and
+hours are the shop's real ones, and the page publishes them as structured data for a restaurant. Until the copy is the owner's own, keep the site out of search results by adding
 this entry to `vercel.json`, then remove it at go-live:
 
 ```json

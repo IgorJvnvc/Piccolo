@@ -4,8 +4,8 @@ A fast, accessible, single-page marketing site for a fast-food place (pizza, hot
 reproduces the layout and motion of a reference reel and is built to work on phones, tablets, laptops, desktops and TVs
 (including D-pad navigation). Static output, two small interactive islands, no backend.
 
-Everything shown (name, address, phone, prices, copy, artwork) is **placeholder content** to be replaced; see
-[Go-live checklist](#go-live-checklist).
+The business details (address, phone, hours, social links), the menu and its prices are the real ones. The page copy and the
+hero and section artwork are still **placeholder content** to be replaced; see [Go-live checklist](#go-live-checklist).
 
 ## Quick start
 
@@ -33,24 +33,24 @@ On Windows PowerShell, use `npm.cmd` / `npx.cmd` if script execution policy bloc
 | `npm test` | Vitest unit tests |
 | `npm run test:e2e` | Playwright on desktop, phone, tablet and TV profiles (uses the system Chrome) |
 | `npm run html` / `size` | Validate the built HTML / enforce size budgets on the build |
-| `npm run art` | Regenerate the placeholder SVG artwork in `src/assets` |
+| `npm run art` | Regenerate the placeholder SVG artwork (hero and sections) in `src/assets` |
 
 ## Editing content
 
 | To change | Edit |
 | --- | --- |
-| Business name, tagline, phone, e-mail, address, opening hours, social links | `src/content/site.json` |
+| Business name, tagline, phone, e-mail (optional), address, opening hours (`open` equal to `close` means open 24 hours), social links | `src/content/site.json` |
 | Page copy (hero, about, footer, labels) | `src/content/home.json` |
-| Menu categories and items (prices in major units, RSD, e.g. `220`) | `src/content/menu/categories.json`, `items.json` |
-| Artwork | `src/assets/<group>/<name>.png / jpg / webp / avif`, same base name as the placeholder SVG (the raster wins); each menu picture is `src/assets/menu/<item id>` |
+| Menu categories, items and add-on groups (prices in major units, RSD, e.g. `220`) | `src/content/menu/categories.json`, `items.json`, `addons.json` |
+| Artwork | `src/assets/<group>/<name>.png / jpg / webp / avif`, same base name as the placeholder SVG (the raster wins). A menu picture is `src/assets/menu/<item id>.webp`, made from the shot in `scripts/menu-images/originals/<item id>.png` by `scripts/menu-images/build.py` ([ADR 0017](docs/adr/0017-the-owners-product-shots.md)) |
 
 Content is validated at build time: a typo fails the build with a precise message instead of shipping a broken page.
 
 ## Go-live checklist
 
-- [ ] Replace placeholder content in `src/content/*.json` (name, phone, address, hours with the correct IANA time zone,
-      socials, menu, prices and allergens).
-- [ ] Replace placeholder artwork with real photos (transparent cut-outs work best for the food items).
+- [ ] Replace the placeholder page copy in `src/content/home.json` and add allergens to the menu (the business details, menu, prices
+      and add-ons are already real: [ADR 0018](docs/adr/0018-real-details-and-add-ons.md)).
+- [ ] Replace the placeholder hero and section artwork with real photos (transparent cut-outs work best for the food items). The menu pictures are already the owner's shots.
 - [ ] Set `site` in `astro.config.ts` to the real URL (it feeds canonical links and JSON-LD; it is currently
       `https://piccolo.example`), and add the real logo / favicon in `public/`.
 - [ ] Decide on the follow-ups listed in [docs/architecture.md](docs/architecture.md#known-trade-offs).

@@ -29,7 +29,7 @@ test.describe('page (all devices)', () => {
     await ready(page);
     await hydrated(page, 'MenuBrowser');
     const tabs = page.getByRole('tab');
-    await expect(tabs).toHaveCount(6);
+    await expect(tabs).toHaveCount(5);
     await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
 
     const hotDogs = page.getByRole('tab', { name: 'Hot Dogs' });

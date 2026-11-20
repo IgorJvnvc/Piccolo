@@ -33,7 +33,8 @@ export interface SiteInfo {
   readonly contact: {
     /** Human readable, e.g. "+00 000 000 0000". */
     readonly phone: string;
-    readonly email: string;
+    /** Optional: the footer and the structured data leave it out when there is none. */
+    readonly email?: string | undefined;
   };
   readonly address: {
     readonly lines: readonly string[];
@@ -79,6 +80,7 @@ export interface HomeCopy {
     readonly callLabel: string;
     readonly whatsappLabel: string;
     readonly instagramLabel: string;
+    readonly facebookLabel: string;
   };
   readonly visit: {
     readonly title: string;

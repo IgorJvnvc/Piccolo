@@ -1,6 +1,6 @@
 # 0015. One picture for every product
 
-Status: Accepted
+Status: Superseded by [0017](0017-the-owners-product-shots.md)
 
 ## Context
 

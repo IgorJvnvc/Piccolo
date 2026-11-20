@@ -83,6 +83,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
   const followLinks: FollowLink[] = site.socials.flatMap((social): FollowLink[] => {
     if (social.network === 'whatsapp') return [{ network: 'whatsapp' as const, label: copy.follow.whatsappLabel, href: social.href }];
     if (social.network === 'instagram') return [{ network: 'instagram' as const, label: copy.follow.instagramLabel, href: social.href }];
+    if (social.network === 'facebook') return [{ network: 'facebook' as const, label: copy.follow.facebookLabel, href: social.href }];
     return [];
   });
 
@@ -176,7 +177,7 @@ export async function buildHomePage(container: Container, siteUrl: string): Prom
           links: [
             { label: phone.display, href: phone.href },
             ...(whatsapp ? [{ label: 'WhatsApp', href: whatsapp.href, external: true }] : []),
-            { label: site.contact.email, href: `mailto:${site.contact.email}` },
+            ...(site.contact.email ? [{ label: site.contact.email, href: `mailto:${site.contact.email}` }] : []),
           ],
         },
       ],

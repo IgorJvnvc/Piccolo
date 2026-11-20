@@ -5,6 +5,8 @@ export {
   DIETARY_TAGS,
   type Allergen,
   type DietaryTag,
+  type MenuAddonGroup,
+  type MenuAddonOption,
   type MenuCategory,
   type MenuItem,
   type MenuSize,

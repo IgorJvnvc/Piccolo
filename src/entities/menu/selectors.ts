@@ -76,6 +76,11 @@ export function toCardModel(item: MenuItem, image: ImageSource, format: MoneyFor
     description: item.description,
     priceLabel: priceLabel(item, format),
     sizes: item.sizes.map((size) => ({ label: size.label, priceLabel: format(size.price) })),
+    addons: item.addons.map((group) => ({
+      title: group.title,
+      note: group.note,
+      options: group.options.map((option) => ({ label: option.label, priceLabel: option.price ? format(option.price) : '' })),
+    })),
     allergens: item.allergens.map(allergenLabel),
     tags: item.tags.map((tag) => TAG_LABELS[tag]),
     image,

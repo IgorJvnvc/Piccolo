@@ -25,8 +25,10 @@ beforeEach(() => {
   place(list, 100, 600);
 });
 
-afterEach(() => {
+afterEach(async () => {
   document.body.innerHTML = '';
+  // The real ticker asks for a frame in a callback of its own; once happy-dom is torn down that call fails as an unhandled error.
+  (await loadGsap()).gsap.ticker.sleep();
 });
 
 async function tools(tier: 'full' | 'lite' = 'full'): Promise<MotionTools> {
